@@ -19,8 +19,6 @@ let a = 111 // 这只是字面量，不是 number 类型
 a.toString() // 使用时候才会转换类型
 ```
 
-
-
 对象（Object）是引用类型，在使用过程中会遇到浅拷贝和深拷贝的问题（TODO）。
 
 ```js
@@ -58,3 +56,5 @@ typeof null // 'object'
 ```
 
 PS：为什么会出现这种情况呢？因为在 JS 中二进制前三位都为0的话会被判定为 `object` 类型，`null` 的二进制都为0，所以被判定为 `object`。
+
+如果我们想获得一个变量的正确类型，可以通过 `Object.prototype.toString.call(xx)`。这样我们就可以获得类似 `[Object Type]` 的字符串。
