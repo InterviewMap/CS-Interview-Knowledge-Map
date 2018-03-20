@@ -150,7 +150,7 @@ let a = { b: 1 }
 ```
 #### instanceof
 
-`instanceof` 可以正确的判断对象的类型，因为内部机制是通过对象对象的原型链中是不是能找到类型的 `prototype`。
+`instanceof` 可以正确的判断对象的类型，因为内部机制是通过判断对象的原型链中是不是能找到类型的 `prototype`。
 
 我们也可以试着实现一下 `instanceof`
 
@@ -171,3 +171,4 @@ function instanceof(left, right) {
 }
 ```
 
+异步 this 作用域 执行上下文 闭包 模块化 call
