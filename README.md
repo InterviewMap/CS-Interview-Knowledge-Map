@@ -92,7 +92,82 @@ let a = {
 
 上图中的 `toPrimitive` 就是对象转基本类型。
 
+一般推荐使用 `===` 判断两个值，但是你如果想知道一个值是不是 `null` ，你可以通过 `xx == null` 来比较。
+
 ##### 比较运算符
 
 1. 如果是对象，就通过 `toPrimitive` 转换对象
 2. 如果是字符串，就通过 `unicode` 字符索引来比较
+
+原型 new instanceof
+
+#### 原型
+
+![prototype](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
+
+每个函数都有 `prototype` 属性，除了 `Function.prototype.bind()`，该属性指向原型。
+
+每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型。其实这个属性指向了 `[[prototype]]`，但是 `[[prototype]]` 是内部属性，我们并不能访问到，所以使用 `_proto_` 来访问。
+
+对象可以通过 `__proto__` 来寻找不属性该对象的属性，`__proto__` 将对象连接起来组成了原型链。
+
+如果你想更进一步的了解原型，可以仔细阅读 [深度解析原型中的各个难点](https://github.com/KieSun/Blog/issues/2)。
+
+#### new 的过程
+
+1. 新生成了一个对象
+2. 链接到原型
+3. 绑定 this
+4. 返回新对象
+
+在调用 `new` 的过程中会发生以上四件事情，我们也可以试着来自己实现一个 `new`
+
+```js
+function create() {
+    // 创建一个空的对象
+    let obj = new Object()
+    // 获得构造函数
+    let Con = [].shift.call(arguments)
+    // 链接到原型
+	obj.__proto__ = Con.prototype
+    // 绑定 this，执行构造函数
+    let result = Con.apply(obj, arguments)
+    // 确保 new 出来的是个对象
+    return typeof result === 'object' ? result : obj
+}
+```
+
+对于实例对象来说，都是通过 `new` 产生的，无论是 `function Foo()` 还是 `let a = { b : 1 }` 。
+
+对于创建一个对象来说，更推荐使用字面量的方式创建对象（无论性能上还是可读性）。因为你使用 `new Object()` 的方式创建对象需要通过作用域链一层层找到 `Object`，但是你使用字面量的方式就没这个问题。
+
+```js
+function Foo() {}
+// function 就是个语法糖
+// 内部等同于 new Function()
+let a = { b: 1 }
+// 这个字面量内部也是使用了 new Object()
+```
+#### instanceof
+
+`instanceof` 可以正确的判断对象的类型，因为内部机制是通过对象对象的原型链中是不是能找到类型的 `prototype`。
+
+我们也可以试着实现一下 `instanceof`
+
+```js
+function instanceof(left, right) {
+ // 获得类型的原型
+ let prototype = right.prototype
+ // 获得对象的原型
+ left = left.__proto__
+ // 判断对象的类型是否等于类型的原型
+ while (true) { 
+   if (left === null) 
+     return false
+   if (prototype === left)
+     return true 
+   left = left.__proto__
+ } 
+}
+```
+
