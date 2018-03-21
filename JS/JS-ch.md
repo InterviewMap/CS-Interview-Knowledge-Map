@@ -1,8 +1,8 @@
 - [内置类型](#内置类型)
-- [Typeof 运算符](#Typeof运算符)
+- [Typeof](#Typeof)
 - [类型转换](#类型转换)
 - [原型](#原型)
-- [new 的过程](#new 的过程)
+- [new](#new)
 - [instanceof](#instanceof)
 - [this](#this)
 - [作用域](#作用域)
@@ -32,7 +32,7 @@ b.name = 'EF'
 console.log(a) // EF
 ```
 
-#### Typeof 运算符
+#### Typeof
 
 `typeof` 对于基本类型，除了 `null` 都可以显示正确的类型
 
@@ -115,7 +115,7 @@ let a = {
 
 如果你想更进一步的了解原型，可以仔细阅读 [深度解析原型中的各个难点](https://github.com/KieSun/Blog/issues/2)。
 
-#### new 的过程
+#### new
 
 1. 新生成了一个对象
 2. 链接到原型
