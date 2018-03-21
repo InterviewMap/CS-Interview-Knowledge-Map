@@ -65,9 +65,9 @@ PS：为什么会出现这种情况呢？因为在 JS 中二进制前三位都�
 
 ```js
 let a = {
-valueOf() {
-return 0
-}
+    valueOf() {
+    	return 0
+    }
 }
 ```
 
@@ -116,16 +116,16 @@ return 0
 
 ```js
 function create() {
-// 创建一个空的对象
-let obj = new Object()
-// 获得构造函数
-let Con = [].shift.call(arguments)
-// 链接到原型
-obj.__proto__ = Con.prototype
-// 绑定 this，执行构造函数
-let result = Con.apply(obj, arguments)
-// 确保 new 出来的是个对象
-return typeof result === 'object' ? result : obj
+    // 创建一个空的对象
+    let obj = new Object()
+    // 获得构造函数
+    let Con = [].shift.call(arguments)
+    // 链接到原型
+    obj.__proto__ = Con.prototype
+    // 绑定 this，执行构造函数
+    let result = Con.apply(obj, arguments)
+    // 确保 new 出来的是个对象
+    return typeof result === 'object' ? result : obj
 }
 ```
 
@@ -148,18 +148,18 @@ let a = { b: 1 }
 
 ```js
 function instanceof(left, right) {
-// 获得类型的原型
-let prototype = right.prototype
-// 获得对象的原型
-left = left.__proto__
-// 判断对象的类型是否等于类型的原型
-while (true) {
-if (left === null)
-return false
-if (prototype === left)
-return true
-left = left.__proto__
-}
+    // 获得类型的原型
+    let prototype = right.prototype
+    // 获得对象的原型
+    left = left.__proto__
+    // 判断对象的类型是否等于类型的原型
+    while (true) {
+    	if (left === null)
+    		return false
+    	if (prototype === left)
+    		return true
+    	left = left.__proto__
+    }
 }
 ```
 
@@ -169,14 +169,14 @@ this 是很多人会混淆的概念，但是其实他一点都不难，你只需
 
 ```js
 function foo() {
-console.log(this.a)
+	console.log(this.a)
 }
 var a = 2
 foo()
 
 var obj = {
-a: 2,
-foo: foo
+	a: 2,
+	foo: foo
 }
 obj.foo()
 
@@ -194,11 +194,11 @@ console.log(c.a)
 
 ```js
 function a() {
-return () => {
-return () => {
-console.log(this)
-}
-}
+    return () => {
+        return () => {
+        	console.log(this)
+        }
+    }
 }
 console.log(a()()())
 ```
@@ -219,7 +219,7 @@ console.log(a) // undefined
 var a = 'Hello world'
 
 function b() {
-console.log('call b')
+	console.log('call b')
 }
 ```
 
@@ -231,10 +231,10 @@ console.log('call b')
 b() // call b second
 
 function b() {
-console.log('call b fist')
+	console.log('call b fist')
 }
 function b() {
-console.log('call b second')
+	console.log('call b second')
 }
 var b = 'Hello world'
 ```
