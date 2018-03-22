@@ -24,3 +24,31 @@ console.log(a) // EF
 ```
 
 
+#### Typeof
+
+ `typeof` can always display the correct type of the primitive types, except `null` 
+```js
+typeof 1 // 'number'
+typeof '1' // 'string'
+typeof undefined // 'underfined'
+typeof true // 'boolean'
+typeof Symbol() // 'symbol'
+typeof b // b is not declared,but it still can be displayed as underfined
+```
+
+For object,  `typeof`  will always display  `object`  except **function**
+```js
+typeof [] // 'object'
+typeof {} // 'object'
+typeof console.log // 'function'
+```
+
+As for `null` , it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this  happening is a bug that has been around for a long time.
+```js
+typeof null // 'object'
+```
+
+PS：why does this happen ?  Because in JS, those whom’s top three bits of the binary are zero, will all be judged as the `object` type, and the binary bits of  `null`   are all  zero, so  `null`  is judged as  an `object`.
+
+We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
+
