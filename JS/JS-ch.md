@@ -14,12 +14,12 @@ JS 中分为七种内置类型，七种内置类型又分为两大类型：基�
 
 基本类型有六种： `null`，`undefined`，`boolean`，`number`，`string`，`symbol`。
 
-其中 JS 的数字类型是浮点类型的，没有整型。并且浮点类型基于 IEEE 754标准实现，在使用中会遇到某些 Bug。详情请见此处（0.1+0.2==0.3 TODO）。
+其中 JS 的数字类型是浮点类型的，没有整型。并且浮点类型基于 IEEE 754标准实现，在使用中会遇到某些 Bug。详情请见此处（0.1+0.2==0.3 TODO）。`NaN` 也属于 `number` 类型，并且 `NaN` 不等于自身。
 
 对于基本类型来说，如果使用字面量的方式，那么这个变量只是个字面量，只有在必要的时候才会转换为对应的类型
 
 ```js
-let a = 111 // 这只是字面量
+let a = 111 // 这只是字面量，不是 number 类型
 a.toString() // 使用时候才会转换为对象类型
 ```
 
@@ -324,8 +324,6 @@ for ( let i=1; i<=5; i++) {
 }
 ```
 
-异步  模块化 call 深浅拷贝
-
 #### 深浅拷贝
 
 ```js
@@ -424,7 +422,7 @@ console.log(newObj)
 
 ![屏幕快照 2018-03-22 上午11.30.22](/Users/yuchengkai/Desktop/屏幕快照 2018-03-22 上午11.30.22.png)
 
-在遇到函数或者 `undefined` 的时候，该函数也不能正常的序列化
+在遇到函数或者 `undefined` 的时候，该对象也不能正常的序列化
 
 ```js
 let a = {
@@ -438,4 +436,90 @@ console.log(b) // {name: "yck"}
 
 你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
 
-但是通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，当然如果你的数据中含有以上三种情况下，可以使用 [loadash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
+但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，当然如果你的数据中含有以上三种情况下，可以使用 [loadash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
+
+#### 模块化
+
+在有 Babel 的情况下，我们可以直接使用 ES6 的模块化
+
+```js
+// file a.js
+export function a() {}
+export function b() {}
+// file b.js
+export default function() {}
+
+import {a, b} from './a.js'
+import XXX from './b.js'
+```
+
+在 ES6 之前，我们一般使用 CMD 和 ADM 规范来解决这个问题。
+
+##### CommonJS
+
+浏览器这边表示没有模块化还行，就是写逻辑麻烦了点。但是搞服务端的必须得有这玩意啊，所以 Node.js 第一个搞出了 `CommonJS规范`。
+
+```js
+// a.js
+module.exports = {
+    a: 1
+}
+// or 
+exports.a = 1
+
+// b.js
+var module = require('./a.js')
+module.a // -> log 1
+```
+
+上面的写法很好用，但是 `module.exports` 和 `exports` 是咋回事？为啥这几句代码就实现模块化了，让我们来看一下基础的实现
+
+先说 `require` 吧
+```js
+var module = require('./a.js')
+module.a 
+// 这里其实就是包装了一层立即执行函数，这样就不会污染全局变量了，
+// 重要的是 module 这里，module 是 Node 独有的一个变量
+module.exports = {
+    a: 1
+}
+// 基本实现
+var module = {
+  id: 'xxxx', // 我总得知道怎么去找到他吧
+  exports: {} // exports 就是个空对象
+}
+// 这个是为什么 exports 和 module.exports 用法相似的原因
+var exports = module.exports 
+var load = function (module) {
+    // 导出的东西
+    var a = 1
+    module.exports = a
+    return module.exports
+};
+// 然后当我 require 的时候去找到独特的
+// id，然后将要使用的东西用立即执行函数包装下，over
+```
+
+再来说说 `module.exports` 和 `exports`，用法其实基本是相似的，但是不能对 `exports`直接赋值，不会有任何效果，看了上面代码的同学肯定明白为什么了。
+
+`CommonJS规范`是 Node 独有的，浏览器中使用就需要用到 `Browserify` 解析了。
+
+##### ADM
+
+AMD 是由 `RequireJS` 提出的
+
+```js
+// AMD
+define(['./a', './b'], function(a, b) { 
+    a.do()
+    b.do()
+}) 
+define(function(require, exports, module) {   
+    var a = require('./a')  
+    a.doSomething()   
+    var b = require('./b') 
+    b.doSomething() 
+})
+
+```
+异步  call webworker
