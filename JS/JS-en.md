@@ -52,3 +52,45 @@ PS：why does this happen ?  Because in JS, those whom’s top three bits of the
 
 We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
 
+
+#### This
+
+`This`, a concept that many people will confuse, is not difficult to understand ,as long as you remember the following rules
+
+```js
+function foo() {
+  console.log(this.a);
+}
+var a = 2;
+foo();
+
+var obj = {
+  a: 2,
+  foo: foo
+};
+obj.foo();
+
+// In the above two situations, `this` only depends on the object before calling the function, and the second case has higher priority than the first case .
+
+// the following situation has the highest priority，`this` will only be bound to c，and there's no way to change what `this` is bound to .
+
+var c = new foo();
+c.a = 3;
+console.log(c.a);
+
+// finally, using `call、apply、bind` to change what `this` is bound to , is another situation whom's priority is only second to `new`
+```
+
+Understanding the above several situstions ,  we won’t be confused by `this`  in a lot of codes，then let’s take a look at `this` of arrow function
+```js
+function a() {
+  return () => {
+    return () => {
+      console.log(this);
+    };
+  };
+}
+console.log(a()()());
+```
+Actually , the arrow function does not have `this` , `this` in the above function only depends on the `this` of the first function outside that is not arrow function . In above case , `this` is default to `window` because calling a matches the first situation in the above codes 。 And , what `this` is bound to will not be changed by any code once `this` is bound to the context
+
