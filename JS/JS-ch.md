@@ -457,11 +457,9 @@ import {a, b} from './a.js'
 import XXX from './b.js'
 ```
 
-在 ES6 之前，我们一般使用 CMD 和 ADM 规范来解决这个问题。
-
 ##### CommonJS
 
-浏览器这边表示没有模块化还行，就是写逻辑麻烦了点。但是搞服务端的必须得有这玩意啊，所以 Node.js 第一个搞出了 `CommonJS规范`。
+`CommonJs` 是 Node 独有的规范，浏览器中使用就需要用到 `Browserify` 解析了。
 
 ```js
 // a.js
@@ -476,9 +474,8 @@ var module = require('./a.js')
 module.a // -> log 1
 ```
 
-上面的写法很好用，但是 `module.exports` 和 `exports` 是咋回事？为啥这几句代码就实现模块化了，让我们来看一下基础的实现
+在上述代码中，`module.exports` 和 `exports` 很容易混淆，让我们来看看大致内部实现
 
-先说 `require` 吧
 ```js
 var module = require('./a.js')
 module.a 
@@ -489,7 +486,6 @@ module.exports = {
 }
 // 基本实现
 var module = {
-  id: 'xxxx', // 我总得知道怎么去找到他吧
   exports: {} // exports 就是个空对象
 }
 // 这个是为什么 exports 和 module.exports 用法相似的原因
@@ -500,13 +496,14 @@ var load = function (module) {
     module.exports = a
     return module.exports
 };
-// 然后当我 require 的时候去找到独特的
-// id，然后将要使用的东西用立即执行函数包装下，over
 ```
 
-再来说说 `module.exports` 和 `exports`，用法其实基本是相似的，但是不能对 `exports`直接赋值，不会有任何效果，看了上面代码的同学肯定明白为什么了。
+再来说说 `module.exports` 和 `exports`，用法其实是相似的，但是不能对 `exports` 直接赋值，不会有任何效果。
 
-`CommonJS规范`是 Node 独有的，浏览器中使用就需要用到 `Browserify` 解析了。
+对于 `CommonJS` 和 ES6 中的模块化的两者区别是：
+
+- 前者会缓存数据，要想让模块再次运行，必须清除缓存。后者每次都是动态加载，不会缓存数据
+- 后者会编译成 `require/exports` 来执行的。
 
 ##### ADM
 
@@ -712,4 +709,4 @@ Object.setPrototypeOf(MyData.prototype, Date.prototype)
 
 通过以上方法实现的继承就可以完美解决 JS 底层的这个限制。
 
-call  generator实现 promise 实现 装饰器原理 
+call  generator实现 promise 实现 装饰器原理 .forEach(),.map()和.reduce()的区别 ES6
