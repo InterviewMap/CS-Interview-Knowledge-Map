@@ -97,3 +97,24 @@ console.log(a()()());
 ```
 Actually , the arrow function does not have `this` , `this` in the above function only depends on the first function outside that is not arrow function . In above case , `this` is default to `window` because calling `a` matches the first situation in the above codes . And , what `this` is bound to will not be changed by any code once `this` is bound to the context
 
+
+#### instanceof
+
+The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
+let’s try to implement it 
+```js
+function instanceof(left, right) {
+    // get the prototype of the type
+    let prototype = right.prototype
+    // get the prototype of the object
+    left = left.__proto__
+    // judge if the type of the object is equal to the prototype of the type
+    while (true) {
+    	if (left === null)
+    		return false
+    	if (prototype === left)
+    		return true
+    	left = left.__proto__
+    }
+}
+```
