@@ -9,6 +9,8 @@
 - [闭包](#闭包)
 - [深浅拷贝](#深浅拷贝)
 - [模块化](#模块化)
+- [节流](#节流)
+- [防抖](#防抖)
 
 #### 内置类型
 
@@ -524,8 +526,6 @@ define(function(require, exports, module) {
 })
 
 ```
-call 继承 generator实现 promise 实现 装饰器原理 ES5的继承和ES6的继承有什么区别？
-
 #### 防抖
 
 你是否在日常开发中遇到一个问题，在滚动事件中需要做个复杂计算或者实现一个按钮的防二次点击操作。
@@ -647,3 +647,4 @@ _.throttle = function(func, wait, options) {
   };
 ```
 
+call 继承 generator实现 promise 实现 装饰器原理 ES5的继承和ES6的继承有什么区别？
