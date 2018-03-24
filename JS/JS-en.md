@@ -53,6 +53,43 @@ PS：why does this happen ?  Because in JS, those whom’s first three bits of t
 We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
 
 
+#### New
+
+1.   Create a new object
+2.   Chained to prototype
+3.   Bind this
+4.   Return a new object
+
+The above four things will happen in the process of calling `new`,We can also try to implement a `new `by ourselves.
+
+```js
+function create() {
+  //Create an empty object
+  let obj = new Object()
+  //Get the constructor
+  let Con = [].shift.call(arguments)
+  //Chained to prototype
+  obj.__proto__ = Con.prototype
+  //Bind this, Execute the constructor
+  let result = Con.apply(obj, arguments)
+  //Make sure the new one is an object
+  return typeof result === 'object'? result : obj
+}
+```
+
+Instance of object are created with `new`,Whether `function Foo()`, or `let a = { b: 1 }`.
+
+For creating an object, It is recommended to create an object using literal(Whether performance or readability). Because you need to find `Object` by the scope chain when you create an object using `new Object()`, But you don't have this problem when you use literal.
+
+```js
+function Foo() {}
+//function is a syntactical sugar
+//Internally equivalent to new Function()
+let a = { b: 1 }
+//Inside this literal is also used new Object()
+```
+
+
 #### This
 
 `This`, a concept that many people will confuse, is not difficult to understand ,as long as you remember the following rules
