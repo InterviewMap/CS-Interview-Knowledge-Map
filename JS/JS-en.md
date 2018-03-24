@@ -121,7 +121,7 @@ function instanceof(left, right) {
 
 #### scope
 
-Execution environment is generated when JS code is executed . As long as the code is not written in a function , it is in the global execution environment . Writting code in a function will generate function execution environment，and there are only two (there’s an `eval`, which basically will not be used, so you can think of only two environments))
+Executing JS code would generate execution environment , as long as the code is not written in a function , it belongs to the global execution environment . The code in a function will generate function execution environments , but only two (there’s an `eval`, which basically will not be used, so you can think of only two execution environments))
 
 The `[[Scope]]`  attribute is generated in the first stage of generating execution environment , which is a pointer , corresponding to a linked list of scope , And JS will look up the variable through this linked list until the global environment .
 
@@ -138,9 +138,9 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declared codes are moved to the top , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this : 
+It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this : 
 
-There would bo two stages when the execution environment is generated , creating is the main mission of the first stage(to be specific , the step of generating variable objects ) . In this stage , the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
+There would bo two stages when the execution environment is generated  . The first stage is the stage of creation(to be specific , the step of generating variable objects ) , in which the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only be declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
 
 In the process of hoisting , the same function would overwrite the last function , and function has the higher priority than variable hoisting .
 
@@ -156,4 +156,4 @@ function b() {
 var b = 'Hello world'
 ```
 
-Using `var`  is more likely to make mistake , Fortunately , ES6 introduces a new keyword `let` which sits alongside `var` as another way to declare variables . `let` can not be used before hoisting , but that’s not to say that `let` can not hoist . Indeed, `let`  hoists all the variables it declares , and  the memory for it has been allocated  in first stage , but it can not be used before hoisting due to it’s character .
+Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before hoisting , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists all it declared , and  the memory space for it has been allocated  in first stage , but it can’t be used before hoisting due to it’s feature mentioned above .
