@@ -710,8 +710,6 @@ Object.setPrototypeOf(MyData.prototype, Date.prototype)
 
 通过以上方法实现的继承就可以完美解决 JS 底层的这个限制。
 
-generator实现 promise 实现 装饰器原理 .forEach(),.map()和.reduce()的区别 ES6
-
 #### call, apply, bind 区别
 
 首先说下前两者的区别。
@@ -799,3 +797,4 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
+generator实现 promise 实现 装饰器原理 .forEach(),.map()和.reduce()的区别 ES6
