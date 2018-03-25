@@ -97,3 +97,63 @@ console.log(a()()());
 ```
 Actually , the arrow function does not have `this` , `this` in the above function only depends on the first function outside that is not arrow function . In above case , `this` is default to `window` because calling `a` matches the first situation in the above codes . And , what `this` is bound to will not be changed by any code once `this` is bound to the context
 
+
+#### instanceof
+
+The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
+let’s try to implement it 
+```js
+function instanceof(left, right) {
+    // get the prototype of the type
+    let prototype = right.prototype
+    // get the prototype of the object
+    left = left.__proto__
+    // judge if the type of the object is equal to the prototype of the type
+    while (true) {
+    	if (left === null)
+    		return false
+    	if (prototype === left)
+    		return true
+    	left = left.__proto__
+    }
+}
+```
+
+#### scope
+
+Executing JS code would generate execution environment , as long as the code is not written in a function , it belongs to the global execution environment . The code in a function will generate function execution environments , but only two (there’s an `eval`, which basically will not be used, so you can think of only two execution environments))
+
+The `[[Scope]]`  attribute is generated in the first stage of generating execution environment , which is a pointer , corresponding to a linked list of scope , And JS will look up the variable through this linked list until the global environment .
+
+Let's look at a common example , `var`
+
+```js
+b() // call b
+console.log(a) // undefined
+
+var a = 'Hello world'
+
+function b() {
+	console.log('call b')
+}
+```
+
+It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this : 
+
+There would bo two stages when the execution environment is generated  . The first stage is the stage of creation(to be specific , the step of generating variable objects ) , in which the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only be declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
+
+In the process of hoisting , the same function would overwrite the last function , and function has the higher priority than variable hoisting .
+
+```js
+b() // call b second
+
+function b() {
+	console.log('call b fist')
+}
+function b() {
+	console.log('call b second')
+}
+var b = 'Hello world'
+```
+
+Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before hoisting , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists all it declared , and  the memory space for it has been allocated  in first stage , but it can’t be used before hoisting due to it’s feature mentioned above .
