@@ -6,20 +6,24 @@
 - [scope](#scope)
 
 #### Built-in Types
-There are seven built-in types in Javascript, which are divided into two major types: Basic Types and Objects.
+JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
 
-There are six basic types: `null`,`undefined`,`boolean`,`number`,`string`,`symbol`.
+There are six primitive types: `null` , `undefined` , `boolean` , `number` , `string` , `symbol `.
 
-It is to be noted that the number type of Javascript is a floating-point type, there is no integral type. What is more, some bugs are encountered in use because the floating-point type is implemented based on IEEE 754 standard. For details, please see here(0.1+0.2==0.3 TODO). `NaN` also belongs to the `number` type, and `NaN` is not equal to itself.
-
-For a basic type, the variable is only a literal and is converted to the corresponding type only when necessary if you use it in a literal way.
+In JavaScript, there are no true integers, all numbers are implemented in double-precision 64-bit binary format IEEE 754. When we use binary floating-point numbers, it will have some side effects. Here is an example of these side effects.
 
 ```js
-let a = 111 // this is only a literal，not a number type
-a.toString() // convert to object type when used
+0.1 + 0.2 == 0.3 // false
 ```
 
-Objects (object) are reference types and can encounter problems with shallow copies and deep copies when used (TODO).
+For the primitive data types, when we use literals to initialize a variable, the variable only has the literals as its value, it doesn’t have a type. It will be converted to the corresponding type only when necessary.
+
+```js
+let a = 111 // only literals, not a number
+a.toString() // converted to object when nucessary
+```
+
+Object is a reference type. We will encouter the problems about shallow copy and deep copy when using it.
 
 ```js
 let a = { name: 'FE' }

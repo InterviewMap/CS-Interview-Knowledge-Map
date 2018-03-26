@@ -15,7 +15,6 @@ Eventloop 与 node.js 对比，渲染机制，ajax，存储，跨域，重拍重
 ```js
 // 以下会先打印冒泡然后是捕获
 node.addEventListener('click',(event) =>{
-	event.stopImmediatePropagation()
 	console.log('冒泡')
 },false);
 node.addEventListener('click',(event) =>{
