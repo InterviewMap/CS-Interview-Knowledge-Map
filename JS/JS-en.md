@@ -53,7 +53,7 @@ As for `null` , it is always be treated as an  `object`  by `typeof` , although 
 typeof null // 'object'
 ```
 
-PS：why does this happen ?  Because in JS, those whom’s first three bits of the binary are zero, will all be judged as the `object` type, and the binary bits of  `null`  are all  zero, so  `null`  is judged as  an `object`.
+PS：why does this happen?  Because in JS, those whom’s first three bits of the binary are zero, will all be judged as the `object` type, and the binary bits of  `null`  are all  zero, so  `null`  is judged as  an `object`.
 
 We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
 
@@ -65,7 +65,7 @@ We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct d
 3.   Bind this
 4.   Return a new object
 
-The above four things will happen in the process of calling `new` , We can also try to implement a `new ` by ourselves.
+The above four things will happen in the process of calling `new`, We can also try to implement a `new ` by ourselves.
 
 ```js
 function create() {
@@ -84,20 +84,20 @@ function create() {
 
 Instance of object are created with `new` , Whether `function Foo()` , or `let a = { b: 1 }` .
 
-For creating an object , It is recommended to create an object using literal(Whether performance or readability) . Because you need to find `Object` by the scope chain when you create an object using `new Object()` , But you don't have this problem when you use literal.
+For creating an object , It is recommended to create an object using literal(Whether performance or readability). Because you need to find `Object` by the scope chain when you create an object using `new Object()` , But you don't have this problem when you use literal.
 
 ```js
 function Foo() {}
 // function is a syntactical sugar
 // Internally equivalent to new Function()
 let a = { b: 1 }
-// Inside this literal is also used new Object()
+// Inside this literal is also used `new Object()`
 ```
 
 
 #### This
 
-`This`, a concept that many people will confuse, is not difficult to understand ,as long as you remember the following rules
+`This`, a concept that many people will confuse, is not difficult to understand, as long as you remember the following rules
 
 ```js
 function foo() {
@@ -146,9 +146,9 @@ The  `instanceof`  operator  can  correctly judge the type of the object , bacau
 let’s try to implement it 
 ```js
 function instanceof(left, right) {
-    // get the prototype of the type
+    // get the `prototype` of the type
     let prototype = right.prototype
-    // get the prototype of the object
+    // get the `prototype` of the object
     left = left.__proto__
     // judge if the type of the object is equal to the prototype of the type
     while (true) {
