@@ -203,3 +203,13 @@ var b = 'Hello world'
 ```
 
 Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before hoisting , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists all it declared , and  the memory space for it has been allocated  in first stage , but it can’t be used before hoisting due to it’s feature mentioned above .
+
+#### Prototypes
+
+![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
+
+Each function, besides `Function.prototype.bind()` , has an internal property, denoted as `prototype` , which is a reference to the prototype.
+
+Each object has an internal property, denoted as `__proto__` , which is a reference to the prototype of the constructor that created the object. This property actually references to `[[prototype]]` , but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
+
+Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
