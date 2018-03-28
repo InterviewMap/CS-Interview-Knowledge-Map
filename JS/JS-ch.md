@@ -426,7 +426,7 @@ console.log(newObj)
 
 如果你有这么一个循环引用对象，你会发现你不能通过该方法深拷贝
 
-![屏幕快照 2018-03-22 上午11.30.22](/Users/yuchengkai/Desktop/屏幕快照 2018-03-22 上午11.30.22.png)
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
 在遇到函数或者 `undefined` 的时候，该对象也不能正常的序列化
 
@@ -687,7 +687,7 @@ myDate.test()
 
 如果你使用编译过得代码调用 `myDate.test()` 你会惊奇地发现出现了报错
 
-![屏幕快照 2018-03-23 下午3.05.48](/Users/yuchengkai/Desktop/屏幕快照 2018-03-23 下午3.05.48.png)
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
 
 因为在 JS 底层有限制，如果不是由 `Date` 构造出来的实例的话，是不能调用 `Date` 里的函数的。
 

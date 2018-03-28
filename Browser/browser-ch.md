@@ -1,4 +1,4 @@
-渲染机制，存储，重拍重绘
+渲染机制，重拍重绘
 
 #### 事件机制
 
@@ -224,3 +224,66 @@ process.nextTick(() => {
 // nextTick, timer1, promise1
  ```
 
+#### 存储
+
+##### cookie，localStorage，sessionStorage，indexDB
+
+|     特性     |                   cookie                   |       localStorage       | sessionStorage |         indexDB          |
+| :----------: | :----------------------------------------: | :----------------------: | :------------: | :----------------------: |
+| 数据生命周期 |     一般由服务器生成，可以设置过期时间     | 除非被清理，否则一直存在 | 页面关闭就清理 | 除非被清理，否则一直存在 |
+| 数据存储大小 |                     4K                     |            5M            |       5M       |           无限           |
+| 与服务端通信 | 每次都会携带在 header 中，对于请求性能影响 |          不参与          |     不参与     |          不参与          |
+
+从上表可以看到，`cookie` 已经不建议用于存储。如果没有大量数据存储需求的话，可以使用 `localStorage` 和 `sessionStorage` 。对于不怎么改变的数据尽量使用 `localStorage` 存储，否则可以用 `sessionStorage` 存储。
+
+##### Service Worker
+
+> Service workers 本质上充当Web应用程序与浏览器之间的代理服务器，也可以在网络可用时作为浏览器和网络间的代理。它们旨在（除其他之外）使得能够创建有效的离线体验，拦截网络请求并基于网络是否可用以及更新的资源是否驻留在服务器上来采取适当的动作。他们还允许访问推送通知和后台同步API。
+
+目前该技术通常用来做缓存文件，提高首屏速度，可以试着来实现这个功能。
+
+```js
+// index.js
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register("sw.js")
+    .then(function(registration) {
+      console.log("service worker 注册成功");
+    })
+    .catch(function(err) {
+      console.log("servcie worker 注册失败");
+    });
+}
+// sw.js
+// 监听 `install` 事件，回调中缓存所需文件
+self.addEventListener("install", e => {
+  e.waitUntil(
+    caches.open("my-cache").then(function(cache) {
+      return cache.addAll(["./index.html", "./index.js"]);
+    })
+  );
+});
+
+// 拦截所有请求事件
+// 如果缓存中已经有请求的数据就直接用缓存，否则去请求数据
+self.addEventListener("fetch", e => {
+  e.respondWith(
+    caches.match(e.request).then(function(response) {
+      if (response) {
+        return response;
+      }
+      console.log("fetch source");
+    })
+  );
+});
+```
+
+将页面启动，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
+
+在 Cache 中也可以发现我们所需的文件已被缓存
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
+
+当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
