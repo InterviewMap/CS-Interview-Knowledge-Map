@@ -851,8 +851,7 @@ function resolvePromise(promise2, x, resolve, reject) {
   // reject 或者 resolve 其中一个执行过得话，忽略其他的
   let called
   // 规范 2.3.2
-  // 如果 x 为 Promise，状态为 pending 需要继续等待
-  // 否则执行
+  // 如果 x 为 Promise，状态为 pending 需要继续等待否则执行
   if (x instanceof Promise) { 
     if (x.status === 'pending') {
       x.then(function(value) {
@@ -887,7 +886,6 @@ function resolvePromise(promise2, x, resolve, reject) {
               resolve(x)
           }
       } catch (e) {
-          // 规范 2.3.3.2
           if (called) return
           called = true
           reject(e)
