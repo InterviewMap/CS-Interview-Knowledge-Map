@@ -798,4 +798,171 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-generator实现 promise 实现 装饰器原理 .forEach(),.map()和.reduce()的区别 ES6
+generator实现 promise 实现 装饰器原理 
+
+#### Promise 实现
+
+Promise 是 ES6 新增的语法，解决了回调地狱的问题。在这一小节我会通过 Promise / A+ 规范来解释原理。
+
+```js
+// promise 接收一个函数参数，该函数会立即执行
+function MyPromise(executor) {
+  let _this = this
+  // 拥有三个状态，分别为 pending，resolved，rejected
+  // 除了 pending 状态可以改变，其他两个状态都不可改变
+  _this.status = 'pending'
+  // 用于保存 then 中的回调，同时也为了解决 executor 中
+  // 异步执行 resolve，reject 
+  _this.onResolvedCallback = []
+  _this.onRejectedCallback = []
+  
+  // 以下两个函数是由规范规定
+  function resolve(value) {
+      if (_this.status === 'pending') {
+          _this.status = 'resolved'
+          _this.value = value
+          _this.onResolvedCallback.forEach((fn) => fn())
+      }
+  }
+
+  function reject(reason) {
+      if (_this.status === 'pending') {
+          _this.status = 'rejected'
+          _this.reason = reason
+          _this.onRejectedCallback.forEach((fn) => fn())
+      }
+  }
+    
+  // 用于解决以下问题
+  // new Promise(() => throw Error('error))
+  try {
+      executor(resolve, reject)
+  } catch (e) {
+      reject(e)
+  }
+}
+// 规范 2.3 
+function resolvePromise(promise2, x, resolve, reject) {
+  // 规范 2.3.1，x 不能和 promise2 相同，避免循环引用
+  if (promise2 === x) { 
+      return reject(new TypeError('Error'))
+  }
+  // 规范 2.3.3.3.3
+  // reject 或者 resolve 其中一个执行过得话，忽略其他的
+  let called
+  // 规范 2.3.2
+  // 如果 x 为 Promise，状态为 pending 需要继续等待
+  // 否则执行
+  if (x instanceof Promise) { 
+    if (x.status === 'pending') {
+      x.then(function(value) {
+        resolvePromise(promise2, value, resolve, reject)
+      }, reject)
+    } else { 
+      x.then(resolve, reject)
+    }
+    return
+  }
+  // 规范 2.3.3，判断 x 是否为对象或者函数
+  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+      // 规范 2.3.3.2，如果不能取出 then，就 reject
+      try {
+          // 规范 2.3.3.1
+          let then = x.then
+          // 如果 then 是函数，调用 x.then
+          if (typeof then === 'function') {
+              // 规范 2.3.3.3
+              then.call(x, function (y) {
+                  if (called) return 
+                  called = true
+                  // 规范 2.3.3.3.1
+                  resolvePromise(promise2, y, resolve, reject)
+              }, function (err) { 
+                  if (called) return
+                  called = true
+                  reject(err)
+              })
+          } else {
+              // 规范 2.3.3.4
+              resolve(x)
+          }
+      } catch (e) {
+          // 规范 2.3.3.2
+          if (called) return
+          called = true
+          reject(e)
+      }
+  } else { 
+      // 规范 2.3.4，x 为基本类型
+      resolve(x) 
+  }
+}
+
+MyPromise.prototype.then = function (onFulfilled, onRjected) {
+  // 规范 2.2.1，onFulfilled 和 onRjected 都为可选参数
+  // 如果类型不是函数需要忽略，同时也实现了透传
+  // Promise.resolve(4).then().then((value) => console.log(value))
+  onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (value) => value
+  onRjected = typeof onRjected === 'function' ? onRjected : (error) => {throw error}
+  let _this = this
+  // 规范 2.2.7，then 必须返回一个新的 promise
+  let promise2
+  if (_this.status === 'pending') {
+      // 在 pending 状态下 push 回调
+      // 规范 2.2.4，保证 onFulfilled，onRjected 异步执行
+      // 所以用了 setTimeout 包裹下
+      promise2 = new Promise((resolve, reject) => {
+          _this.onResolvedCallback.push(function () {
+              setTimeout(() => {
+                  // 考虑到可能会有报错，所以使用 try/catch 包裹
+                  try {
+                      let x = onFulfilled(_this.value)
+                      resolvePromise(promise2, x, resolve, reject)
+                  } catch (e) {
+                      reject(e)
+                  }
+              })
+          });
+          _this.onRejectedCallback.push(() => {
+              setTimeout(() => {
+                  try {
+                      let x = onRjected(_this.reason)
+                      resolvePromise(promise2, x, resolve, reject)
+                  } catch (e) {
+                      reject(e)
+                  }
+              })
+          });
+      })
+  }
+  // 以下逻辑和 pending 基本一致
+  if (_this.status === 'resolved') {
+      promise2 = new Promise((resolve, reject) => {
+          setTimeout(() => {
+              try {
+                  let x = onFulfilled(_this.value)
+                  resolvePromise(promise2, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          })
+      })
+  }
+  if (_this.status === 'rejected') {
+      promise2 = new Promise((resolve, reject) => {
+          setTimeout(() => {
+              try {
+                  let x = onRjected(_this.reason)
+                  resolvePromise(promise2, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          })
+      })
+  }
+  return promise2;
+}
+```
+以上就是根据 Promise / A+ 规范来实现的代码，可以通过 `promises-aplus-tests` 的完整测试
+
+![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
