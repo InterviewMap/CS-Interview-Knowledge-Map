@@ -909,7 +909,7 @@ MyPromise.prototype.then = function (onFulfilled, onRjected) {
       // 在 pending 状态下 push 回调
       // 规范 2.2.4，保证 onFulfilled，onRjected 异步执行
       // 所以用了 setTimeout 包裹下
-      promise2 = new Promise((resolve, reject) => {
+      promise2 = new MyPromise((resolve, reject) => {
           _this.onResolvedCallback.push(function () {
               setTimeout(() => {
                   // 考虑到可能会有报错，所以使用 try/catch 包裹
@@ -935,7 +935,7 @@ MyPromise.prototype.then = function (onFulfilled, onRjected) {
   }
   // 以下逻辑和 pending 基本一致
   if (_this.status === 'resolved') {
-      promise2 = new Promise((resolve, reject) => {
+      promise2 = new MyPromise((resolve, reject) => {
           setTimeout(() => {
               try {
                   let x = onFulfilled(_this.value)
@@ -947,7 +947,7 @@ MyPromise.prototype.then = function (onFulfilled, onRjected) {
       })
   }
   if (_this.status === 'rejected') {
-      promise2 = new Promise((resolve, reject) => {
+      promise2 = new MyPromise((resolve, reject) => {
           setTimeout(() => {
               try {
                   let x = onRjected(_this.reason)
