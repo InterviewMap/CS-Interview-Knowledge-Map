@@ -30,7 +30,7 @@
 |       防抖        |          |          |          |
 |       继承        |          |          |          |
 | call, apply, bind |          |          |          |
-|      Promise      |   LGC    |          |          |
+|      Promise      |   LGC    |    √     |    √     |
 |     Generator     |          |          |          |
 
 #### 浏览器
