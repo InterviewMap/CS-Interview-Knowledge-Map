@@ -260,7 +260,7 @@ function MyPromise(executor) {
 // specification 2.3
 function resolvePromise(promise2, x, resolve, reject) {
   // specification 2.3.1
-  // `x` can't refer to the same object that `promise2` refers to, avoiding the circular references
+  // `x` and  `promise2` can't refer to the same object, avoiding the circular references
   if (promise2 === x) {
     return reject(new TypeError('Error'));
   }
