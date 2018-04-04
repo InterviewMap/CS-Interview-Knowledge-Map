@@ -915,7 +915,9 @@ Function.prototype.myBind = function (context) {
 
 #### Promise 实现
 
-Promise 是 ES6 新增的语法，解决了回调地狱的问题。在这一小节我会通过 Promise / A+ 规范来解释原理。
+Promise 是 ES6 新增的语法，解决了回调地狱的问题。
+
+可以把 Promise 看成一个状态机。初始是 `pending` 状态，可以转变为 `resolved` 或者 `rejected` 状态，状态一旦改变就不能再次变化。
 
 ```js
 // promise 接收一个函数参数，该函数会立即执行
