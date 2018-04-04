@@ -5,7 +5,7 @@
 - [new](#new)
 - [instanceof](#instanceof)
 - [this](#this)
-- [作用域](#作用域)
+- [执行上下文](#执行上下文)
 - [闭包](#闭包)
 - [深浅拷贝](#深浅拷贝)
 - [模块化](#模块化)
@@ -256,7 +256,7 @@ console.log(a()()())
 
 每个执行上下文中都有三个重要的属性
 
-- 变量对象（VO）
+- 变量对象（VO），包含变量、函数声明和函数的形参，该属性只能在全局上下文中访问
 - 作用域链
 - this
 
@@ -280,42 +280,36 @@ stack = [
 对于全局上下文来说，VO 大概是这样的
 
 ```js
+globalContext.VO === globe
 globalContext.VO = {
     a: undefined,
 	foo: <Function>,
-	Math: <>,
-	window: globe,
-	// ...
 }
 ```
 
 对于函数 `foo` 来说，VO 不能访问，只能访问到活动对象（AO）
 
 ```js
-fooContext.VO = foo.AO = {
+fooContext.VO === foo.AO
+fooContext.AO {
     i: undefined,
 	b: undefined,
-    arguments: {
-        i: undefined,
-        callee: foo,
-        length: 1
-    }
+    arguments: <>
 }
 ```
 
-对于函数 `foo` 来说，作用域链大概是这样的
+对于作用域链，可以把它理解成包含自身变量对象和上级变量对象的列表，通过 `[[Scope]]` 属性查找上级变量
 
 ```js
+fooContext.[[Scope]] = [
+    globalContext.VO
+]
+fooContext.Scope = fooContext.[[Scope]] + fooContext.VO
 fooContext.Scope = [
     fooContext.VO,
     globalContext.VO
 ]
-fooContext.[[Scope]] = [
-    globalContext.VO
-]
 ```
-
-所以函数 `foo` 能够通过作用域链访问到外部的属性。
 
 接下来让我们看一个老生常谈的例子，`var`
 
