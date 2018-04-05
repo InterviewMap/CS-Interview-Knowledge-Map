@@ -776,15 +776,14 @@ let s = new Sub()
 Sub.prototype = Object.create(Super.prototype, { 
   constructor: { 
     value: Sub, 
-    enumerable: 
-    false, 
+    enumerable: false, 
     writable: true, 
     configurable: true 
   } 
 })
 ```
 
-以上继承实现思路：先创建子类实例 => 实例连接到子类的 `prototype` => 子类的 `prototype` 的 `__proto__` 改为父类的 `prototype`
+以上继承实现思路就是将子类的原型设置为父类的原型
 
 在 ES6 中，我们可以通过 `class` 语法轻松解决这个问题
 
