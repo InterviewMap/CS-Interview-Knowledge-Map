@@ -216,69 +216,146 @@ Each object has an internal property, denoted as `__proto__` , which is a refere
 Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
 
 
-
 #### Promise implementation
 
-`Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell. In this section I will explain the principle through the Promise / A+ specification.
+`Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell.
+
+Promise can be seen as a state machine and it's initial state is `pending`. We can change the state to `resolved` or `rejected` by using the `resolve` and `reject` functions. Once the state is changed, it cannot be changed again.
+
+The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
 
 ```js
+// three states
+const PENDING = 'pending';
+const RESOLVED = 'resolved';
+const REJECTED = 'rejected';
 // promise accepts a function argument that will execute immediately.
-function MyPromise(executor) {
+function MyPromise(fn) {
   let _this = this;
-  // A promise must be in one of three states: `pending`, `fulfilled`, or `rejected`
-  // Besides `pending`, the other two states must not change
-  _this.status = 'pending';
-  // To save the callback of `then`, but also resolve the executor's asynchronous executions: `resolve`，`reject`
-  _this.onResolvedCallback = [];
-  _this.onRejectedCallback = [];
+  _this.currentState = PENDING;
+  _this.value = undefined;
+  // To save the callback of `then`，only cached when the state of the promise is pending,
+  // for the new instance returned by `then`, at most one will be cached
+  _this.resolvedCallbacks = [];
+  _this.rejectedCallbacks = [];
 
-  // The following two functions are specified by the specification
-  function resolve(value) {
-    if (_this.status === 'pending') {
-      _this.status = 'resolved';
-      _this.value = value;
-      _this.onResolvedCallback.forEach(fn => fn());
-    }
+  _this.resolve = function(value) {
+    // execute asynchronously to guarantee the execution order
+    setTimeout(() => {
+      if (_this.currentState === PENDING) {
+        _this.currentState = RESOLVED;
+        _this.value = value;
+        _this.resolvedCallbacks.forEach(cb => cb());
+      }
+    })
   }
 
-  function reject(reason) {
-    if (_this.status === 'pending') {
-      _this.status = 'rejected';
-      _this.reason = reason;
-      _this.onRejectedCallback.forEach(fn => fn());
-    }
+  _this.reject = function(reason) {
+    // execute asynchronously to guarantee the execution order
+    setTimeout(() => {
+      if (_this.currentState === PENDING) {
+        _this.currentState = REJECTED;
+        _this.value = reason;
+        _this.rejectedCallbacks.forEach(cb => cb());
+      }
+    })
   }
 
-  // Used to solve the following problem
+  // to solve the following problem
   // new Promise(() => throw Error('error))
   try {
-    executor(resolve, reject);
+    fn(_this.resolve, _this.reject);
   } catch (e) {
-    reject(e);
+    _this.reject(e);
   }
 }
+
+MyPromise.prototype.then = function(onResolved, onRejected) {
+  const self = this;
+  // specification 2.2.7， `then` must return a new promise
+  let promise2;
+  // specification 2.2, both `onResolved` and `onRejected` are optional arguments
+  // it should be ignored if `onResolved` or `onRjected` is not a function, which implements the penetrate pass of it's value
+  // Promise.resolve(4).then().then((value) => console.log(value))
+  onResolved = typeof onResolved === 'function' ? onResolved : v => v;
+  onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
+
+  if (self.currentState === RESOLVED) {
+    return (promise2 = new MyPromise((resolve, reject) => {
+      // specification 2.2.4, wrap them with `setTimeout`, in order to insure that `onFulfilled` and `onRjected` execute asynchronously, 
+      setTimeout(() => {
+        try {
+          let x = onResolved(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (reason) {
+          reject(reason);
+        }
+      });
+    }));
+  }
+
+  if (self.currentState === REJECTED) {
+    return (promise2 = new MyPromise((resolve, reject) => {
+      // execute `onRejected` asynchronously
+      setTimeout(() => {
+        try {
+          let x = onRejected(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (reason) {
+          reject(reason);
+        }
+      });
+    }))
+  }
+
+  if (self.currentState === PENDING) {
+    return (promise2 = new MyPromise((resolve, reject) => {
+      self.resolvedCallbacks.push(() => {
+         // Considering that it may throw error, wrap them with `try/catch`
+        try {
+          let x = onResolved(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (r) {
+          reject(r);
+        }
+      });
+
+      self.rejectedCallbacks.push(() => {
+        try {
+          let x = onRejected(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (r) {
+          reject(r);
+        }
+      })
+    }))
+  }
+}
+
 // specification 2.3
-function resolvePromise(promise2, x, resolve, reject) {
-  // specification 2.3.1
-  // `x` and  `promise2` can't refer to the same object, avoiding the circular references
+function resolutionProcedure(promise2, x, resolve, reject) {
+  // specification 2.3.1，`x` and  `promise2` can't refer to the same object, avoiding the circular references
   if (promise2 === x) {
     return reject(new TypeError('Error'));
   }
-  // specification 2.3.3.3.3 
-  // if both `reject` and `resolve` are executed, the first successful execution takes precedence, and any further executions are ignored
-  let called;
-  // specification 2.3.2
-  // if `x` is a Promise and the state is `pending`, the promise must remain, If not, it should execute. 
-  if (x instanceof Promise) {
-    if (x.status === 'pending') {
-      x.then(function(value) {
-        resolvePromise(promise2, value, resolve, reject);
-      }, reject);
+
+  // specification 2.3.2, if `x` is a Promise and the state is `pending`, the promise must remain, If not, it should execute. 
+  if (x instanceof MyPromise) {
+    if (x.currentState === PENDING) {
+      // call the function `resolutionProcedure` again to confirm the type of the argument that x resolves
+      // If it's a primitive type, it will be resolved again to pass the value to next `then`.
+      x.then((value) => {
+        resolutionProcedure(promise2, value, resolve, reject);
+      }, reject)
     } else {
       x.then(resolve, reject);
     }
     return;
   }
+
+  // specification 2.3.3.3.3 
+  // if both `reject` and `resolve` are executed, the first successful execution takes precedence, and any further executions are ignored
+  let called = false;
   // specification 2.3.3, determine whether `x` is an object or a function
   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
     // specification 2.3.3.2, if can't get `then`, execute the `reject`
@@ -288,20 +365,16 @@ function resolvePromise(promise2, x, resolve, reject) {
       // if `then` is a function, call the `x.then`
       if (typeof then === 'function') {
         // specification 2.3.3.3
-        then.call(
-          x,
-          function(y) {
-            if (called) return;
-            called = true;
-            // specification 2.3.3.3.1
-            resolvePromise(promise2, y, resolve, reject);
-          },
-          function(err) {
-            if (called) return;
-            called = true;
-            reject(err);
-          }
-        );
+        then.call(x, y => {
+          if (called) return;
+          called = true;
+          // specification 2.3.3.3.1
+          resolutionProcedure(promise2, y, resolve, reject);
+        }, e => {
+          if (called) return;
+          called = true;
+          reject(e);
+        });
       } else {
         // specification 2.3.3.4
         resolve(x);
@@ -316,76 +389,6 @@ function resolvePromise(promise2, x, resolve, reject) {
     resolve(x);
   }
 }
-
-MyPromise.prototype.then = function(onFulfilled, onRjected) {
-  // specification 2.2.1, both `onFulfilled` and `onRejected` are optional arguments
-  // it should be ignored if `onFulfilled` or `onRjected` is not a function, which implements the penetrate pass of it's value
-  // Promise.resolve(4).then().then((value) => console.log(value))
-  onFulfilled =
-    typeof onFulfilled === 'function' ? onFulfilled : value => value;
-  onRjected =
-    typeof onRjected === 'function'
-      ? onRjected
-      : error => {
-          throw error;
-        };
-  let _this = this;
-  // specification 2.2.7， `then` must return a new promise
-  let promise2;
-  if (_this.status === 'pending') {
-    // when the state is `pending`, push the callback
-    // specification 2.2.4, wrap them with `setTimeout`, in order to insure that `onFulfilled` and `onRjected` execute asynchronously, 
-    promise2 = new MyPromise((resolve, reject) => {
-      _this.onResolvedCallback.push(function() {
-        setTimeout(() => {
-          // Considering that it may throw error, wrap them with `try/catch`
-          try {
-            let x = onFulfilled(_this.value);
-            resolvePromise(promise2, x, resolve, reject);
-          } catch (e) {
-            reject(e);
-          }
-        });
-      });
-      _this.onRejectedCallback.push(() => {
-        setTimeout(() => {
-          try {
-            let x = onRjected(_this.reason);
-            resolvePromise(promise2, x, resolve, reject);
-          } catch (e) {
-            reject(e);
-          }
-        });
-      });
-    });
-  }
-  // The following logic is basically the same as `pending`
-  if (_this.status === 'resolved') {
-    promise2 = new MyPromise((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          let x = onFulfilled(_this.value);
-          resolvePromise(promise2, x, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-  }
-  if (_this.status === 'rejected') {
-    promise2 = new MyPromise((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          let x = onRjected(_this.reason);
-          resolvePromise(promise2, x, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-  }
-  return promise2;
-};
 ```
 
 The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
