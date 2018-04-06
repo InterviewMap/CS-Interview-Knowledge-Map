@@ -235,7 +235,7 @@ function MyPromise(fn) {
   _this.currentState = PENDING;
   _this.value = undefined;
   // To save the callback of `then`，only cached when the state of the promise is pending,
-  // for the new instance returned by `then`, at most one will be cached
+  //  at most one will be cached in every instance
   _this.resolvedCallbacks = [];
   _this.rejectedCallbacks = [];
 
@@ -262,7 +262,7 @@ function MyPromise(fn) {
   }
 
   // to solve the following problem
-  // new Promise(() => throw Error('error))
+  // `new Promise(() => throw Error('error))`
   try {
     fn(_this.resolve, _this.reject);
   } catch (e) {
@@ -275,14 +275,16 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   // specification 2.2.7， `then` must return a new promise
   let promise2;
   // specification 2.2, both `onResolved` and `onRejected` are optional arguments
-  // it should be ignored if `onResolved` or `onRjected` is not a function, which implements the penetrate pass of it's value
-  // Promise.resolve(4).then().then((value) => console.log(value))
+  // it should be ignored if `onResolved` or `onRjected` is not a function,
+  // which implements the penetrate pass of it's value
+  // `Promise.resolve(4).then().then((value) => console.log(value))`
   onResolved = typeof onResolved === 'function' ? onResolved : v => v;
   onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // specification 2.2.4, wrap them with `setTimeout`, in order to insure that `onFulfilled` and `onRjected` execute asynchronously, 
+      // specification 2.2.4, wrap them with `setTimeout`, 
+      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously 
       setTimeout(() => {
         try {
           let x = onResolved(self.value);
@@ -334,16 +336,20 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
 // specification 2.3
 function resolutionProcedure(promise2, x, resolve, reject) {
-  // specification 2.3.1，`x` and  `promise2` can't refer to the same object, avoiding the circular references
+  // specification 2.3.1，`x` and  `promise2` can't refer to the same object,
+  // avoiding the circular references
   if (promise2 === x) {
     return reject(new TypeError('Error'));
   }
 
-  // specification 2.3.2, if `x` is a Promise and the state is `pending`, the promise must remain, If not, it should execute. 
+  // specification 2.3.2, if `x` is a Promise and the state is `pending`,
+  // the promise must remain, If not, it should execute. 
   if (x instanceof MyPromise) {
     if (x.currentState === PENDING) {
-      // call the function `resolutionProcedure` again to confirm the type of the argument that x resolves
-      // If it's a primitive type, it will be resolved again to pass the value to next `then`.
+      // call the function `resolutionProcedure` again to 
+      // confirm the type of the argument that x resolves
+      // If it's a primitive type, it will be resolved again to 
+      // pass the value to next `then`.
       x.then((value) => {
         resolutionProcedure(promise2, value, resolve, reject);
       }, reject)
@@ -354,7 +360,8 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   }
 
   // specification 2.3.3.3.3 
-  // if both `reject` and `resolve` are executed, the first successful execution takes precedence, and any further executions are ignored
+  // if both `reject` and `resolve` are executed, the first successful
+  // execution takes precedence, and any further executions are ignored
   let called = false;
   // specification 2.3.3, determine whether `x` is an object or a function
   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
@@ -392,3 +399,5 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 ```
 
 The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
+
+![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
