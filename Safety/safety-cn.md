@@ -21,7 +21,7 @@ XSS 通过修改 HTML 节点或者执行 JS 代码来攻击网站。
 
 ##### 如何防御
 
-最普遍的做法是转义内容，对于引号，尖括号进行转义
+最普遍的做法是转义输入输出的内容，对于引号，尖括号，斜杠进行转义
 
 ```js
 function escape(str) {
@@ -31,6 +31,7 @@ function escape(str) {
 	str = str.replace(/"/g, "&quto;");
 	str = str.replace(/'/g, "&#39;");
 	str = str.replace(/`/g, "&#96;");
+    str = str.replace(/\//g, "&#x2F;");
     return str
 }
 ```
@@ -38,7 +39,7 @@ function escape(str) {
 通过转义可以将攻击代码 `<script>alert(1)</script>` 变成
 
 ```js
-// -> &lt;script&gt;alert(1)&lt;/script&gt;
+// -> &lt;script&gt;alert(1)&lt;&#x2F;script&gt;
 escape('<script>alert(1)</script>')
 ```
 
@@ -52,3 +53,31 @@ console.log(html);
 ```
 
 以上示例使用了 `js-xss` 来实现。可以看到在输出中保留了 `h1` 标签且过滤了 `script` 标签
+
+##### CSP
+
+> 内容安全策略   ([CSP](https://developer.mozilla.org/en-US/docs/Glossary/CSP)) 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 ([XSS](https://developer.mozilla.org/en-US/docs/Glossary/XSS)) 和数据注入攻击等。无论是数据盗取、网站内容污染还是散发恶意软件，这些攻击都是主要的手段。
+
+我们可以通过 CSP 来尽量减少 XSS 攻击。CSP 本质上也是建立白名单，规定了浏览器只能够执行特定来源的代码。
+
+通常可以通过 HTTP Header 中的 `Content-Security-Policy` 来开启 CSP
+
+- 只允许加载本站资源
+
+  ```http
+  Content-Security-Policy： default-src ‘self’
+  ```
+
+- 只允许加载 HTTPS 协议图片
+
+  ```http
+  Content-Security-Policy： img-src https://*
+  ```
+
+- 允许加载任何来源框架
+
+  ```http
+  Content-Security-Policy： child-src 'none'
+  ```
+
+更多属性可以查看 [这里](https://content-security-policy.com/)
