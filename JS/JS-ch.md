@@ -940,7 +940,7 @@ function MyPromise(fn) {
   _this.resolve = function (value) {
     if (value instanceof MyPromise) {
       // 如果 value 是个 Promise，递归执行
-      return value.then(resolve, reject)
+      return value.then(_this.resolve, _this.reject)
     }
     setTimeout(() => { // 异步执行，保证执行顺序
       if (_this.currentState === PENDING) {
