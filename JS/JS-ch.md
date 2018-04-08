@@ -1159,3 +1159,34 @@ function test() {
 }
 ```
 
+#### Map、FlapMap 和 Reduce
+
+`Map` 作用是生成一个新数组，遍历原数组，将每个元素拿出来做一些变换然后 `append` 到新的数组中。
+
+```js
+[1, 2, 3].map((v) => v + 1)
+// -> [2, 3, 4]
+```
+
+`FlapMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlapMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
+
+```js
+[1, [2], 3].flatMap((v) => v + 1)
+// -> [2, 3, 4]
+```
+
+`Reduce` 作用是数组中的值组合起来，最终得到一个值
+
+```js
+function a() {
+    console.log(1);
+}
+
+function b() {
+    console.log(2);
+}
+
+[a, b].reduce((a, b) => a(b()))
+// -> 2 1
+```
+
