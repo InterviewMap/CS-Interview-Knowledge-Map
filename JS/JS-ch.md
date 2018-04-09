@@ -180,6 +180,34 @@ function Foo() {}
 let a = { b: 1 }
 // 这个字面量内部也是使用了 new Object()
 ```
+对于 `new` 来说，还需要注意下运算符优先级。
+
+```js
+function Foo() {
+    return this;
+}
+Foo.getName = function () {
+    console.log('1');
+};
+Foo.prototype.getName = function () { 
+    console.log('2');
+};
+
+new Foo.getName();   // -> 1
+new Foo().getName(); // -> 2       
+```
+
+![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
+
+从上图可以看出，`new Foo() ` 的优先级大于 `new Foo` ，所以对于上述代码来说可以这样划分执行顺序
+
+```js
+new (Foo.getName());   
+(new Foo()).getName();
+```
+
+对于第一个函数来说，先执行了 `Foo.getName()` ，所以结果为 1；对于后者来说，先执行 `new Foo()` 产生了一个实例，然后通过原型链找到了 `Foo` 上的 `getName` 函数，所以结果为 2。
+
 #### instanceof
 
 `instanceof` 可以正确的判断对象的类型，因为内部机制是通过判断对象的原型链中是不是能找到类型的 `prototype`。
