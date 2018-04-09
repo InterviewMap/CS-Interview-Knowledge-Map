@@ -99,7 +99,7 @@ let a = { b: 1 }
 // Inside this literal is also used `new Object()`
 ```
 
-For `new`, we also need to pay attention to the operator precedence.
+For `new`, we also need attention to the operator precedence.
 
 ```js
 function Foo() {
