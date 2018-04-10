@@ -253,6 +253,8 @@ Promise can be seen as a state machine and it's initial state is `pending`. We c
 
 The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
 
+For `then`, it can essentially be seen as `flatMap`
+
 ```js
 // three states
 const PENDING = 'pending';
@@ -271,6 +273,10 @@ function MyPromise(fn) {
   _this.resolve = function(value) {
     // execute asynchronously to guarantee the execution order
     setTimeout(() => {
+      if (value instanceof MyPromise) {
+        // if value is a Promise, execute recursively 
+        return value.then(_this.resolve, _this.reject)
+      }
       if (_this.currentState === PENDING) {
         _this.currentState = RESOLVED;
         _this.value = value;
