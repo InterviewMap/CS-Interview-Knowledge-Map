@@ -91,4 +91,4 @@ Cache-control: max-age=30
 
 ### 优化渲染过程
 
-你可以查阅浏览器系列中的 [相关文章](../Browser/performance-ch.md#渲染机制)
+你可以查阅浏览器系列中的 [相关文章](../Browser/browser-ch.md#渲染机制)
