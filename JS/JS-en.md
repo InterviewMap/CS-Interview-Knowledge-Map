@@ -99,6 +99,35 @@ let a = { b: 1 }
 // Inside this literal is also used `new Object()`
 ```
 
+For `new`, we also need attention to the operator precedence.
+
+```js
+function Foo() {
+    return this;
+}
+Foo.getName = function () {
+    console.log('1');
+};
+Foo.prototype.getName = function () { 
+    console.log('2');
+};
+
+new Foo.getName();   // -> 1
+new Foo().getName(); // -> 2       
+```
+
+![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
+
+As you can see from the above image, `new Foo()` has a higher priority than `new Foo`, so we can divide the execution order of the above code like this:
+
+
+```js
+new (Foo.getName());   
+(new Foo()).getName();
+```
+
+For the first function, `Foo.getName()` is executed first, so the result is 1;
+As for the latter, it firstly executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
 
 #### This
 
@@ -224,6 +253,8 @@ Promise can be seen as a state machine and it's initial state is `pending`. We c
 
 The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
 
+For `then`, it can essentially be seen as `flatMap`
+
 ```js
 // three states
 const PENDING = 'pending';
@@ -242,6 +273,10 @@ function MyPromise(fn) {
   _this.resolve = function(value) {
     // execute asynchronously to guarantee the execution order
     setTimeout(() => {
+      if (value instanceof MyPromise) {
+        // if value is a Promise, execute recursively 
+        return value.then(_this.resolve, _this.reject)
+      }
       if (_this.currentState === PENDING) {
         _this.currentState = RESOLVED;
         _this.value = value;
