@@ -184,15 +184,15 @@ timers 阶段会执行 `setTimeout` 和 `setInterval`
 
 下限的时间有一个范围：`[1, 2147483647]` ，如果设定的时间不在这个范围，将被设置为1。
 
-######I/O 
+###### I/O 
 
 I/O 阶段会执行除了 close 事件，定时器和 `setImmediate` 的回调
 
-######idle, prepare 
+###### idle, prepare 
 
 idle, prepare 阶段内部实现
 
-######poll 
+###### poll 
 
 poll 阶段很重要，这一阶段中，系统会做两件事情
 
@@ -208,11 +208,11 @@ poll 阶段很重要，这一阶段中，系统会做两件事情
 
 如果有别的定时器需要被执行，会回到 timer 阶段执行回调。
 
-######check
+###### check
 
 check 阶段执行 `setImmediate` 
 
-######close callbacks
+###### close callbacks
 
 close callbacks 阶段执行 close 事件
 
