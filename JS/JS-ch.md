@@ -1223,6 +1223,15 @@ function test() {
 // -> [2, 3, 4]
 ```
 
+`Map` 有三个参数，分别是当前索引元素，索引，原数组
+
+```js
+['1','2','3'].map(parseInt)
+//  parseInt('1', 0) -> 1
+//  parseInt('2', 1) -> NaN
+//  parseInt('3', 2) -> NaN
+```
+
 `FlapMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlapMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
 
 ```js
