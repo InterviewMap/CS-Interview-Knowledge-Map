@@ -27,7 +27,9 @@ function swap(array, left, right) {
 
 冒泡排序的步骤如下，从第一个元素开始，把当前元素和下一个索引元素进行比较。如果当前元素大，那么就交换位置，重复操作直到比较到最后一个元素，那么此时最后一个元素就是该数组中最大的数。下一轮重复以上操作，但是此时最后一个元素已经是最大数了，所以不需要再比较最后一个元素，只需要比较到 `length - 1` 的位置。
 
-<img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895b452b306c?w=670&h=508&f=gif&s=282307" width="500" style="display:block;margin: 0 auto" />
+<div align="center">
+<img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895b452b306c?w=670&h=508&f=gif&s=282307" width="500" />
+</div>
 
 以下是实现该算法的代码
 
@@ -50,7 +52,7 @@ function bubble(array) {
 
 插入排序的步骤如下。第一个元素默认是已排序元素，取出下一个元素和当前元素比较，如果当前元素大就交换位置。那么此时第一个元素就是当前的最小数，所以下次取出操作从第三个元素开始，向前对比，重复之前的操作。
 
-<img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895c7e59dcd1?w=670&h=508&f=gif&s=609549" width="500" style="display:block;margin: 0 auto" />
+<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895c7e59dcd1?w=670&h=508&f=gif&s=609549" width="500" style="display:block;margin: 0 auto" /></div>
 
 以下是实现该算法的代码
 
@@ -71,7 +73,7 @@ function insertion(array) {
 
 选择排序的步骤如下。遍历数组，设置最小值的索引为 0，如果取出的值比当前最小值小，就替换最小值索引，遍历完成后，将第一个元素和最小值索引上的值交换。如上操作后，第一个元素就是数组中的最小值，下次遍历就可以从索引 1 开始重复上述操作。
 
-<img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895d1c1e0e52?w=670&h=508&f=gif&s=965636" width="500" style="display:block;margin: 0 auto" />
+<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895d1c1e0e52?w=670&h=508&f=gif&s=965636" width="500" style="display:block;margin: 0 auto" /></div>
 
 以下是实现该算法的代码
 
