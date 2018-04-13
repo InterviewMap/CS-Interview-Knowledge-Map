@@ -73,7 +73,7 @@ function insertion(array) {
 
 选择排序的步骤如下。遍历数组，设置最小值的索引为 0，如果取出的值比当前最小值小，就替换最小值索引，遍历完成后，将第一个元素和最小值索引上的值交换。如上操作后，第一个元素就是数组中的最小值，下次遍历就可以从索引 1 开始重复上述操作。
 
-<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/12/162b895d1c1e0e52?w=670&h=508&f=gif&s=965636" width="500" style="display:block;margin: 0 auto" /></div>
+<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/13/162bc8ea14567e2e?w=670&h=508&f=gif&s=965636" width="500" style="display:block;margin: 0 auto" /></div>
 
 以下是实现该算法的代码
 

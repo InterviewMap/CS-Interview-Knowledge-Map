@@ -1,12 +1,10 @@
 # Front-End-Interview-Map
 
-
+本仓库采用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)
 
 ## 前端相关
 
 - [JS](./JS/JS-ch.md)
-
-
 
 
 ## 翻译进度
@@ -28,7 +26,7 @@
 |      模块化       |          |          |          |
 |       节流        |          |          |          |
 |       防抖        |          |          |          |
-|       继承        |          |          |          |
+|       继承        |   LGC    |          |          |
 | call, apply, bind |          |          |          |
 |      Promise      |   LGC    |    √     |    √     |
 |     Generator     |          |          |          |
