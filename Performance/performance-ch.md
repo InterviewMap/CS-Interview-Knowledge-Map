@@ -2,7 +2,7 @@
 
 #### DNS 预解析
 
-DNS 解析也是需要解析的，可以通过预解析的方式来预先获得域名所对应的 IP。
+DNS 解析也是需要时间的，可以通过预解析的方式来预先获得域名所对应的 IP。
 
 ```html
 <link rel="dns-prefetch" href="//yuchengkai.cn">
