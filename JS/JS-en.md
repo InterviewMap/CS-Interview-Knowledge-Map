@@ -245,6 +245,69 @@ Each object has an internal property, denoted as `__proto__` , which is a refere
 Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
 
 
+#### inheritance
+
+In ES5, we can solve the problems of inheritance by using the following ways.
+
+```js
+function Super() {}
+Super.prototype.getNumber = function() {
+  return 1
+}
+
+function Sub() {}
+let s = new Sub()
+Sub.prototype = Object.create(Super.prototype, { 
+  constructor: { 
+    value: Sub, 
+    enumerable: false, 
+    writable: true, 
+    configurable: true 
+  } 
+})
+```
+
+The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
+
+In ES6, we can easily solve this problem with the `class`  syntax.
+
+```js
+class MyDate extends Date {
+  test() {
+    return this.getTime()
+  }
+}
+let myDate = new MyDate()
+myDate.test()
+```
+
+However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
+
+If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+
+Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date` , it can’t call the function in `Date`, which also explains on the side:  `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+
+Since the low-level of JS limits that the instance must be constructed by `Date` , we can change the way we think of implementing inheritance.
+
+```js
+function MyData() {
+
+}
+MyData.prototype.test = function () {
+  return this.getTime()
+}
+let d = new Date()
+Object.setPrototypeOf(d, MyData.prototype)
+Object.setPrototypeOf(MyData.prototype, Date.prototype)
+```
+
+The Implement ideas of the above inheritance: firstly create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+
+The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
+
+
 #### Promise implementation
 
 `Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell.
