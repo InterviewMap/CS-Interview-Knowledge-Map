@@ -289,7 +289,7 @@ If call `myDate.test()` with compiled code, you’ll be surprised to see that th
 
 Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date` , it can’t call the function in `Date`, which also explains on the side:  `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
 
-Since the low-level of JS limits that the instance must be constructed by `Date` , we can change the way we think of implementing inheritance.
+Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance.
 
 ```js
 function MyData() {
