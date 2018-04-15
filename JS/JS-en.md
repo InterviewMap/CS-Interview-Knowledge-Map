@@ -505,7 +505,7 @@ The above codes, which is implemented based on the Promise / A+ specification,  
 
 `Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into the last execution, and `Throttle` is to turn multiple executions into execution at regular intervals.
 
-```Js
+```js
 // The first two parameters with debounce are the same function
 // options: You can pass two properties
 // trailing: Last time does not execute
@@ -516,14 +516,14 @@ _.throttle = function(func, wait, options) {
     var timeout = null;
     // Previous timestamp
     var previous = 0;
-    // Empty if options is not passed
+    // Set empty if options is not passed
     if (!options) options = {};
     // Timer callback function
     var later = function() {
-        // If you set leading, then set previous to zero
-        // The first if statement of the following function is used
+        // If you set `leading`, then set `previous` to zero
+        // The first `if` statement of the following function is used
         previous = options.leading === false ? 0 : _.now();
-        // The first is prevented memory leaks and the second is judged the following timers when setting timeout to null
+        // The first is prevented memory leaks and the second is judged the following timers when setting `timeout` to null
         timeout = null;
         result = func.apply(context, args);
         if (!timeout) context = args = null;
@@ -537,14 +537,11 @@ _.throttle = function(func, wait, options) {
         // Then it will be greater than 0 when the remaining time is calculated next
         if (!previous && options.leading === false)
             previous = now;
-        // Calculated remaining time
         var remaining = wait - (now - previous);
         context = this;
         args = arguments;
-        // It will add wait time if the current call time greater than the last call time
-        // Or the user manually adjusted the time
-        // This condition will only be entered if it set trailing
-        // This condition will be entered firstly if it not set leading
+        // This condition will only be entered if it set `trailing`
+        // This condition will be entered firstly if it not set `leading`
         // Another point, you may think that this condition will not be entered if you turn on the timer
         // In fact, it will still enter because the timer delay is not accurate
         // It is very likely that you set 2 seconds, but it needs 2.2 seconds to trigger, then this time will enter this condition
@@ -558,8 +555,7 @@ _.throttle = function(func, wait, options) {
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         } else if (!timeout && options.trailing !== false) {
-            // Judgment if timer and trailing are set
-            // Turn on a timer if not set
+            // Judgment whether timer and trailing are set
             // And you can't set leading and trailing at the same time
             timeout = setTimeout(later, remaining);
         }
