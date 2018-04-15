@@ -8,7 +8,7 @@
 | Storage size of data |                     4K                     |            5M            |       5M       |           unlimited           |
 | Communicate with server | it is carried in the header everytime, and has a performance impact on the request |          doesn't participate          |     doesn't participate     |          doesn't participate          |
 
-        
+
 As we can see from the above table, cookies are no longer recommended for storage. We can use localStorage and sessionStorage if we don't have much data to storage. Use localStorage to storage the data that doesn't change much, otherwise sessionStorage can be used.
 
 ##### Service Worker
@@ -23,10 +23,10 @@ if (navigator.serviceWorker) {
   navigator.serviceWorker
     .register("sw.js")
     .then(function(registration) {
-      console.log("service worker 注册成功");
+      console.log("service worker register success");
     })
     .catch(function(err) {
-      console.log("servcie worker 注册失败");
+      console.log("servcie worker register error");
     });
 }
 // sw.js
@@ -55,6 +55,12 @@ self.addEventListener("fetch", e => {
 
 Start the page, we can see that the Service Worker has started in the `Application` of the devTools
 
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
+
 In the Cache, we can also find that the files we need have been cached
 
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
+
 Refreshing the page, we can see that our cached data is read from the Service Worker
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
