@@ -700,9 +700,14 @@ define(function(require, exports, module) {
 这些需求都可以通过函数防抖动来实现。尤其是第一个需求，如果在频繁的事件回调中做复杂计算，很有可能导致页面卡顿，不如将多次计算合并为一次计算，只在一个精确点做操作。因为防抖动的轮子很多，这里也不重新自己造个轮子了，直接使用 underscore 的源码来解释防抖动。
 
 ```js
-// 参数含义依次为回调函数
-// 等待时间
-// 是否马上调用函数
+/**
+ * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
+ * 
+ * @param  {function} func        回调函数
+ * @param  {number}   wait        表示时间窗口的间隔
+ * @param  {boolean}  immediate   设置为ture时，是否立即调用函数
+ * @return {function}             返回客户调用函数
+ */
 _.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;
 
@@ -752,11 +757,16 @@ _.debounce = function(func, wait, immediate) {
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。
 
 ```js
-// 前两者参数和防抖动是相同函数
-// options 可以传入两个属性
-// trailing：最后次不执行
-// leading：第一次不执行
-// 两者不能共存，否则函数不能执行
+/**
+ * underscore 节流函数，返回函数连续调用时，func 执行频率限定为 次 / wait
+ * 
+ * @param  {function}   func      回调函数
+ * @param  {number}     wait      表示时间窗口的间隔
+ * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
+ *                                如果想忽略结尾函数的调用，传入{trailing: false}
+ *                                两者不能共存，否则函数不能执行
+ * @return {function}             返回客户调用函数   
+ */
 _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
