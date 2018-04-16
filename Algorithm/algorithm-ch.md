@@ -95,7 +95,7 @@ function selection(array) {
 
 #### 归并排序
 
-归并排序的原理如下。先通过中间数索引将数组分为左右两部分，然后先排序左边，再排序右边，再将左右排序一次。假设我有一组数组 `[3, 1, 2, 8, 9, 7, 6]`，中间数索引是 3，先排序数组 `[3, 1, 2, 8]` 。在这个左边数组上，继续拆分直到变成数组包含两个元素（如果数组长度是奇数的话，会有一个拆分数组只包含一个元素）。然后排序数组 `[3, 1]` 和 `[2, 8]` ，然后再排序数组 `[1, 3, 2, 8]` ，这样左边数组就排序完成，然后按照以上思路排序右边数组，最后将数组 `[1, 2, 3, 8]` 和 `[6, 7, 9]` 排序。
+归并排序的原理如下。递归的将数组两两分开直到最多包含两个元素，然后将数组排序合并，最终合并为排序好的数组。假设我有一组数组 `[3, 1, 2, 8, 9, 7, 6]`，中间数索引是 3，先排序数组 `[3, 1, 2, 8]` 。在这个左边数组上，继续拆分直到变成数组包含两个元素（如果数组长度是奇数的话，会有一个拆分数组只包含一个元素）。然后排序数组 `[3, 1]` 和 `[2, 8]` ，然后再排序数组 `[1, 3, 2, 8]` ，这样左边数组就排序完成，然后按照以上思路排序右边数组，最后将数组 `[1, 2, 3, 8]` 和 `[6, 7, 9]` 排序。
 
 <div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/13/162be13c7e30bd86?w=896&h=1008&f=gif&s=937952" width=500 /></div>
 
@@ -111,7 +111,10 @@ function sort(array) {
 function mergeSort(array, left, right) {
   // 左右索引相同说明已经只有一个数
   if (left === right) return;
-  let mid = parseInt((left + right) / 2);
+  // 等同于 `left + (right - left) / 2`
+  // 相比 `(left + right) / 2` 来说更加安全，不会溢出
+  // 使用位运算是因为位运算比四则运算快
+  let mid = parseInt(left + ((right - left) >> 1));
   mergeSort(array, left, mid);
   mergeSort(array, mid + 1, right);
 
@@ -135,49 +138,25 @@ function mergeSort(array, left, right) {
 }
 ```
 
-以上代码使用了递归的思想。首先来理解下递归：执行递归函数会进入一个递归工作栈，并且保存了函数的实参、内部的变量和执行到的代码行数，直到遇到终止条件，然后该函数出栈，并执行上一个函数。
-
-该算法的操作次数是可以这样计算：递归了两次，每次数据量是数组的一半，并且最后把整个数组迭代了一次，所以得出表达式 `2T(N / 2) + T(N)` （T 代表时间，N 代表数据量）。根据该表达式可以套用 [该公式](https://www.wikiwand.com/zh-hans/%E4%B8%BB%E5%AE%9A%E7%90%86) 得出时间复杂度为 `O(N * logN)`
-
-#### 快排
-
-快排的原理如下。随机选取一个数组中的值作为基准值，从左至右取值与基准值对比大小。比基准值小的放数组左边，大的放右边，对比完成后将基准值和第一个比基准值大的值交换位置。然后将数组以基准值的位置分为两部分，继续递归以上操作。
-
-<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/16/162cd23e69ca9ea3?w=824&h=506&f=gif&s=867744" width=500 /></div>
-
-以下是实现该算法的代码
+以上算法使用了递归的思想。递归的本质就是压栈，每递归执行一次函数，就将该函数的信息（比如参数，内部的变量，执行到的行数）压栈，直到遇到终止条件，然后出栈并继续执行函数。对于以上递归函数的调用轨迹如下
 
 ```js
-function sort(array) {
-  checkArray(array);
-  quickSort(array, 0, array.length - 1);
-  return array;
-}
-
-function quickSort(array, left, right) {
-  if (left < right) {
-    swap(array, , right)
-    // 随机取值，然后和末尾交换，这样做比固定取一个位置的复杂度略低
-    let indexs = part(array, parseInt(Math.random() * (right - left + 1)) + left, right);
-    quickSort(array, left, indexs[0]);
-    quickSort(array, indexs[1] + 1, right);
-  }
-}
-function part(array, left, right) {
-  let less = left - 1;
-  let more = right;
-  while (left < more) {
-    if (array[left] < array[right]) {
-      swap(array, ++less, left++);
-    } else if (array[left] > array[right]) {
-      swap(array, --more, left);
-    } else {
-      left++;
-    }
-  }
-  swap(array, right, more);
-  return [less, more];
-}
+mergeSort(data, 0, 6) // mid = 3
+  mergeSort(data, 0, 3) // mid = 1
+    mergeSort(data, 0, 1) // mid = 0
+      mergeSort(data, 0, 0) // 遇到终止，回退到上一步
+    mergeSort(data, 1, 1) // 遇到终止，回退到上一步
+    // 排序 p1 = 0, p2 = mid + 1 = 1
+    // 回退到 `mergeSort(data, 0, 3)` 执行下一个递归
+  mergeSort(2, 3) // mid = 2
+    mergeSort(3, 3) // 遇到终止，回退到上一步
+  // 排序 p1 = 2, p2 = mid + 1 = 3
+  // 回退到 `mergeSort(data, 0, 3)` 执行合并逻辑
+  // 排序 p1 = 0, p2 = mid + 1 = 2
+  // 执行完毕回退
+  // 左边数组排序完毕，右边也是如上轨迹
 ```
 
-该算法的复杂度和归并排序是相同的，但是额外空间复杂度比归并排序少，只需 O(logN)，并且相比归并排序来说，所需的常数时间也更少。
+
+
+该算法的操作次数是可以这样计算：递归了两次，每次数据量是数组的一半，并且最后把整个数组迭代了一次，所以得出表达式 `2T(N / 2) + T(N)` （T 代表时间，N 代表数据量）。根据该表达式可以套用 [该公式](https://www.wikiwand.com/zh-hans/%E4%B8%BB%E5%AE%9A%E7%90%86) 得出时间复杂度为 `O(N * logN)`

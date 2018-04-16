@@ -36,7 +36,7 @@ console.log(a) // EF
 
 #### Typeof
 
- `typeof` can always display the correct type of the primitive types, except `null` 
+ `typeof` can always display the correct type of the primitive types, except `null`
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
@@ -108,12 +108,12 @@ function Foo() {
 Foo.getName = function () {
     console.log('1');
 };
-Foo.prototype.getName = function () { 
+Foo.prototype.getName = function () {
     console.log('2');
 };
 
 new Foo.getName();   // -> 1
-new Foo().getName(); // -> 2       
+new Foo().getName(); // -> 2
 ```
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
@@ -122,7 +122,7 @@ As you can see from the above image, `new Foo()` has a higher priority than `new
 
 
 ```js
-new (Foo.getName());   
+new (Foo.getName());
 (new Foo()).getName();
 ```
 
@@ -146,7 +146,7 @@ var obj = {
 };
 obj.foo();
 
-// In the above two situations, `this` only depends on the object before calling the function, 
+// In the above two situations, `this` only depends on the object before calling the function,
 // and the second case has higher priority than the first case .
 
 // the following situation has the highest priority，`this` will only be bound to c，
@@ -156,7 +156,7 @@ var c = new foo();
 c.a = 3;
 console.log(c.a);
 
-// finally, using `call、apply、bind` to change what `this` is bound to , 
+// finally, using `call、apply、bind` to change what `this` is bound to ,
 // is another situation whom's priority is only second to `new`
 ```
 
@@ -177,7 +177,7 @@ Actually , the arrow function does not have `this` , `this` in the above functio
 #### instanceof
 
 The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
-let’s try to implement it 
+let’s try to implement it
 ```js
 function instanceof(left, right) {
     // get the `prototype` of the type
@@ -214,7 +214,7 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this : 
+It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this :
 
 There would bo two stages when the execution environment is generated  . The first stage is the stage of creation(to be specific , the step of generating variable objects ) , in which the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only be declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
 
@@ -243,6 +243,69 @@ Each function, besides `Function.prototype.bind()` , has an internal property, d
 Each object has an internal property, denoted as `__proto__` , which is a reference to the prototype of the constructor that created the object. This property actually references to `[[prototype]]` , but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
 
 Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
+
+
+#### inheritance
+
+In ES5, we can solve the problems of inheritance by using the following ways.
+
+```js
+function Super() {}
+Super.prototype.getNumber = function() {
+  return 1
+}
+
+function Sub() {}
+let s = new Sub()
+Sub.prototype = Object.create(Super.prototype, { 
+  constructor: { 
+    value: Sub, 
+    enumerable: false, 
+    writable: true, 
+    configurable: true 
+  } 
+})
+```
+
+The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
+
+In ES6, we can easily solve this problem with the `class`  syntax.
+
+```js
+class MyDate extends Date {
+  test() {
+    return this.getTime()
+  }
+}
+let myDate = new MyDate()
+myDate.test()
+```
+
+However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
+
+If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+
+Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date` , it can’t call the function in `Date`, which also explains on the side:  `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+
+Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance.
+
+```js
+function MyData() {
+
+}
+MyData.prototype.test = function () {
+  return this.getTime()
+}
+let d = new Date()
+Object.setPrototypeOf(d, MyData.prototype)
+Object.setPrototypeOf(MyData.prototype, Date.prototype)
+```
+
+The Implement ideas of the above inheritance: firstly create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+
+The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
 
 
 #### Promise implementation
@@ -274,7 +337,7 @@ function MyPromise(fn) {
     // execute asynchronously to guarantee the execution order
     setTimeout(() => {
       if (value instanceof MyPromise) {
-        // if value is a Promise, execute recursively 
+        // if value is a Promise, execute recursively
         return value.then(_this.resolve, _this.reject)
       }
       if (_this.currentState === PENDING) {
@@ -318,8 +381,8 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // specification 2.2.4, wrap them with `setTimeout`, 
-      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously 
+      // specification 2.2.4, wrap them with `setTimeout`,
+      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously
       setTimeout(() => {
         try {
           let x = onResolved(self.value);
@@ -378,12 +441,12 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   }
 
   // specification 2.3.2, if `x` is a Promise and the state is `pending`,
-  // the promise must remain, If not, it should execute. 
+  // the promise must remain, If not, it should execute.
   if (x instanceof MyPromise) {
     if (x.currentState === PENDING) {
-      // call the function `resolutionProcedure` again to 
+      // call the function `resolutionProcedure` again to
       // confirm the type of the argument that x resolves
-      // If it's a primitive type, it will be resolved again to 
+      // If it's a primitive type, it will be resolved again to
       // pass the value to next `then`.
       x.then((value) => {
         resolutionProcedure(promise2, value, resolve, reject);
@@ -394,7 +457,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
     return;
   }
 
-  // specification 2.3.3.3.3 
+  // specification 2.3.3.3.3
   // if both `reject` and `resolve` are executed, the first successful
   // execution takes precedence, and any further executions are ignored
   let called = false;
@@ -436,3 +499,67 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
+
+
+#### Throttle
+
+`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into the last execution, and `Throttle` is to turn multiple executions into execution at regular intervals.
+
+```js
+// The first two parameters with debounce are the same function
+// options: You can pass two properties
+// trailing: Last time does not execute
+// leading: First time does not execute
+// The two properties cannot coexist, otherwise the function cannot be executed
+_.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    // Previous timestamp
+    var previous = 0;
+    // Set empty if options is not passed
+    if (!options) options = {};
+    // Timer callback function
+    var later = function() {
+        // If you set `leading`, then set `previous` to zero
+        // The first `if` statement of the following function is used
+        previous = options.leading === false ? 0 : _.now();
+        // The first is prevented memory leaks and the second is judged the following timers when setting `timeout` to null
+        timeout = null;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+    };
+    return function() {
+        // Get current timestamp
+        var now = _.now();
+        // It must be true when it entering firstly
+        // If you do not need to execute the function firstly
+        // Set the last timestamp to current
+        // Then it will be greater than 0 when the remaining time is calculated next
+        if (!previous && options.leading === false)
+            previous = now;
+        var remaining = wait - (now - previous);
+        context = this;
+        args = arguments;
+        // This condition will only be entered if it set `trailing`
+        // This condition will be entered firstly if it not set `leading`
+        // Another point, you may think that this condition will not be entered if you turn on the timer
+        // In fact, it will still enter because the timer delay is not accurate
+        // It is very likely that you set 2 seconds, but it needs 2.2 seconds to trigger, then this time will enter this condition
+        if (remaining <= 0 || remaining > wait) {
+            // Clean up if there exist a timer otherwise it call twice callback
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            previous = now;
+            result = func.apply(context, args);
+            if (!timeout) context = args = null;
+        } else if (!timeout && options.trailing !== false) {
+            // Judgment whether timer and trailing are set
+            // And you can't set leading and trailing at the same time
+            timeout = setTimeout(later, remaining);
+        }
+        return result;
+    };
+};
+```
