@@ -135,4 +135,49 @@ function mergeSort(array, left, right) {
 }
 ```
 
+以上代码使用了递归的思想。首先来理解下递归：执行递归函数会进入一个递归工作栈，并且保存了函数的实参、内部的变量和执行到的代码行数，直到遇到终止条件，然后该函数出栈，并执行上一个函数。
+
 该算法的操作次数是可以这样计算：递归了两次，每次数据量是数组的一半，并且最后把整个数组迭代了一次，所以得出表达式 `2T(N / 2) + T(N)` （T 代表时间，N 代表数据量）。根据该表达式可以套用 [该公式](https://www.wikiwand.com/zh-hans/%E4%B8%BB%E5%AE%9A%E7%90%86) 得出时间复杂度为 `O(N * logN)`
+
+#### 快排
+
+快排的原理如下。随机选取一个数组中的值作为基准值，从左至右取值与基准值对比大小。比基准值小的放数组左边，大的放右边，对比完成后将基准值和第一个比基准值大的值交换位置。然后将数组以基准值的位置分为两部分，继续递归以上操作。
+
+<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/16/162cd23e69ca9ea3?w=824&h=506&f=gif&s=867744" width=500 /></div>
+
+以下是实现该算法的代码
+
+```js
+function sort(array) {
+  checkArray(array);
+  quickSort(array, 0, array.length - 1);
+  return array;
+}
+
+function quickSort(array, left, right) {
+  if (left < right) {
+    swap(array, , right)
+    // 随机取值，然后和末尾交换，这样做比固定取一个位置的复杂度略低
+    let indexs = part(array, parseInt(Math.random() * (right - left + 1)) + left, right);
+    quickSort(array, left, indexs[0]);
+    quickSort(array, indexs[1] + 1, right);
+  }
+}
+function part(array, left, right) {
+  let less = left - 1;
+  let more = right;
+  while (left < more) {
+    if (array[left] < array[right]) {
+      swap(array, ++less, left++);
+    } else if (array[left] > array[right]) {
+      swap(array, --more, left);
+    } else {
+      left++;
+    }
+  }
+  swap(array, right, more);
+  return [less, more];
+}
+```
+
+该算法的复杂度和归并排序是相同的，但是额外空间复杂度比归并排序少，只需 O(logN)，并且相比归并排序来说，所需的常数时间也更少。
