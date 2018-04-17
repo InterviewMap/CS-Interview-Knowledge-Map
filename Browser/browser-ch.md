@@ -22,7 +22,11 @@ node.addEventListener('click',(event) =>{
 
 ##### 注册事件
 
-通常我们使用 `addEventListener` 注册事件，该函数有一个 `useCapture` 参数，该参数接收一个布尔值，默认值为 `false` 。`useCapture` 决定了注册的事件是捕获事件还是冒泡事件。
+通常我们使用 `addEventListener` 注册事件，该函数的第三个参数可以是布尔值，也可以是对象。对于布尔值 `useCapture` 参数来说，该参数默认值为 `false` 。`useCapture` 决定了注册的事件是捕获事件还是冒泡事件。对于对象参数来说，可以使用以下几个属性
+
+- `capture`，布尔值，和 `useCapture` 作用一样
+- `once`，布尔值，值为 `true` 表示该回调只会调用一次，调用后会移除监听
+- `passive`，布尔值，表示永远不会调用 `preventDefault` 
 
 一般来说，我们只希望事件只触发在目标上，这时候可以使用 `stopPropagation` 来阻止事件的进一步传播。通常我们认为 `stopPropagation` 是用来阻止事件冒泡的，其实该函数也可以阻止捕获事件。`stopImmediatePropagation` 同样也能实现阻止事件，但是还能阻止该事件目标执行别的注册事件。
 
