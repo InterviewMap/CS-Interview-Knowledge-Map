@@ -76,7 +76,7 @@ Cache-control: max-age=30
 
 ### 优化渲染过程
 
-你可以查阅浏览器系列中的 [相关内容](../Browser/browser-ch.md#渲染机制)
+对于代码层面的优化，你可以查阅浏览器系列中的 [相关内容](../Browser/browser-ch.md#渲染机制)。
 
 TODO：懒加载，懒执行，渐进式渲染
 
