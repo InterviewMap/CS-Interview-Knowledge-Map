@@ -211,6 +211,30 @@ function part(array, left, right) {
 
 该算法的复杂度和归并排序是相同的，但是额外空间复杂度比归并排序少，只需 O(logN)，并且相比归并排序来说，所需的常数时间也更少。
 
+##### 面试题
+
+**Sort Colors**：该题目来自 [LeetCode](https://leetcode.com/problems/sort-colors/description/)，题目需要我们将 `[2,0,2,1,1,0]` 排序成 `[0,0,1,1,2,2]` ，这个问题我们就可以使用三路快排的思想。
+
+以下是代码实现
+
+```js
+var sortColors = function(nums) {
+  let left = -1;
+  let right = nums.length;
+  let i = 0;
+  // 下标如果遇到 right，说明已经排序完成
+  while (i < right) {
+    if (nums[i] == 0) {
+      swap(nums, i++, ++left);
+    } else if (nums[i] == 1) {
+      i++;
+    } else {
+      swap(nums, i, --right);
+    }
+  }
+};
+```
+
 #### 堆排序
 
 堆排序利用了二叉堆的特性来做，二叉堆通常用数组表示，并且二叉堆是一颗完全二叉树（所有叶节点（最底层的节点）都是从左往右顺序排序，并且其他层的节点都是满的）。二叉堆又分为大根堆与小根堆。
