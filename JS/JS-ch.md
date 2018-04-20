@@ -69,6 +69,19 @@ PS：为什么会出现这种情况呢？因为在 JS 中二进制前三位都�
 
 如果我们想获得一个变量的正确类型，可以通过 `Object.prototype.toString.call(xx)`。这样我们就可以获得类似 `[Object Type]` 的字符串。
 
+```js
+let a
+// 我们也可以这样判断 undefined
+a === undefined
+// 但是 undefined 保留字，能够在低版本浏览器被赋值
+let undefined = 1
+// 这样判断就会出错
+// 所以可以用下面的方式来判断，并且代码量更少
+// 因为 void 后面随便跟上一个组成表达式
+// 返回就是 undefined
+a === void 0
+```
+
 #### 类型转换
 
 ##### 转Boolean
