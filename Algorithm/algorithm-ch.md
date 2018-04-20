@@ -213,7 +213,7 @@ function part(array, left, right) {
 
 ##### 面试题
 
-**Sort Colors**：该题目来自 [LeetCode](https://leetcode.com/problems/sort-colors/description/)，题目需要我们将 `[2,0,2,1,1,0]` 排序成 `[0,0,1,1,2,2]` ，这个问题我们就可以使用三路快排的思想。
+**Sort Colors**：该题目来自 [LeetCode](https://leetcode.com/problems/sort-colors/description/)，题目需要我们将 `[2,0,2,1,1,0]` 排序成 `[0,0,1,1,2,2]` ，这个问题就可以使用三路快排的思想。
 
 以下是代码实现
 
@@ -234,6 +234,50 @@ var sortColors = function(nums) {
   }
 };
 ```
+
+**Kth Largest Element in an Array**：该题目来自 [LeetCode](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)，题目需要找出数组中第 K 大的元素，这问题也可以使用快排的思路。并且因为是找出第 K 大元素，所以在分离数组的过程中，可以找出需要的元素在哪边，然后只需要排序相应的一边数组就好。
+
+以下是代码实现
+
+```js
+var findKthLargest = function(nums, k) {
+  let l = 0
+  let r = nums.length - 1
+  // 得出第 K 大元素的索引位置
+  k = nums.length - k
+  while (l < r) {
+    // 分离数组后获得比基准树大的第一个元素索引
+    let index = part(nums, l, r)
+    // 判断该索引和 k 的大小
+    if (index < k) {
+      l = index + 1
+    } else if (index > k) {
+      r = index - 1
+    } else {
+      break
+    }
+  }
+  return nums[k]
+};
+function part(array, left, right) {
+  let less = left - 1;
+  let more = right;
+  while (left < more) {
+    if (array[left] < array[right]) {
+	   ++less;
+       ++left;
+    } else if (array[left] > array[right]) {
+      swap(array, --more, left);
+    } else {
+      left++;
+    }
+  }
+  swap(array, right, more);
+  return more;
+}
+```
+
+
 
 #### 堆排序
 
