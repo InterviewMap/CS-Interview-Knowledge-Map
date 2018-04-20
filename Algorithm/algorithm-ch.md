@@ -353,3 +353,33 @@ function heapify(array, index, size) {
 
 <div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/18/162d7df247dcda00?w=440&h=727&f=png&s=38002" height=500 /></div>
 
+### 链表
+
+#### 反转单向链表
+
+该题目来自 [LeetCode](https://leetcode.com/problems/reverse-linked-list/description/)，题目需要将一个单向链表反转。思路很简单，使用三个变量分别表示当前节点和当前节点的前后节点，虽然这题很简单，但是却是一道面试常考题
+
+以下是实现该算法的代码
+
+```js
+var reverseList = function(head) {
+    // 判断下变量边界问题
+    if (!head || !head.next) return head
+    // 初始设置为空，因为第一个节点反转后就是尾部，尾部节点指向 null
+    let pre = null
+    let current = head
+    let next
+    // 判断当前节点是否为空
+    // 不为空就先获取当前节点的下一节点
+    // 然后把当前节点的 next 设为上一个节点
+    // 然后把 current 设为下一个节点，pre 设为当前节点
+    while(current) {
+        next = current.next
+        current.next = pre
+        pre = current
+        current = next
+    }
+    return pre
+};
+```
+
