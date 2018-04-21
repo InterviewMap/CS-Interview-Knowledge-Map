@@ -87,6 +87,28 @@ JSONP 的原理很简单，就是利用 `<script>` 标签没有跨域限制的�
 
 JSONP 使用简单且兼容性不错，但是只限于 `get` 请求。
 
+在开发中可能会遇到多个 JSONP 请求的回调函数名是相同的，这时候就需要自己封装一个 JSONP，以下是简单实现
+
+```js
+function jsonp(url, jsonpCallback, success) {
+  let script = document.createElement("script");
+  script.src = url;
+  script.async = true;
+  script.type = "text/javascript";
+  window[jsonpCallback] = function(data) {
+    success & success(data);
+  };
+  document.body.appendChild(script);
+}
+jsonp(
+  "http://xxx",
+  "callback",
+  function(value) {
+    console.log(value);
+  }
+);
+```
+
 ##### CORS
 
 CORS需要浏览器和后端同时支持，目前浏览器除了 IE10 以下，其他都支持该功能。
@@ -94,6 +116,16 @@ CORS需要浏览器和后端同时支持，目前浏览器除了 IE10 以下，�
 浏览器会自动进行 CORS 通信，实现CORS通信的关键是后端。只要后端实现了 CORS，就实现了跨域。
 
 服务端设置该属性就可以开启 CORS。`Access-Control-Allow-Origin` 表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源。
+
+##### document.domain 
+
+该方式只能用于二级域名相同的情况下，比如 `a.test.com` 和 `b.test.com` 适用于该方式。
+
+只需要给页面添加 `document.domain = 'test.com'` 表示二级域名都相同就可以实现跨域
+
+##### postMessage
+
+
 
 #### Event loop
 
