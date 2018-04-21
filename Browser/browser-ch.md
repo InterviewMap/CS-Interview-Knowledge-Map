@@ -422,6 +422,19 @@ DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不
 - 定位或者浮动
 - 盒模型
 
+很多人不知道的是，重绘和回流其实和 Event loop 有关。
+
+1. 当 Event loop 执行完 Microtasks 后，会判断 document 是否需要更新。因为浏览器是 60Hz 的刷新率，每 16ms 才会更新一次。
+2. 然后判断是否有 `resize` 或者 `scroll` ，有的话会去触发事件，所以 `resize` 和 `scroll` 事件也是至少 16ms 才会触发一次，并且自带节流功能。
+3. 判断是否触发了 media query
+4. 更新动画并且发送事件
+5. 判断是否有全屏操作事件
+6. 执行 `requestAnimationFrame` 回调
+7. 执行 `IntersectionObserver` 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好
+8. 更新界面
+
+以上内容来自于 [HTML 文档](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+
 ##### 减少重绘和回流
 
 - 使用 `translate` 替代 `top`
