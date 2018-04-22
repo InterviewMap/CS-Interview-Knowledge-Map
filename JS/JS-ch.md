@@ -1292,4 +1292,26 @@ async function test() {
 console.log(sync()); // -> Promise {<resolved>: "1"}
 ```
 
-可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下
+可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
+
+`await` 只能在 `async` 函数中使用
+
+```js
+function sleep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('finish')
+      resolve("sleep");
+    }, 2000);
+  });
+}
+async function test() {
+  let value = await sleep();
+  console.log("object");
+}
+test()
+```
+
+上面代码会先打印 `finish` 然后再打印 `object` 。因为 `await` 会等待 `sleep` 函数 `resolve` ，所以即使后面是同步代码，也不会先去执行同步代码再来执行异步代码。
+
+`async 和 await` 相比直接使用 `Promise` 来说，优势在于处理 `then` 的调用链，能够更清晰准确的写出代码。
