@@ -125,7 +125,20 @@ CORS需要浏览器和后端同时支持，目前浏览器除了 IE10 以下，�
 
 ##### postMessage
 
+这种方式通常用于获取嵌入页面中的第三方页面数据。一个页面发送消息，另一个页面判断来源并接收消息
 
+```js
+// 发送消息端
+window.parent.postMessage('message', 'http://test.com');
+// 接收消息端
+var mc = new MessageChannel();
+mc.addEventListener('message', (event) => {
+    var origin = event.origin || event.originalEvent.origin; 
+    if (origin === 'http://test.com') {
+        console.log('验证通过')
+    }
+});
+```
 
 #### Event loop
 
