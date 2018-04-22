@@ -308,6 +308,220 @@ The Implement ideas of the above inheritance: firstly create the instance of par
 The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
 
 
+#### Deep and Shallow Copy
+
+```js
+let a = {
+    age: 1
+}
+let b = a
+a.age = 2
+console.log(b.age) // 2
+```
+
+From the above example, we can see that if you assign an object to a variable,  then the values of both will be the same reference, one changes, the other changes accordingly.
+
+Usually, we don't want such problem to appear during development, thus we can use shallow copy to solve this problem.
+
+##### shallow copy
+
+Firstly we can solve the problem by `Object.assign`
+```js
+let a = {
+    age: 1
+}
+let b = Object.assign({}, a)
+a.age = 2
+console.log(b.age) // 1
+```
+
+Certainly, we can use the spread operator (...) to solve the problem
+```js
+let a = {
+    age: 1
+}
+let b = {...a}
+a.age = 2
+console.log(b.age) // 1
+```
+
+Usually, shallow copy can solve most of the problems, but we need the deep copy when encountering the following situations
+```js
+let a = {
+    age: 1,
+    jobs: {
+        first: 'FE'
+    }
+}
+let b = {...a}
+a.jobs.first = 'native'
+console.log(b.jobs.first) // native
+```
+The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that the values of both share the same reference. To solve the problem, we need to introduce deep copy.
+
+##### deep copy
+
+The problem can usually be solved by  `JSON.parse(JSON.stringify(object))`
+
+```js
+let a = {
+    age: 1,
+    jobs: {
+        first: 'FE'
+    }
+}
+let b = JSON.parse(JSON.stringify(a))
+a.jobs.first = 'native'
+console.log(b.jobs.first) // FE
+```
+
+But this method also has its limits
+* ignore `undefined`
+* unable to serialize function
+* unable to resolve circular references in an object
+```js
+let obj = { 
+  a: 1,
+  b: { 
+    c: 2,
+    d: 3,
+  },
+}
+obj.c = obj.b
+obj.e = obj.a
+obj.b.c = obj.c
+obj.b.d = obj.b
+obj.b.e = obj.b.c
+let newObj = JSON.parse(JSON.stringify(obj))
+console.log(newObj)
+```
+
+If the object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
+
+Encountering function or `undefined`,  the object can also not be serialized properly.
+```js
+let a = {
+    age: undefined,
+    jobs: function() {},
+    name: 'yck'
+}
+let b = JSON.parse(JSON.stringify(a))
+console.log(b) // {name: "yck"}
+```
+
+In above case, you can see that the method ignores function and `undefined`.
+
+But usually, complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with the deep copy. Certainly, you can use [the deep copy function of `loadash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+
+If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
+```js
+function structuralClone(obj) {
+  return new Promise(resolve => {
+    const {port1, port2} = new MessageChannel();
+    port2.onmessage = ev => resolve(ev.data);
+    port1.postMessage(obj);
+  });
+}
+
+var obj = {a: 1, b: {
+    c: b
+}}
+// pay attention that this method is asynchronous
+// it can handle `undefined` and circular reference object
+const clone = await structuralClone(obj);
+```
+
+#### the differences between call, apply, bind
+
+Firstly, let’s tell the difference between the former two.
+
+Both `call`  and `apply`  are used to change what `this` refers to.Their role is the same, but the way to pass the parameters is different.
+
+In addition to the first parameter,  `call` can accept an argument list, while  `apply` accepts a single array of arguments.
+
+```js
+let a = {
+  value: 1
+}
+function getValue(name, age) {
+  console.log(name)
+  console.log(age)
+  console.log(this.value)
+}
+getValue.call(a, 'yck', '24')
+getValue.apply(a, ['yck', '24'])
+```
+
+##### simulation to implement   `call` and  `apply`
+
+We can consider how to implement them from the following points 
+
+* If the first parameter isn’t passed, then the first parameter will default to  `window`
+* Change what  `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
+
+```js
+Function.prototype.myCall = function (context) {
+  var context = context || window
+  // Add an property to the `context`
+  // getValue.call(a, 'yck', '24') => a.fn = getValue
+  context.fn = this
+  // take out the rest parameters of `context`
+  var args = [...arguments].slice(1)
+  // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
+  var result = context.fn(...args)
+  // delete fn
+  delete context.fn
+  return result
+}
+```
+
+The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
+
+```js
+Function.prototype.myApply = function (context) {
+  var context = context || window
+  context.fn = this
+
+  var result
+  // There's a need to determine whether to store the second parameter
+  // If the second parameter exists, spread it
+  if (arguments[1]) {
+    result = context.fn(...arguments[1])
+  } else {
+    result = context.fn()
+  }
+
+  delete context.fn
+  return result
+}
+```
+
+The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
+
+let’s simulate `bind`
+
+```js
+Function.prototype.myBind = function (context) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
+  var _this = this
+  var args = [...arguments].slice(1)
+  // return a function
+  return function F() {
+    // we can use `new F()` because it returns a function, so we need to determine
+    if (this instanceof F) {
+      return new _this(args, ...arguments)
+    }
+    return _this.apply(context, args.concat(arguments))
+  }
+}
+```
+
+
+
 #### Promise implementation
 
 `Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell.
