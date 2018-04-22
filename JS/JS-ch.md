@@ -1281,3 +1281,15 @@ function b() {
 // -> 2 1
 ```
 
+#### async 和 await
+
+一个函数如果加上 `async` ，那么该函数就会返回一个 `Promise`
+
+```js
+async function test() {
+  return "1";
+}
+console.log(sync()); // -> Promise {<resolved>: "1"}
+```
+
+可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下
