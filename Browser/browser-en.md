@@ -57,7 +57,7 @@ So the correct sequence of an event loop is like this:
 
 According to the above sequence of the Event loop, if the asynchronous codes in the macro task have a large number of calculations and need to operate the DOM, we can put the operation DOM into the microtask for faster interface response.
 
-##### Node 中的 Event loop
+##### Event loop in Node 
 
 The Event loop in Node is not the same as in the browser.
 
@@ -214,12 +214,12 @@ As we can see from the above table, cookies are no longer recommended for storag
 
 For cookies, we also need attention to security.
 
-|  attribute	|                function                                                                                       |
-| :---------: | : ----------------------------------------------------------------------------------------------------------: |
-|    value  	| the value should be encrypted if used to save the login state, and the cleartext user ID shouldn't be used    |
-|  http-only	| cookies cannot be assessed through JS, for reducing XSS attack                                                |
-|   secure  	| cookies can only be carried in requests with HTTPS protocol                                                   |
-|  same-site	| browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks                             |
+| attribute |                           function                           |
+| :-------: | :----------------------------------------------------------: |
+|   value   | the value should be encrypted if used to save the login state, and the cleartext user ID shouldn't be used |
+| http-only | cookies cannot be assessed through JS, for reducing XSS attack |
+|  secure   | cookies can only be carried in requests with HTTPS protocol  |
+| same-site | browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks |
 
 
 ##### Service Worker
