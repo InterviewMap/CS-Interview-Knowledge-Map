@@ -11,6 +11,16 @@
 
 As we can see from the above table, cookies are no longer recommended for storage. We can use localStorage and sessionStorage if we don't have much data to storage. Use localStorage to storage the data that doesn't change much, otherwise sessionStorage can be used.
 
+For cookies, we also need attention to security.
+
+|  attribute	|                function                                                                                       |
+| :---------: | : ----------------------------------------------------------------------------------------------------------: |
+|    value  	| the value should be encrypted if used to save the login state, and the cleartext user ID shouldn't be used    |
+|  http-only	| cookies cannot be assessed through JS, for reducing XSS attack                                                |
+|   secure  	| cookies can only be carried in requests with HTTPS protocol                                                   |
+|  same-site	| browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks                             |
+
+
 ##### Service Worker
 
 > Service workers essentially act as proxy servers that sit between web applications, the browser, and the network (when available). They are intended, among other things, to enable the creation of effective offline experiences, intercept network requests and take appropriate action based on whether the network is available, and update assets residing on the server. They will also allow access to push notifications and background sync APIs.
