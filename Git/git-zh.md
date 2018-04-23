@@ -24,3 +24,18 @@ get checkout master
 get merge develop
 ```
 
+#### stash
+
+`stash` 用于临时报错工作目录的改动。开发中可能会遇到代码写一半需要切分支打包的问题，如果这时候你不想 `commit` 的话，就可以使用该命令。
+
+```shell
+git stash
+```
+
+使用该命令可以暂存你的工作目录，后面想恢复工作目录，只需要使用
+
+```shell
+git stash pop
+```
+
+这样你之前临时保存的代码又回来了
