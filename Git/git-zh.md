@@ -39,3 +39,18 @@ git stash pop
 ```
 
 这样你之前临时保存的代码又回来了
+
+#### reflog
+
+`reflog` 可以看到 HEAD 的移动记录，假如之前误删了一个分支，可以通过 `git reflog` 看到移动 HEAD 的哈希值
+
+![](https://user-gold-cdn.xitu.io/2018/4/23/162f14df98ce3d83?w=950&h=118&f=png&s=77151)
+
+从图中可以看出，HEAD 的最后一次移动行为是 `merge` 后，接下来分支 `new` 就被删除了，那么我们可以通过以下命令找回 `new` 分支
+
+```shell
+git checkout 37d9aca
+git checkout -b new
+```
+
+PS：`reflog` 记录是时效的，只会保存一段时间内的记录。
