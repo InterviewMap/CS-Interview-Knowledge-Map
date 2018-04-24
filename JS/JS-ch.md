@@ -1266,6 +1266,16 @@ function test() {
 // -> [2, 3, 4]
 ```
 
+如果想将一个多维数组彻底的降维，可以这样实现
+
+```js
+const flattenDeep = (arr) => Array.isArray(arr)
+  ? arr.reduce( (a, b) => [...flattenDeep(a), ...flattenDeep(b)] , [])
+  : [arr]
+
+flattenDeep([1, [[2], [3, [4]], 5]])
+```
+
 `Reduce` 作用是数组中的值组合起来，最终得到一个值
 
 ```js
