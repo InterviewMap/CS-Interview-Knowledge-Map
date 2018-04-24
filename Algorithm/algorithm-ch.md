@@ -501,6 +501,82 @@ function pos(root) {
 }
 ```
 
+#### 中序遍历的前驱后继节点
+
+实现这个算法的前提是节点有一个 `parent` 的指针指向父节点，根节点指向 `null` 。
+
+<div align="center"><img src="https://user-gold-cdn.xitu.io/2018/4/24/162f61ad8e8588b7?w=682&h=486&f=png&s=41027" width=400 /></div>
+
+如图所示，该树的中序遍历结果是 `4, 2, 5, 1, 6, 3, 7`
+
+##### 前驱节点
+
+对于节点 `2` 来说，他的前驱节点就是 `4` ，按照中序遍历原则，可以得出以下结论
+
+1. 如果选取的节点的左节点不为空，就找该左节点最右的节点。对于节点 `1` 来说，他有左节点 `2` ，那么节点 `2` 的最右节点就是 `5`
+2. 如果左节点为空，且目标节点是父节点的右节点，那么前驱节点为父节点。对于节点 `5` 来说，没有左节点，且是节点 `2` 的右节点，所以节点 `2` 是前驱节点
+3. 如果左节点为空，且目标节点是父节点的左节点，向上寻找到第一个是父节点的右节点的节点。对于节点 `6` 来说，没有左节点，且是节点 `3` 的左节点，所以向上寻找到节点 `1` ，发现节点 `3` 是节点 `1` 的右节点，所以节点 `1` 是节点 `6` 的前驱节点
+
+以下是算法实现
+
+```js
+function predecessor(node) {
+  if (!node) return 
+  // 结论 1
+  if (node.left) {
+    return getRight(node.left)
+  } else {
+    let parent = node.parent
+    // 结论 2 3 的判断
+    while(parent && parent.right === node) {
+      node = parent
+      parent = node.parent
+    }
+    return parent
+  }
+}
+function getRight(node) {
+  if (!node) return 
+  node = node.right
+  while(node) node = node.right
+  return node
+}
+```
+
+##### 后继节点
+
+对于节点 `2` 来说，他的后继节点就是 `5` ，按照中序遍历原则，可以得出以下结论
+
+1. 如果有右节点，就找到该右节点的最左节点。对于节点 `1` 来说，他有右节点 `3` ，那么节点 `3` 的最左节点就是 `6`
+2. 如果没有右节点，就向上遍历直到找到一个节点是父节点的左节点。对于节点 `5` 来说，没有右节点，就向上寻找到节点 `2` ，该节点是父节点 `1` 的左节点，所以节点 `1` 是后继节点
+
+以下是算法实现
+
+```js
+function successor(node) {
+  if (!node) return 
+  // 结论 1
+  if (node.right) {
+    return getLeft(node.right)
+  } else {
+    // 结论 2
+    let parent = node.parent
+    // 判断 parent 为空
+    while(parent && parent.left === node) {
+      node = parent
+      parent = node.parent
+    }
+    return parent
+  }
+}
+function getLeft(node) {
+  if (!node) return 
+  node = node.left
+  while(node) node = node.left
+  return node
+}
+```
+
 #### 树的深度
 
 **树的最大深度**：该题目来自 [Leetcode](https://leetcode.com/problems/maximum-depth-of-binary-tree/description/)，题目需要求出一颗二叉树的最大深度
