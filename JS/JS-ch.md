@@ -453,7 +453,19 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-第二种就是使用 `let` 定义  `i` 了
+第二种就是使用 `setTimeout 定义`  的第三个参数
+
+```js
+for ( var i=1; i<=5; i++) { 
+	setTimeout( function timer(j) { 
+		console.log( j ); 
+	}, i*1000, i); 
+}
+```
+
+因为对于 `let` 来说
+
+第三种就是使用 `let` 定义  `i` 了
 
 ```js
 for ( let i=1; i<=5; i++) { 
