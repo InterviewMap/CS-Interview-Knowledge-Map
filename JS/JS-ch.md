@@ -453,7 +453,7 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-第二种就是使用 `setTimeout 定义`  的第三个参数
+第二种就是使用 `setTimeout `  的第三个参数
 
 ```js
 for ( var i=1; i<=5; i++) { 
