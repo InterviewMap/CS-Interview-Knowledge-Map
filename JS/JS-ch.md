@@ -419,11 +419,11 @@ var foo = 1
 
 ```js
 function A() {
-    let a = 1
-    function B() {
-        console.log(a)
-    }
-    return B
+  let a = 1
+  function B() {
+      console.log(a)
+  }
+  return B
 }
 ```
 
@@ -479,22 +479,22 @@ for ( let i=1; i<=5; i++) {
 
 ```js
 { // 形成块级作用域
-    let i = 0
-    {
-        let ii = i
-				setTimeout( function timer() { 
-						console.log( i ); 
-				}, i*1000 );
-    }
-    i++
-    {
-        let ii = i
-    }
-    i++
-    {
-        let ii = i
-    }
-    ...
+  let i = 0
+  {
+    let ii = i
+    setTimeout( function timer() { 
+        console.log( i ); 
+    }, i*1000 );
+  }
+  i++
+  {
+    let ii = i
+  }
+  i++
+  {
+    let ii = i
+  }
+  ...
 }
 ```
 
