@@ -36,7 +36,7 @@ console.log(a) // EF
 
 #### Typeof
 
- `typeof` can always display the correct type of the primitive types, except `null`
+ `typeof` can always display the correct type of the primitive types, except `null` 
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
@@ -53,15 +53,26 @@ typeof {} // 'object'
 typeof console.log // 'function'
 ```
 
-As for `null` , it is always be treated as an  `object`  by `typeof` , although it is a primitive data type, and this  happening is a bug that has been around for a long time.
+As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this happening is a bug that has been around for a long time.
 ```js
 typeof null // 'object'
 ```
 
-PS：why does this happen?  Because in JS, those whom’s first three bits of the binary are zero, will all be judged as the `object` type, and the binary bits of  `null`  are all  zero, so  `null`  is judged as  an `object`.
+Why does this happen? Because the initial version of JS was based on the 32-bit systems, which stored the type information of variables in the lower bits for performance considerations. Those start with   `000`  were objects, but all the bits of  `null`  are zero, so it is erroneously judged as an object. Although the current code of judging internal type has changed, this bug has been passed down.
 
-We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
+We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable, and then we can get a string like `[Object Type]`
 
+```js
+let a
+// We can also judge `undefined` like this
+a === undefined
+// But the reserved word `undefined` can be re-assigned in a lower version browser
+let undefined = 1
+// it will go wrong to judge like this
+// So we can use the following method, with less code
+// it will always return `undefined`, whatever follows `void `
+a === void 0
+```
 
 #### New
 
