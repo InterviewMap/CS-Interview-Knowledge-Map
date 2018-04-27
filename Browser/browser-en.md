@@ -68,13 +68,13 @@ The event agent approach has the following advantages over the direct registrati
 
 #### cross domain
 
-Because browsers have the same origin policy for security reasons. In other words, if the protocol, domain name, or port has a different domain that is cross-domain, the Ajax request will fail.
+Because browsers have the same origin policy for security reasons. In other words, if the protocol, domain name, or port has a different that is cross-domain, the Ajax request will fail.
 
-We can solve the Cross-domain issues through following methods  
+We can solve the cross-domain issues through following methods  
 
 ##### JSONP
 
-The principle of JSONP is very simple, that is to use the `<script>` label does not limit cross-domain vulnerabilities. By `<script>` receiving a tag needs to access point address and to provide a callback function when data communication is required.
+The principle of JSONP is very simple, that is to use the `<script>` tag vulnerabilities that not limit cross-domain. Use the `src` attribute of `<script>` tag and provide a callback function to receive data.
 
 ```js
 <script src="http://domain/api?param1=a&param2=b&callback=jsonp"></script>
@@ -85,9 +85,9 @@ The principle of JSONP is very simple, that is to use the `<script>` label does 
 </script>    
 ```
 
-JSONP is simple to use and compatibility is good, but only if `get` requested.
+JSONP is simple to use and has good compatibility, but is limited to `get` requests.
 
-In the development of multiple JSONP requests may encounter the same callback function name, this time you need to package a JSONP, the following is a simple implementation
+You may encounter the same callback name in multiple JSONP requests, this time you need to package a JSONP, the following is a simple implementation
 
 ```js
 function jsonp(url, jsonpCallback, success) {
@@ -111,31 +111,31 @@ jsonp(
 
 ##### CORS
 
-CORS requires browser and backend support at the same time, the current browser in addition to IE10 below, others support this feature.
+CORS requires browser and backend support at the same time. Internet Explorer 8 and 9 expose CORS via the XDomainRequest object.
 
-The browser will automatically perform CORS communication. The key to implementing CORS communication is the back end. As long as the back end implements CORS, it implements cross-domain.
+The browser will automatically perform CORS communication. The key to implementing CORS communication is the backend. As long as the back end implements CORS, it implements cross-domain.
 
-The server sets this property to enable CORS. Access-Control-Allow-OriginIndicates which domain names can access the resource. If wildcards are set, all websites can access resources.
+The server sets `Access-Control-Allow-Origin` to enable CORS. This property means which domain can access the resource. If set wildcards, all websites can access resources.
 
 ##### document.domain
 
-The case of this embodiment can only be used for the same two domains, such `a.test.com` and `b.test.com` suitable for the embodiment.
+This can only be used for the same Second-level domain, For example, `a.test.com` and `b.test.com` suitable for this case.
 
-Just give this page `document.domain = 'test.com'` represent secondary domain can have the same cross-domain
+Set `document.domain = 'test.com'` , as used by the same origin policy.
 
 ##### postMessage
 
-This method is usually used to obtain third-party page data embedded in the page. One page sends a message, another page judges the source and receives the message
+This method is usually used to get data for third-party page. One page sends a message, another page judges the source and receives the message
 
 ```js
-// send message
+// send of page
 window.parent.postMessage('message', 'http://test.com');
-// receive message
+// receive of page
 var mc = new MessageChannel();
 mc.addEventListener('message', (event) => {
     var origin = event.origin || event.originalEvent.origin;
     if (origin === 'http://test.com') {
-        console.log('验证通过')
+        console.log('success')
     }
 });
 ```
