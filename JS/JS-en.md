@@ -245,8 +245,6 @@ var b = 'Hello world'
 
 Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before declared , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists declared , but does not assign a value, because the temporary dead zone.
 
-
-
 #### Closure
 
 The definition of a closure is simple: Function A returns a function B, and function B uses a variable of function A, and the function B is called a closure.
@@ -616,8 +614,6 @@ Function.prototype.myBind = function (context) {
   }
 }
 ```
-
-
 
 #### Promise implementation
 

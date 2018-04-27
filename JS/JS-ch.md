@@ -631,8 +631,6 @@ var obj = {a: 1, b: {
 const clone = await structuralClone(obj);
 ```
 
-
-
 #### 模块化
 
 在有 Babel 的情况下，我们可以直接使用 ES6 的模块化
