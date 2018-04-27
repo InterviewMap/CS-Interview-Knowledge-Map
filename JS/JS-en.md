@@ -234,6 +234,92 @@ var b = 'Hello world'
 
 Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before declared , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists declared , but does not assign a value, because the temporary dead zone.
 
+
+
+#### Closure
+
+The definition of a closure is simple: Function A returns a function B, and function B uses a variable of function A, and the function B is called a closure.
+
+```js
+function A() {
+  let a = 1
+  function B() {
+      console.log(a)
+  }
+  return B
+}
+```
+
+Are you wondering why function B can also refer to a variable in function A while function A has been popped up from the call stack?  Because the variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
+
+A classic question of interview,  using closures in loops to solve the problem of using `var` to define functions
+
+```Js
+for ( var i=1; i<=5; i++) { 
+    setTimeout( function timer() { 
+        console.log( i ); 
+    }, i*1000 ); 
+}˝
+```
+
+First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at this time `i` is 6, so there will print a bunch of 6
+
+There are three solutions，closure is the first one
+
+```js
+for (var i = 1; i <= 5; i++) {
+  (function(j) {
+    setTimeout(function timer() {
+      console.log(j);
+    }, j * 1000);
+  })(i);
+}
+```
+
+The second one is to use the third parameter of `setTimeout`
+
+```js
+for ( var i=1; i<=5; i++) { 
+    setTimeout( function timer(j) { 
+        console.log( j ); 
+    }, i*1000, i); 
+}
+```
+
+The third is to define `i` using `let`
+
+```js
+for ( let i=1; i<=5; i++) { 
+    setTimeout( function timer() { 
+        console.log( i ); 
+    }, i*1000 ); 
+}
+```
+
+For `let`, it will create a block-level scope, which is equivalent to:
+
+```js
+{ 
+    // Form block-level scope
+  let i = 0
+  {
+    let ii = i
+    setTimeout( function timer() { 
+        console.log( i ); 
+    }, i*1000 );
+  }
+  i++
+  {
+    let ii = i
+  }
+  i++
+  {
+    let ii = i
+  }
+  ...
+}
+```
+
 #### Prototypes
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
