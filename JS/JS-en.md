@@ -58,7 +58,7 @@ As for `null`, it is always be treated as an  `object`  by `typeof`，although i
 typeof null // 'object'
 ```
 
-Why does this happen? Because the initial version of JS was based on the 32-bit systems, which stored the type information of variables in the lower bits for performance considerations. Those start with   `000`  were objects, but all the bits of  `null`  are zero, so it is erroneously judged as an object. Although the current code of judging internal type has changed, this bug has been passed down.
+Why does this happen? Because the initial version of JS was based on the 32-bit systems, which stored the type information of variables in the lower bits for performance considerations. Those start with `000`  were objects, but all the bits of  `null`  are zero, so it is erroneously judged as an object. Although the current code of judging internal type has changed, but this bug has been passed down.
 
 We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable, and then we can get a string like `[Object Type]`
 
