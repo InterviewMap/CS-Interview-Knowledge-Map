@@ -190,13 +190,13 @@ Many people have a wrong misunderstanding that microtasks are faster than macrot
 
 So the correct sequence of an event loop is like this:
 
-1、Execute synchronous codes, which belongs to macrotask
-2、Once call stack is empty, query if any microtasks need to be executed
-3、Execute all the microtasks
-4、If necessary, render the UI
-5、Then start the next round of the Event loop,  and execute the asynchronous codes in the macrotask
+1. Execute synchronous codes, which belongs to macrotask
+2. Once call stack is empty, query if any microtasks need to be executed
+3. Execute all the microtasks
+4. If necessary, render the UI
+5. Then start the next round of the Event loop,  and execute the asynchronous codes in the macrotask
 
-According to the above sequence of the Event loop, if the asynchronous codes in the macro task have a large number of calculations and need to operate the DOM, we can put the operation DOM into the microtask for faster interface response.
+According to the above sequence of the Event loop, if the asynchronous codes in the macrotask have a large number of calculations and need to operate the DOM, we can put the operation DOM into the microtask for faster interface response.
 
 ##### Event loop in Node
 
