@@ -113,7 +113,7 @@ let a = {
 // '1,2' + '2,1' = '1,22,1'
 ```
 
-对于加号需要注意这个表达式 `'a' + + 'b'` 
+对于加号需要注意这个表达式 `'a' + + 'b'`
 
 ```js
 'a' + + 'b' // -> "aNaN"
@@ -206,7 +206,7 @@ function Foo() {
 Foo.getName = function () {
     console.log('1');
 };
-Foo.prototype.getName = function () { 
+Foo.prototype.getName = function () {
     console.log('2');
 };
 
@@ -432,10 +432,10 @@ function A() {
 经典面试题，循环中使用闭包解决 `var` 定义函数的问题
 
 ```Js
-for ( var i=1; i<=5; i++) { 
-	setTimeout( function timer() { 
-		console.log( i ); 
-	}, i*1000 ); 
+for ( var i=1; i<=5; i++) {
+	setTimeout( function timer() {
+		console.log( i );
+	}, i*1000 );
 }˝
 ```
 
@@ -456,10 +456,10 @@ for (var i = 1; i <= 5; i++) {
 第二种就是使用 `setTimeout `  的第三个参数
 
 ```js
-for ( var i=1; i<=5; i++) { 
-	setTimeout( function timer(j) { 
-		console.log( j ); 
-	}, i*1000, i); 
+for ( var i=1; i<=5; i++) {
+	setTimeout( function timer(j) {
+		console.log( j );
+	}, i*1000, i);
 }
 ```
 
@@ -468,10 +468,10 @@ for ( var i=1; i<=5; i++) {
 第三种就是使用 `let` 定义  `i` 了
 
 ```js
-for ( let i=1; i<=5; i++) { 
-	setTimeout( function timer() { 
-		console.log( i ); 
-	}, i*1000 ); 
+for ( let i=1; i<=5; i++) {
+	setTimeout( function timer() {
+		console.log( i );
+	}, i*1000 );
 }
 ```
 
@@ -482,8 +482,8 @@ for ( let i=1; i<=5; i++) {
   let i = 0
   {
     let ii = i
-    setTimeout( function timer() { 
-        console.log( i ); 
+    setTimeout( function timer() {
+        console.log( i );
     }, i*1000 );
   }
   i++
@@ -576,9 +576,9 @@ console.log(b.jobs.first) // FE
 - 不能解决循环引用的对象
 
 ```js
-let obj = { 
+let obj = {
   a: 1,
-  b: { 
+  b: {
     c: 2,
     d: 3,
   },
@@ -612,7 +612,7 @@ console.log(b) // {name: "yck"}
 
 但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [loadash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
 
-如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel` 
+如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
 
 ```js
 function structuralClone(obj) {
@@ -655,7 +655,7 @@ import XXX from './b.js'
 module.exports = {
     a: 1
 }
-// or 
+// or
 exports.a = 1
 
 // b.js
@@ -667,7 +667,7 @@ module.a // -> log 1
 
 ```js
 var module = require('./a.js')
-module.a 
+module.a
 // 这里其实就是包装了一层立即执行函数，这样就不会污染全局变量了，
 // 重要的是 module 这里，module 是 Node 独有的一个变量
 module.exports = {
@@ -678,7 +678,7 @@ var module = {
   exports: {} // exports 就是个空对象
 }
 // 这个是为什么 exports 和 module.exports 用法相似的原因
-var exports = module.exports 
+var exports = module.exports
 var load = function (module) {
     // 导出的东西
     var a = 1
@@ -694,7 +694,6 @@ var load = function (module) {
 - 前者支持动态导入，也就是 `require(${path}/xx.js)`，后者目前不支持，但是已有提案
 - 前者是同步导入，因为用于服务端，文件都在本地，同步导入即使卡住主线程影响也不大。而后者是异步导入，因为用于浏览器，需要下载文件，如果也采用导入会对渲染有很大影响
 
-
 - 前者在导出时都是值拷贝，就算导出的值变了，导入的值也不会改变，所以如果想更新值，必须重新导入一次。但是后者采用实时绑定的方式，导入导出的值都指向同一个内存地址，所以导入值会跟随导出值变化
 - 后者会编译成 `require/exports` 来执行的
 
@@ -704,15 +703,15 @@ AMD 是由 `RequireJS` 提出的
 
 ```js
 // AMD
-define(['./a', './b'], function(a, b) { 
+define(['./a', './b'], function(a, b) {
     a.do()
     b.do()
-}) 
+})
 define(function(require, exports, module) {   
     var a = require('./a')  
     a.doSomething()   
-    var b = require('./b') 
-    b.doSomething() 
+    var b = require('./b')
+    b.doSomething()
 })
 
 ```
@@ -725,7 +724,7 @@ define(function(require, exports, module) {
 ```js
 /**
  * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
- * 
+ *
  * @param  {function} func        回调函数
  * @param  {number}   wait        表示时间窗口的间隔
  * @param  {boolean}  immediate   设置为ture时，是否立即调用函数
@@ -782,7 +781,7 @@ _.debounce = function(func, wait, immediate) {
 ```js
 /**
  * underscore 节流函数，返回函数连续调用时，func 执行频率限定为 次 / wait
- * 
+ *
  * @param  {function}   func      回调函数
  * @param  {number}     wait      表示时间窗口的间隔
  * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
@@ -859,13 +858,13 @@ Super.prototype.getNumber = function() {
 
 function Sub() {}
 let s = new Sub()
-Sub.prototype = Object.create(Super.prototype, { 
-  constructor: { 
-    value: Sub, 
-    enumerable: false, 
-    writable: true, 
-    configurable: true 
-  } 
+Sub.prototype = Object.create(Super.prototype, {
+  constructor: {
+    value: Sub,
+    enumerable: false,
+    writable: true,
+    configurable: true
+  }
 })
 ```
 
@@ -976,7 +975,7 @@ Function.prototype.myApply = function (context) {
 
 `bind` 和其他两个方法作用也是一致的，只是该方法会返回一个函数。并且我们可以通过 `bind` 实现柯里化。
 
-同样的，也来模拟实现下 `bind` 
+同样的，也来模拟实现下 `bind`
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -996,7 +995,7 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-装饰器原理 
+装饰器原理
 
 #### Promise 实现
 
@@ -1006,7 +1005,7 @@ Promise 是 ES6 新增的语法，解决了回调地狱的问题。
 
 `then` 函数会返回一个 Promise 实例，并且该返回值是一个新的实例而不是之前的实例。因为 Promise 规范规定除了 `pending` 状态，其他状态是不可以改变的，如果返回的是一个相同实例的话，多个 `then` 调用就失去意义了。
 
-对于 `then` 来说，本质上可以把它看成是 `flatMap` 
+对于 `then` 来说，本质上可以把它看成是 `flatMap`
 
 ```js
 // 三种状态
@@ -1117,7 +1116,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
     }));
   }
 };
-// 规范 2.3 
+// 规范 2.3
 function resolutionProcedure(promise2, x, resolve, reject) {
   // 规范 2.3.1，x 不能和 promise2 相同，避免循环引用
   if (promise2 === x) {
@@ -1373,6 +1372,3 @@ let p = onWatch(obj, (v) => {
 p.a = 2 // bind `value` to `2`
 p.a // -> Get 'a' = 2
 ```
-
-
-
