@@ -140,8 +140,8 @@ ToPrimitive([]) == 0
 
 ##### Comparison operators
 
-1. If it`s an object, through `toPrimitive` to convert to object.
-2. If it`s a string, Compare with the `unicode` character index.
+1. If it‘s an object, through `toPrimitive` to convert to object.
+2. If it‘s a string, Compare with the `unicode` character index.
 
 #### New
 
