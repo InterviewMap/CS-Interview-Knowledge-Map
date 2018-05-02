@@ -75,6 +75,74 @@ let undefined = 1
 a === void 0
 ```
 
+#### Type conversion
+
+##### Convert to Boolean
+
+Except to `undefined`, `null`, `false`, `NaN`, ````, `0`, `-0`, all other values ​​are converted to `true`, including all objects.
+
+##### Object to basic type
+
+When converting basic types of objects, the first calls `valueOf` and then call `toString`. And these two methods you can rewrite.
+
+```js
+let a = {
+    valueOf() {
+    	return 0
+    }
+}
+```
+
+##### Four operators
+
+Only when adding, one of which is a string type, the other will be converted to a string type. As long as one of the other operations is a digit, the other party will change to a digit. And addition operation will trigger three types of conversion: the value is converted to the original value、 number & string.
+
+```js
+1 + '1' // '11'
+2 * '2' // 4
+[1, 2] + [2, 1] // '1,22,1'
+// [1, 2].toString() -> '1,2'
+// [2, 1].toString() -> '2,1'
+// '1,2' + '2,1' = '1,22,1'
+```
+
+For the addition sign need to pay attention to this expression `'a' + + 'b'`
+
+```js
+'a' + + 'b' // -> "aNaN"
+// because of  ++ 'b' -> NaN
+// you may have seen + '1' -> 1
+```
+
+##### `==` operators
+
+![](https://user-gold-cdn.xitu.io/2018/3/30/16275f89ebf931e9)
+
+Figure above `toPrimitive` is the Object to basic type。
+
+It is recommended to use `===` to determine two values, but you want to know if a value is or not `null`, you can use `xx == null` to compare.
+
+Here to resolve a topic `[] == ![] // -> true`, follow is the steps that why this expression as `true`:
+
+```js
+// [] convert to true，then revert to false
+[] == false
+// according to line 8
+[] == ToNumber(false)
+[] == 0
+// according to line 10
+ToPrimitive([]) == 0
+// [].toString() -> ''
+'' == 0
+// according to line 6
+0 == 0 // -> true
+```
+
+##### Comparison operators
+
+1. If it`s an object, through `toPrimitive` to convert to object.
+2. If it`s a string, Compare with the `unicode` character index.
+
 #### New
 
 1.   Create a new object
