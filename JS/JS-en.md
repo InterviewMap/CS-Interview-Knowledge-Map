@@ -5,6 +5,7 @@
 - [instanceof](#instanceof)
 - [scope](#scope)
 - [Prototypes](#Prototypes)
+- [Modular](#Modular)
 
 #### Built-in Types
 JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
