@@ -586,7 +586,7 @@ var load = function (module) {
 ```
 
 let talk about `module.exports` & `exports`,
-its practical method is similar, will not have any effect if direct assignment for `exports`.
+its practical method is similar, will not have any effect if direct change the values that `exports`.
 
 
 The difference between `CommonJS` & the modularity of ES6 is:
