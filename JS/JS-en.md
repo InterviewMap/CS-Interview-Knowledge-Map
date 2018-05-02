@@ -116,7 +116,7 @@ For the addition sign need to pay attention to this expression `'a' + + 'b'`
 
 ##### `==` operators
 
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275f89ebf931e9)
+![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
 Figure above `toPrimitive` is the Object to basic type。
 
@@ -127,14 +127,14 @@ Here to resolve a topic `[] == ![] // -> true`, follow is the steps that why thi
 ```js
 // [] convert to true，then revert to false
 [] == false
-// according to line 8
+// according to 8
 [] == ToNumber(false)
 [] == 0
-// according to line 10
+// according to 10
 ToPrimitive([]) == 0
 // [].toString() -> ''
 '' == 0
-// according to line 6
+// according to 6
 0 == 0 // -> true
 ```
 
