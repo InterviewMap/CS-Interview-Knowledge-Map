@@ -477,6 +477,7 @@ DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不
 6. 执行 `requestAnimationFrame` 回调
 7. 执行 `IntersectionObserver` 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好
 8. 更新界面
+9. 以上就是一帧中可能会做的事情。如果在一帧中有空闲时间，就会去执行 `requestIdleCallback` 回调。
 
 以上内容来自于 [HTML 文档](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
 
