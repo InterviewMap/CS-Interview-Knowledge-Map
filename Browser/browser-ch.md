@@ -405,7 +405,7 @@ self.addEventListener("fetch", e => {
 });
 ```
 
-将页面启动，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
+打开页面，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
 
 在 Cache 中也可以发现我们所需的文件已被缓存
 
