@@ -348,14 +348,14 @@ process.nextTick(() => {
 |  Storage size of data   |                              4K                              |                    5M                     |                              5M                              |                 unlimited                 |
 | Communicate with server | it is carried in the header everytime, and has a performance impact on the request |            doesn't participate            |                     doesn't participate                      |            doesn't participate            |
 
-As we can see from the above table, cookies are no longer recommended for storage. We can use localStorage and sessionStorage if we don't have much data to storage. Use localStorage to storage the data that doesn't change much, otherwise sessionStorage can be used.
+As we can see from the above table, `cookies` are no longer recommended for storage. We can use `localStorage` and `sessionStorage` if we don't have much data to storage. Use `localStorage` to storage the data that doesn't change much, otherwise `sessionStorage` can be used.
 
-For cookies, we also need attention to security.
+For `cookies`, we also need attention to security.
 
-| attribute |                           function                           |
+| attribute |                            effect                            |
 | :-------: | :----------------------------------------------------------: |
 |   value   | the value should be encrypted if used to save the login state, and the cleartext user ID shouldn't be used |
-| http-only | cookies cannot be assessed through JS, for reducing XSS attack |
+| http-only | cookies cannot be accessed through JS, for reducing XSS attack |
 |  secure   | cookies can only be carried in requests with HTTPS protocol  |
 | same-site | browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks |
 
@@ -401,7 +401,7 @@ self.addEventListener("fetch", e => {
 });
 ```
 
-Start the page, we can see that the Service Worker has started in the `Application` of the devTools
+Open the page, we can see that the Service Worker has started in the `Application` of the devTools
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
 
