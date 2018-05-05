@@ -1,6 +1,6 @@
 本文不会介绍 Git 的基本操作，会对一些高级操作进行说明。
 
-#### Rebase 合并
+## Rebase 合并
 
 该命令可以让和 `merge` 命令得到的结果基本是一致的。
 
@@ -24,7 +24,7 @@ get checkout master
 get merge develop
 ```
 
-#### stash
+## stash
 
 `stash` 用于临时报错工作目录的改动。开发中可能会遇到代码写一半需要切分支打包的问题，如果这时候你不想 `commit` 的话，就可以使用该命令。
 
@@ -40,7 +40,7 @@ git stash pop
 
 这样你之前临时保存的代码又回来了
 
-#### reflog
+## reflog
 
 `reflog` 可以看到 HEAD 的移动记录，假如之前误删了一个分支，可以通过 `git reflog` 看到移动 HEAD 的哈希值
 
@@ -54,3 +54,13 @@ git checkout -b new
 ```
 
 PS：`reflog` 记录是时效的，只会保存一段时间内的记录。
+
+## Reset
+
+如果你想删除刚写的 commit，就可以通过以下命令实现
+
+```shell
+git reset --hard HEAD^
+```
+
+但是 `reset` 的本质并不是删除了 commit，而是重新设置了 HEAD 和它指向的 branch。
