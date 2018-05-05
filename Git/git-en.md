@@ -51,6 +51,7 @@ git checkout -b new
 
 PS：`reflog` is time-bound, it can only record the state over a period of time.
 
+
 ## Reset
 
 If you want to delete the last commit, you can do like this:
