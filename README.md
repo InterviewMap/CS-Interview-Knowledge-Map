@@ -30,8 +30,8 @@
 |   call, apply, bind    |          |    √     |    √     |
 |        Promise         |   LGC    |    √     |    √     |
 |       Generator        |          |          |          |
-| Map、FlapMap 和 Reduce |          |          |          |
-|     async 和 await     |          |          |          |
+| Map、FlapMap 和 Reduce |   YYG    |          |          |
+|     async 和 await     |   YYG    |          |          |
 |         Proxy          |          |          |          |
 
 #### 浏览器
