@@ -65,9 +65,22 @@ typeof console.log // 'function'
 typeof null // 'object'
 ```
 
-PS：为什么会出现这种情况呢？因为在 JS 中二进制前三位都为0的话会被判定为 `object` 类型，`null` 的二进制都为0，所以被判定为 `object`。
+PS：为什么会出现这种情况呢？因为在 JS 的最初版本中，使用的是 32 位系统，为了性能考虑使用低位存储了变量的类型信息，`000` 开头代表是对象，然而 `null` 表示为全零，所以将它错误的判断为 `object` 。虽然现在的内部类型判断代码已经改变了，但是对于这个 Bug 却是一直流传下来。
 
 如果我们想获得一个变量的正确类型，可以通过 `Object.prototype.toString.call(xx)`。这样我们就可以获得类似 `[Object Type]` 的字符串。
+
+```js
+let a
+// 我们也可以这样判断 undefined
+a === undefined
+// 但是 undefined 保留字，能够在低版本浏览器被赋值
+let undefined = 1
+// 这样判断就会出错
+// 所以可以用下面的方式来判断，并且代码量更少
+// 因为 void 后面随便跟上一个组成表达式
+// 返回就是 undefined
+a === void 0
+```
 
 #### 类型转换
 
@@ -100,7 +113,7 @@ let a = {
 // '1,2' + '2,1' = '1,22,1'
 ```
 
-对于加号需要注意这个表达式 `'a' + + 'b'` 
+对于加号需要注意这个表达式 `'a' + + 'b'`
 
 ```js
 'a' + + 'b' // -> "aNaN"
@@ -193,7 +206,7 @@ function Foo() {
 Foo.getName = function () {
     console.log('1');
 };
-Foo.prototype.getName = function () { 
+Foo.prototype.getName = function () {
     console.log('2');
 };
 
@@ -287,7 +300,7 @@ console.log(a()()())
 每个执行上下文中都有三个重要的属性
 
 - 变量对象（VO），包含变量、函数声明和函数的形参，该属性只能在全局上下文中访问
-- 作用域链
+- 作用域链（JS 采用词法作用域，也就是说变量的作用域是在定义时就决定了）
 - this
 
 ```js
@@ -326,7 +339,7 @@ fooContext.AO {
 	b: undefined,
     arguments: <>
 }
-// arguments 是函数独有的对象
+// arguments 是函数独有的对象(箭头函数没有)
 // 该对象是一个伪数组，有 `length` 属性且可以通过下标访问元素
 // 该对象中的 `callee` 属性代表函数本身
 // `caller` 属性代表函数的调用者
@@ -406,11 +419,11 @@ var foo = 1
 
 ```js
 function A() {
-    let a = 1
-    function B() {
-        console.log(a)
-    }
-    return B
+  let a = 1
+  function B() {
+      console.log(a)
+  }
+  return B
 }
 ```
 
@@ -419,10 +432,10 @@ function A() {
 经典面试题，循环中使用闭包解决 `var` 定义函数的问题
 
 ```Js
-for ( var i=1; i<=5; i++) { 
-	setTimeout( function timer() { 
-		console.log( i ); 
-	}, i*1000 ); 
+for ( var i=1; i<=5; i++) {
+	setTimeout( function timer() {
+		console.log( i );
+	}, i*1000 );
 }˝
 ```
 
@@ -440,13 +453,25 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-第二种就是使用 `let` 定义  `i` 了
+第二种就是使用 `setTimeout `  的第三个参数
 
 ```js
-for ( let i=1; i<=5; i++) { 
-	setTimeout( function timer() { 
-		console.log( i ); 
-	}, i*1000 ); 
+for ( var i=1; i<=5; i++) {
+	setTimeout( function timer(j) {
+		console.log( j );
+	}, i*1000, i);
+}
+```
+
+因为对于 `let` 来说
+
+第三种就是使用 `let` 定义  `i` 了
+
+```js
+for ( let i=1; i<=5; i++) {
+	setTimeout( function timer() {
+		console.log( i );
+	}, i*1000 );
 }
 ```
 
@@ -454,22 +479,22 @@ for ( let i=1; i<=5; i++) {
 
 ```js
 { // 形成块级作用域
-    let i = 0
-    {
-        let ii = i
-				setTimeout( function timer() { 
-						console.log( i ); 
-				}, i*1000 );
-    }
-    i++
-    {
-        let ii = i
-    }
-    i++
-    {
-        let ii = i
-    }
-    ...
+  let i = 0
+  {
+    let ii = i
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
+  }
+  i++
+  {
+    let ii = i
+  }
+  i++
+  {
+    let ii = i
+  }
+  ...
 }
 ```
 
@@ -551,9 +576,9 @@ console.log(b.jobs.first) // FE
 - 不能解决循环引用的对象
 
 ```js
-let obj = { 
+let obj = {
   a: 1,
-  b: { 
+  b: {
     c: 2,
     d: 3,
   },
@@ -587,7 +612,7 @@ console.log(b) // {name: "yck"}
 
 但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [loadash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
 
-如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel` 
+如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
 
 ```js
 function structuralClone(obj) {
@@ -605,8 +630,6 @@ var obj = {a: 1, b: {
 // 可以处理 undefined 和循环引用对象
 const clone = await structuralClone(obj);
 ```
-
-
 
 #### 模块化
 
@@ -632,7 +655,7 @@ import XXX from './b.js'
 module.exports = {
     a: 1
 }
-// or 
+// or
 exports.a = 1
 
 // b.js
@@ -644,7 +667,7 @@ module.a // -> log 1
 
 ```js
 var module = require('./a.js')
-module.a 
+module.a
 // 这里其实就是包装了一层立即执行函数，这样就不会污染全局变量了，
 // 重要的是 module 这里，module 是 Node 独有的一个变量
 module.exports = {
@@ -655,7 +678,7 @@ var module = {
   exports: {} // exports 就是个空对象
 }
 // 这个是为什么 exports 和 module.exports 用法相似的原因
-var exports = module.exports 
+var exports = module.exports
 var load = function (module) {
     // 导出的东西
     var a = 1
@@ -668,8 +691,11 @@ var load = function (module) {
 
 对于 `CommonJS` 和 ES6 中的模块化的两者区别是：
 
-- 前者会缓存数据，要想让模块再次运行，必须清除缓存。后者每次都是动态加载，不会缓存数据
-- 后者会编译成 `require/exports` 来执行的。
+- 前者支持动态导入，也就是 `require(${path}/xx.js)`，后者目前不支持，但是已有提案
+- 前者是同步导入，因为用于服务端，文件都在本地，同步导入即使卡住主线程影响也不大。而后者是异步导入，因为用于浏览器，需要下载文件，如果也采用导入会对渲染有很大影响
+
+- 前者在导出时都是值拷贝，就算导出的值变了，导入的值也不会改变，所以如果想更新值，必须重新导入一次。但是后者采用实时绑定的方式，导入导出的值都指向同一个内存地址，所以导入值会跟随导出值变化
+- 后者会编译成 `require/exports` 来执行的
 
 ##### ADM
 
@@ -677,15 +703,15 @@ AMD 是由 `RequireJS` 提出的
 
 ```js
 // AMD
-define(['./a', './b'], function(a, b) { 
+define(['./a', './b'], function(a, b) {
     a.do()
     b.do()
-}) 
+})
 define(function(require, exports, module) {   
     var a = require('./a')  
     a.doSomething()   
-    var b = require('./b') 
-    b.doSomething() 
+    var b = require('./b')
+    b.doSomething()
 })
 
 ```
@@ -693,12 +719,17 @@ define(function(require, exports, module) {
 
 你是否在日常开发中遇到一个问题，在滚动事件中需要做个复杂计算或者实现一个按钮的防二次点击操作。
 
-这些需求都可以通过函数防抖动来实现。尤其是第一个需求，如果在频繁的事件回调中做复杂计算，很有可能导致页面卡顿，不如将多次计算合并为计算，只在一个精确点做操作。因为防抖动的轮子很多，这里也不重新自己造个轮子了，直接使用 understore 的源码来解释防抖动。
+这些需求都可以通过函数防抖动来实现。尤其是第一个需求，如果在频繁的事件回调中做复杂计算，很有可能导致页面卡顿，不如将多次计算合并为一次计算，只在一个精确点做操作。因为防抖动的轮子很多，这里也不重新自己造个轮子了，直接使用 underscore 的源码来解释防抖动。
 
 ```js
-// 参数含义依次为回调函数
-// 等待时间
-// 是否马上调用函数
+/**
+ * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
+ *
+ * @param  {function} func        回调函数
+ * @param  {number}   wait        表示时间窗口的间隔
+ * @param  {boolean}  immediate   设置为ture时，是否立即调用函数
+ * @return {function}             返回客户调用函数
+ */
 _.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;
 
@@ -748,11 +779,16 @@ _.debounce = function(func, wait, immediate) {
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。
 
 ```js
-// 前两者参数和防抖动是相同函数
-// options 可以传入两个属性
-// trailing：最后次不执行
-// leading：第一次不执行
-// 两者不能共存，否则函数不能执行
+/**
+ * underscore 节流函数，返回函数连续调用时，func 执行频率限定为 次 / wait
+ *
+ * @param  {function}   func      回调函数
+ * @param  {number}     wait      表示时间窗口的间隔
+ * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
+ *                                如果想忽略结尾函数的调用，传入{trailing: false}
+ *                                两者不能共存，否则函数不能执行
+ * @return {function}             返回客户调用函数   
+ */
 _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
@@ -822,13 +858,13 @@ Super.prototype.getNumber = function() {
 
 function Sub() {}
 let s = new Sub()
-Sub.prototype = Object.create(Super.prototype, { 
-  constructor: { 
-    value: Sub, 
-    enumerable: false, 
-    writable: true, 
-    configurable: true 
-  } 
+Sub.prototype = Object.create(Super.prototype, {
+  constructor: {
+    value: Sub,
+    enumerable: false,
+    writable: true,
+    configurable: true
+  }
 })
 ```
 
@@ -939,7 +975,7 @@ Function.prototype.myApply = function (context) {
 
 `bind` 和其他两个方法作用也是一致的，只是该方法会返回一个函数。并且我们可以通过 `bind` 实现柯里化。
 
-同样的，也来模拟实现下 `bind` 
+同样的，也来模拟实现下 `bind`
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -959,7 +995,7 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-装饰器原理 
+装饰器原理
 
 #### Promise 实现
 
@@ -969,7 +1005,7 @@ Promise 是 ES6 新增的语法，解决了回调地狱的问题。
 
 `then` 函数会返回一个 Promise 实例，并且该返回值是一个新的实例而不是之前的实例。因为 Promise 规范规定除了 `pending` 状态，其他状态是不可以改变的，如果返回的是一个相同实例的话，多个 `then` 调用就失去意义了。
 
-对于 `then` 来说，本质上可以把它看成是 `flatMap` 
+对于 `then` 来说，本质上可以把它看成是 `flatMap`
 
 ```js
 // 三种状态
@@ -1080,7 +1116,7 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
     }));
   }
 };
-// 规范 2.3 
+// 规范 2.3
 function resolutionProcedure(promise2, x, resolve, reject) {
   // 规范 2.3.1，x 不能和 promise2 相同，避免循环引用
   if (promise2 === x) {
@@ -1239,6 +1275,16 @@ function test() {
 // -> [2, 3, 4]
 ```
 
+如果想将一个多维数组彻底的降维，可以这样实现
+
+```js
+const flattenDeep = (arr) => Array.isArray(arr)
+  ? arr.reduce( (a, b) => [...flattenDeep(a), ...flattenDeep(b)] , [])
+  : [arr]
+
+flattenDeep([1, [[2], [3, [4]], 5]])
+```
+
 `Reduce` 作用是数组中的值组合起来，最终得到一个值
 
 ```js
@@ -1254,3 +1300,75 @@ function b() {
 // -> 2 1
 ```
 
+#### async 和 await
+
+一个函数如果加上 `async` ，那么该函数就会返回一个 `Promise`
+
+```js
+async function test() {
+  return "1";
+}
+console.log(sync()); // -> Promise {<resolved>: "1"}
+```
+
+可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
+
+`await` 只能在 `async` 函数中使用
+
+```js
+function sleep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('finish')
+      resolve("sleep");
+    }, 2000);
+  });
+}
+async function test() {
+  let value = await sleep();
+  console.log("object");
+}
+test()
+```
+
+上面代码会先打印 `finish` 然后再打印 `object` 。因为 `await` 会等待 `sleep` 函数 `resolve` ，所以即使后面是同步代码，也不会先去执行同步代码再来执行异步代码。
+
+`async 和 await` 相比直接使用 `Promise` 来说，优势在于处理 `then` 的调用链，能够更清晰准确的写出代码。缺点在于滥用 `await` 可能会导致性能问题，因为 `await` 会阻塞代码，也许之后的异步代码并不依赖于前者，但仍然需要等待前者完成，导致代码失去了并发性。
+
+#### Proxy
+
+Proxy 是 ES6 中新增的功能，可以用来自定义对象中的操作
+
+```js
+let p = new Proxy(target, handler);
+// `target` 代表需要添加代理的对象
+// `handler` 用来自定义对象中的操作
+```
+
+可以很方便的使用 Proxy 来实现一个数据绑定和监听
+
+```js
+let onWatch = (obj, setBind, getLogger) => {
+  let handler = {
+    get(target, property, receiver) {
+      getLogger(target, property)
+      return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+      setBind(value);
+      return Reflect.set(target, property, value);
+    }
+  };
+  return new Proxy(obj, handler);
+};
+
+let obj = { a: 1 }
+let value
+let p = onWatch(obj, (v) => {
+  value = v
+}, (target, property) => {
+  console.log(`Get '${property}' = ${target[property]}`);
+})
+p.a = 2 // bind `value` to `2`
+p.a // -> Get 'a' = 2
+```

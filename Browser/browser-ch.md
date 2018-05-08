@@ -22,7 +22,11 @@ node.addEventListener('click',(event) =>{
 
 ##### 注册事件
 
-通常我们使用 `addEventListener` 注册事件，该函数有一个 `useCapture` 参数，该参数接收一个布尔值，默认值为 `false` 。`useCapture` 决定了注册的事件是捕获事件还是冒泡事件。
+通常我们使用 `addEventListener` 注册事件，该函数的第三个参数可以是布尔值，也可以是对象。对于布尔值 `useCapture` 参数来说，该参数默认值为 `false` 。`useCapture` 决定了注册的事件是捕获事件还是冒泡事件。对于对象参数来说，可以使用以下几个属性
+
+- `capture`，布尔值，和 `useCapture` 作用一样
+- `once`，布尔值，值为 `true` 表示该回调只会调用一次，调用后会移除监听
+- `passive`，布尔值，表示永远不会调用 `preventDefault` 
 
 一般来说，我们只希望事件只触发在目标上，这时候可以使用 `stopPropagation` 来阻止事件的进一步传播。通常我们认为 `stopPropagation` 是用来阻止事件冒泡的，其实该函数也可以阻止捕获事件。`stopImmediatePropagation` 同样也能实现阻止事件，但是还能阻止该事件目标执行别的注册事件。
 
@@ -39,7 +43,7 @@ node.addEventListener('click',(event) => {
 
 ##### 事件代理
 
-如果一个节点中的子节点是动态生成的，那么子节点需要注册事件的话需要注册在父节点上
+如果一个节点中的子节点是动态生成的，那么子节点需要注册事件的话应该注册在父节点上
 
 ```html
 <ul id="ul">
@@ -83,13 +87,58 @@ JSONP 的原理很简单，就是利用 `<script>` 标签没有跨域限制的�
 
 JSONP 使用简单且兼容性不错，但是只限于 `get` 请求。
 
+在开发中可能会遇到多个 JSONP 请求的回调函数名是相同的，这时候就需要自己封装一个 JSONP，以下是简单实现
+
+```js
+function jsonp(url, jsonpCallback, success) {
+  let script = document.createElement("script");
+  script.src = url;
+  script.async = true;
+  script.type = "text/javascript";
+  window[jsonpCallback] = function(data) {
+    success & success(data);
+  };
+  document.body.appendChild(script);
+}
+jsonp(
+  "http://xxx",
+  "callback",
+  function(value) {
+    console.log(value);
+  }
+);
+```
+
 ##### CORS
 
-CORS需要浏览器和后端同时支持，目前浏览器除了 IE10 以下，其他都支持该功能。
+CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过 `XDomainRequest` 来实现。
 
 浏览器会自动进行 CORS 通信，实现CORS通信的关键是后端。只要后端实现了 CORS，就实现了跨域。
 
-服务端设置该属性就可以开启 CORS。`Access-Control-Allow-Origin` 表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源。
+服务端设置 `Access-Control-Allow-Origin` 就可以开启 CORS。 该属性表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源。
+
+##### document.domain 
+
+该方式只能用于二级域名相同的情况下，比如 `a.test.com` 和 `b.test.com` 适用于该方式。
+
+只需要给页面添加 `document.domain = 'test.com'` 表示二级域名都相同就可以实现跨域
+
+##### postMessage
+
+这种方式通常用于获取嵌入页面中的第三方页面数据。一个页面发送消息，另一个页面判断来源并接收消息
+
+```js
+// 发送消息端
+window.parent.postMessage('message', 'http://test.com');
+// 接收消息端
+var mc = new MessageChannel();
+mc.addEventListener('message', (event) => {
+    var origin = event.origin || event.originalEvent.origin; 
+    if (origin === 'http://test.com') {
+        console.log('验证通过')
+    }
+});
+```
 
 #### Event loop
 
@@ -356,7 +405,7 @@ self.addEventListener("fetch", e => {
 });
 ```
 
-将页面启动，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
+打开页面，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
 
 在 Cache 中也可以发现我们所需的文件已被缓存
 
@@ -417,6 +466,20 @@ DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不
 - 文字改变
 - 定位或者浮动
 - 盒模型
+
+很多人不知道的是，重绘和回流其实和 Event loop 有关。
+
+1. 当 Event loop 执行完 Microtasks 后，会判断 document 是否需要更新。因为浏览器是 60Hz 的刷新率，每 16ms 才会更新一次。
+2. 然后判断是否有 `resize` 或者 `scroll` ，有的话会去触发事件，所以 `resize` 和 `scroll` 事件也是至少 16ms 才会触发一次，并且自带节流功能。
+3. 判断是否触发了 media query
+4. 更新动画并且发送事件
+5. 判断是否有全屏操作事件
+6. 执行 `requestAnimationFrame` 回调
+7. 执行 `IntersectionObserver` 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好
+8. 更新界面
+9. 以上就是一帧中可能会做的事情。如果在一帧中有空闲时间，就会去执行 `requestIdleCallback` 回调。
+
+以上内容来自于 [HTML 文档](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
 
 ##### 减少重绘和回流
 

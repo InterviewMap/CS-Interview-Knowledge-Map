@@ -36,7 +36,7 @@ console.log(a) // EF
 
 #### Typeof
 
- `typeof` can always display the correct type of the primitive types, except `null` 
+ `typeof` can always display the correct type of the primitive types, except `null`
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
@@ -53,15 +53,26 @@ typeof {} // 'object'
 typeof console.log // 'function'
 ```
 
-As for `null` , it is always be treated as an  `object`  by `typeof` , although it is a primitive data type, and this  happening is a bug that has been around for a long time.
+As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this happening is a bug that has been around for a long time.
 ```js
 typeof null // 'object'
 ```
 
-PS：why does this happen?  Because in JS, those whom’s first three bits of the binary are zero, will all be judged as the `object` type, and the binary bits of  `null`  are all  zero, so  `null`  is judged as  an `object`.
+Why does this happen? Because the initial version of JS was based on the 32-bit systems, which stored the type information of variables in the lower bits for performance considerations. Those start with `000`  were objects, but all the bits of  `null`  are zero, so it is erroneously judged as an object. Although the current code of judging internal type has changed, but this bug has been passed down.
 
-We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable , and then we can get a string like `[Object Type]`
+We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable, and then we can get a string like `[Object Type]`
 
+```js
+let a
+// We can also judge `undefined` like this
+a === undefined
+// But the reserved word `undefined` can be re-assigned in a lower version browser
+let undefined = 1
+// it will go wrong to judge like this
+// So we can use the following method, with less code
+// it will always return `undefined`, whatever follows `void `
+a === void 0
+```
 
 #### New
 
@@ -108,12 +119,12 @@ function Foo() {
 Foo.getName = function () {
     console.log('1');
 };
-Foo.prototype.getName = function () { 
+Foo.prototype.getName = function () {
     console.log('2');
 };
 
 new Foo.getName();   // -> 1
-new Foo().getName(); // -> 2       
+new Foo().getName(); // -> 2
 ```
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
@@ -122,7 +133,7 @@ As you can see from the above image, `new Foo()` has a higher priority than `new
 
 
 ```js
-new (Foo.getName());   
+new (Foo.getName());
 (new Foo()).getName();
 ```
 
@@ -146,7 +157,7 @@ var obj = {
 };
 obj.foo();
 
-// In the above two situations, `this` only depends on the object before calling the function, 
+// In the above two situations, `this` only depends on the object before calling the function,
 // and the second case has higher priority than the first case .
 
 // the following situation has the highest priority，`this` will only be bound to c，
@@ -156,7 +167,7 @@ var c = new foo();
 c.a = 3;
 console.log(c.a);
 
-// finally, using `call、apply、bind` to change what `this` is bound to , 
+// finally, using `call、apply、bind` to change what `this` is bound to ,
 // is another situation whom's priority is only second to `new`
 ```
 
@@ -177,7 +188,7 @@ Actually , the arrow function does not have `this` , `this` in the above functio
 #### instanceof
 
 The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
-let’s try to implement it 
+let’s try to implement it
 ```js
 function instanceof(left, right) {
     // get the `prototype` of the type
@@ -214,7 +225,7 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this : 
+It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this :
 
 There would bo two stages when the execution environment is generated  . The first stage is the stage of creation(to be specific , the step of generating variable objects ) , in which the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only be declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
 
@@ -234,6 +245,90 @@ var b = 'Hello world'
 
 Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before declared , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists declared , but does not assign a value, because the temporary dead zone.
 
+#### Closure
+
+The definition of a closure is simple: Function A returns a function B, and function B uses a variable of function A, and the function B is called a closure.
+
+```js
+function A() {
+  let a = 1
+  function B() {
+      console.log(a)
+  }
+  return B
+}
+```
+
+Are you wondering why function B can also refer to a variable in function A while function A has been popped up from the call stack?  Because the variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
+
+A classic question of interview,  using closures in loops to solve the problem of using `var` to define functions
+
+```Js
+for ( var i=1; i<=5; i++) {
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
+}˝
+```
+
+First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at this time `i` is 6, so there will print a bunch of 6
+
+There are three solutions，closure is the first one
+
+```js
+for (var i = 1; i <= 5; i++) {
+  (function(j) {
+    setTimeout(function timer() {
+      console.log(j);
+    }, j * 1000);
+  })(i);
+}
+```
+
+The second one is to use the third parameter of `setTimeout`
+
+```js
+for ( var i=1; i<=5; i++) {
+    setTimeout( function timer(j) {
+        console.log( j );
+    }, i*1000, i);
+}
+```
+
+The third is to define `i` using `let`
+
+```js
+for ( let i=1; i<=5; i++) {
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
+}
+```
+
+For `let`, it will create a block-level scope, which is equivalent to:
+
+```js
+{
+    // Form block-level scope
+  let i = 0
+  {
+    let ii = i
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
+  }
+  i++
+  {
+    let ii = i
+  }
+  i++
+  {
+    let ii = i
+  }
+  ...
+}
+```
+
 #### Prototypes
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
@@ -244,6 +339,281 @@ Each object has an internal property, denoted as `__proto__` , which is a refere
 
 Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
 
+
+#### inheritance
+
+In ES5, we can solve the problems of inheritance by using the following ways.
+
+```js
+function Super() {}
+Super.prototype.getNumber = function() {
+  return 1
+}
+
+function Sub() {}
+let s = new Sub()
+Sub.prototype = Object.create(Super.prototype, {
+  constructor: {
+    value: Sub,
+    enumerable: false,
+    writable: true,
+    configurable: true
+  }
+})
+```
+
+The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
+
+In ES6, we can easily solve this problem with the `class`  syntax.
+
+```js
+class MyDate extends Date {
+  test() {
+    return this.getTime()
+  }
+}
+let myDate = new MyDate()
+myDate.test()
+```
+
+However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
+
+If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+
+Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date` , it can’t call the function in `Date`, which also explains on the side:  `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+
+Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance.
+
+```js
+function MyData() {
+
+}
+MyData.prototype.test = function () {
+  return this.getTime()
+}
+let d = new Date()
+Object.setPrototypeOf(d, MyData.prototype)
+Object.setPrototypeOf(MyData.prototype, Date.prototype)
+```
+
+The Implement ideas of the above inheritance: firstly create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+
+The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
+
+
+#### Deep and Shallow Copy
+
+```js
+let a = {
+    age: 1
+}
+let b = a
+a.age = 2
+console.log(b.age) // 2
+```
+
+From the above example, we can see that if you assign an object to a variable,  then the values of both will be the same reference, one changes, the other changes accordingly.
+
+Usually, we don't want such problem to appear during development, thus we can use shallow copy to solve this problem.
+
+##### shallow copy
+
+Firstly we can solve the problem by `Object.assign`
+```js
+let a = {
+    age: 1
+}
+let b = Object.assign({}, a)
+a.age = 2
+console.log(b.age) // 1
+```
+
+Certainly, we can use the spread operator (...) to solve the problem
+```js
+let a = {
+    age: 1
+}
+let b = {...a}
+a.age = 2
+console.log(b.age) // 1
+```
+
+Usually, shallow copy can solve most of the problems, but we need the deep copy when encountering the following situations
+```js
+let a = {
+    age: 1,
+    jobs: {
+        first: 'FE'
+    }
+}
+let b = {...a}
+a.jobs.first = 'native'
+console.log(b.jobs.first) // native
+```
+The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that the values of both share the same reference. To solve the problem, we need to introduce deep copy.
+
+##### deep copy
+
+The problem can usually be solved by  `JSON.parse(JSON.stringify(object))`
+
+```js
+let a = {
+    age: 1,
+    jobs: {
+        first: 'FE'
+    }
+}
+let b = JSON.parse(JSON.stringify(a))
+a.jobs.first = 'native'
+console.log(b.jobs.first) // FE
+```
+
+But this method also has its limits
+* ignore `undefined`
+* unable to serialize function
+* unable to resolve circular references in an object
+```js
+let obj = {
+  a: 1,
+  b: {
+    c: 2,
+    d: 3,
+  },
+}
+obj.c = obj.b
+obj.e = obj.a
+obj.b.c = obj.c
+obj.b.d = obj.b
+obj.b.e = obj.b.c
+let newObj = JSON.parse(JSON.stringify(obj))
+console.log(newObj)
+```
+
+If the object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object
+
+![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
+
+Encountering function or `undefined`,  the object can also not be serialized properly.
+```js
+let a = {
+    age: undefined,
+    jobs: function() {},
+    name: 'yck'
+}
+let b = JSON.parse(JSON.stringify(a))
+console.log(b) // {name: "yck"}
+```
+
+In above case, you can see that the method ignores function and `undefined`.
+
+But usually, complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with the deep copy. Certainly, you can use [the deep copy function of `loadash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+
+If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
+```js
+function structuralClone(obj) {
+  return new Promise(resolve => {
+    const {port1, port2} = new MessageChannel();
+    port2.onmessage = ev => resolve(ev.data);
+    port1.postMessage(obj);
+  });
+}
+
+var obj = {a: 1, b: {
+    c: b
+}}
+// pay attention that this method is asynchronous
+// it can handle `undefined` and circular reference object
+const clone = await structuralClone(obj);
+```
+
+#### the differences between call, apply, bind
+
+Firstly, let’s tell the difference between the former two.
+
+Both `call`  and `apply`  are used to change what `this` refers to.Their role is the same, but the way to pass the parameters is different.
+
+In addition to the first parameter,  `call` can accept an argument list, while  `apply` accepts a single array of arguments.
+
+```js
+let a = {
+  value: 1
+}
+function getValue(name, age) {
+  console.log(name)
+  console.log(age)
+  console.log(this.value)
+}
+getValue.call(a, 'yck', '24')
+getValue.apply(a, ['yck', '24'])
+```
+
+##### simulation to implement   `call` and  `apply`
+
+We can consider how to implement them from the following points
+
+* If the first parameter isn’t passed, then the first parameter will default to  `window`
+* Change what  `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
+
+```js
+Function.prototype.myCall = function (context) {
+  var context = context || window
+  // Add an property to the `context`
+  // getValue.call(a, 'yck', '24') => a.fn = getValue
+  context.fn = this
+  // take out the rest parameters of `context`
+  var args = [...arguments].slice(1)
+  // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
+  var result = context.fn(...args)
+  // delete fn
+  delete context.fn
+  return result
+}
+```
+
+The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
+
+```js
+Function.prototype.myApply = function (context) {
+  var context = context || window
+  context.fn = this
+
+  var result
+  // There's a need to determine whether to store the second parameter
+  // If the second parameter exists, spread it
+  if (arguments[1]) {
+    result = context.fn(...arguments[1])
+  } else {
+    result = context.fn()
+  }
+
+  delete context.fn
+  return result
+}
+```
+
+The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
+
+let’s simulate `bind`
+
+```js
+Function.prototype.myBind = function (context) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
+  var _this = this
+  var args = [...arguments].slice(1)
+  // return a function
+  return function F() {
+    // we can use `new F()` because it returns a function, so we need to determine
+    if (this instanceof F) {
+      return new _this(args, ...arguments)
+    }
+    return _this.apply(context, args.concat(arguments))
+  }
+}
+```
 
 #### Promise implementation
 
@@ -274,7 +644,7 @@ function MyPromise(fn) {
     // execute asynchronously to guarantee the execution order
     setTimeout(() => {
       if (value instanceof MyPromise) {
-        // if value is a Promise, execute recursively 
+        // if value is a Promise, execute recursively
         return value.then(_this.resolve, _this.reject)
       }
       if (_this.currentState === PENDING) {
@@ -318,8 +688,8 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // specification 2.2.4, wrap them with `setTimeout`, 
-      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously 
+      // specification 2.2.4, wrap them with `setTimeout`,
+      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously
       setTimeout(() => {
         try {
           let x = onResolved(self.value);
@@ -378,12 +748,12 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   }
 
   // specification 2.3.2, if `x` is a Promise and the state is `pending`,
-  // the promise must remain, If not, it should execute. 
+  // the promise must remain, If not, it should execute.
   if (x instanceof MyPromise) {
     if (x.currentState === PENDING) {
-      // call the function `resolutionProcedure` again to 
+      // call the function `resolutionProcedure` again to
       // confirm the type of the argument that x resolves
-      // If it's a primitive type, it will be resolved again to 
+      // If it's a primitive type, it will be resolved again to
       // pass the value to next `then`.
       x.then((value) => {
         resolutionProcedure(promise2, value, resolve, reject);
@@ -394,7 +764,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
     return;
   }
 
-  // specification 2.3.3.3.3 
+  // specification 2.3.3.3.3
   // if both `reject` and `resolve` are executed, the first successful
   // execution takes precedence, and any further executions are ignored
   let called = false;
@@ -436,3 +806,67 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
+
+
+#### Throttle
+
+`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into the last execution, and `Throttle` is to turn multiple executions into execution at regular intervals.
+
+```js
+// The first two parameters with debounce are the same function
+// options: You can pass two properties
+// trailing: Last time does not execute
+// leading: First time does not execute
+// The two properties cannot coexist, otherwise the function cannot be executed
+_.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    // Previous timestamp
+    var previous = 0;
+    // Set empty if options is not passed
+    if (!options) options = {};
+    // Timer callback function
+    var later = function() {
+        // If you set `leading`, then set `previous` to zero
+        // The first `if` statement of the following function is used
+        previous = options.leading === false ? 0 : _.now();
+        // The first is prevented memory leaks and the second is judged the following timers when setting `timeout` to null
+        timeout = null;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+    };
+    return function() {
+        // Get current timestamp
+        var now = _.now();
+        // It must be true when it entering firstly
+        // If you do not need to execute the function firstly
+        // Set the last timestamp to current
+        // Then it will be greater than 0 when the remaining time is calculated next
+        if (!previous && options.leading === false)
+            previous = now;
+        var remaining = wait - (now - previous);
+        context = this;
+        args = arguments;
+        // This condition will only be entered if it set `trailing`
+        // This condition will be entered firstly if it not set `leading`
+        // Another point, you may think that this condition will not be entered if you turn on the timer
+        // In fact, it will still enter because the timer delay is not accurate
+        // It is very likely that you set 2 seconds, but it needs 2.2 seconds to trigger, then this time will enter this condition
+        if (remaining <= 0 || remaining > wait) {
+            // Clean up if there exist a timer otherwise it call twice callback
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            previous = now;
+            result = func.apply(context, args);
+            if (!timeout) context = args = null;
+        } else if (!timeout && options.trailing !== false) {
+            // Judgment whether timer and trailing are set
+            // And you can't set leading and trailing at the same time
+            timeout = setTimeout(later, remaining);
+        }
+        return result;
+    };
+};
+```
