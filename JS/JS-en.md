@@ -5,6 +5,7 @@
 - [instanceof](#instanceof)
 - [scope](#scope)
 - [Prototypes](#Prototypes)
+- [Modular](#Modular)
 
 #### Built-in Types
 JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
@@ -36,7 +37,7 @@ console.log(a) // EF
 
 #### Typeof
 
- `typeof` can always display the correct type of the primitive types, except `null` 
+ `typeof` can always display the correct type of the primitive types, except `null`
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
@@ -73,6 +74,74 @@ let undefined = 1
 // it will always return `undefined`, whatever follows `void `
 a === void 0
 ```
+
+#### Type conversion
+
+##### Convert to Boolean
+
+Except to `undefined`, `null`, `false`, `NaN`, ````, `0`, `-0`, all other values ​​are converted to `true`, including all objects.
+
+##### Object to basic type
+
+When converting basic types of objects, the first calls `valueOf` and then call `toString`. And these two methods you can rewrite.
+
+```js
+let a = {
+    valueOf() {
+    	return 0
+    }
+}
+```
+
+##### Four operators
+
+Only when adding, one of which is a string type, the other will be converted to a string type. As long as one of the other operations is a digit, the other party will change to a digit. And addition operation will trigger three types of conversion: the value is converted to the original value、 number & string.
+
+```js
+1 + '1' // '11'
+2 * '2' // 4
+[1, 2] + [2, 1] // '1,22,1'
+// [1, 2].toString() -> '1,2'
+// [2, 1].toString() -> '2,1'
+// '1,2' + '2,1' = '1,22,1'
+```
+
+For the addition sign need to pay attention to this expression `'a' + + 'b'`
+
+```js
+'a' + + 'b' // -> "aNaN"
+// because of  ++ 'b' -> NaN
+// you may have seen + '1' -> 1
+```
+
+##### `==` operators
+
+![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
+
+Figure above `toPrimitive` is the Object to basic type。
+
+It is recommended to use `===` to determine two values, but you want to know if a value is or not `null`, you can use `xx == null` to compare.
+
+Here to resolve a topic `[] == ![] // -> true`, follow is the steps that why this expression as `true`:
+
+```js
+// [] convert to true，then revert to false
+[] == false
+// according to 8
+[] == ToNumber(false)
+[] == 0
+// according to 10
+ToPrimitive([]) == 0
+// [].toString() -> ''
+'' == 0
+// according to 6
+0 == 0 // -> true
+```
+
+##### Comparison operators
+
+1. If it‘s an object, through `toPrimitive` to convert to object.
+2. If it‘s a string, Compare with the `unicode` character index.
 
 #### New
 
@@ -264,10 +333,10 @@ Are you wondering why function B can also refer to a variable in function A whil
 A classic question of interview,  using closures in loops to solve the problem of using `var` to define functions
 
 ```Js
-for ( var i=1; i<=5; i++) { 
-    setTimeout( function timer() { 
-        console.log( i ); 
-    }, i*1000 ); 
+for ( var i=1; i<=5; i++) {
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
 }˝
 ```
 
@@ -288,33 +357,33 @@ for (var i = 1; i <= 5; i++) {
 The second one is to use the third parameter of `setTimeout`
 
 ```js
-for ( var i=1; i<=5; i++) { 
-    setTimeout( function timer(j) { 
-        console.log( j ); 
-    }, i*1000, i); 
+for ( var i=1; i<=5; i++) {
+    setTimeout( function timer(j) {
+        console.log( j );
+    }, i*1000, i);
 }
 ```
 
 The third is to define `i` using `let`
 
 ```js
-for ( let i=1; i<=5; i++) { 
-    setTimeout( function timer() { 
-        console.log( i ); 
-    }, i*1000 ); 
+for ( let i=1; i<=5; i++) {
+    setTimeout( function timer() {
+        console.log( i );
+    }, i*1000 );
 }
 ```
 
 For `let`, it will create a block-level scope, which is equivalent to:
 
 ```js
-{ 
+{
     // Form block-level scope
   let i = 0
   {
     let ii = i
-    setTimeout( function timer() { 
-        console.log( i ); 
+    setTimeout( function timer() {
+        console.log( i );
     }, i*1000 );
   }
   i++
@@ -352,13 +421,13 @@ Super.prototype.getNumber = function() {
 
 function Sub() {}
 let s = new Sub()
-Sub.prototype = Object.create(Super.prototype, { 
-  constructor: { 
-    value: Sub, 
-    enumerable: false, 
-    writable: true, 
-    configurable: true 
-  } 
+Sub.prototype = Object.create(Super.prototype, {
+  constructor: {
+    value: Sub,
+    enumerable: false,
+    writable: true,
+    configurable: true
+  }
 })
 ```
 
@@ -475,9 +544,9 @@ But this method also has its limits
 * unable to serialize function
 * unable to resolve circular references in an object
 ```js
-let obj = { 
+let obj = {
   a: 1,
-  b: { 
+  b: {
     c: 2,
     d: 3,
   },
@@ -528,6 +597,94 @@ var obj = {a: 1, b: {
 const clone = await structuralClone(obj);
 ```
 
+#### Modular
+
+In a Babel environment, we can use the modularity of ES6 directly
+
+```js
+// file a.js
+export function a() {}
+export function b() {}
+// file b.js
+export default function() {}
+
+import {a, b} from './a.js'
+import XXX from './b.js'
+```
+
+##### CommonJS
+
+`CommonJs` is a unique specification of Node, which requires `Browserify` to be used in browser.
+
+```js
+// a.js
+module.exports = {
+    a: 1
+}
+// or
+exports.a = 1
+
+// b.js
+var module = require('./a.js')
+module.a // -> log 1
+```
+
+In the above code，`module.exports` & `exports` easily confused，the following is a rough example of implementation
+:
+
+```js
+var module = require('./a.js')
+module.a
+//  Here is actually a layer of immediate execution function, so it will not pollute the global variables
+// the important thing is module that is a variable unique to Node.
+module.exports = {
+    a: 1
+}
+// implementation
+var module = {
+  exports: {} // exports a empty object
+}
+// This is why exports and module.exports are used similarly
+var exports = module.exports
+var load = function (module) {
+    // Exported structure
+    var a = 1
+    module.exports = a
+    return module.exports
+};
+```
+
+let talk about `module.exports` & `exports`,
+its practical method is similar, will not have any effect if direct change the values that `exports`.
+
+
+The difference between `CommonJS` & the modularity of ES6 is:
+
+- The former supports dynamic import, that is `require(${path}/xx.js)`, the latter does not currently support, but there are has proposals.
+- The former is a synchronous import, because its use for the Server, the files are all local, and even if the main thread is stuck, the impact of synchronous import is not great. The latter is asynchronous import, because its use for the browser, its need to download the file, if you also use the import will have a great impact on the rendering
+
+- The former is a value copy when exporting. Even if the exported value is changed, the value that imported will not be changed. Therefore, if you want to update the value, you must need to import it again. However, the latter adopts the real-time binding method. The imported and exported values ​​all point to the same memory address, so the imported value will change follow the export value.
+- The latter will be compiled to `require/exports` to be executed
+
+##### ADM
+
+AMD was proposed by `RequireJS`
+
+```js
+// AMD
+define(['./a', './b'], function(a, b) {
+    a.do()
+    b.do()
+})
+define(function(require, exports, module) {   
+    var a = require('./a')  
+    a.doSomething()   
+    var b = require('./b')
+    b.doSomething()
+})
+
+```
+
 #### the differences between call, apply, bind
 
 Firstly, let’s tell the difference between the former two.
@@ -551,7 +708,7 @@ getValue.apply(a, ['yck', '24'])
 
 ##### simulation to implement   `call` and  `apply`
 
-We can consider how to implement them from the following points 
+We can consider how to implement them from the following points
 
 * If the first parameter isn’t passed, then the first parameter will default to  `window`
 * Change what  `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
