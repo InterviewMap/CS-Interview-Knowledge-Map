@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Rebase 合并](#rebase-%E5%90%88%E5%B9%B6)
+- [stash](#stash)
+- [reflog](#reflog)
+- [Reset](#reset)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 本文不会介绍 Git 的基本操作，会对一些高级操作进行说明。
 
 ## Rebase 合并

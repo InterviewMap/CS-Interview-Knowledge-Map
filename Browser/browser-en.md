@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Event mechanism](#event-mechanism)
+  - [The three phases of event triggered](#the-three-phases-of-event-triggered)
+  - [Event Registration](#event-registration)
+  - [Event Agent](#event-agent)
+- [cross domain](#cross-domain)
+  - [JSONP](#jsonp)
+  - [CORS](#cors)
+  - [document.domain](#documentdomain)
+  - [postMessage](#postmessage)
+- [Event loop](#event-loop)
+  - [Event loop in Node](#event-loop-in-node)
+    - [timer](#timer)
+    - [I/O](#io)
+    - [idle, prepare](#idle-prepare)
+    - [poll](#poll)
+    - [check](#check)
+    - [close callbacks](#close-callbacks)
+- [Storage](#storage)
+  - [cookie，localStorage，sessionStorage，indexDB](#cookielocalstoragesessionstorageindexdb)
+  - [Service Worker](#service-worker)
+- [Rendering mechanism](#rendering-mechanism)
+  - [Difference between Load and DOMContentLoaded](#difference-between-load-and-domcontentloaded)
+  - [Layers](#layers)
+  - [Repaint and Reflow](#repaint-and-reflow)
+  - [Reduce redrawing and reflow](#reduce-redrawing-and-reflow)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 #### Event mechanism
 
 ##### The three phases of event triggered

@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [事件机制](#%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6)
+  - [事件触发三阶段](#%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E4%B8%89%E9%98%B6%E6%AE%B5)
+  - [注册事件](#%E6%B3%A8%E5%86%8C%E4%BA%8B%E4%BB%B6)
+  - [事件代理](#%E4%BA%8B%E4%BB%B6%E4%BB%A3%E7%90%86)
+- [跨域](#%E8%B7%A8%E5%9F%9F)
+  - [JSONP](#jsonp)
+  - [CORS](#cors)
+  - [document.domain](#documentdomain)
+  - [postMessage](#postmessage)
+- [Event loop](#event-loop)
+  - [Node 中的 Event loop](#node-%E4%B8%AD%E7%9A%84-event-loop)
+    - [timer](#timer)
+    - [I/O](#io)
+    - [idle, prepare](#idle-prepare)
+    - [poll](#poll)
+    - [check](#check)
+    - [close callbacks](#close-callbacks)
+- [存储](#%E5%AD%98%E5%82%A8)
+  - [cookie，localStorage，sessionStorage，indexDB](#cookielocalstoragesessionstorageindexdb)
+  - [Service Worker](#service-worker)
+- [渲染机制](#%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6)
+  - [Load 和 DOMContentLoaded 区别](#load-%E5%92%8C-domcontentloaded-%E5%8C%BA%E5%88%AB)
+  - [图层](#%E5%9B%BE%E5%B1%82)
+  - [重绘（Repaint）和回流（Reflow）](#%E9%87%8D%E7%BB%98repaint%E5%92%8C%E5%9B%9E%E6%B5%81reflow)
+  - [减少重绘和回流](#%E5%87%8F%E5%B0%91%E9%87%8D%E7%BB%98%E5%92%8C%E5%9B%9E%E6%B5%81)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 #### 事件机制
 
 ##### 事件触发三阶段

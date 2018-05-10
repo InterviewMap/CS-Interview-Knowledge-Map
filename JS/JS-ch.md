@@ -1,18 +1,39 @@
-- [内置类型](#内置类型)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [内置类型](#%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B)
 - [Typeof](#typeof)
-- [类型转换](#类型转换)
-- [原型](#原型)
+- [类型转换](#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2)
+  - [转Boolean](#%E8%BD%ACboolean)
+  - [对象转基本类型](#%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B)
+  - [四则运算符](#%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E7%AC%A6)
+  - [`==` 操作符](#-%E6%93%8D%E4%BD%9C%E7%AC%A6)
+  - [比较运算符](#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6)
+- [原型](#%E5%8E%9F%E5%9E%8B)
 - [new](#new)
 - [instanceof](#instanceof)
 - [this](#this)
-- [执行上下文](#执行上下文)
-- [闭包](#闭包)
-- [深浅拷贝](#深浅拷贝)
-- [模块化](#模块化)
-- [节流](#节流)
-- [防抖](#防抖)
-- [继承](#继承)
-- [call, apply, bind 区别](#call, apply, bind 区别)
+- [执行上下文](#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87)
+- [闭包](#%E9%97%AD%E5%8C%85)
+- [深浅拷贝](#%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D)
+  - [浅拷贝](#%E6%B5%85%E6%8B%B7%E8%B4%9D)
+  - [深拷贝](#%E6%B7%B1%E6%8B%B7%E8%B4%9D)
+- [模块化](#%E6%A8%A1%E5%9D%97%E5%8C%96)
+  - [CommonJS](#commonjs)
+  - [ADM](#adm)
+- [防抖](#%E9%98%B2%E6%8A%96)
+- [节流](#%E8%8A%82%E6%B5%81)
+- [继承](#%E7%BB%A7%E6%89%BF)
+- [call, apply, bind 区别](#call-apply-bind-%E5%8C%BA%E5%88%AB)
+  - [模拟实现 call 和 apply](#%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0-call-%E5%92%8C-apply)
+- [Promise 实现](#promise-%E5%AE%9E%E7%8E%B0)
+- [Generator 实现](#generator-%E5%AE%9E%E7%8E%B0)
+- [Map、FlapMap 和 Reduce](#mapflapmap-%E5%92%8C-reduce)
+- [async 和 await](#async-%E5%92%8C-await)
+- [Proxy](#proxy)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 #### 内置类型
 

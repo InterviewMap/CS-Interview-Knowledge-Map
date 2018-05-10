@@ -1,10 +1,25 @@
-- [Built-in Types](#Built-in Types)
-- [Typeof](#Typeof)
-- [New](#New)
-- [This](#This)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Built-in Types](#built-in-types)
+- [Typeof](#typeof)
+- [New](#new)
+- [This](#this)
 - [instanceof](#instanceof)
 - [scope](#scope)
-- [Prototypes](#Prototypes)
+- [Closure](#closure)
+- [Prototypes](#prototypes)
+- [inheritance](#inheritance)
+- [Deep and Shallow Copy](#deep-and-shallow-copy)
+  - [shallow copy](#shallow-copy)
+  - [deep copy](#deep-copy)
+- [the differences between call, apply, bind](#the-differences-between-call-apply-bind)
+  - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
+- [Promise implementation](#promise-implementation)
+- [Throttle](#throttle)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 #### Built-in Types
 JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
