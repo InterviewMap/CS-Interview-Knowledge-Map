@@ -27,6 +27,13 @@
   - [Post 和 Get 的区别](#post-%E5%92%8C-get-%E7%9A%84%E5%8C%BA%E5%88%AB)
   - [常见状态码](#%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E7%A0%81)
   - [HTTP 首部](#http-%E9%A6%96%E9%83%A8)
+- [HTTPS](#https)
+  - [TLS](#tls)
+- [HTTP 2.0](#http-20)
+  - [二进制传输](#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BC%A0%E8%BE%93)
+  - [多路复用](#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8)
+  - [Header 压缩](#header-%E5%8E%8B%E7%BC%A9)
+  - [服务端 Push](#%E6%9C%8D%E5%8A%A1%E7%AB%AF-push)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -437,3 +444,9 @@ HTTP 2.0 中所有加强性能的核心点在于此。在之前的 HTTP 版本�
 在 HTTP 1.X 中，我们使用文本的形式传输 header，在 header 携带 cookie 的情况下，可能每次都需要重复传输几百到几千的字节。
 
 在 HTTP 2.0 中，使用了 HPACK 压缩格式对传输的 header 进行编码，减少了 header 的大小。并在两端维护了索引表，用于记录出现过的 header ，后面在传输过程中就可以传输已经记录过的 header 的键名，对端收到数据后就可以通过键名找到对应的值。
+
+## 服务端 Push
+
+在 HTTP 2.0 中，服务端可以在客户端不请求的情况下主动推送资源。
+
+可以想象以下情况，某些资源客户端是一定会请求的，这时就可以采取服务端 push 的技术，提前给客户端推送必要的资源，这样就可以相对减少一点延迟时间。当然在浏览器兼容的情况下你也可以使用 prefetch 。
