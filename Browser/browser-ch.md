@@ -30,9 +30,9 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-#### 事件机制
+# 事件机制
 
-##### 事件触发三阶段
+## 事件触发三阶段
 
 事件触发有三个阶段
 
@@ -52,7 +52,7 @@ node.addEventListener('click',(event) =>{
 },true)
 ```
 
-##### 注册事件
+## 注册事件
 
 通常我们使用 `addEventListener` 注册事件，该函数的第三个参数可以是布尔值，也可以是对象。对于布尔值 `useCapture` 参数来说，该参数默认值为 `false` 。`useCapture` 决定了注册的事件是捕获事件还是冒泡事件。对于对象参数来说，可以使用以下几个属性
 
@@ -73,7 +73,7 @@ node.addEventListener('click',(event) => {
 },true)
 ```
 
-##### 事件代理
+## 事件代理
 
 如果一个节点中的子节点是动态生成的，那么子节点需要注册事件的话应该注册在父节点上
 
@@ -98,13 +98,13 @@ node.addEventListener('click',(event) => {
 - 节省内存
 - 不需要给子节点注销事件
 
-#### 跨域
+# 跨域
 
 因为浏览器出于安全考虑，有同源策略。也就是说，如果协议、域名或者端口有一个不同就是跨域，Ajax 请求会失败。
 
 我们可以通过以下几种常用方法解决跨域的问题
 
-##### JSONP
+## JSONP
 
 JSONP 的原理很简单，就是利用 `<script>` 标签没有跨域限制的漏洞。通过 `<script>` 标签指向一个需要访问的地址并提供一个回调函数来接收数据当需要通讯时。
 
@@ -141,7 +141,7 @@ jsonp(
 );
 ```
 
-##### CORS
+## CORS
 
 CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过 `XDomainRequest` 来实现。
 
@@ -149,13 +149,13 @@ CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过 `XDomainReque
 
 服务端设置 `Access-Control-Allow-Origin` 就可以开启 CORS。 该属性表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源。
 
-##### document.domain 
+## document.domain 
 
 该方式只能用于二级域名相同的情况下，比如 `a.test.com` 和 `b.test.com` 适用于该方式。
 
 只需要给页面添加 `document.domain = 'test.com'` 表示二级域名都相同就可以实现跨域
 
-##### postMessage
+## postMessage
 
 这种方式通常用于获取嵌入页面中的第三方页面数据。一个页面发送消息，另一个页面判断来源并接收消息
 
@@ -172,7 +172,7 @@ mc.addEventListener('message', (event) => {
 });
 ```
 
-#### Event loop
+# Event loop
 
 众所周知 JS 是门非阻塞单线程语言，因为在最初 JS 就是为了和浏览器交互而诞生的。如果 JS 是门多线程的语言话，我们在多个线程中处理 DOM 就可能会发生问题（一个线程中新加节点，另一个线程中删除节点），当然可以引入读写锁解决这个问题。
 
@@ -230,7 +230,7 @@ console.log('script end');
 
 通过上述的  Event loop 顺序可知，如果宏任务中的异步代码有大量的计算并且需要操作 DOM 的话，为了更快的 界面响应，我们可以把操作 DOM 放入微任务中。
 
-##### Node 中的 Event loop
+## Node 中的 Event loop
 
 Node 中的 Event loop 和浏览器中的不相同。
 
@@ -257,7 +257,7 @@ Node 的 Event loop 分为6个阶段，它们会按照顺序反复运行
    └───────────────────────┘
 ```
 
-###### timer
+### timer
 
 timers 阶段会执行 `setTimeout` 和 `setInterval`
 
@@ -265,15 +265,15 @@ timers 阶段会执行 `setTimeout` 和 `setInterval`
 
 下限的时间有一个范围：`[1, 2147483647]` ，如果设定的时间不在这个范围，将被设置为1。
 
-###### I/O 
+### I/O 
 
 I/O 阶段会执行除了 close 事件，定时器和 `setImmediate` 的回调
 
-###### idle, prepare 
+### idle, prepare 
 
 idle, prepare 阶段内部实现
 
-###### poll 
+### poll 
 
 poll 阶段很重要，这一阶段中，系统会做两件事情
 
@@ -289,11 +289,11 @@ poll 阶段很重要，这一阶段中，系统会做两件事情
 
 如果有别的定时器需要被执行，会回到 timer 阶段执行回调。
 
-###### check
+### check
 
 check 阶段执行 `setImmediate` 
 
-###### close callbacks
+### close callbacks
 
 close callbacks 阶段执行 close 事件
 
@@ -330,8 +330,6 @@ fs.readFile(__filename, () => {
 // 再去 timer 阶段执行 setTimeout
 // 所以以上输出一定是 setImmediate，setTimeout
 ```
-
-
 
 上面介绍的都是 macrotask 的执行情况，microtask 会在以上每个阶段完成后立即执行。
 
@@ -374,9 +372,9 @@ process.nextTick(() => {
 // nextTick, timer1, promise1
  ```
 
-#### 存储
+# 存储
 
-##### cookie，localStorage，sessionStorage，indexDB
+## cookie，localStorage，sessionStorage，indexDB
 
 |     特性     |                   cookie                   |       localStorage       | sessionStorage |         indexDB          |
 | :----------: | :----------------------------------------: | :----------------------: | :------------: | :----------------------: |
@@ -395,7 +393,7 @@ process.nextTick(() => {
 |  secure   |               只能在协议为 HTTPS 的请求中携带                |
 | same-site |    规定浏览器不能在跨域请求中携带 Cookie，减少 CSRF 攻击     |
 
-##### Service Worker
+## Service Worker
 
 > Service workers 本质上充当Web应用程序与浏览器之间的代理服务器，也可以在网络可用时作为浏览器和网络间的代理。它们旨在（除其他之外）使得能够创建有效的离线体验，拦截网络请求并基于网络是否可用以及更新的资源是否驻留在服务器上来采取适当的动作。他们还允许访问推送通知和后台同步API。
 
@@ -449,7 +447,7 @@ self.addEventListener("fetch", e => {
 
 
 
-#### 渲染机制
+# 渲染机制
 
 浏览器的渲染机制一般分为以下几个步骤
 
@@ -463,13 +461,13 @@ self.addEventListener("fetch", e => {
 
 浏览器显示内容是一块块显示的，而不是等待 Redner Tree 全部生成后才显示。所以对于优化首屏加载速度来说，应该尽快提供首屏需要的 CSS 文件。
 
-##### Load 和 DOMContentLoaded 区别
+## Load 和 DOMContentLoaded 区别
 
 Load 事件触发代表页面中的 DOM，CSS，JS，图片已经全部加载完毕。
 
 DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不需要等待 CSS，JS，图片加载。
 
-##### 图层
+## 图层
 
 一般来说，可以把普通文档流看成一个图层。特定的属性可以生成一个新的图层。**不同的图层渲染互不影响**，所以对于某些频繁需要渲染的建议单独生成一个新图层，提高性能。**但也不能生成过多的图层，会引起反作用。**
 
@@ -481,7 +479,7 @@ DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不
 - 通过动画实现的 `opacity` 动画转换
 - `position: fixed`
 
-##### 重绘（Repaint）和回流（Reflow）
+## 重绘（Repaint）和回流（Reflow）
 
 重绘和回流是渲染步骤中的一小节，但是这两个步骤对于性能影响很大。
 
@@ -513,7 +511,7 @@ DOMContentLoaded 事件触发代表初始的 HTML 被完全加载和解析，不
 
 以上内容来自于 [HTML 文档](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
 
-##### 减少重绘和回流
+## 减少重绘和回流
 
 - 使用 `translate` 替代 `top`
 

@@ -22,17 +22,17 @@
 - [Storage](#storage)
   - [cookie，localStorage，sessionStorage，indexDB](#cookielocalstoragesessionstorageindexdb)
   - [Service Worker](#service-worker)
-- [Rendering mechanism](#rendering-mechanism)
-  - [Difference between Load and DOMContentLoaded](#difference-between-load-and-domcontentloaded)
+- [Rendering machanism](#rendering-machanism)
+  - [Difference between Load & DOMContentLoaded](#difference-between-load--domcontentloaded)
   - [Layers](#layers)
-  - [Repaint and Reflow](#repaint-and-reflow)
-  - [Reduce redrawing and reflow](#reduce-redrawing-and-reflow)
+  - [Repaint & Reflow](#repaint--reflow)
+  - [Reduce Repaint & Reflow](#reduce-repaint--reflow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-#### Event mechanism
+# Event mechanism
 
-##### The three phases of event triggered
+## The three phases of event triggered
 
 Event triggered has three phases:
 
@@ -52,7 +52,7 @@ node.addEventListener('click',(event) =>{
 },true)
 ```
 
-##### Event Registration
+## Event Registration
 
 Usually, we use `addEventListener` to register an event, the `useCapture` is a function parameter, which receives a Boolean value, the default value is `false`. `useCapture` determines whether the registered event is a capture event or a bubbling event. For the object parameters, you can use the following properties
 
@@ -73,7 +73,7 @@ node.addEventListener('click',(event) => {
 },true)
 ```
 
-##### Event Agent
+## Event Agent
 
 If a child node in a parent node is dynamically generated, the child node should to be registered on the parent node if it needs to register an event.
 
@@ -98,13 +98,13 @@ The event agent approach has the following advantages over the direct registrati
 - Save memory
 - Child nodes don't need remove event listener
 
-#### cross domain
+# cross domain
 
 Because browsers have the same origin policy for security reasons. In other words, if the protocol, domain name, or port has a different that is cross-domain, the Ajax request will fail.
 
 We can solve the cross-domain issues through following methods  
 
-##### JSONP
+## JSONP
 
 The principle of JSONP is very simple, that is to use the `<script>` tag vulnerabilities that not limit cross-domain. Use the `src` attribute of `<script>` tag and provide a callback function to receive data.
 
@@ -141,7 +141,7 @@ jsonp(
 );
 ```
 
-##### CORS
+## CORS
 
 CORS requires browser and backend support at the same time. Internet Explorer 8 and 9 expose CORS via the XDomainRequest object.
 
@@ -149,13 +149,13 @@ The browser will automatically perform CORS communication. The key to implementi
 
 The server sets `Access-Control-Allow-Origin` to enable CORS. This property means which domain can access the resource. If set wildcards, all websites can access resources.
 
-##### document.domain
+## document.domain
 
 This can only be used for the same Second-level domain, For example, `a.test.com` and `b.test.com` suitable for this case.
 
 Set `document.domain = 'test.com'` , as used by the same origin policy.
 
-##### postMessage
+## postMessage
 
 This method is usually used to get data for third-party page. One page sends a message, another page judges the source and receives the message
 
@@ -172,7 +172,7 @@ mc.addEventListener('message', (event) => {
 });
 ```
 
-#### Event loop
+# Event loop
 
 As we all know,  JS is a non-blocking and single-threaded language, because JS was born to interact with the browser in the beginning.  If JS is a multi-threaded language, we may have problems handling DOM in multiple threads (imagine adding nodes in a thread and deleting nodes in another thread in the same time),  certainly, we can introduce a read-write lock to solve this problem.
 
@@ -230,7 +230,7 @@ So the correct sequence of an event loop is like this:
 
 According to the above sequence of the Event loop, if the asynchronous codes in the macrotask have a large number of calculations and need to operate the DOM, we can put the operation DOM into the microtask for faster interface response.
 
-##### Event loop in Node
+## Event loop in Node
 
 The Event loop in Node is not the same as in the browser.
 
@@ -257,7 +257,7 @@ The Event loop in Node is divided into 6 phases,  and they will be executed in s
    └───────────────────────┘
 ```
 
-###### timer
+### timer
 
 The `timer` phase executes the callbacks of `setTimeout` and `setInterval`
 
@@ -265,15 +265,15 @@ The `timer` phase executes the callbacks of `setTimeout` and `setInterval`
 
 The lower limit time has a range: `[1, 2147483647]`,  if the set time is not in this range, it will be set to 1.
 
-###### I/O
+### I/O
 
 The `I/O` phase executes the callbacks of timers and  `setImmediate`, besides that for the close event
 
-###### idle, prepare
+### idle, prepare
 
 The `idle, prepare` phase is for internal implementation
 
-###### poll
+### poll
 
 The `poll` phase has two main functions:
 
@@ -289,11 +289,11 @@ When the event loop enters the `poll` phase and there are no timers scheduled, o
 
 Once the `poll` queue is empty the event loop will check for timers whose time thresholds have been reached. If one or more timers are ready, the event loop will wrap back to the timers phase to execute those timers' callbacks.
 
-###### check
+### check
 
 The `check` phase executes the callbacks of `setImmediate`
 
-###### close callbacks
+### close callbacks
 
  The `close` event will be emitted in this phase.
 And in Node, the order of execution of timers is random in some cases
@@ -370,9 +370,9 @@ process.nextTick(() => {
 // nextTick => timer1 => promise1
 ```
 
-#### Storage
+# Storage
 
-##### cookie，localStorage，sessionStorage，indexDB
+## cookie，localStorage，sessionStorage，indexDB
 
 |        features         |                            cookie                            |               localStorage                |                        sessionStorage                        |                  indexDB                  |
 | :---------------------: | :----------------------------------------------------------: | :---------------------------------------: | :----------------------------------------------------------: | :---------------------------------------: |
@@ -391,7 +391,7 @@ For `cookies`, we also need attention to security.
 |  secure   | cookies can only be carried in requests with HTTPS protocol  |
 | same-site | browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks |
 
-##### Service Worker
+## Service Worker
 
 > Service workers essentially act as proxy servers that sit between web applications, the browser, and the network (when available). They are intended, among other things, to enable the creation of effective offline experiences, intercept network requests and take appropriate action based on whether the network is available, and update assets residing on the server. They will also allow access to push notifications and background sync APIs.
 
@@ -445,111 +445,134 @@ Refreshing the page, we can see that our cached data is read from the Service Wo
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
 
-#### Rendering mechanism
+# Rendering machanism
 
-The browser's rendering mechanism is generally divided into the following steps
+The machanism of the browser engine usually has the following steps:
 
-1. Process HTML and build a DOM tree.
-2. Handle CSS to build the CSSOM tree.
-3. Combine DOM and CSSOM into one render tree.
-4. According to the layout of the render tree, calculate the position of each node.
-5. Invoke GPU drawing, compose the layer, and display it.
+1. Parsing HTML to construct the DOM tree
+
+2. Parsing CSS to construct the CSSOM
+
+3. create the render tree by merging the SOM tree & CSS tree
+
+4. layout based on the render tree, calculate each node's exact coordinates on the screen
+
+5. painting elements by GPU in the way of layers, and display on the screen
 
 ![](https://user-gold-cdn.xitu.io/2018/4/11/162b2ab2ec70ac5b?w=900&h=352&f=png&s=49983)
 
-The browser display content is displayed in blocks instead of waiting for the Redner Tree to be generated. Therefore, to optimize the speed of the first screen, you should provide the CSS file needed by the first screen as soon as possible.
+The browser display the content by blocks. It won't wait until all the Render Tree finished. So, if wou want to load you first screen as soon as possiable, you'd better make the css data of the first page ready at first.
 
-##### Difference between Load and DOMContentLoaded
+## Difference between Load & DOMContentLoaded
 
-The Load event triggers the representation of the DOM, CSS, JS, and images on the page.
+**Load** event occurs when all the resources (e.g. DOM、CSS、JS、pictures) had been loaded
 
-The DOMContentLoaded event fires on behalf of the initial HTML and is completely loaded and parsed without waiting for CSS, JS, and image loading.
+**DOMContentLoaded** event occurs  as soon as the HTML of the pages has been loaded, no matter whether the other resources had been loaded
 
-##### Layers
+## Layers
 
-In general, you can think of a common document stream as a layer. Specific properties can generate a new layer. **Different layer renderings do not affect each other **, so for some frequent suggestions need to be rendered separately to generate a new layer to improve performance. **However, it is not possible to generate too many layers, which will cause a reaction.**
+Generally，we can treate the documents flow as a single layer. Some special attributes alse could create a new layer. **Different Layers are separate**. So, it is recommed to create a new layer to rendeing some elements which changed frequently. **But it is also a bad idea to create too much layers.**
 
-New layers can be generated from the following common properties
+the following attributes usually can create a new layer:
 
-- 3D translate: `translate3d` ,`translateZ`
+- 3Dtranslate: `translate3d`, `translateZ`
+
 - `will-change`
-- `video`、`iframe` label
-- Animation achieved through `opacity` animated transition
+
+- tags like: `video`, `iframe`
+
+- `opacity` animation translate
+
 - `position: fixed`
 
-##### Repaint and Reflow
+## Repaint & Reflow
 
-Redrawing and reflowing is a subsection of the rendering step, but these two steps have a large impact on performance.
+Repaint and Reflow are a little steps in the main rendering flow, but they have a great influence of the performance.
 
-- Redraw when a node needs to change the appearance without affecting the layout of such change `color` is called is called redraw
-- Reflow is the layout or geometry properties need to change is called reflow.
+- Repaint occurs when the node change but that dosn't affect the layout, e.g. `color`
 
-Reflow must be redrawn and redrawing does not necessarily lead to reflow. The cost of reflow is much higher, and changing deeper nodes is likely to result in a series of reflows to the parent node.
+- Reflow occurs when the node change that caused by layout or the geometry attributes
 
-So the following actions may cause performance problems:
+The Repaint must appear while the Reflow occured. Otherwise not certain。Reflow is much heaver than Repaint . The changes of the deep node's attributes may cause a series of changes  of ancestral nodes.
 
-- Change the window size
-- Change the font
-- Add or remove styles
-- Font change
-- Positioning or floating
-- Box model
+Actions like the following may cause the performance problems
 
-What many people don't know is that redrawing and returning are actually related to the Event loop.
+- change window's  size
 
-1. When the Event loop executes Microtasks, it will determine if the document needs to be updated. Because the browser is a 60Hz refresh rate, it is updated every 16ms.
-2. And then determine whether there is `resize` or `scroll`, any, will go to trigger events, so `resize` and the `scroll` event is at least 16ms to trigger once, and comes with a throttle function.
-3. Determine whether media query is triggered
-4. Update animation and send event
-5. Determine whether there is a full-screen operation event
-6. Execute `requestAnimationFrame` the callback
-7. Perform `IntersectionObserver` callback, the method for determining whether the element is visible, can be used for the lazy loading, but the compatibility is not good
-8. Update the interface
+- change font-family
 
-The above content comes from an [HTML Document](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+- add or delete styles
 
-##### Reduce redrawing and reflow
+- change texts
 
-- Use `translate` replace to `top`
+- position & float
 
-  ```html
-  <div class="test"></div>
-  <style>
-  	.test {
-  		position: absolute;
-  		top: 10px;
-  		width: 100px;
-  		height: 100px;
-  		background: red;
-  	}
-  </style>
-  <script>
-  	setTimeout(() => {
-          // cause back-flow
-  		document.querySelector('.test').style.top = '100px'
-  	}, 1000)
-  </script>
-  ```
+- box
 
-- Use `visibility` replace display: none, because the former would lead to redraw, which will lead to reflux (changing the layout)
+You may not know that Repaint and Reflow have somthing to do with the **Event Loop**
 
-- Take the DOM offline and modify it. For example: first give the DOM `display:none` (a Reflow once), then you modify it 100 times and then display it again.
+- In a event loop, when a Microtasks finished, the engine will determine whether the document need update. As the  refresh rate of the browse is 60Hz, which means it will update every 16ms
 
-- Don't put DOM node attribute values ​​in a loop as variables in loops
+- then determine whether there is events like `resize` or `scroll` occurs, if true, trigger the handlers. So the handlers of resize and scroll will trigger every 16 ms, which means automatic throttle
 
-  ```js
-  for(let i = 0; i < 1000; i++) {
-      // get offsetTop will cause reflow, because it needs to get correct value
-      console.log(document.querySelector('.test').style.offsetTop)
-  }
-  ```
+- determine whether trigger the media query
 
-- Do not use table layouts. A small change may cause a re-layout of the entire table.
+- update the animation and send event
 
-- The choice of animation speed, the faster the animation, the more the times of reflow, you can also choose to use `requestAnimationFrame`
+- determine whether this is a full-screen event
 
-- CSS selectors match search from right to left, avoiding DOM depth too deep
+- excute ``requestAnimationFrame`` callback
 
-- Turn frequently-running animations into layers. Layers can prevent the node from flowing back to affect other elements. For example, for `video` labels, the browser will automatically turn that node into layer.
+- excute `IntersectionObserver` callbak, which used to determine whether an element shoud be display, usually in lazy-load , but with poor compatibility
 
-  ![](https://user-gold-cdn.xitu.io/2018/3/29/1626fb6f33a6f9d7?w=1588&h=768&f=png&s=263260)
+- update the screen
+
+- the aboves may occur in every frame. If there is rest time, the `requestIdleCallback` callback will be called.
+
+All above are from [HTML Documents](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+
+## Reduce Repaint & Reflow
+
+- use `translate` instead of `top`
+
+```html
+<div class="test"></div>
+<style>
+	.test {
+		position: absolute;
+		top: 10px;
+		width: 100px;
+		height: 100px;
+		background: red;
+	}
+</style>
+<script>
+	setTimeout(() => {
+        // occurs reflow
+		document.querySelector('.test').style.top = '100px'
+	}, 1000)
+</script>
+```
+
+- use `visibility` instead of `display: none`, because the former will only cause Repaint while the latter will cause the Reflow which change the layout.
+
+- change the DOM when it is offline, e.g. change the DOM 100 times after set it `display: none` and then show it on screen. Among this process there is only one Relow.
+
+- do not put an attribute of a node to the loop
+
+```js
+for(let i = 0; i < 1000; i++) {
+    // it will cause the reflow to get offsetTop, because it need to calculate the right value
+    console.log(document.querySelector('.test').style.offsetTop)
+}
+```
+
+- do not use table to construct the layout, because event a little change will cause the re-construct.
+
+- the choice of the speed of the animation's realization, the faster the more Reflow, you can shoose the `requestAnimationFrame`
+
+- the css selector will search to match from right to left, so you'd  better to avoid that the DOM is too deep.
+
+- As we konw that the layer will prevent the node which has changed from affecting others, so it is good to change the animation that run high frequency to a layer.
+
+![](https://user-gold-cdn.xitu.io/2018/3/29/1626fb6f33a6f9d7?w=1588&h=768&f=png&s=263260)
