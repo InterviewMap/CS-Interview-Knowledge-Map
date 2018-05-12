@@ -365,3 +365,13 @@ HTTP 协议是个无状态协议，不会保存状态。
 |     Expires      |         内容的过期时间         |
 |  Last_modified   |       内容的最后修改时间       |
 
+# HTTPS
+
+HTTPS 还是通过了 HTTP 来传输信息，但是信息通过 TLS 协议进行了加密。
+
+## TLS
+
+TLS 协议位于传输层之上，应用层之下。首次进行 TLS 协议传输需要两个 RTT ，接下来可以通过 Session Resumption 减少到一个 RTT。
+
+![](https://user-gold-cdn.xitu.io/2018/5/12/1635260126b3a10c?w=1558&h=1006&f=webp&s=59424)
+
