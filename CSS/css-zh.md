@@ -4,8 +4,18 @@
 
 当然凡事都是有例外的
 
-<p data-height="265" data-theme-id="0" data-slug-hash="VxVVbz" data-default-tab="css,result" data-user="sunnykai" data-embed-version="2" data-pen-title="VxVVbz" class="codepen">See the Pen <a href="https://codepen.io/sunnykai/pen/VxVVbz/">VxVVbz</a> by yck (<a href="https://codepen.io/sunnykai">@sunnykai</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+```css
+div {
+  width: 200px !important;
+  height: 100px;
+  background-color: red;
+  max-width: 100px;
+}
+```
+
+当你如上设置时，会发现加了 `!important`  的 ` width` 还是被 `max-width` 覆盖了，宽度变为了 100 。
+
+如果你又设置了 `min-width` ，并且值比 `max-width` 大，那么你又会发现前者覆盖了后者。
 
 # 单位
 
