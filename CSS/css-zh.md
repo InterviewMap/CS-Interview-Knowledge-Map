@@ -19,3 +19,8 @@ div {
 
 # 单位
 
+- px：这是一个相对单位，在 PC 中往往对应着一个物理像素，当你缩放页面的时候，会发现元素也会相应的缩放。在移动端中，因为视网膜屏的存在，px 得乘上 `devicePixelRatio` 才能得到对应的物理像素。
+- em：相对于自身的 `font-size` 大小
+- rem：相对于根元素的 `font-size` 大小
+- vw：相对于 viewport 的宽度
+- vh：相对于 viewport 的高度
