@@ -33,6 +33,10 @@
 - [async 和 await](#async-%E5%92%8C-await)
 - [Proxy](#proxy)
 - [为什么 0.1 + 0.2 != 0.3](#%E4%B8%BA%E4%BB%80%E4%B9%88-01--02--03)
+- [正则表达式](#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+  - [元字符](#%E5%85%83%E5%AD%97%E7%AC%A6)
+  - [修饰语](#%E4%BF%AE%E9%A5%B0%E8%AF%AD)
+  - [字符简写](#%E5%AD%97%E7%AC%A6%E7%AE%80%E5%86%99)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -233,7 +237,7 @@ Foo.prototype.getName = function () {
 };
 
 new Foo.getName();   // -> 1
-new Foo().getName(); // -> 2
+new Foo().getName(); // -> 2       
 ```
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
@@ -241,7 +245,7 @@ new Foo().getName(); // -> 2
 从上图可以看出，`new Foo() ` 的优先级大于 `new Foo` ，所以对于上述代码来说可以这样划分执行顺序
 
 ```js
-new (Foo.getName());
+new (Foo.getName());   
 (new Foo()).getName();
 ```
 
@@ -425,13 +429,13 @@ var foo = 1
 
 >  ```js
 > specialObject = {};
->
+>   
 > Scope = specialObject + Scope;
->
+>   
 > foo = new FunctionExpression;
 > foo.[[Scope]] = Scope;
 > specialObject.foo = foo; // {DontDelete}, {ReadOnly}
->
+>   
 > delete Scope[0]; // remove specialObject from the front of scope chain
 > ```
 
@@ -729,9 +733,9 @@ define(['./a', './b'], function(a, b) {
     a.do()
     b.do()
 })
-define(function(require, exports, module) {
-    var a = require('./a')
-    a.doSomething()
+define(function(require, exports, module) {   
+    var a = require('./a')  
+    a.doSomething()   
     var b = require('./b')
     b.doSomething()
 })
@@ -809,7 +813,7 @@ _.debounce = function(func, wait, immediate) {
  * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
  *                                如果想忽略结尾函数的调用，传入{trailing: false}
  *                                两者不能共存，否则函数不能执行
- * @return {function}             返回客户调用函数
+ * @return {function}             返回客户调用函数   
  */
 _.throttle = function(func, wait, options) {
     var context, args, result;
@@ -1330,7 +1334,7 @@ function b() {
 async function test() {
   return "1";
 }
-console.log(test()); // -> Promise {<resolved>: "1"}
+console.log(sync()); // -> Promise {<resolved>: "1"}
 ```
 
 可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
@@ -1420,3 +1424,41 @@ p.a // -> Get 'a' = 2
 ```js
 parseFloat((0.1 + 0.2).toFixed(10))
 ```
+# 正则表达式
+
+## 元字符
+
+| 元字符 |                             作用                             |
+| :----: | :----------------------------------------------------------: |
+|   .    |                    匹配任意字符除了换行符                    |
+|   []   |  匹配方括号内的任意字符。比如 [0-9] 就可以用来匹配任意数字   |
+|   ^    | ^9，这样使用代表匹配以 9 开头。[`^`9]，这样使用代表不匹配方括号内除了 9 的字符 |
+| {1, 2} |                      匹配 1 到 2 位字符                      |
+| (yck)  |                   只匹配和 yck 相同字符串                    |
+|   \|   |                     匹配 \| 前后任意字符                     |
+|   \    |                             转义                             |
+|   *    |               只匹配出现 -1 次以上 * 前的字符                |
+|   +    |                只匹配出现 0 次以上 + 前的字符                |
+|   ?    |                        ? 之前字符可选                        |
+
+## 修饰语
+
+| 修饰语 |    作用    |
+| :----: | :--------: |
+|   i    | 忽略大小写 |
+|   g    |  全局搜索  |
+|   m    |    多行    |
+
+## 字符简写
+
+| 简写 |            作用            |
+| :--: | :------------------------: |
+|  \w  | 匹配字母数字或下划线或汉字 |
+|  \W  |         和上面相反         |
+|  \s  |      匹配任意的空白符      |
+|  \S  |         和上面相反         |
+|  \d  |          匹配数字          |
+|  \D  |         和上面相反         |
+|  \b  |    匹配单词的开始或结束    |
+|  \B  |         和上面相反         |
+
