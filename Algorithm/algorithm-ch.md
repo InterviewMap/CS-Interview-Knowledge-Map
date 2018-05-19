@@ -1,3 +1,33 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [时间复杂度](#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6)
+- [位运算](#%E4%BD%8D%E8%BF%90%E7%AE%97)
+  - [左移 <<](#%E5%B7%A6%E7%A7%BB-)
+  - [算数右移 >>](#%E7%AE%97%E6%95%B0%E5%8F%B3%E7%A7%BB-)
+  - [按位操作](#%E6%8C%89%E4%BD%8D%E6%93%8D%E4%BD%9C)
+- [排序](#%E6%8E%92%E5%BA%8F)
+  - [冒泡排序](#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F)
+  - [插入排序](#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F)
+  - [选择排序](#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F)
+  - [归并排序](#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F)
+  - [快排](#%E5%BF%AB%E6%8E%92)
+    - [面试题](#%E9%9D%A2%E8%AF%95%E9%A2%98)
+  - [堆排序](#%E5%A0%86%E6%8E%92%E5%BA%8F)
+  - [系统自带排序实现](#%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6%E6%8E%92%E5%BA%8F%E5%AE%9E%E7%8E%B0)
+- [链表](#%E9%93%BE%E8%A1%A8)
+  - [反转单向链表](#%E5%8F%8D%E8%BD%AC%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8)
+  - [二叉树的先序，中序，后序遍历](#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%85%88%E5%BA%8F%E4%B8%AD%E5%BA%8F%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86)
+    - [递归实现](#%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
+    - [非递归实现](#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
+  - [中序遍历的前驱后继节点](#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E7%9A%84%E5%89%8D%E9%A9%B1%E5%90%8E%E7%BB%A7%E8%8A%82%E7%82%B9)
+    - [前驱节点](#%E5%89%8D%E9%A9%B1%E8%8A%82%E7%82%B9)
+    - [后继节点](#%E5%90%8E%E7%BB%A7%E8%8A%82%E7%82%B9)
+  - [树的深度](#%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ### 时间复杂度
 
 通常使用最差的时间复杂度来衡量一个算法的好坏。

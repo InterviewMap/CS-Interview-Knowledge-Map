@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [花时间补基础，读文档](#%E8%8A%B1%E6%97%B6%E9%97%B4%E8%A1%A5%E5%9F%BA%E7%A1%80%E8%AF%BB%E6%96%87%E6%A1%A3)
+- [学会搜索](#%E5%AD%A6%E4%BC%9A%E6%90%9C%E7%B4%A2)
+- [学点英语](#%E5%AD%A6%E7%82%B9%E8%8B%B1%E8%AF%AD)
+- [画个图，想一想再做](#%E7%94%BB%E4%B8%AA%E5%9B%BE%E6%83%B3%E4%B8%80%E6%83%B3%E5%86%8D%E5%81%9A)
+- [利用好下班时间学习](#%E5%88%A9%E7%94%A8%E5%A5%BD%E4%B8%8B%E7%8F%AD%E6%97%B6%E9%97%B4%E5%AD%A6%E4%B9%A0)
+- [列好 ToDo](#%E5%88%97%E5%A5%BD-todo)
+- [反思和整理](#%E5%8F%8D%E6%80%9D%E5%92%8C%E6%95%B4%E7%90%86)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 你是否时常会焦虑时间过的很快，没时间学习，本文将会分享一些个人的见解。
 
 ### 花时间补基础，读文档

@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Merge with Rebase](#merge-with-rebase)
+- [stash](#stash)
+- [reflog](#reflog)
+- [Reset](#reset)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 This is not for rookie, we'll introduce somthing about more advanced.
 ## Merge with Rebase
 This command shows no difference with the command `merge`.    

@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [XSS](#xss)
+  - [如何攻击](#%E5%A6%82%E4%BD%95%E6%94%BB%E5%87%BB)
+  - [如何防御](#%E5%A6%82%E4%BD%95%E9%98%B2%E5%BE%A1)
+  - [CSP](#csp)
+- [CSRF](#csrf)
+  - [如何攻击](#%E5%A6%82%E4%BD%95%E6%94%BB%E5%87%BB-1)
+  - [如何防御](#%E5%A6%82%E4%BD%95%E9%98%B2%E5%BE%A1-1)
+    - [SameSite](#samesite)
+    - [验证 Referer](#%E9%AA%8C%E8%AF%81-referer)
+    - [Token](#token)
+- [密码安全](#%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8)
+  - [加盐](#%E5%8A%A0%E7%9B%90)
+  - [前端加密](#%E5%89%8D%E7%AB%AF%E5%8A%A0%E5%AF%86)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 #### XSS
 
 > **跨网站指令码**（英语：Cross-site scripting，通常简称为：XSS）是一种网站应用程式的安全漏洞攻击，是[代码注入](https://www.wikiwand.com/zh-hans/%E4%BB%A3%E7%A2%BC%E6%B3%A8%E5%85%A5)的一种。它允许恶意使用者将程式码注入到网页上，其他使用者在观看网页时就会受到影响。这类攻击通常包含了 HTML 以及使用者端脚本语言。
