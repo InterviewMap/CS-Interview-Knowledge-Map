@@ -233,7 +233,7 @@ Foo.prototype.getName = function () {
 };
 
 new Foo.getName();   // -> 1
-new Foo().getName(); // -> 2       
+new Foo().getName(); // -> 2
 ```
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
@@ -241,7 +241,7 @@ new Foo().getName(); // -> 2
 从上图可以看出，`new Foo() ` 的优先级大于 `new Foo` ，所以对于上述代码来说可以这样划分执行顺序
 
 ```js
-new (Foo.getName());   
+new (Foo.getName());
 (new Foo()).getName();
 ```
 
@@ -425,13 +425,13 @@ var foo = 1
 
 >  ```js
 > specialObject = {};
->   
+>
 > Scope = specialObject + Scope;
->   
+>
 > foo = new FunctionExpression;
 > foo.[[Scope]] = Scope;
 > specialObject.foo = foo; // {DontDelete}, {ReadOnly}
->   
+>
 > delete Scope[0]; // remove specialObject from the front of scope chain
 > ```
 
@@ -729,9 +729,9 @@ define(['./a', './b'], function(a, b) {
     a.do()
     b.do()
 })
-define(function(require, exports, module) {   
-    var a = require('./a')  
-    a.doSomething()   
+define(function(require, exports, module) {
+    var a = require('./a')
+    a.doSomething()
     var b = require('./b')
     b.doSomething()
 })
@@ -809,7 +809,7 @@ _.debounce = function(func, wait, immediate) {
  * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
  *                                如果想忽略结尾函数的调用，传入{trailing: false}
  *                                两者不能共存，否则函数不能执行
- * @return {function}             返回客户调用函数   
+ * @return {function}             返回客户调用函数
  */
 _.throttle = function(func, wait, options) {
     var context, args, result;
@@ -1330,7 +1330,7 @@ function b() {
 async function test() {
   return "1";
 }
-console.log(sync()); // -> Promise {<resolved>: "1"}
+console.log(test()); // -> Promise {<resolved>: "1"}
 ```
 
 可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
