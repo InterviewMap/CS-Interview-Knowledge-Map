@@ -888,14 +888,14 @@ _.throttle = function(func, wait, options) {
 
 # Map、FlapMap and Reduce
 
-The role of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
+The effect of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
 ```js
 [1, 2, 3].map((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-A `Map` has three parameters, namely the current index element, the index, the original array.
+`Map` has three parameters, namely the current index element, the index, the original array.
 
 ```js
 ['1','2','3'].map(parseInt)
@@ -904,7 +904,7 @@ A `Map` has three parameters, namely the current index element, the index, the o
 //  parseInt('3', 2) -> NaN
 ```
 
-The role of `FlapMap` is almost the same with a `Map`, but the original array will be dimensioned for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+The effect of `FlapMap` is almost the same with a `Map`, but the original array will be dimensioned for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
@@ -921,7 +921,7 @@ const flattenDeep = (arr) => Array.isArray(arr)
 flattenDeep([1, [[2], [3, [4]], 5]])
 ```
 
-The role of `Reduce` is to combine the values in the array and finally get a value
+The effect of `Reduce` is to combine the values in the array and finally get a value
 
 ```js
 function a() {
