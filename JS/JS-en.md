@@ -968,6 +968,6 @@ async function test() {
 test()
 ```
 
-The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, asynchronous code is not executed before the synchronization code is executed.
+The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, synchronization code is not executed before the asynchronization code is executed.
 
 The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can write code more clearly and accurately. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
