@@ -100,7 +100,7 @@ Cache-control: max-age=30
 预加载其实是声明式的 `fetch` ，强制浏览器请求资源，并且不会阻塞 `onload` 事件，可以使用以下代码开启预加载
 
 ```html
-<link rel="prerender" href="http://example.com">
+<link rel="prefetch" href="http://example.com">
 ```
 
 预加载可以一定程度上降低首屏的加载时间，因为可以将一些不影响首屏但重要的文件延后加载，唯一缺点就是兼容性不好。
