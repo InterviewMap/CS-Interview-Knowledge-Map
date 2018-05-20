@@ -50,9 +50,11 @@
 |   call, apply, bind    |          |    √     |    √     |
 |        Promise         |   LGC    |    √     |    √     |
 |       Generator        |          |          |          |
-| Map、FlapMap 和 Reduce |   YYG    |          |          |
-|     async 和 await     |   YYG    |          |          |
+| Map、FlapMap 和 Reduce |   YYG    |    √     |    √     |
+|     async 和 await     |   YYG    |    √     |    √     |
 |         Proxy          |          |          |          |
+|        0.1+0.2         |          |          |          |
+|          正则          |          |          |          |
 
 #### 浏览器
 
@@ -68,9 +70,9 @@
 
 |   章节   | 翻译人员 | 翻译完成 | 校对完成 |
 | :------: | :------: | :------: | :------: |
-| 网络相关 |   LGC    |          |          |
-| 文件优化 |   LGC    |          |          |
-|   其他   |   LGC    |          |          |
+| 网络相关 |   LGC    |    √     |          |
+| 文件优化 |   LGC    |    √     |          |
+|   其他   |   LGC    |    √     |          |
 
 #### 安全
 
