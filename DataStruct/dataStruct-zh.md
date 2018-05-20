@@ -65,3 +65,41 @@ var isValid = function (s) {
 };
 ```
 
+# 队列
+
+## 原理
+
+队列一个线性结构，特点是在某一端添加数据，在另一端删除数据，遵循先进先出的原则。
+
+![](https://user-gold-cdn.xitu.io/2018/5/20/1637cba2a6155793?w=640&h=419&f=png&s=15737)
+
+## 实现
+
+这里会讲解两种实现队列的方式，分别是单链队列和循环队列。
+
+### 单链队列
+
+```js
+class Queue {
+  constructor() {
+    this.queue = []
+  }
+  enQueue(item) {
+    this.queue.push(item)
+  }
+  deQueue() {
+    this.queue.shift()
+  }
+  getHeader() {
+    return this.queue[0]
+  }
+  getLength() {
+    return this.queue.length
+  }
+  isEmpty() {
+    return this.getLength() === 0
+  }
+}
+```
+
+因为单链队列在出队操作的时候需要 O(n) 的时间复杂度，所以引入了循环队列。循环队列的出队操作平均是 O(1) 的时间复杂度。
