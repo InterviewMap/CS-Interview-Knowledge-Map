@@ -885,3 +885,89 @@ _.throttle = function(func, wait, options) {
     };
 };
 ```
+
+# Map、FlapMap and Reduce
+
+The effect of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
+
+```js
+[1, 2, 3].map((v) => v + 1)
+// -> [2, 3, 4]
+```
+
+`Map` has three parameters, namely the current index element, the index, the original array.
+
+```js
+['1','2','3'].map(parseInt)
+//  parseInt('1', 0) -> 1
+//  parseInt('2', 1) -> NaN
+//  parseInt('3', 2) -> NaN
+```
+
+The effect of `FlapMap` is almost the same with a `Map`, but the original array will be dimensioned for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+
+```js
+[1, [2], 3].flatMap((v) => v + 1)
+// -> [2, 3, 4]
+```
+
+You can achieve this when you want to completely reduce the dimensions of a multidimensional array.
+
+```js
+const flattenDeep = (arr) => Array.isArray(arr)
+  ? arr.reduce( (a, b) => [...flattenDeep(a), ...flattenDeep(b)] , [])
+  : [arr]
+
+flattenDeep([1, [[2], [3, [4]], 5]])
+```
+
+The effect of `Reduce` is to combine the values in the array and finally get a value
+
+```js
+function a() {
+    console.log(1);
+}
+
+function b() {
+    console.log(2);
+}
+
+[a, b].reduce((a, b) => a(b()))
+// -> 2 1
+```
+
+
+# async and await
+
+A function with `async`, then the function will return a `Promise`.
+
+```js
+async function test() {
+  return "1";
+}
+console.log(test()); // -> Promise {<resolved>: "1"}
+```
+
+You can think of `async` as wrapping a function using `Promise.resolve()`.
+
+`await` can only be used in `async` functions.
+
+```js
+function sleep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('finish')
+      resolve("sleep");
+    }, 2000);
+  });
+}
+async function test() {
+  let value = await sleep();
+  console.log("object");
+}
+test()
+```
+
+The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, synchronization code is not executed before the asynchronization code is executed.
+
+The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can write code more clearly and accurately. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
