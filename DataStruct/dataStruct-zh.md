@@ -193,16 +193,17 @@ class LinkList {
     // 虚拟头部
     this.dummyNode = new Node(null, null)
   }
+  find(header, index, currentIndex) {
+    if (index === currentIndex) return header
+    return this.find(header.next, index, currentIndex + 1)
+  }
   addNode(v, index) {
     this.checkIndex(index)
-    let prev = this.dummyNode
-    for (let i = 0; i < index; i++) {
-      prev = prev.next
-    }
-      // 当往链表末尾插入时，prev.next 为空
-      // 其他情况时，因为要插入节点，所以插入的节点
-      // 的 next 应该是 prev.next
-      // 然后设置 prev.next 为插入的节点
+    // 当往链表末尾插入时，prev.next 为空
+    // 其他情况时，因为要插入节点，所以插入的节点
+    // 的 next 应该是 prev.next
+    // 然后设置 prev.next 为插入的节点
+    let prev = this.find(this.dummyNode, index, 0)
     prev.next = new Node(v, prev.next)
     this.size++
     return prev.next
@@ -218,22 +219,11 @@ class LinkList {
   }
   removeNode(index, isLast) {
     this.checkIndex(index)
-    let prev = this.dummyNode
-    // 当删除末尾时，取末尾的前一个节点
     index = isLast ? index - 1 : index
-    for (let i = 0; i < index; i++) {
-      prev = prev.next
-    }
+    let prev = this.find(this.dummyNode, index, 0)
     let node = prev.next
-    if (isLast) {
-      prev.next = null
-    } else {
-      // 链表为 1->2->3 时，想删除节点 2
-      // 应该先拿到节点 2，然后将节点 1 的 next 设为节点 3
-      // 然后清空节点 2 的 next 指针
-      prev.next = node.next
-      node.next = null
-    }
+    prev.next = node.next
+    node.next = null
     this.size--
     return node
   }
@@ -247,13 +237,9 @@ class LinkList {
     if (index < 0 || index > this.size) throw Error('Index error')
   }
   getNode(index) {
-    this.checkIndex()
+    this.checkIndex(index)
     if (this.isEmpty()) return
-    let prev = this.dummyNode
-    for (let i = 0; i < index; i++) {
-      prev = prev.next
-    }
-    return prev
+    return this.find(this.dummyNode, index, 0).next
   }
   isEmpty() {
     return this.size === 0
