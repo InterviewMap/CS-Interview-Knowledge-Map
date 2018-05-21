@@ -177,6 +177,8 @@ class SqQueue {
 
 ## 实现
 
+单向链表
+
 ```js
 class Node {
   constructor(v, next) {
@@ -184,7 +186,7 @@ class Node {
     this.next = next
   }
 }
-class DoubleLinkList {
+class LinkList {
   constructor() {
     // 链表长度
     this.size = 0
@@ -197,6 +199,10 @@ class DoubleLinkList {
     for (let i = 0; i < index; i++) {
       prev = prev.next
     }
+      // 当往链表末尾插入时，prev.next 为空
+      // 其他情况时，因为要插入节点，所以插入的节点
+      // 的 next 应该是 prev.next
+      // 然后设置 prev.next 为插入的节点
     prev.next = new Node(v, prev.next)
     this.size++
     return prev.next
@@ -213,6 +219,7 @@ class DoubleLinkList {
   removeNode(index, isLast) {
     this.checkIndex(index)
     let prev = this.dummyNode
+    // 当删除末尾时，取末尾的前一个节点
     index = isLast ? index - 1 : index
     for (let i = 0; i < index; i++) {
       prev = prev.next
@@ -221,7 +228,9 @@ class DoubleLinkList {
     if (isLast) {
       prev.next = null
     } else {
-      let next = prev.next
+      // 链表为 1->2->3 时，想删除节点 2
+      // 应该先拿到节点 2，然后将节点 1 的 next 设为节点 3
+      // 然后清空节点 2 的 next 指针
       prev.next = node.next
       node.next = null
     }
