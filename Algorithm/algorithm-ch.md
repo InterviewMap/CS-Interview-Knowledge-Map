@@ -514,10 +514,10 @@ var traversal = function(root) {
   if (root) {
     // 先序
     console.log(root); 
-    isSymmetric(root.left);
+    traversal(root.left);
     // 中序
     // console.log(root); 
-    isSymmetric(root.right);
+    traversal(root.right);
     // 后序
     // console.log(root);
   }

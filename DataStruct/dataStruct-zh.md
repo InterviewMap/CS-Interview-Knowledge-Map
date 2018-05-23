@@ -261,8 +261,93 @@ class LinkList {
 
 ## 二分搜索树
 
-二分搜索树也是二叉树，拥有二叉树的特性。但是区别在于二叉搜索树每个节点的值都比他的左子树的值大，比右子树的值小。
+二分搜索树也是二叉树，拥有二叉树的特性。但是区别在于二分搜索树每个节点的值都比他的左子树的值大，比右子树的值小。
 
 这种存储方式很适合于数据搜索。如下图所示，当需要查找 6 的时候，因为需要查找的值比根节点的值大，所以只需要在根节点的右子树上寻找，大大提高了搜索效率。
 
 ![](https://user-gold-cdn.xitu.io/2018/5/22/1638850ba7458208?w=596&h=485&f=png&s=36796)
+
+### 实现
+
+```js
+class Node {
+  constructor(value) {
+    this.value = value
+    this.left = null
+    this.right = null
+  }
+}
+
+class BST {
+  constructor() {
+    this.root = null
+    this.size = 0
+  }
+  getSize() {
+    return this.size
+  }
+  isEmpty() {
+    return this.size === 0
+  }
+  addNode(v) {
+    this.root = this.addChild(this.root, v)
+  }
+  // 添加节点时，需要比较添加的节点值和当前
+  // 节点值的大小
+  addChild(node, v) {
+    if (node.value > v) {
+      node.left = this.addChild(node.left, v)
+    } else if (node.value < 0) {
+      node.right = this.addChild(node.right, v)
+    }
+    return node
+  }
+}
+```
+
+以上是最基本的二分搜索树实现，接下来实现树的遍历。
+
+对于树的遍历来说，有三种遍历方法，分别是先序遍历、中序遍历、后序遍历。三种遍历的区别在于何时访问节点。在遍历树的过程中，每个节点都会遍历三次，分别是遍历到自己，遍历左子树和遍历右子树。如果需要实现先序遍历，那么只需要第一次遍历到节点时进行操作即可。
+
+```js
+// 先序遍历可用于打印树的结构
+// 先序遍历表示先访问根节点，然后访问左节点，最后访问右节点。
+preTraversal() {
+  pre(this.root)
+}
+pre(node) {
+  if (this.root) {
+    console.log(this.root.value)
+    pre(this.root.left)
+    pre(this.root.right)
+  }
+}
+// 中序遍历可用于排序
+// 对于 BST 来说，中序遍历可以实现一次遍历就
+// 得到有序的值
+// 中序遍历表示先访问左节点，然后访问根节点，最后访问右节点。
+midTraversal() {
+  pre(this.root)
+}
+mid(node) {
+  if (this.root) {
+    mid(this.root.left)
+    console.log(this.root.value)
+    mid(this.root.right)
+  }
+}
+// 后序遍历可用于先操作子节点
+// 再操作父节点的场景
+// 后序遍历表示先访问左节点，然后访问右节点，最后访问根节点。
+backTraversal() {
+  pre(this.root)
+}
+back(node) {
+  if (this.root) {
+    back(this.root.left)
+    back(this.root.right)
+    console.log(this.root.value)
+  }
+}
+```
+
