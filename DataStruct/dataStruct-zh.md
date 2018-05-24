@@ -371,3 +371,22 @@ breadthTraversal() {
 }
 ```
 
+接下来先介绍如何在树中寻找最小值或最大数。因为二分搜索树的特性，所以最小值一定在根节点的最左边，最大值相反
+
+```js
+getMin() {
+  return this._getMin(this.root).value
+}
+_getMin(node) {
+  if (!node.left) return node
+  return this._getMin(node.left)
+}
+getMax() {
+  return this._getMax(this.root).value
+}
+_getMax(node) {
+  if (!node.right) return node
+  return this._getMin(node.right)
+}
+```
+
