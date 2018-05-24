@@ -88,7 +88,7 @@ class Queue {
     this.queue.push(item)
   }
   deQueue() {
-    this.queue.shift()
+    return this.queue.shift()
   }
   getHeader() {
     return this.queue[0]
@@ -142,6 +142,7 @@ class SqQueue {
     if (this.size === this.getLength() / 4 && this.getLength() / 2 !== 0) {
       this.resize(this.getLength() / 2)
     }
+    return r
   }
   getHeader() {
     if (this.isEmpty()) {
@@ -277,7 +278,6 @@ class Node {
     this.right = null
   }
 }
-
 class BST {
   constructor() {
     this.root = null
@@ -290,15 +290,19 @@ class BST {
     return this.size === 0
   }
   addNode(v) {
-    this.root = this.addChild(this.root, v)
+    this.root = this._addChild(this.root, v)
   }
   // 添加节点时，需要比较添加的节点值和当前
   // 节点值的大小
-  addChild(node, v) {
+  _addChild(node, v) {
+    if (!node) {
+      this.size++
+      return new Node(v)
+    }
     if (node.value > v) {
-      node.left = this.addChild(node.left, v)
-    } else if (node.value < 0) {
-      node.right = this.addChild(node.right, v)
+      node.left = this._addChild(node.left, v)
+    } else if (node.value < v) {
+      node.right = this._addChild(node.right, v)
     }
     return node
   }
@@ -313,13 +317,13 @@ class BST {
 // 先序遍历可用于打印树的结构
 // 先序遍历表示先访问根节点，然后访问左节点，最后访问右节点。
 preTraversal() {
-  pre(this.root)
+  this._pre(this.root)
 }
-pre(node) {
-  if (this.root) {
-    console.log(this.root.value)
-    pre(this.root.left)
-    pre(this.root.right)
+_pre(node) {
+  if (node) {
+    console.log(node.value)
+    this._pre(node.left)
+    this._pre(node.right)
   }
 }
 // 中序遍历可用于排序
@@ -327,26 +331,42 @@ pre(node) {
 // 得到有序的值
 // 中序遍历表示先访问左节点，然后访问根节点，最后访问右节点。
 midTraversal() {
-  pre(this.root)
+  this._mid(this.root)
 }
-mid(node) {
-  if (this.root) {
-    mid(this.root.left)
-    console.log(this.root.value)
-    mid(this.root.right)
+_mid(node) {
+  if (node) {
+    this._mid(node.left)
+    console.log(node.value)
+    this._mid(node.right)
   }
 }
 // 后序遍历可用于先操作子节点
 // 再操作父节点的场景
 // 后序遍历表示先访问左节点，然后访问右节点，最后访问根节点。
 backTraversal() {
-  pre(this.root)
+  this._back(this.root)
 }
-back(node) {
-  if (this.root) {
-    back(this.root.left)
-    back(this.root.right)
-    console.log(this.root.value)
+_back(node) {
+  if (node) {
+    this._back(node.left)
+    this._back(node.right)
+    console.log(node.value)
+  }
+}
+```
+
+以上的这几种遍历都可以称之为深度遍历，对应的还有种遍历叫做广度遍历，也就是一层层地遍历树。对于广度遍历来说，我们需要利用之前讲过的队列结构来完成。
+
+```js
+breadthTraversal() {
+  if (!this.root) return null
+  let q = new Queue()
+  q.enQueue(this.root)
+  while (!q.isEmpty()) {
+    let n = q.deQueue()
+    console.log(n.value)
+    if (n.left) q.enQueue(n.left)
+    if (n.right) q.enQueue(n.right)
   }
 }
 ```
