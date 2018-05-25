@@ -361,8 +361,13 @@ _back(node) {
 breadthTraversal() {
   if (!this.root) return null
   let q = new Queue()
+  // 将根节点入队
   q.enQueue(this.root)
+  // 循环判断队列是否为空，为空
+  // 代表树遍历完毕
   while (!q.isEmpty()) {
+    // 将队首出队，判断是否有左右子树
+    // 有的话，就先左后右入队
     let n = q.deQueue()
     console.log(n.value)
     if (n.left) q.enQueue(n.left)
@@ -387,6 +392,28 @@ getMax() {
 _getMax(node) {
   if (!node.right) return node
   return this._getMin(node.right)
+}
+```
+
+**向上取整和向下取整**，这两个操作是相反的，所以代码也是类似的，这里只介绍如何向下取整。既然是向下取整，那么根据二分搜索树的特性，值一定在根节点的左侧。只需要一直遍历左子树直到当前节点的值不再大于等于需要的值，然后判断节点是否还拥有右子树。如果有的话，继续上面的递归判断。
+
+```js
+floor(v) {
+  if (!this.root) return null
+  let node = this._floor(this.root, v)
+  return node ? node.value : null
+}
+_floor(node, v) {
+  if (!node) return null
+  if (node.value === v) return v
+  // 如果当前节点值还比需要的值大，就继续递归
+  if (node.value > v) {
+    return this._floor(node.left, v)
+  }
+  // 判断当前节点是否拥有右子树
+  let right = this._floor(node.right, v)
+  if (right) return right
+  return node
 }
 ```
 
