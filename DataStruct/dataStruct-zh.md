@@ -313,9 +313,11 @@ class BST {
 
 对于树的遍历来说，有三种遍历方法，分别是先序遍历、中序遍历、后序遍历。三种遍历的区别在于何时访问节点。在遍历树的过程中，每个节点都会遍历三次，分别是遍历到自己，遍历左子树和遍历右子树。如果需要实现先序遍历，那么只需要第一次遍历到节点时进行操作即可。
 
+以下都是递归实现，如果你想学习非递归实现，可以 [点击这里阅读](../Algorithm/algorithm-ch.md#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
+
 ```js
 // 先序遍历可用于打印树的结构
-// 先序遍历表示先访问根节点，然后访问左节点，最后访问右节点。
+// 先序遍历先访问根节点，然后访问左节点，最后访问右节点。
 preTraversal() {
   this._pre(this.root)
 }
@@ -399,7 +401,6 @@ _getMax(node) {
 
 ```js
 floor(v) {
-  if (!this.root) return null
   let node = this._floor(this.root, v)
   return node ? node.value : null
 }
@@ -413,6 +414,46 @@ _floor(node, v) {
   // 判断当前节点是否拥有右子树
   let right = this._floor(node.right, v)
   if (right) return right
+  return node
+}
+```
+
+**排名**，这是用于获取给定值的排名或者排名第几的节点的值，这两个操作也是相反的，所以这个只介绍如果获取排名第几的节点的值。对于这个操作而言，我们需要略微的改造点代码，让每个节点拥有一个 `size` 属性。该属性表示该节点下有多少子节点（包含自身）。
+
+```js
+class Node {
+  constructor(value) {
+    this.value = value
+    this.left = null
+    this.right = null
+    // 修改代码
+    this.size = 1
+  }
+}
+_addChild(node, v) {
+  if (!node) {
+    return new Node(v)
+  }
+  if (node.value > v) {
+    // 修改代码
+    node.size++
+    node.left = this._addChild(node.left, v)
+  } else if (node.value < v) {
+    // 修改代码
+    node.size++
+    node.right = this._addChild(node.right, v)
+  }
+  return node
+}
+select(k) {
+  let node = this._select(this.root, k)
+  return node ? node.value : null
+}
+_select(node, k) {
+  if (!node) return null
+  let size = node.left ? node.left.size : 0
+  if (size > k) return this._select(node.left, k)
+  if (size < k) return this._select(node.right, k - size - 1)
   return node
 }
 ```
