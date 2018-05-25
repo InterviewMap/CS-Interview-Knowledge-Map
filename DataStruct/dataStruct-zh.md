@@ -451,8 +451,13 @@ select(k) {
 }
 _select(node, k) {
   if (!node) return null
+  // 先获取左子树下有几个节点
   let size = node.left ? node.left.size : 0
+  // 判断 size 是否大于 k
+  // 如果大于 k，代表所需要的节点在左节点
   if (size > k) return this._select(node.left, k)
+  // 如果小于 k，代表所需要的节点在右节点
+  // 注意这里需要重新计算 k，减去根节点除了右子树的节点数量
   if (size < k) return this._select(node.right, k - size - 1)
   return node
 }
