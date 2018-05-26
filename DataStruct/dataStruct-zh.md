@@ -515,3 +515,45 @@ _delectMin(node) {
 }
 ```
 
+最后讲解的就是如何删除任意节点了。对于这个操作，T.Hibbard 在 1962 年提出了解决这个难题的办法，也就是如何解决第三种情况。
+
+当遇到这种情况时，需要取出当前节点的后继节点（也就是当前节点右子树的最小节点）来替换需要删除的节点。然后将需要删除节点的左子树赋值给后继结点，右子树删除后继结点后赋值给他。
+
+你如果对于这个解决办法有疑问的话，可以这样考虑。因为二分搜索树的特性，父节点一定比所有左子节点大，比所有右子节点小。那么当需要删除父节点时，势必需要拿出一个比父节点大的节点来替换父节点。这个节点肯定不存在于左子树，必然存在于右子树。然后又需要保持父节点都是比右子节点小的，那么就可以取出右子树中最小的那个节点来替换父节点。
+
+```js
+delect(v) {
+  this.root = this._delect(this.root, v)
+}
+_delect(node, v) {
+  if (!node) return null
+  // 寻找的节点比当前节点小，去左子树找
+  if (node.value < v) {
+    node.right = this._delect(node.right, v)
+  } else if (node.value > v) {
+    // 寻找的节点比当前节点大，去右子树找
+    node.left = this._delect(node.left, v)
+  } else {
+    // 进入这个条件说明已经找到节点
+    // 先判断节点是否拥有拥有左右子树中的一个
+    // 是的话，将子树返回出去，这里和 `_delectMin` 的操作一样
+    if (!node.left) return node.right
+    if (!node.right) return node.left
+    // 进入这里，代表节点拥有左右子树
+    // 先取出当前节点的后继结点，也就是取当前节点右子树的最小值
+    let min = this._getMin(node.right)
+    // 取出最小值后，删除最小值
+    // 然后把删除节点后的子树赋值给最小值节点
+    min.right = this._delectMin(node.right)
+    // 左子树不动
+    min.left = node.left
+    node = min
+  }
+  // 维护 size
+  node.size = this._getSize(node.left) + this._getSize(node.right) + 1
+  return node
+}
+```
+
+
+
