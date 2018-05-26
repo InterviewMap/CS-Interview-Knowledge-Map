@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [栈](#%E6%A0%88)
+  - [原理](#%E5%8E%9F%E7%90%86)
+  - [实现](#%E5%AE%9E%E7%8E%B0)
+  - [应用](#%E5%BA%94%E7%94%A8)
+- [队列](#%E9%98%9F%E5%88%97)
+  - [原理](#%E5%8E%9F%E7%90%86-1)
+  - [实现](#%E5%AE%9E%E7%8E%B0-1)
+    - [单链队列](#%E5%8D%95%E9%93%BE%E9%98%9F%E5%88%97)
+  - [循环队列](#%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97)
+- [链表](#%E9%93%BE%E8%A1%A8)
+  - [原理](#%E5%8E%9F%E7%90%86-2)
+  - [实现](#%E5%AE%9E%E7%8E%B0-2)
+- [树](#%E6%A0%91)
+  - [二叉树](#%E4%BA%8C%E5%8F%89%E6%A0%91)
+  - [二分搜索树](#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91)
+    - [实现](#%E5%AE%9E%E7%8E%B0-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 栈
 
 ## 原理
@@ -418,7 +441,7 @@ _floor(node, v) {
 }
 ```
 
-**排名**，这是用于获取给定值的排名或者排名第几的节点的值，这两个操作也是相反的，所以这个只介绍如果获取排名第几的节点的值。对于这个操作而言，我们需要略微的改造点代码，让每个节点拥有一个 `size` 属性。该属性表示该节点下有多少子节点（包含自身）。
+**排名**，这是用于获取给定值的排名或者排名第几的节点的值，这两个操作也是相反的，所以这个只介绍如何获取排名第几的节点的值。对于这个操作而言，我们需要略微的改造点代码，让每个节点拥有一个 `size` 属性。该属性表示该节点下有多少子节点（包含自身）。
 
 ```js
 class Node {
@@ -429,6 +452,10 @@ class Node {
     // 修改代码
     this.size = 1
   }
+}
+// 新增代码
+_getSize(node) {
+  return node ? node.size : 0
 }
 _addChild(node, v) {
   if (!node) {
@@ -459,6 +486,31 @@ _select(node, k) {
   // 如果小于 k，代表所需要的节点在右节点
   // 注意这里需要重新计算 k，减去根节点除了右子树的节点数量
   if (size < k) return this._select(node.right, k - size - 1)
+  return node
+}
+```
+
+接下来讲解的是二分搜索树中最难实现的部分：删除节点。因为对于删除节点来说，会存在以下几种情况
+
+- 需要删除的节点没有子树
+- 需要删除的节点只有一条子树
+- 需要删除的节点有左右两条树
+
+对于前两种情况很好解决，但是第三种情况就有难度了，所以先来实现相对简单的操作：删除最小节点，对于删除最小节点来说，是不存在第三种情况的，删除最大节点操作是和删除最小节点相反的，所以这里也就不再赘述。
+
+```js
+delectMin() {
+  this.root = this._delectMin(this.root)
+  console.log(this.root)
+}
+_delectMin(node) {
+  // 一直递归左子树
+  // 如果左子树为空，就判断节点是否拥有右子树
+  // 有右子树的话就把需要删除的节点替换为右子树
+  if ((node != null) & !node.left) return node.right
+  node.left = this._delectMin(node.left)
+  // 最后需要重新维护下节点的 `size`
+  node.size = this._getSize(node.left) + this._getSize(node.right) + 1
   return node
 }
 ```
