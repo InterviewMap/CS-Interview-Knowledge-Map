@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [栈](#%E6%A0%88)
+  - [原理](#%E5%8E%9F%E7%90%86)
+  - [实现](#%E5%AE%9E%E7%8E%B0)
+  - [应用](#%E5%BA%94%E7%94%A8)
+- [队列](#%E9%98%9F%E5%88%97)
+  - [原理](#%E5%8E%9F%E7%90%86-1)
+  - [实现](#%E5%AE%9E%E7%8E%B0-1)
+    - [单链队列](#%E5%8D%95%E9%93%BE%E9%98%9F%E5%88%97)
+  - [循环队列](#%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97)
+- [链表](#%E9%93%BE%E8%A1%A8)
+  - [原理](#%E5%8E%9F%E7%90%86-2)
+  - [实现](#%E5%AE%9E%E7%8E%B0-2)
+- [树](#%E6%A0%91)
+  - [二叉树](#%E4%BA%8C%E5%8F%89%E6%A0%91)
+  - [二分搜索树](#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91)
+    - [实现](#%E5%AE%9E%E7%8E%B0-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 栈
 
 ## 原理
@@ -313,9 +336,11 @@ class BST {
 
 对于树的遍历来说，有三种遍历方法，分别是先序遍历、中序遍历、后序遍历。三种遍历的区别在于何时访问节点。在遍历树的过程中，每个节点都会遍历三次，分别是遍历到自己，遍历左子树和遍历右子树。如果需要实现先序遍历，那么只需要第一次遍历到节点时进行操作即可。
 
+以下都是递归实现，如果你想学习非递归实现，可以 [点击这里阅读](../Algorithm/algorithm-ch.md#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
+
 ```js
 // 先序遍历可用于打印树的结构
-// 先序遍历表示先访问根节点，然后访问左节点，最后访问右节点。
+// 先序遍历先访问根节点，然后访问左节点，最后访问右节点。
 preTraversal() {
   this._pre(this.root)
 }
@@ -361,8 +386,13 @@ _back(node) {
 breadthTraversal() {
   if (!this.root) return null
   let q = new Queue()
+  // 将根节点入队
   q.enQueue(this.root)
+  // 循环判断队列是否为空，为空
+  // 代表树遍历完毕
   while (!q.isEmpty()) {
+    // 将队首出队，判断是否有左右子树
+    // 有的话，就先左后右入队
     let n = q.deQueue()
     console.log(n.value)
     if (n.left) q.enQueue(n.left)
@@ -389,4 +419,141 @@ _getMax(node) {
   return this._getMin(node.right)
 }
 ```
+
+**向上取整和向下取整**，这两个操作是相反的，所以代码也是类似的，这里只介绍如何向下取整。既然是向下取整，那么根据二分搜索树的特性，值一定在根节点的左侧。只需要一直遍历左子树直到当前节点的值不再大于等于需要的值，然后判断节点是否还拥有右子树。如果有的话，继续上面的递归判断。
+
+```js
+floor(v) {
+  let node = this._floor(this.root, v)
+  return node ? node.value : null
+}
+_floor(node, v) {
+  if (!node) return null
+  if (node.value === v) return v
+  // 如果当前节点值还比需要的值大，就继续递归
+  if (node.value > v) {
+    return this._floor(node.left, v)
+  }
+  // 判断当前节点是否拥有右子树
+  let right = this._floor(node.right, v)
+  if (right) return right
+  return node
+}
+```
+
+**排名**，这是用于获取给定值的排名或者排名第几的节点的值，这两个操作也是相反的，所以这个只介绍如何获取排名第几的节点的值。对于这个操作而言，我们需要略微的改造点代码，让每个节点拥有一个 `size` 属性。该属性表示该节点下有多少子节点（包含自身）。
+
+```js
+class Node {
+  constructor(value) {
+    this.value = value
+    this.left = null
+    this.right = null
+    // 修改代码
+    this.size = 1
+  }
+}
+// 新增代码
+_getSize(node) {
+  return node ? node.size : 0
+}
+_addChild(node, v) {
+  if (!node) {
+    return new Node(v)
+  }
+  if (node.value > v) {
+    // 修改代码
+    node.size++
+    node.left = this._addChild(node.left, v)
+  } else if (node.value < v) {
+    // 修改代码
+    node.size++
+    node.right = this._addChild(node.right, v)
+  }
+  return node
+}
+select(k) {
+  let node = this._select(this.root, k)
+  return node ? node.value : null
+}
+_select(node, k) {
+  if (!node) return null
+  // 先获取左子树下有几个节点
+  let size = node.left ? node.left.size : 0
+  // 判断 size 是否大于 k
+  // 如果大于 k，代表所需要的节点在左节点
+  if (size > k) return this._select(node.left, k)
+  // 如果小于 k，代表所需要的节点在右节点
+  // 注意这里需要重新计算 k，减去根节点除了右子树的节点数量
+  if (size < k) return this._select(node.right, k - size - 1)
+  return node
+}
+```
+
+接下来讲解的是二分搜索树中最难实现的部分：删除节点。因为对于删除节点来说，会存在以下几种情况
+
+- 需要删除的节点没有子树
+- 需要删除的节点只有一条子树
+- 需要删除的节点有左右两条树
+
+对于前两种情况很好解决，但是第三种情况就有难度了，所以先来实现相对简单的操作：删除最小节点，对于删除最小节点来说，是不存在第三种情况的，删除最大节点操作是和删除最小节点相反的，所以这里也就不再赘述。
+
+```js
+delectMin() {
+  this.root = this._delectMin(this.root)
+  console.log(this.root)
+}
+_delectMin(node) {
+  // 一直递归左子树
+  // 如果左子树为空，就判断节点是否拥有右子树
+  // 有右子树的话就把需要删除的节点替换为右子树
+  if ((node != null) & !node.left) return node.right
+  node.left = this._delectMin(node.left)
+  // 最后需要重新维护下节点的 `size`
+  node.size = this._getSize(node.left) + this._getSize(node.right) + 1
+  return node
+}
+```
+
+最后讲解的就是如何删除任意节点了。对于这个操作，T.Hibbard 在 1962 年提出了解决这个难题的办法，也就是如何解决第三种情况。
+
+当遇到这种情况时，需要取出当前节点的后继节点（也就是当前节点右子树的最小节点）来替换需要删除的节点。然后将需要删除节点的左子树赋值给后继结点，右子树删除后继结点后赋值给他。
+
+你如果对于这个解决办法有疑问的话，可以这样考虑。因为二分搜索树的特性，父节点一定比所有左子节点大，比所有右子节点小。那么当需要删除父节点时，势必需要拿出一个比父节点大的节点来替换父节点。这个节点肯定不存在于左子树，必然存在于右子树。然后又需要保持父节点都是比右子节点小的，那么就可以取出右子树中最小的那个节点来替换父节点。
+
+```js
+delect(v) {
+  this.root = this._delect(this.root, v)
+}
+_delect(node, v) {
+  if (!node) return null
+  // 寻找的节点比当前节点小，去左子树找
+  if (node.value < v) {
+    node.right = this._delect(node.right, v)
+  } else if (node.value > v) {
+    // 寻找的节点比当前节点大，去右子树找
+    node.left = this._delect(node.left, v)
+  } else {
+    // 进入这个条件说明已经找到节点
+    // 先判断节点是否拥有拥有左右子树中的一个
+    // 是的话，将子树返回出去，这里和 `_delectMin` 的操作一样
+    if (!node.left) return node.right
+    if (!node.right) return node.left
+    // 进入这里，代表节点拥有左右子树
+    // 先取出当前节点的后继结点，也就是取当前节点右子树的最小值
+    let min = this._getMin(node.right)
+    // 取出最小值后，删除最小值
+    // 然后把删除节点后的子树赋值给最小值节点
+    min.right = this._delectMin(node.right)
+    // 左子树不动
+    min.left = node.left
+    node = min
+  }
+  // 维护 size
+  node.size = this._getSize(node.left) + this._getSize(node.right) + 1
+  return node
+}
+```
+
+
 
