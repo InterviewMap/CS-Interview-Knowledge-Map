@@ -973,3 +973,25 @@ test()
 The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, synchronization code is not executed before the asynchronization code is executed.
 
 The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can write code more clearly and accurately. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
+
+Let's look at a code that uses `await`.
+
+```js
+var a = 0
+var b = async () => {
+  a = a + await 10
+  console.log('2', a) // -> '2' 10
+  a = (await 10) + a
+  console.log('3', a) // -> '3' 20
+}
+b()
+a++
+console.log('1', a) // -> '1' 1
+```
+
+You may have doubts about the above code, here explain the principle
+
+- First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
+- Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
+- At this point, the synchronization code is executed and asynchronous code is started. The saved value is used. At this time, `a = 10`
+- Then comes the usual code execution
