@@ -2,31 +2,31 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-      - [Built-in Types](#built-in-types)
-      - [Typeof](#typeof)
-      - [Type Conversion](#type-conversion)
-        - [Converting to Boolean](#converting-to-boolean)
-        - [Objects to Primitive Types](#objects-to-primitive-types)
-        - [Arithmetic Operators](#arithmetic-operators)
-        - [`==` operator](#-operator)
-        - [Comparison Operator](#comparison-operator)
-      - [prototype](#prototype)
-      - [New](#new)
-      - [This](#this)
-      - [instanceof](#instanceof)
-      - [scope](#scope)
-      - [Closure](#closure)
-      - [Prototypes](#prototypes)
-      - [inheritance](#inheritance)
-      - [Deep and Shallow Copy](#deep-and-shallow-copy)
-        - [shallow copy](#shallow-copy)
-        - [deep copy](#deep-copy)
-      - [the differences between call, apply, bind](#the-differences-between-call-apply-bind)
-        - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
-      - [Promise implementation](#promise-implementation)
-      - [Throttle](#throttle)
+- [Built-in Types](#built-in-types)
+- [Typeof](#typeof)
+- [Type Conversion](#type-conversion)
+  - [Converting to Boolean](#converting-to-boolean)
+  - [Objects to Primitive Types](#objects-to-primitive-types)
+  - [Arithmetic Operators](#arithmetic-operators)
+  - [`==` operator](#-operator)
+  - [Comparison Operator](#comparison-operator)
+- [New](#new)
+- [This](#this)
+- [instanceof](#instanceof)
+- [scope](#scope)
+- [Closure](#closure)
+- [Prototypes](#prototypes)
+- [inheritance](#inheritance)
+- [Deep and Shallow Copy](#deep-and-shallow-copy)
+  - [shallow copy](#shallow-copy)
+  - [deep copy](#deep-copy)
+- [the differences between call, apply, bind](#the-differences-between-call-apply-bind)
+  - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
+- [Promise implementation](#promise-implementation)
+- [Throttle](#throttle)
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
 - [async and await](#async-and-await)
+- [Proxy](#proxy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -966,7 +966,7 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-# Map、FlapMap and Reduce
+#### Map、FlapMap and Reduce
 
 The effect of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
@@ -1017,7 +1017,7 @@ function b() {
 ```
 
 
-# async and await
+#### async and await
 
 A function with `async`, then the function will return a `Promise`.
 
@@ -1073,3 +1073,41 @@ You may have doubts about the above code, here explain the principle
 - Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
 - At this point, the synchronization code is executed and asynchronous code is started. The saved value is used. At this time, `a = 10`
 - Then comes the usual code execution
+
+#### Proxy
+
+Proxy is a new feature since ES6. It can be used to define operations in objects.
+
+```js
+let p = new Proxy(target, handler);
+// `target` represents the object to add the proxy to
+// `handler` customizes operations in the object
+```
+
+Proxy can be handly for the implementation of data binding and listening.
+
+```js
+let onWatch = (obj, setBind, getLogger) => {
+  let handler = {
+    get(target, property, receiver) {
+      getLogger(target, property)
+      return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+      setBind(value);
+      return Reflect.set(target, property, value);
+    }
+  };
+  return new Proxy(obj, handler);
+};
+
+let obj = { a: 1 }
+let value
+let p = onWatch(obj, (v) => {
+  value = v
+}, (target, property) => {
+  console.log(`Get '${property}' = ${target[property]}`);
+})
+p.a = 2 // bind `value` to `2`
+p.a // -> Get 'a' = 2
+```
