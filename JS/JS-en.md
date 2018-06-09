@@ -12,20 +12,20 @@
   - [Comparison Operator](#comparison-operator)
 - [New](#new)
 - [This](#this)
-- [instanceof](#instanceof)
-- [scope](#scope)
+- [Instanceof](#instanceof)
+- [Scope](#scope)
 - [Closure](#closure)
 - [Prototypes](#prototypes)
-- [inheritance](#inheritance)
+- [Inheritance](#inheritance)
 - [Deep and Shallow Copy](#deep-and-shallow-copy)
-  - [shallow copy](#shallow-copy)
-  - [deep copy](#deep-copy)
-- [the differences between call, apply, bind](#the-differences-between-call-apply-bind)
+  - [Shallow copy](#shallow-copy)
+  - [Deep copy](#deep-copy)
+- [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
   - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
 - [Promise implementation](#promise-implementation)
 - [Throttle](#throttle)
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
-- [async and await](#async-and-await)
+- [Async and await](#async-and-await)
 - [Proxy](#proxy)
 - [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
 - [Regular Expressions](#regular-expressions)
@@ -35,7 +35,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-#### Built-in Types
+# Built-in Types
 JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
 
 There are six primitive types: `null` , `undefined` , `boolean` , `number` , `string` , `symbol `.
@@ -63,7 +63,7 @@ console.log(a) // EF
 ```
 
 
-#### Typeof
+# Typeof
 
  `typeof` can always display the correct type of the primitive types, except `null`
 ```js
@@ -103,27 +103,27 @@ let undefined = 1
 a === void 0
 ```
 
-#### Type Conversion
+# Type Conversion
 
-##### Converting to Boolean
+## Converting to Boolean
 
-Other than `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
+Except `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
 
-##### Objects to Primitive Types
+## Objects to Primitive Types
 
 When objects are converted, `valueOf` and `toString` will be called, respectively in order. These two methods can also be overridden.
 
 ```js
 let a = {
     valueOf() {
-    	return 0
+        return 0
     }
 }
 ```
 
-##### Arithmetic Operators
+## Arithmetic Operators
 
-Only for additions, if one of the parameters is a string, the other will be converted to string as well. For all other operations, as long as one of the parameters is a number, the other will be converted to a number.
+Only for additions, if one of the parameters is a string, the other will be converted to the string as well. For all other operations, as long as one of the parameters is a number, the other will be converted to a number.
 
 Additions will invoke three types of type conversions: to primitive types, to numbers, and to string.
 
@@ -144,13 +144,13 @@ Note the expression `'a' + + 'b'` for addition.
 // You might have seen + '1' -> 1
 ```
 
-##### `==` operator
+## `==` operator
 
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275f89ebf931e9)
+![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
 `toPrimitive` in the above figure is converting objects to primitive types.
 
-`===` is usually recommeded to compare to values. However, if you would like to know if a value is `null`, you can use `xx == null`.
+`===` is usually recommended to compare to values. However, if you would like to know if a value is `null`, you can use `xx == null`.
 
 Let's take a look at an example `[] == ![] // -> true`. The following explains why the expression evaluates to `true`.
 
@@ -168,13 +168,12 @@ ToPrimitive([]) == 0
 0 == 0 // -> true
 ```
 
-##### Comparison Operator
+## Comparison Operator
 
 1. If it's an object, `toPrimitive` is used.
 2. If it's a string, `unicode` character index is used to compare.
-3. 
 
-#### New
+# New
 
 1.   Create a new object
 2.   Chained to prototype
@@ -240,7 +239,7 @@ new (Foo.getName());
 For the first function, `Foo.getName()` is executed first, so the result is 1;
 As for the latter, it firstly executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
 
-#### This
+# This
 
 `This`, a concept that many people will confuse, is not difficult to understand, as long as you remember the following rules
 
@@ -285,7 +284,7 @@ console.log(a()()());
 Actually , the arrow function does not have `this` , `this` in the above function only depends on the first function outside that is not arrow function . In above case , `this` is default to `window` because calling `a` matches the first situation in the above codes . And , what `this` is bound to will not be changed by any code once `this` is bound to the context
 
 
-#### instanceof
+# Instanceof
 
 The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
 let’s try to implement it
@@ -306,7 +305,7 @@ function instanceof(left, right) {
 }
 ```
 
-#### scope
+# Scope
 
 Executing JS code would generate execution environment , as long as the code is not written in a function , it belongs to the global execution environment . The code in a function will generate function execution environments , but only two (there’s an `eval`, which basically will not be used, so you can think of only two execution environments))
 
@@ -345,7 +344,7 @@ var b = 'Hello world'
 
 Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before declared , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists declared , but does not assign a value, because the temporary dead zone.
 
-#### Closure
+# Closure
 
 The definition of a closure is simple: Function A returns a function B, and function B uses a variable of function A, and the function B is called a closure.
 
@@ -429,7 +428,7 @@ For `let`, it will create a block-level scope, which is equivalent to:
 }
 ```
 
-#### Prototypes
+# Prototypes
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
 
@@ -440,7 +439,7 @@ Each object has an internal property, denoted as `__proto__` , which is a refere
 Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
 
 
-#### inheritance
+# Inheritance
 
 In ES5, we can solve the problems of inheritance by using the following ways.
 
@@ -503,7 +502,7 @@ The Implement ideas of the above inheritance: firstly create the instance of par
 The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
 
 
-#### Deep and Shallow Copy
+# Deep and Shallow Copy
 
 ```js
 let a = {
@@ -518,7 +517,7 @@ From the above example, we can see that if you assign an object to a variable,  
 
 Usually, we don't want such problem to appear during development, thus we can use shallow copy to solve this problem.
 
-##### shallow copy
+## Shallow copy
 
 Firstly we can solve the problem by `Object.assign`
 ```js
@@ -554,7 +553,7 @@ console.log(b.jobs.first) // native
 ```
 The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that the values of both share the same reference. To solve the problem, we need to introduce deep copy.
 
-##### deep copy
+## Deep copy
 
 The problem can usually be solved by  `JSON.parse(JSON.stringify(object))`
 
@@ -628,7 +627,7 @@ var obj = {a: 1, b: {
 const clone = await structuralClone(obj);
 ```
 
-#### the differences between call, apply, bind
+# The differences between call, apply, bind
 
 Firstly, let’s tell the difference between the former two.
 
@@ -649,7 +648,7 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-##### simulation to implement   `call` and  `apply`
+## simulation to implement   `call` and  `apply`
 
 We can consider how to implement them from the following points
 
@@ -715,7 +714,7 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-#### Promise implementation
+# Promise implementation
 
 `Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell.
 
@@ -908,7 +907,7 @@ The above codes, which is implemented based on the Promise / A+ specification,  
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
 
-#### Throttle
+# Throttle
 
 `Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into the last execution, and `Throttle` is to turn multiple executions into execution at regular intervals.
 
@@ -971,7 +970,7 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-#### Map、FlapMap and Reduce
+# Map、FlapMap and Reduce
 
 The effect of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
@@ -1022,7 +1021,7 @@ function b() {
 ```
 
 
-#### async and await
+# Async and await
 
 A function with `async`, then the function will return a `Promise`.
 
@@ -1079,13 +1078,13 @@ You may have doubts about the above code, here explain the principle
 - At this point, the synchronization code is executed and asynchronous code is started. The saved value is used. At this time, `a = 10`
 - Then comes the usual code execution
 
-#### Proxy
+# Proxy
 
 Proxy is a new feature since ES6. It can be used to define operations in objects.
 
 ```js
 let p = new Proxy(target, handler);
-// `target` represents the object to add the proxy to
+// `target` represents the object of need to add the proxy
 // `handler` customizes operations in the object
 ```
 
@@ -1117,11 +1116,11 @@ p.a = 2 // bind `value` to `2`
 p.a // -> Get 'a' = 2
 ```
 
-#### Why 0.1 + 0.2 != 0.3
+# Why 0.1 + 0.2 != 0.3
 
-Because JS incorporated IEEE 754 for double float numbers (64 bits). Every language that uses this standard has this problem.
+Because JS uses the IEEE 754 double-precision version (64-bit). Every language that uses this standard has this problem.
 
-As you know, computers uses binaries to represent decimals, so `0.1` in binary is represented as
+As we know, computers uses binaries to represent decimals, so `0.1` in binary is represented as
 
 ```js
 // (0011) represents cycle
@@ -1138,7 +1137,7 @@ Binary computations in float numbers are different from those in integers. For m
 
 Back to the double float for IEEE 754 standard. Among the 64 bits, one bit is used for signing, 11 used for integer bits, and the rest 52 bits are floats. Since `0.1` and `0.2` are infinitely cycling binaries, the last bit of the floats needs to indicate whether to round (same as rounding in decimals).
 
-After rounding, `2^-4 * 1.10011...001` becomes `2^-4 * 1.10011(0011 * 12次)010`. After adding these two binaries we get `2^-2 * 1.0011(0011 * 11次)0100`, which is `0.30000000000000004` in decimals.
+After rounding, `2^-4 * 1.10011...001` becomes `2^-4 * 1.10011(0011 * 12 times)010`. After adding these two binaries we get `2^-2 * 1.0011(0011 * 11 times)0100`, which is `0.30000000000000004` in decimals.
 
 The native solution to this problem is shown below:
 
@@ -1146,32 +1145,32 @@ The native solution to this problem is shown below:
 parseFloat((0.1 + 0.2).toFixed(10))
 ```
 
-#### Regular Expressions
+# Regular Expressions
 
-##### Metacharacters
+## Metacharacters
 
-| Metacharacter | Effect                                                                                                                   |
-| :-----------: | :----------------------------------------------------------------------------------------------------------------------: |
-| .             | Matches any character other than the new line character                                                                  |
-| []            | matches anything within the brackets. For example, [0-9] can match any number                                            |
-| ^             | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters other than '9' in between brackets |
-| {1, 2}        | matches 1 or 2 digit characters                                                                                          |
-| (yck)         | only matches strings the same as 'yck'                                                                                   |
-| \|            | matches any character before of after \|                                                                                 |
-| \             | escape character                                                                                                         |
-| *             | only matches character before '*' appearing -1 times or above                                                            |
-| +             | only matches character before '+' appearing 0 times or above                                                             |
-| ?             | the character before '?' is optional                                                                                     |
+| Metacharacter |                            Effect                            |
+| :-----------: | :----------------------------------------------------------: |
+|       .       |     Matches any character except the new line character      |
+|      []       | matches anything within the brackets. For example, [0-9] can match any number |
+|       ^       | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters except '9' in between brackets |
+|    {1, 2}     |               matches 1 or 2 digit characters                |
+|     (yck)     |            only matches strings the same as 'yck'            |
+|      \|       |          matches any character before and after \|           |
+|       \       |                       escape character                       |
+|       *       |       Matches the preceding expression 0 or more times       |
+|       +       |       Matches the preceding expression 1 or more times       |
+|       ?       |             the character before '?' is optional             |
 
-##### Flags
+## Flags
 
 | Flag | Effect           |
 | :------: | :--------------: |
-| i        | ignores casing   |
+| i        | Case-insensitive search |
 | g        | matches globally |
 | m        | multiline        |
 
-##### Character Shorthands
+## Character Shorthands
 
 | shorthand |            Effect            |
 | :--: | :------------------------: |
