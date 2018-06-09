@@ -3,27 +3,33 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [栈](#%E6%A0%88)
-  - [原理](#%E5%8E%9F%E7%90%86)
+  - [概念](#%E6%A6%82%E5%BF%B5)
   - [实现](#%E5%AE%9E%E7%8E%B0)
   - [应用](#%E5%BA%94%E7%94%A8)
 - [队列](#%E9%98%9F%E5%88%97)
-  - [原理](#%E5%8E%9F%E7%90%86-1)
+  - [概念](#%E6%A6%82%E5%BF%B5-1)
   - [实现](#%E5%AE%9E%E7%8E%B0-1)
     - [单链队列](#%E5%8D%95%E9%93%BE%E9%98%9F%E5%88%97)
   - [循环队列](#%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97)
 - [链表](#%E9%93%BE%E8%A1%A8)
-  - [原理](#%E5%8E%9F%E7%90%86-2)
+  - [概念](#%E6%A6%82%E5%BF%B5-2)
   - [实现](#%E5%AE%9E%E7%8E%B0-2)
 - [树](#%E6%A0%91)
   - [二叉树](#%E4%BA%8C%E5%8F%89%E6%A0%91)
   - [二分搜索树](#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91)
     - [实现](#%E5%AE%9E%E7%8E%B0-3)
+- [Trie](#trie)
+  - [概念](#%E6%A6%82%E5%BF%B5-3)
+  - [实现](#%E5%AE%9E%E7%8E%B0-4)
+- [并查集](#%E5%B9%B6%E6%9F%A5%E9%9B%86)
+  - [概念](#%E6%A6%82%E5%BF%B5-4)
+  - [实现](#%E5%AE%9E%E7%8E%B0-5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 栈
 
-## 原理
+## 概念
 
 栈是一个线性结构，在计算机中是一个相当常见的数据结构。
 
@@ -90,7 +96,7 @@ var isValid = function (s) {
 
 # 队列
 
-## 原理
+## 概念
 
 队列一个线性结构，特点是在某一端添加数据，在另一端删除数据，遵循先进先出的原则。
 
@@ -193,7 +199,7 @@ class SqQueue {
 
 # 链表
 
-## 原理
+## 概念
 
 链表是一个线性结构，同时也是一个天然的递归结构。链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。但是链表失去了数组随机读取的优点，同时链表由于增加了结点的指针域，空间开销比较大。
 
@@ -557,7 +563,7 @@ _delect(node, v) {
 
 # Trie
 
-## 原理
+## 概念
 
 在计算机科学，**trie**，又称**前缀树**或**字典树**，是一种有序树，用于保存关联数组，其中的键通常是字符串。
 
@@ -640,9 +646,63 @@ class Trie {
 
 # 并查集
 
-## 原理
+## 概念
 
+并查集是一种特殊的树结构，用于处理一些不交集的合并及查询问题。该结构中每个节点都有一个父节点，如果只有当前一个节点，那么该节点的父节点指向自己。
 
+这个结构中有两个重要的操作，分别是：
+
+- Find：确定元素属于哪一个子集。它可以被用来确定两个元素是否属于同一子集。
+- Union：将两个子集合并成同一个集合。
+
+![](https://user-gold-cdn.xitu.io/2018/6/9/163e45b56fd25172?w=421&h=209&f=png&s=26545)
 
 ## 实现
+
+```js
+class DisjointSet {
+  // 初始化样本
+  constructor(count) {
+    // 初始化时，每个节点的父节点都是自己
+    this.parent = new Array(count)
+    // 用于记录树的深度，优化搜索复杂度
+    this.rank = new Array(count)
+    for (let i = 0; i < count; i++) {
+      this.parent[i] = i
+      this.rank[i] = 1
+    }
+  }
+  find(p) {
+    // 寻找当前节点的父节点是否为自己，不是的话表示还没找到
+    // 开始进行路径压缩优化
+    // 假设当前节点父节点为 A
+    // 将当前节点挂载到 A 节点的父节点上，达到压缩深度的目的
+    while (p != this.parent[p]) {
+      this.parent[p] = this.parent[this.parent[p]]
+      p = this.parent[p]
+    }
+    return p
+  }
+  isConnected(p, q) {
+    return this.find(p) === this.find(q)
+  }
+  // 合并
+  union(p, q) {
+    // 找到两个数字的父节点
+    let i = this.find(p)
+    let j = this.find(q)
+    if (i === j) return
+    // 判断两棵树的深度，深度小的加到深度大的树下面
+    // 如果两棵树深度相等，那就无所谓怎么加
+    if (this.rank[i] < this.rank[j]) {
+      this.parent[i] = j
+    } else if (this.rank[i] > this.rank[j]) {
+      this.parent[j] = i
+    } else {
+      this.parent[i] = j
+      this.rank[j] += 1
+    }
+  }
+}
+```
 
