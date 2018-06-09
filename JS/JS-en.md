@@ -30,7 +30,7 @@
 - [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
 - [Regular Expressions](#regular-expressions)
   - [Metacharacters](#metacharacters)
-  - [Modifiers](#modifiers)
+  - [Flags](#flags)
   - [Character Shorthands](#character-shorthands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1163,9 +1163,9 @@ parseFloat((0.1 + 0.2).toFixed(10))
 | +             | only matches character before '+' appearing 0 times or above                                                             |
 | ?             | the character before '?' is optional                                                                                     |
 
-##### Modifiers
+##### Flags
 
-| Modifier | Effect           |
+| Flag | Effect           |
 | :------: | :--------------: |
 | i        | ignores casing   |
 | g        | matches globally |
