@@ -27,6 +27,11 @@
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
 - [async and await](#async-and-await)
 - [Proxy](#proxy)
+- [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
+- [Regular Expressions](#regular-expressions)
+  - [Metacharacters](#metacharacters)
+  - [Modifiers](#modifiers)
+  - [Character Shorthands](#character-shorthands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1111,3 +1116,71 @@ let p = onWatch(obj, (v) => {
 p.a = 2 // bind `value` to `2`
 p.a // -> Get 'a' = 2
 ```
+
+#### Why 0.1 + 0.2 != 0.3
+
+Because JS incorporated IEEE 754 for double float numbers (64 bits). Every language that uses this standard has this problem.
+
+As you know, computers uses binaries to represent decimals, so `0.1` in binary is represented as
+
+```js
+// (0011) represents cycle
+0.1 = 2^-4 * 1.10011(0011)
+```
+
+How did we come to this binary number? We can try computing it as below:
+
+![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
+
+Binary computations in float numbers are different from those in integers. For multiplications, only the float bits are computed, while the integer bits are used for the binaries for each bit. Then the first bit is used as the most significant bit. Therefore we get `0.1 = 2^-4 * 1.10011(0011)`.
+
+`0.2` is similar. We just need to get rid of the first multiplcation and get `0.2 = 2^-3 * 1.10011(0011)`.
+
+Back to the double float for IEEE 754 standard. Among the 64 bits, one bit is used for signing, 11 used for integer bits, and the rest 52 bits are floats. Since `0.1` and `0.2` are infinitely cycling binaries, the last bit of the floats needs to indicate whether to round (same as rounding in decimals).
+
+After rounding, `2^-4 * 1.10011...001` becomes `2^-4 * 1.10011(0011 * 12次)010`. After adding these two binaries we get `2^-2 * 1.0011(0011 * 11次)0100`, which is `0.30000000000000004` in decimals.
+
+The native solution to this problem is shown below:
+
+```js
+parseFloat((0.1 + 0.2).toFixed(10))
+```
+
+#### Regular Expressions
+
+##### Metacharacters
+
+| Metacharacter | Effect                                                                                                                   |
+| :-----------: | :----------------------------------------------------------------------------------------------------------------------: |
+| .             | Matches any character other than the new line character                                                                  |
+| []            | matches anything within the brackets. For example, [0-9] can match any number                                            |
+| ^             | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters other than '9' in between brackets |
+| {1, 2}        | matches 1 or 2 digit characters                                                                                          |
+| (yck)         | only matches strings the same as 'yck'                                                                                   |
+| \|            | matches any character before of after \|                                                                                 |
+| \             | escape character                                                                                                         |
+| *             | only matches character before '*' appearing -1 times or above                                                            |
+| +             | only matches character before '+' appearing 0 times or above                                                             |
+| ?             | the character before '?' is optional                                                                                     |
+
+##### Modifiers
+
+| Modifier | Effect           |
+| :------: | :--------------: |
+| i        | ignores casing   |
+| g        | matches globally |
+| m        | multiline        |
+
+##### Character Shorthands
+
+| shorthand |            Effect            |
+| :--: | :------------------------: |
+|  \w  | alphanumeric characters, underline character or Chinese characters |
+|  \W  |         the opposite of the above         |
+|  \s  |      any blank character      |
+|  \S  |         the opposite of the above         |
+|  \d  |          numbers          |
+|  \D  |         the opposite of the above         |
+|  \b  |    start or end of a word    |
+|  \B  |         the opposite of the above         |
+
