@@ -5,7 +5,7 @@
   - Transmission mode
 + TCP
   - header
-  - State Machine
+  - State Machine
     - three-way handshake
     - four-way handsheke
   - ARQ protocol
@@ -18,9 +18,9 @@
     - Slow-start
     - Congestion Avoidance
     - Fast Retransmit
-    - Fast Recovery
+    - Fast Recovery
 + HTTP
-  - Difference between POST & GET 
+  - Difference between POST & GET 
   - Common Status Code
   - HTTP Header
 + HTTPS
