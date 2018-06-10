@@ -7,15 +7,15 @@
   - [Converting to Boolean](#converting-to-boolean)
   - [Objects to Primitive Types](#objects-to-primitive-types)
   - [Arithmetic Operators](#arithmetic-operators)
-  - [`==` operator](#-operator)
+  - [`==` operator](#operator)
   - [Comparison Operator](#comparison-operator)
 - [Typeof](#typeof)
-- [Type Conversion](#type-conversion-1)
-  - [Converting to Boolean](#converting-to-boolean-1)
-  - [Objects to Primitive Types](#objects-to-primitive-types-1)
-  - [Arithmetic Operators](#arithmetic-operators-1)
-  - [`==` operator](#-operator-1)
-  - [Comparison Operator](#comparison-operator-1)
+- [Type Conversion](#type-conversion)
+  - [Converting to Boolean](#converting-to-boolean)
+  - [Objects to Primitive Types](#objects-to-primitive-types)
+  - [Arithmetic Operators](#arithmetic-operators)
+  - [`==` operator](#operator)
+  - [Comparison Operator](#comparison-operator)
 - [New](#new)
 - [This](#this)
 - [Instanceof](#instanceof)
@@ -26,14 +26,15 @@
 - [Deep and Shallow Copy](#deep-and-shallow-copy)
   - [Shallow copy](#shallow-copy)
   - [Deep copy](#deep-copy)
-- [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
+- [The differences between call, apply, bind](#the-differences-between-call--apply--bind)
+  - [simulation to implement `call` and `apply`](#simulation-to-implement-call-and-apply)
 - [Promise implementation](#promise-implementation)
+- [Generator Implementation](#generator-implementation)
 - [Throttle](#throttle)
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
 - [Async and await](#async-and-await)
 - [Proxy](#proxy)
-- [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
+- [Why 0.1 + 0.2 != 0.3](#why-01-02-03)
 - [Regular Expressions](#regular-expressions)
   - [Metacharacters](#metacharacters)
   - [Flags](#flags)
@@ -981,6 +982,74 @@ The above codes, which is implemented based on the Promise / A+ specification,  
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
+# Generator Implementation
+
+Generator is an added grammatical feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
+
+```js
+// * means this is a Generator function
+// yield within the block can be used to pause the execution
+// next can resume execution
+function* test() {
+  let a = 1 + 2;
+  yield 2;
+  yield 3;
+}
+let b = test();
+console.log(b.next()); // >  { value: 2, done: false }
+console.log(b.next()); // >  { value: 3, done: false }
+console.log(b.next()); // >  { value: undefined, done: true }
+```
+
+As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implmentation of the Generator function is shown below.
+
+```js
+// cb is the compiled 'test' function
+function generator(cb) {
+  return (function() {
+    var object = {
+      next: 0,
+      stop: function() {}
+    };
+
+    return {
+      next: function() {
+        var ret = cb(object);
+        if (ret === undefined) return { value: undefined, done: true };
+        return {
+          value: ret,
+          done: false
+        };
+      }
+    };
+  })();
+}
+// After babel's compilation, 'test' function turns into this:
+function test() {
+  var a;
+  return generator(function(_context) {
+    while (1) {
+      switch ((_context.prev = _context.next)) {
+        // yield splits the code into several blocks
+        // every 'next' call executes one block of clode
+        // and indicates the next block to execute
+        case 0:
+          a = 1 + 2;
+          _context.next = 4;
+          return 2;
+        case 4:
+          _context.next = 6;
+          return 3;
+        // execution complete
+        case 6:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
+```
+
 
 # Throttle
 
@@ -1163,7 +1232,7 @@ let p = new Proxy(target, handler);
 // `handler` customizes operations in the object
 ```
 
-Proxy can be handly for the implementation of data binding and listening.
+Proxy can be handy for the implementation of data binding and listening.
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
