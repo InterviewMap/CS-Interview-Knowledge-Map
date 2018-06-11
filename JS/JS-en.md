@@ -32,6 +32,7 @@
   - [simulation to implement `call` and `apply`](#simulation-to-implement-call-and-apply)
 - [Promise implementation](#promise-implementation)
 - [Generator Implementation](#generator-implementation)
+- [Debouncing](#debouncing)
 - [Throttle](#throttle)
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
 - [Async and await](#async-and-await)
@@ -1134,6 +1135,64 @@ function test() {
 }
 ```
 
+# Debouncing
+
+Have you ever encountered this problem in your development: how to do a complex computation in a rolling event or to prevent the "secend accidental click" on a button?
+
+These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at a precise point in time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing.
+
+```js
+/**
+ * underscore's debouncing function. When the callback function is called in series, func will only execute when the idel time is larger or equal to `wait`.
+ *
+ * @param  {function} func        callback function
+ * @param  {number}   wait        length of waiting intervals
+ * @param  {boolean}  immediate   when set to true, func is executed immediately
+ * @return {function}             returns the function to be called by the client
+ */
+_.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      // compare now to the last timestamp
+      var last = _.now() - timestamp;
+      // if the current time interval is smaller than the set interval and larger than 0, then reset the timer.
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        // otherwise it's time to execute the callback function
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      // obtain the timestamp
+      timestamp = _.now();
+      // if the timer doesn't exist then execute the function immediately
+      var callNow = immediate && !timeout;
+      // if the timer doesn't exist then create one
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        // if the immediate execution is needed, use apply to start the function
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+```
+
+The complete function implementation is not too difficult. Let's summarize here.
+
+- For the implementation of protecting against accidental clicks: as long as I start a timer and the timer is there, no matter how you click the button, the callback function won't be executed. Whenever the timer ends and is set to `null`, another click is allowed.
+- For the implementation of a delayed function execution: every call to the debouncing function will trigger an evaluation of time interval between the current call and the last one. If the interval is less than the required, another timer will be created, and the delay is set to the set interval minus the previous elapsed time. When the time's up, the corresponding callback function is executed.
 
 # Throttle
 
