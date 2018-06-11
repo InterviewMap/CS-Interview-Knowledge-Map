@@ -26,7 +26,9 @@
 - [Deep and Shallow Copy](#deep-and-shallow-copy)
   - [Shallow copy](#shallow-copy)
   - [Deep copy](#deep-copy)
-- [The differences between call, apply, bind](#the-differences-between-call--apply--bind)
+- [Modularization](#modularization)
+  - [CommonJS](#commonjs)
+  - [ADM](#adm)
   - [simulation to implement `call` and `apply`](#simulation-to-implement-call-and-apply)
 - [Promise implementation](#promise-implementation)
 - [Generator Implementation](#generator-implementation)
@@ -702,6 +704,88 @@ var obj = {a: 1, b: {
 // it can handle `undefined` and circular reference object
 const clone = await structuralClone(obj);
 ```
+
+# Modularization
+
+With Babel, we can directly use ES6's modularizaiton.
+
+```js
+// file a.js
+export function a() {}
+export function b() {}
+// file b.js
+export default function() {}
+
+import {a, b} from './a.js'
+import XXX from './b.js'
+```
+
+## CommonJS
+
+`CommonJs` is Node's unique feature. `Browserify` is needed for `CommonJs` to be used in browsers.
+
+```js
+// a.js
+module.exports = {
+    a: 1
+}
+// or
+exports.a = 1
+
+// b.js
+var module = require('./a.js')
+module.a // -> log 1
+```
+
+In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations.
+
+```js
+var module = require('./a.js')
+module.a
+// this is actually a wrapper of a function to be executed immediately so that we don't mess up the global variables.
+// what's important here is that module is a Node only variable.
+module.exports = {
+    a: 1
+}
+// basic implementation
+var module = {
+  exports: {} // exports is an empty object
+}
+// This is why exports and module.exports have similar usage.
+var exports = module.exports
+var load = function (module) {
+    // to be exported
+    var a = 1
+    module.exports = a
+    return module.exports
+};
+```
+
+Let's then talk about `module.exports` and `exports`, which have similar usage, but one cannot assign a value to `exports` directly. The assignment would be a no-op.
+
+The differences between the modularizations in `CommonJS` and in ES6 are:
+
+- The former supports dynamic imports, which is `require(${path}/xx.js)`; the latter doesn't support it yet, but there have been proposals.
+- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if asynchronous import was used.
+- The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
+- In execution the latter is compiled to `require/exports`.
+
+## ADM
+
+AMD is brought forward by `RequireJS`.
+
+```js
+// AMD
+define(['./a', './b'], function(a, b) {
+    a.do()
+    b.do()
+})
+define(function(require, exports, module) {
+    var a = require('./a')  
+    a.doSomething()   
+    var b = require('./b')
+    b.doSomething()
+})
 
 # The differences between call, apply, bind
 
