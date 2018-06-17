@@ -7,15 +7,15 @@
   - [Converting to Boolean](#converting-to-boolean)
   - [Objects to Primitive Types](#objects-to-primitive-types)
   - [Arithmetic Operators](#arithmetic-operators)
-  - [`==` operator](#-operator)
+  - [`==` operator](#operator)
   - [Comparison Operator](#comparison-operator)
 - [Typeof](#typeof)
-- [Type Conversion](#type-conversion-1)
-  - [Converting to Boolean](#converting-to-boolean-1)
-  - [Objects to Primitive Types](#objects-to-primitive-types-1)
-  - [Arithmetic Operators](#arithmetic-operators-1)
-  - [`==` operator](#-operator-1)
-  - [Comparison Operator](#comparison-operator-1)
+- [Type Conversion](#type-conversion)
+  - [Converting to Boolean](#converting-to-boolean)
+  - [Objects to Primitive Types](#objects-to-primitive-types)
+  - [Arithmetic Operators](#arithmetic-operators)
+  - [`==` operator](#operator)
+  - [Comparison Operator](#comparison-operator)
 - [New](#new)
 - [This](#this)
 - [Instanceof](#instanceof)
@@ -26,14 +26,18 @@
 - [Deep and Shallow Copy](#deep-and-shallow-copy)
   - [Shallow copy](#shallow-copy)
   - [Deep copy](#deep-copy)
-- [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
+- [Modularization](#modularization)
+  - [CommonJS](#commonjs)
+  - [ADM](#adm)
+  - [simulation to implement `call` and `apply`](#simulation-to-implement-call-and-apply)
 - [Promise implementation](#promise-implementation)
+- [Generator Implementation](#generator-implementation)
+- [Debouncing](#debouncing)
 - [Throttle](#throttle)
 - [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
 - [Async and await](#async-and-await)
 - [Proxy](#proxy)
-- [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
+- [Why 0.1 + 0.2 != 0.3](#why-01-02-03)
 - [Regular Expressions](#regular-expressions)
   - [Metacharacters](#metacharacters)
   - [Flags](#flags)
@@ -702,6 +706,88 @@ var obj = {a: 1, b: {
 const clone = await structuralClone(obj);
 ```
 
+# Modularization
+
+With Babel, we can directly use ES6's modularizaiton.
+
+```js
+// file a.js
+export function a() {}
+export function b() {}
+// file b.js
+export default function() {}
+
+import {a, b} from './a.js'
+import XXX from './b.js'
+```
+
+## CommonJS
+
+`CommonJs` is Node's unique feature. `Browserify` is needed for `CommonJs` to be used in browsers.
+
+```js
+// a.js
+module.exports = {
+    a: 1
+}
+// or
+exports.a = 1
+
+// b.js
+var module = require('./a.js')
+module.a // -> log 1
+```
+
+In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations.
+
+```js
+var module = require('./a.js')
+module.a
+// this is actually a wrapper of a function to be executed immediately so that we don't mess up the global variables.
+// what's important here is that module is a Node only variable.
+module.exports = {
+    a: 1
+}
+// basic implementation
+var module = {
+  exports: {} // exports is an empty object
+}
+// This is why exports and module.exports have similar usage.
+var exports = module.exports
+var load = function (module) {
+    // to be exported
+    var a = 1
+    module.exports = a
+    return module.exports
+};
+```
+
+Let's then talk about `module.exports` and `exports`, which have similar usage, but one cannot assign a value to `exports` directly. The assignment would be a no-op.
+
+The differences between the modularizations in `CommonJS` and in ES6 are:
+
+- The former supports dynamic imports, which is `require(${path}/xx.js)`; the latter doesn't support it yet, but there have been proposals.
+- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if asynchronous import was used.
+- The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
+- In execution the latter is compiled to `require/exports`.
+
+## ADM
+
+AMD is brought forward by `RequireJS`.
+
+```js
+// AMD
+define(['./a', './b'], function(a, b) {
+    a.do()
+    b.do()
+})
+define(function(require, exports, module) {
+    var a = require('./a')  
+    a.doSomething()   
+    var b = require('./b')
+    b.doSomething()
+})
+
 # The differences between call, apply, bind
 
 Firstly, let’s tell the difference between the former two.
@@ -981,6 +1067,132 @@ The above codes, which is implemented based on the Promise / A+ specification,  
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
+# Generator Implementation
+
+Generator is an added grammatical feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
+
+```js
+// * means this is a Generator function
+// yield within the block can be used to pause the execution
+// next can resume execution
+function* test() {
+  let a = 1 + 2;
+  yield 2;
+  yield 3;
+}
+let b = test();
+console.log(b.next()); // >  { value: 2, done: false }
+console.log(b.next()); // >  { value: 3, done: false }
+console.log(b.next()); // >  { value: undefined, done: true }
+```
+
+As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implmentation of the Generator function is shown below.
+
+```js
+// cb is the compiled 'test' function
+function generator(cb) {
+  return (function() {
+    var object = {
+      next: 0,
+      stop: function() {}
+    };
+
+    return {
+      next: function() {
+        var ret = cb(object);
+        if (ret === undefined) return { value: undefined, done: true };
+        return {
+          value: ret,
+          done: false
+        };
+      }
+    };
+  })();
+}
+// After babel's compilation, 'test' function turns into this:
+function test() {
+  var a;
+  return generator(function(_context) {
+    while (1) {
+      switch ((_context.prev = _context.next)) {
+        // yield splits the code into several blocks
+        // every 'next' call executes one block of clode
+        // and indicates the next block to execute
+        case 0:
+          a = 1 + 2;
+          _context.next = 4;
+          return 2;
+        case 4:
+          _context.next = 6;
+          return 3;
+        // execution complete
+        case 6:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
+```
+
+# Debouncing
+
+Have you ever encountered this problem in your development: how to do a complex computation in a rolling event or to prevent the "secend accidental click" on a button?
+
+These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at a precise point in time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing.
+
+```js
+/**
+ * underscore's debouncing function. When the callback function is called in series, func will only execute when the idel time is larger or equal to `wait`.
+ *
+ * @param  {function} func        callback function
+ * @param  {number}   wait        length of waiting intervals
+ * @param  {boolean}  immediate   when set to true, func is executed immediately
+ * @return {function}             returns the function to be called by the client
+ */
+_.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      // compare now to the last timestamp
+      var last = _.now() - timestamp;
+      // if the current time interval is smaller than the set interval and larger than 0, then reset the timer.
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        // otherwise it's time to execute the callback function
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      // obtain the timestamp
+      timestamp = _.now();
+      // if the timer doesn't exist then execute the function immediately
+      var callNow = immediate && !timeout;
+      // if the timer doesn't exist then create one
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        // if the immediate execution is needed, use apply to start the function
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+```
+
+The complete function implementation is not too difficult. Let's summarize here.
+
+- For the implementation of protecting against accidental clicks: as long as I start a timer and the timer is there, no matter how you click the button, the callback function won't be executed. Whenever the timer ends and is set to `null`, another click is allowed.
+- For the implementation of a delayed function execution: every call to the debouncing function will trigger an evaluation of time interval between the current call and the last one. If the interval is less than the required, another timer will be created, and the delay is set to the set interval minus the previous elapsed time. When the time's up, the corresponding callback function is executed.
 
 # Throttle
 
@@ -1163,7 +1375,7 @@ let p = new Proxy(target, handler);
 // `handler` customizes operations in the object
 ```
 
-Proxy can be handly for the implementation of data binding and listening.
+Proxy can be handy for the implementation of data binding and listening.
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
