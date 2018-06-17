@@ -35,7 +35,6 @@
 + What happens when you navigate to a URL
 
 # UDP
-User Datagram Protocol
 ## Message-oriented      
 
 UDP is a message-oriented protocol, and message means chunks of data that delivered in the internet. What UDP does just deliver the message without any handle like split or combine.     
@@ -45,23 +44,23 @@ More specifically
 +  When got a UDP message from the network layer, the UDP protocal will only remove the IP header added on the data without any other operations.
 
 ## Unreliable
-1. UDP is connectionless, without opening or finishing a socket
+1. UDP is connectionless, communication without establish or disconnect
 2. UDP is unreliable, it will deliver what it has got, no stores and does not care about the delivery.
 3. UDP has no congestion control, data is sent at a constant speed. Even if the network is bad, it will not adjust the speed. So it is inevitable to lose some packet, while it has advantage in real time applications, such as we will use UDP instead of TCP in telephone conference.
 
 ## Efficient
-There is no guarantee of delivery, ordering or duplicate protection in UDP.It is not as complex sa TCP.  It does not costs a lot in its header data with only 8 bytes much less than TCP which head data need at least 20 bytes. So it can transport the data efficiently.
+There is no guarantee of delivery, ensure that data is not lost and arrives in orderly in UDP. It is not as complex as TCP.  It does not costs a lot in its header data with only 8 bytes much less than TCP which head data need at least 20 bytes. So it can transport the data efficiently.
 
 ![](https://user-gold-cdn.xitu.io/2018/5/1/163195b245ceb89c?w=831&h=170&f=png&s=22793)
 
 The UDP header consists of 4 fields: 
 
-+ two port number of 16 bits, Source port (optional) & Desitination port
-+ the length of the message data
-+ checksum of the message data which is used for error-checking of the header and the data.
++ two port number of 16 bits, source port (optional) and desitination port
++ the length of th data
++ checksum which is used for error-checking of the header and the data.
 
 ## Transmission mode
-The transmission modes of UDP not only contains one-to-one, but alse contains one-to-many, many-to-many, and many-to-one, which means UDP supports Unicast, multicast and broadcast.
+The transmission modes of UDP not only contains one-to-one, but alse contains one-to-many, many-to-many, and many-to-one, which means UDP supports unicast, multicast and broadcast.
 
 # TCP
 Transmission Control Protocol
@@ -239,7 +238,7 @@ Fast Retransmit always appears with the Fast Recovery. Once the data of got by r
 + set the threshold same the size of the current congestion window
 + enter the stage of the Fast Recorvery (retransmit the packet, leave this stage once got a new ACK)
 + use Congestion Avoidance algorithms
- 
+
 ### Fast Recovery (TCP New Reno)
 
 TCP New Reno improved the defect of the previous TCP Reno. Before this, it will drop out once got a new ACK.
