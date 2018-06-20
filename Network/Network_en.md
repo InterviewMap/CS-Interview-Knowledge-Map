@@ -63,13 +63,13 @@ The UDP header consists of 4 fields:
 The transmission modes of UDP not only contains one-to-one, but alse contains one-to-many, many-to-many, and many-to-one, which means UDP supports unicast, multicast and broadcast.
 
 # TCP
-Transmission Control Protocol
+## Header
 
 The header of TCP is much more complex than UDP's.
 
 ![](https://user-gold-cdn.xitu.io/2018/5/1/1631be45b084e4bc?w=858&h=305&f=png&s=62112)
 
-When talk about the header of TCP, these keys are vary important.
+When talk about the header of TCP, these fields are vary important.
 
 + Sequence Number: This number can guarantee that all the segments are ordered and the opposite host can order the segments by it.
 + Acknowledgement Number: This number is saying the next segment number that the opposite host expected, and everything before this has been accepted successfully at the same time.
@@ -82,31 +82,31 @@ When talk about the header of TCP, these keys are vary important.
   - SYN=1: When SYN is 1 and ACK is 0, it means that this is a request segment, while SYC is 1 and ACK is 1, it is a response that agree to connect.
   - FIN=1: When this flag is set, it means that this is a request segment that ask for closing the connect.
 
-  ## state machine
+## State machine
   HTTP is stateless, so TCP which is based on HTTP is alse stateless. It seems like that TCP links the two ends, client and server, but it is actually that both the two ends maintain the state together.
 ![](https://user-gold-cdn.xitu.io/2018/5/1/1631bef9e3c60035?w=1280&h=965&f=png&s=101432)
 
 The state machine of TCP is very complex, and it is closely related to the handshake of opeing and closing a connection. Now we'll talk something about the two kind of hadshake.
 Before this, you'd better know something about RTT(Round-Trip-Time), an important index of performance. It is the length of time it takes for a singal to be sent plus the length of time it takes for an acknowledgement of that signal to be received. 
 
-### three-way handshake in opening a connection
+### Three-way handshake in opening a connection
 ![](https://user-gold-cdn.xitu.io/2018/5/1/1631bf1e79b3cd42?w=666&h=426&f=png&s=32121)
 
 In TCP, the end which is active opened is called client and the passive opened is called server. No matter client or server can send and receive data after connection, so TCP is a bi-directional communication protocol.
 At first, both ends are closed. Before communication, both of the ends will create the TCB(TCP Control Block). After that, the server will be in `LISTEN` state and begin to waiting for the data from client.
 
-**first handshake**
+**First handshake**
 
 The client send the request data which contains  a SYN. After that, the client is in the status called `SYN-SENT`. 
-**second handshake**
+**Second handshake**
 
 After got the request, the server will send a response if it agree to establish a connect and then turn to `SYN_RECEIVED`. There is also a SYN in the response. 
-**third handshake**
+**Third handshake**
 When the client receive the agreement of establishing a connection, it need to send a acknowledgement. After that the client turn to `ESTABLISHED`  and the server turn to the same state after receive the acknowledgement. The connection is established successfully by now.
 
 PS: In the process of the third handshake, it is possiable to carry data in it by using TFO. ALL protocols in relation to handshake can use methods of TFO-like to reduce RTT by storing the same cookie.
 
-**why need the third handshake even though the connection can be established after the twice**
+**Why need the third handshake even though the connection can be established after the twice**
 
 This will prevent the scenario that a invalid request reached the server and waste the resource of server.
 
@@ -114,27 +114,27 @@ Image that, client send a request called A, but the network is poor and client s
 
 PS: Through connecting, if any end is offline, it need to retransmit ,generally, 5 times. You can limit the times of retransmiting or refuse the request if can't handle it.
 
-### four-handshake of connection termination. 
+### Four-handshake of connection termination. 
 
 ![](https://user-gold-cdn.xitu.io/2018/5/2/1631fb807f2c6c1b?w=640&h=512&f=png&s=31059)
 
 TCP is a bi-directional communication protocol, so both end need to send FIN and ACK when closing a connection.
 
-**first handshake**
+**First handshake**
 
 Client A ask the server B to close a connection actively if it thinks there is no data to send.
 
-**second handshake**
+**Second handshake**
 
 After receiving the request, B will ask the application layer to release the connection and send a ACK, then enter `CLOSE_WAIT` state. That means that the connection from A to B has been terminated and B will not handle the data from A. But B still can send data to A because of the bi-direction.
 
-**third handshake**
+**Third handshake**
 
 B will continute to sending data if needed, after that it will ask the client A to release the connection and enter `LAST-ACK` state.
 
 PS: The second and the third handshake can be combined by delay-ACK. But the delay time should be limited, otherwise it will be treated as a retransmission.
 
-**forth handshake**
+**Forth handshake**
 
 A will send the ACK response and enter `TIME-WAIT` state after receiving the request.
 The state will last for 2MLS. MLS means the biggest lifetime that segment can survive and it will be abandon if beyond that. A will enter `CLOSED` state if there is no retransmission from B among 2MLS. B will enter `CLOSED` state too after receiving the ACK.
@@ -146,11 +146,11 @@ This can ensure that B is enable to get the ACK from the A. If A enter `CLOSED` 
 
 ARQ,  also known as Automatic Repeat Request, is a error-controll method for data transomission that use acknowledgement and timeouts. It contains Stop-and-Wait ARQ and Continuous ARQ.
 ### Stop-and-Wait ARQ
-**normal transport**
+**Normal transport**
 
 There has to launch a timer and wait for response as long as A sends message to B, then cancel it and send next message after receiving the response. 
 
-**packet lost or error**
+**Packet lost or error**
 
 It is possible to lost packet in transimiting. So it need to retransmit the message if the timer is time-out untile receiving the response. That is why we need a data copy.
 
@@ -176,7 +176,7 @@ The receiver will receive message with nonstop in Continuous ARQ. If it send the
 
 But it is not so pecfect. Image that client A send a sort of message form segment 5 to segment 10 in Continuous ARQ, and the client B receive  all the segments successfully except segment 6. In this case, the client B has to send the ACK of 6 even though the segments after 7 had been received successfully which caused the waste of resource. In fact, this problem can be solved by Stack which will be introduced following.
 
-## sliding window
+## Sliding window
 
 We have mentioned sliding window above. Both ends maintain the windows, send window & receive window, in TCP.
 
@@ -232,7 +232,7 @@ Fast Retransmit always appears with the Fast Recovery. Once the data of got by r
 + set the value of the congestion winodw 1 MSS
 + re-start the Slow-start 
 
-**the relazition of TCP Reno**
+**The relazition of TCP Reno**
 
 + cut the congestion window to half
 + set the threshold same the size of the current congestion window
