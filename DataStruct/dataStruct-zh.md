@@ -561,7 +561,150 @@ _delect(node, v) {
 }
 ```
 
-## AVL
+## AVL 树 
+
+### 概念
+
+二分搜索树实际在业务中是受到限制的，因为并不是严格的 O(logN)，在极端情况下会退化成链表，比如加入一组升序的数字就会造成这种情况。
+
+AVL 树改进了二分搜索树，在 AVL 树中任意节点的左右子树的高度差都不大于 1，这样保证了时间复杂度是严格的 O(logN)。基于此，对 AVL 树增加或删除节点时可能需要旋转树来达到高度的平衡。
+
+## 实现
+
+因为 AVL 树是改进了二分搜索树，所以部分代码是于二分搜索树重复的，对于重复内容不作再次解析。
+
+对于 AVL 树来说，添加节点会有四种情况
+
+![](https://user-gold-cdn.xitu.io/2018/6/23/1642cc145a0cfb26?w=800&h=566&f=png&s=73573)
+
+对于左左情况来说，新增加的节点位于节点 2 的左侧，这时树已经不平衡，需要旋转。因为搜索树的特性，节点比左节点大，比右节点小，所以旋转以后也要实现这个特性。 
+
+旋转之前：new < 2 < C < 3 < B < 5 < A，右旋之后节点 3 为根节点，这时候需要将节点 3 的右节点加到节点 5 的左边，最后还需要更新节点的高度。
+
+对于右右情况来说，相反于左左情况，所以不再赘述。
+
+对于左右情况来说，新增加的节点位于节点 4 的右侧。对于这种情况，需要通过两次旋转来达到目的。
+
+首先对节点的左节点左旋，这时树满足左左的情况，再对节点进行一次右旋就可以达到目的。
+
+```js
+class Node {
+  constructor(value) {
+    this.value = value
+    this.left = null
+    this.right = null
+    this.height = 1
+  }
+}
+
+class AVL {
+  constructor() {
+    this.root = null
+  }
+  addNode(v) {
+    this.root = this._addChild(this.root, v)
+  }
+  _addChild(node, v) {
+    if (!node) {
+      return new Node(v)
+    }
+    if (node.value > v) {
+      node.left = this._addChild(node.left, v)
+    } else if (node.value < v) {
+      node.right = this._addChild(node.right, v)
+    } else {
+      node.value = v
+    }
+    node.height =
+      1 + Math.max(this._getHeight(node.left), this._getHeight(node.right))
+    let factor = this._getBalanceFactor(node)
+    // 当需要右旋时，根节点的左树一定比右数高度高
+    if (factor > 1 && this._getBalanceFactor(node.left) >= 0) {
+      return this._rightRotate(node)
+    }
+    // 当需要左旋时，根节点的左树一定比右数高度矮
+    if (factor < -1 && this._getBalanceFactor(node.right) <= 0) {
+      return this._leftRotate(node)
+    }
+    // 左右情况
+    // 节点的左树比右树高，且节点的左树的右数比节点的左树的左树高
+    if (factor > 1 && this._getBalanceFactor(node.left) < 0) {
+      node.left = this._leftRotate(node.left)
+      return this._rightRotate(node)
+    }
+    // 右左情况
+    // 节点的左树比右树矮，且节点的右树的右数比节点的右树的左树矮
+    if (factor < -1 && this._getBalanceFactor(node.right) > 0) {
+      node.right = this._rightRotate(node.right)
+      return this._leftRotate(node)
+    }
+
+    return node
+  }
+  _getHeight(node) {
+    if (!node) return 0
+    return node.height
+  }
+  _getBalanceFactor(node) {
+    return this._getHeight(node.left) - this._getHeight(node.right)
+  }
+  // 节点右旋
+  //           5                    2
+  //         /   \                /   \
+  //        2     6   ==>       1      5
+  //       /  \               /       /  \
+  //      1    3             new     3    6
+  //     /
+  //    new
+  _rightRotate(node) {
+    // 旋转后新根节点
+    let newRoot = node.left
+    // 需要移动的节点
+    let moveNode = newRoot.right
+    // 节点 2 的右节点改为节点 5
+    newRoot.right = node
+    // 节点 5 左节点改为节点 3
+    node.left = moveNode
+    // 更新树的高度
+    node.height =
+      1 + Math.max(this._getHeight(node.left), this._getHeight(node.right))
+    newRoot.height =
+      1 +
+      Math.max(this._getHeight(newRoot.left), this._getHeight(newRoot.right))
+
+    return newRoot
+  }
+  // 节点左旋
+  //           4                    6
+  //         /   \                /   \
+  //        2     6   ==>       4      7
+  //             /  \         /   \      \
+  //            5     7      2     5      new
+  //                   \
+  //                    new
+  _leftRotate(node) {
+    // 旋转后新根节点
+    let newRoot = node.right
+    // 需要移动的节点
+    let moveNode = newRoot.left
+    // 节点 6 的左节点改为节点 4
+    newRoot.left = node
+    // 节点 4 右节点改为节点 5
+    node.right = moveNode
+    // 更新树的高度
+    node.height =
+      1 + Math.max(this._getHeight(node.left), this._getHeight(node.right))
+    newRoot.height =
+      1 +
+      Math.max(this._getHeight(newRoot.left), this._getHeight(newRoot.right))
+
+    return newRoot
+  }
+}
+```
+
+
+
 
 ## 红黑树
 
