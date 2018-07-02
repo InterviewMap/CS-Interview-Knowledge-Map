@@ -18,6 +18,46 @@ MVVM 由以下三个内容组成
 
 脏数据检测虽然存在低效的问题，但是不关心数据是通过什么方式改变的，都可以完成任务，但是这在 Vue 中的双向绑定是存在问题的。并且脏数据检测可以实现批量检测出更新的值，再去统一更新 UI，大大减少了操作 DOM 的次数。所以低效也是相对的，这就仁者见仁智者见智了。
 
+## 数据劫持
+
+Vue 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这个函数可以监听到 `set` 和 `get` 的事件。
+
+```js
+var data = { name: 'yck' }
+observe(data)
+let name = data.name
+data.name = 'yyy'
+
+function observe(obj) {
+  // 判断类型
+  if (!obj || typeof obj !== 'object') {
+    return
+  }
+  Object.keys(data).forEach(key => {
+    defineReactive(data, key, data[key])
+  })
+}
+
+function defineReactive(obj, key, val) {
+  // 递归子属性
+  observe(val)
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter() {
+      console.log('get value')
+      return val
+    },
+    set: function reactiveSetter(newVal) {
+      console.log('change value')
+      val = newVal
+    }
+  })
+}
+```
+
+以上代码简单的实现了如何监听数据的 `set` 和 `get` 的事件，但是仅仅监听事件是不够的，还需要在监听到事件后将事件派发出去。
+
 # React 生命周期分析
 
 在 V16 版本中引入了 Fiber 机制。这个机制一定程度上的影响了部分生命周期的调用，并且也引入了新的 2 个 API 来解决问题。
