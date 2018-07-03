@@ -25,8 +25,8 @@ Vue 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这
 ```js
 var data = { name: 'yck' }
 observe(data)
-let name = data.name
-data.name = 'yyy'
+let name = data.name // -> get value
+data.name = 'yyy' // -> change value
 
 function observe(obj) {
   // 判断类型
@@ -46,17 +46,71 @@ function defineReactive(obj, key, val) {
     configurable: true,
     get: function reactiveGetter() {
       console.log('get value')
+      // 此处添加新增依赖代码
       return val
     },
     set: function reactiveSetter(newVal) {
       console.log('change value')
+      // 此处添加触发依赖代码
       val = newVal
     }
   })
 }
 ```
 
-以上代码简单的实现了如何监听数据的 `set` 和 `get` 的事件，但是仅仅监听事件是不够的，还需要在监听到事件后将事件派发出去。
+以上代码简单的实现了如何监听数据的 `set` 和 `get` 的事件，但是仅仅如此是不够的，还需要在适当的时候给属性添加依赖
+
+```html
+<div>
+    {{name}}
+</div>
+```
+
+在解析如上模板代码时，遇到 `{{name}}` 就会给属性 `name` 添加依赖。
+
+```js
+class Dep {
+  constructor() {
+    this.subs = []
+  }
+  addSub(sub) {
+    this.subs.push(sub)
+  }
+  notify() {
+    this.subs.forEach(sub => {
+      sub.update()
+    })
+  }
+}
+Dep.target = null
+
+function update(value) {
+  document.querySelector('div').innerText = value
+}
+
+class Watcher {
+  constructor(obj, key, cb) {
+    Dep.target = this
+    this.cb = cb
+    this.obj = obj
+    this.key = key
+    this.value = obj[key]
+    Dep.target = null
+  }
+  update() {
+    this.value = this.obj[this.key]
+    this.cb(this.value)
+  }
+}
+var data = { name: 'yck' }
+observe(data)
+new Watcher(data, 'name', update)
+data.name = 'yyy' // -> change value
+```
+
+
+
+
 
 # React 生命周期分析
 
