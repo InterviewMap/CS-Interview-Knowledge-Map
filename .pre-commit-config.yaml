@@ -1,5 +1,0 @@
-repos:
--   repo: https://github.com/KieSun/Front-End-Interview-Map.git
-    rev: ...  # substitute a tagged version
-    hooks:
-    -   id: doctoc
