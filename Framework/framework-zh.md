@@ -25,8 +25,8 @@ Vue 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这
 ```js
 var data = { name: 'yck' }
 observe(data)
-let name = data.name
-data.name = 'yyy'
+let name = data.name // -> get value
+data.name = 'yyy' // -> change value
 
 function observe(obj) {
   // 判断类型
@@ -56,7 +56,211 @@ function defineReactive(obj, key, val) {
 }
 ```
 
-以上代码简单的实现了如何监听数据的 `set` 和 `get` 的事件，但是仅仅监听事件是不够的，还需要在监听到事件后将事件派发出去。
+以上代码简单的实现了如何监听数据的 `set` 和 `get` 的事件，但是仅仅如此是不够的，还需要在适当的时候给属性添加发布订阅
+
+```html
+<div>
+    {{name}}
+</div>
+```
+
+在解析如上模板代码时，遇到 `{{name}}` 就会给属性 `name` 添加发布订阅。
+
+```js
+// 通过 Dep 解耦
+class Dep {
+  constructor() {
+    this.subs = []
+  }
+  addSub(sub) {
+    // sub 是 Watcher 实例
+    this.subs.push(sub)
+  }
+  notify() {
+    this.subs.forEach(sub => {
+      sub.update()
+    })
+  }
+}
+// 全局属性，通过该属性配置 Watcher
+Dep.target = null
+
+function update(value) {
+  document.querySelector('div').innerText = value
+}
+
+class Watcher {
+  constructor(obj, key, cb) {
+    // 将 Dep.target 指向自己
+    // 然后触发属性的 getter 添加监听
+    // 最后将 Dep.target 置空
+    Dep.target = this
+    this.cb = cb
+    this.obj = obj
+    this.key = key
+    this.value = obj[key]
+    Dep.target = null
+  }
+  update() {
+    // 获得新值
+    this.value = this.obj[this.key]
+    // 调用 update 方法更新 Dom
+    this.cb(this.value)
+  }
+}
+var data = { name: 'yck' }
+observe(data)
+// 模拟解析到 `{{name}}` 触发的操作
+new Watcher(data, 'name', update)
+// update Dom innerText
+data.name = 'yyy' 
+```
+
+以上实现了一个简易的双向绑定，核心思路就是手动触发一次属性的 getter 来实现发布订阅的添加。
+
+## Proxy 与 Obeject.defineProperty 对比
+
+`Obeject.defineProperty` 虽然已经能够实现双向绑定了，但是他还是有缺陷的。
+
+1. 只能对属性进行数据劫持，所以需要深度遍历整个对象
+2. 对于数组不能监听到数据的变化
+
+虽然 Vue 中确实能检测到数组数据的变化，但是其实是使用了 hack 的办法，并且也是有缺陷的。
+
+```js
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+// hack 以下几个函数
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+methodsToPatch.forEach(function (method) {
+  // 获得原生函数
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    // 调用原生函数
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // 触发更新
+    ob.dep.notify()
+    return result
+  })
+})
+```
+
+反观 Proxy 就没以上的问题，原生支持监听数组变化，并且可以直接对整个对象进行拦截，所以 Vue 也将在下个大版本中使用 Proxy 替换 Obeject.defineProperty
+
+```js
+let onWatch = (obj, setBind, getLogger) => {
+  let handler = {
+    get(target, property, receiver) {
+      getLogger(target, property)
+      return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+      setBind(value);
+      return Reflect.set(target, property, value);
+    }
+  };
+  return new Proxy(obj, handler);
+};
+
+let obj = { a: 1 }
+let value
+let p = onWatch(obj, (v) => {
+  value = v
+}, (target, property) => {
+  console.log(`Get '${property}' = ${target[property]}`);
+})
+p.a = 2 // bind `value` to `2`
+p.a // -> Get 'a' = 2
+```
+
+# NextTick 原理分析
+
+`nextTick` 可以让我们在下次 DOM 更新循环结束之后执行延迟回调，用于获得更新后的 DOM。
+
+在 Vue 2.4 之前都是使用的 microtasks，但是 microtasks 的优先级过高，在某些情况下可能会出现比事件冒泡更快的情况，但如果都使用 macrotasks 又可能会出现渲染的性能问题。所以在新版本中，会默认使用 microtasks，但在特殊情况下会使用 macrotasks，比如 v-on。
+
+对于实现 macrotasks ，会先判断是否能使用 `setImmediate` ，不能的话降级为 `MessageChannel` ，以上都不行的话就使用 `setTimeout` 
+
+```js
+if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+  macroTimerFunc = () => {
+    setImmediate(flushCallbacks)
+  }
+} else if (
+  typeof MessageChannel !== 'undefined' &&
+  (isNative(MessageChannel) ||
+    // PhantomJS
+    MessageChannel.toString() === '[object MessageChannelConstructor]')
+) {
+  const channel = new MessageChannel()
+  const port = channel.port2
+  channel.port1.onmessage = flushCallbacks
+  macroTimerFunc = () => {
+    port.postMessage(1)
+  }
+} else {
+  /* istanbul ignore next */
+  macroTimerFunc = () => {
+    setTimeout(flushCallbacks, 0)
+  }
+}
+```
+
+`nextTick` 同时也支持 Promise 的使用，会判断是否实现了 Promise 
+
+```js
+export function nextTick(cb?: Function, ctx?: Object) {
+  let _resolve
+  // 将回调函数整合进一个数组中
+  callbacks.push(() => {
+    if (cb) {
+      try {
+        cb.call(ctx)
+      } catch (e) {
+        handleError(e, ctx, 'nextTick')
+      }
+    } else if (_resolve) {
+      _resolve(ctx)
+    }
+  })
+  if (!pending) {
+    pending = true
+    if (useMacroTask) {
+      macroTimerFunc()
+    } else {
+      microTimerFunc()
+    }
+  }
+  // 判断是否可以使用 Promise 
+  // 可以的话给 _resolve 赋值
+  // 这样回调函数就能以 promise 的方式调用
+  if (!cb && typeof Promise !== 'undefined') {
+    return new Promise(resolve => {
+      _resolve = resolve
+    })
+  }
+}
+```
 
 # React 生命周期分析
 
