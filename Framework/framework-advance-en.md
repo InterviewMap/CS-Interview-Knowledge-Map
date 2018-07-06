@@ -56,70 +56,70 @@ Below is a simple implementation of a JS object simulating a DOM element.
 
 ```js
 export default class Element {
-/**
-* @param {String} tag 'div'
-* @param {Object} props { class: 'item' }
-* @param {Array} children [ Element1, 'text']
-* @param {String} key option
-*/
-constructor(tag, props, children, key) {
-this.tag = tag
-this.props = props
-if (Array.isArray(children)) {
-this.children = children
-} else if (isString(children)) {
-this.key = children
-this.children = null
-}
-if (key) this.key = key
-}
-// render
-render() {
-let root = this._createElement(
-this.tag,
-this.props,
-this.children,
-this.key
-)
-document.body.appendChild(root)
-return root
-}
-create() {
-return this._createElement(this.tag, this.props, this.children, this.key)
-}
-// create an element
-_createElement(tag, props, child, key) {
-// create an element with tag
-let el = document.createElement(tag)
-// set properties on the element
-for (const key in props) {
-if (props.hasOwnProperty(key)) {
-const value = props[key]
-el.setAttribute(key, value)
-}
-}
-if (key) {
-el.setAttribute('key', key)
-}
-// add children nodes recursively
-if (child) {
-child.forEach(element => {
-let child
-if (element instanceof Element) {
-child = this._createElement(
-element.tag,
-element.props,
-element.children,
-element.key
-)
-} else {
-child = document.createTextNode(element)
-}
-el.appendChild(child)
-})
-}
-return el
-}
+  /**
+   * @param {String} tag 'div'
+   * @param {Object} props { class: 'item' }
+   * @param {Array} children [ Element1, 'text']
+   * @param {String} key option
+   */
+  constructor(tag, props, children, key) {
+    this.tag = tag
+    this.props = props
+    if (Array.isArray(children)) {
+      this.children = children
+    } else if (isString(children)) {
+      this.key = children
+      this.children = null
+    }
+    if (key) this.key = key
+  }
+  // render
+  render() {
+    let root = this._createElement(
+      this.tag,
+      this.props,
+      this.children,
+      this.key
+    )
+    document.body.appendChild(root)
+    return root
+  }
+  create() {
+    return this._createElement(this.tag, this.props, this.children, this.key)
+  }
+  // create an element
+  _createElement(tag, props, child, key) {
+    // create an element with tag
+    let el = document.createElement(tag)
+    // set properties on the element
+    for (const key in props) {
+      if (props.hasOwnProperty(key)) {
+        const value = props[key]
+        el.setAttribute(key, value)
+      }
+    }
+    if (key) {
+      el.setAttribute('key', key)
+    }
+    // add children nodes recursively
+    if (child) {
+      child.forEach(element => {
+        let child
+        if (element instanceof Element) {
+          child = this._createElement(
+            element.tag,
+            element.props,
+            element.children,
+            element.key
+          )
+        } else {
+          child = document.createTextNode(element)
+        }
+        el.appendChild(child)
+      })
+    }
+    return el
+  }
 }
 ```
 
@@ -151,39 +151,39 @@ import { StateEnums, isString, move } from './util'
 import Element from './element'
 
 export default function diff(oldDomTree, newDomTree) {
-// for recording changes
-let pathchs = {}
-// the index starts at 0
-dfs(oldDomTree, newDomTree, 0, pathchs)
-return pathchs
+  // for recording changes
+  let pathchs = {}
+  // the index starts at 0
+  dfs(oldDomTree, newDomTree, 0, pathchs)
+  return pathchs
 }
 
 function dfs(oldNode, newNode, index, patches) {
-// for saving the subtree changes
-let curPatches = []
-// three cases
-// 1. no new node, do nothing
-// 2. new nodes' tagName and `key` are different from the old one's, replace
-// 3. new nodes' tagName and key are the same as the old one's, start recursing
-if (!newNode) {
-} else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
-// check whether properties changed
-let props = diffProps(oldNode.props, newNode.props)
-if (props.length) curPatches.push({ type: StateEnums.ChangeProps, props })
-// recurse the subtree
-diffChildren(oldNode.children, newNode.children, index, patches)
-} else {
-// different node, replace
-curPatches.push({ type: StateEnums.Replace, node: newNode })
-}
+  // for saving the subtree changes
+  let curPatches = []
+  // three cases
+  // 1. no new node, do nothing
+  // 2. new nodes' tagName and `key` are different from the old one's, replace
+  // 3. new nodes' tagName and key are the same as the old one's, start recursing
+  if (!newNode) {
+  } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
+    // check whether properties changed
+    let props = diffProps(oldNode.props, newNode.props)
+    if (props.length) curPatches.push({ type: StateEnums.ChangeProps, props })
+    // recurse the subtree
+    diffChildren(oldNode.children, newNode.children, index, patches)
+  } else {
+    // different node, replace
+    curPatches.push({ type: StateEnums.Replace, node: newNode })
+  }
 
-if (curPatches.length) {
-if (patches[index]) {
-patches[index] = patches[index].concat(curPatches)
-} else {
-patches[index] = curPatches
-}
-}
+  if (curPatches.length) {
+    if (patches[index]) {
+      patches[index] = patches[index].concat(curPatches)
+    } else {
+      patches[index] = curPatches
+    }
+  }
 }
 ```
 
@@ -197,35 +197,35 @@ We also have three steps for checking for property changes
 
 ```js
 function diffProps(oldProps, newProps) {
-// three steps for checking for props
-// iterate oldProps for removed properties
-// iterate newProps for chagned property values
-// lastly check if new properties are added
-let change = []
-for (const key in oldProps) {
-if (oldProps.hasOwnProperty(key) && !newProps[key]) {
-change.push({
-prop: key
-})
-}
-}
-for (const key in newProps) {
-if (newProps.hasOwnProperty(key)) {
-const prop = newProps[key]
-if (oldProps[key] && oldProps[key] !== newProps[key]) {
-change.push({
-prop: key,
-value: newProps[key]
-})
-} else if (!oldProps[key]) {
-change.push({
-prop: key,
-value: newProps[key]
-})
-}
-}
-}
-return change
+  // three steps for checking for props
+  // iterate oldProps for removed properties
+  // iterate newProps for chagned property values
+  // lastly check if new properties are added
+  let change = []
+  for (const key in oldProps) {
+    if (oldProps.hasOwnProperty(key) && !newProps[key]) {
+      change.push({
+        prop: key
+      })
+    }
+  }
+  for (const key in newProps) {
+    if (newProps.hasOwnProperty(key)) {
+      const prop = newProps[key]
+      if (oldProps[key] && oldProps[key] !== newProps[key]) {
+        change.push({
+          prop: key,
+          value: newProps[key]
+        })
+      } else if (!oldProps[key]) {
+        change.push({
+          prop: key,
+          value: newProps[key]
+        })
+      }
+    }
+  }
+  return change
 }
 ```
 
@@ -242,92 +242,92 @@ PS: this algorithm only handles nodes with `key`s.
 
 ```js
 function listDiff(oldList, newList, index, patches) {
-// to make the iteration more convenient, first take all keys from both lists
-let oldKeys = getKeys(oldList)
-let newKeys = getKeys(newList)
-let changes = []
+  // to make the iteration more convenient, first take all keys from both lists
+  let oldKeys = getKeys(oldList)
+  let newKeys = getKeys(newList)
+  let changes = []
 
-// for saving the node daa after changes
-// there are several advantages of using this array to save
-// 1. we can correctly obtain the index of the deleted node
-// 2. we only need to operate on the DOM once for interexchanged nodes
-// 3. we only need to iterate for the checking in the `diffChildren` function
-//    we don't need to check again for nodes existing in both lists
-let list = []
-oldList &&
-oldList.forEach(item => {
-let key = item.key
-if (isString(item)) {
-key = item
-}
-// checking if the new children has the current node
-// if not then delete
-let index = newKeys.indexOf(key)
-if (index === -1) {
-list.push(null)
-} else list.push(key)
-})
-// array after iterative changes
-let length = list.length
-// since deleting array elements changes the indices
-// we remove from the back to make sure indices stay the same
-for (let i = length - 1; i >= 0; i--) {
-// check if the current element is null, if so then it means we need to remove it
-if (!list[i]) {
-list.splice(i, 1)
-changes.push({
-type: StateEnums.Remove,
-index: i
-})
-}
-}
-// iterate the new list, check if a node is added or moved
-// also add and move nodes for `list`
-newList &&
-newList.forEach((item, i) => {
-let key = item.key
-if (isString(item)) {
-key = item
-}
-// check if the old children has the current node
-let index = list.indexOf(key)
-// if not then we need to insert
-if (index === -1  || key == null) {
-changes.push({
-type: StateEnums.Insert,
-node: item,
-index: i
-})
-list.splice(i, 0, key)
-} else {
-// found the node, need to check if it needs to be moved.
-if (index !== i) {
-changes.push({
-type: StateEnums.Move,
-from: index,
-to: i
-})
-move(list, index, i)
-}
-}
-})
-return { changes, list }
+  // for saving the node daa after changes
+  // there are several advantages of using this array to save
+  // 1. we can correctly obtain the index of the deleted node
+  // 2. we only need to operate on the DOM once for interexchanged nodes
+  // 3. we only need to iterate for the checking in the `diffChildren` function
+  //    we don't need to check again for nodes existing in both lists
+  let list = []
+  oldList &&
+    oldList.forEach(item => {
+      let key = item.key
+      if (isString(item)) {
+        key = item
+      }
+      // checking if the new children has the current node
+      // if not then delete
+      let index = newKeys.indexOf(key)
+      if (index === -1) {
+        list.push(null)
+      } else list.push(key)
+    })
+  // array after iterative changes
+  let length = list.length
+  // since deleting array elements changes the indices
+  // we remove from the back to make sure indices stay the same
+  for (let i = length - 1; i >= 0; i--) {
+    // check if the current element is null, if so then it means we need to remove it
+    if (!list[i]) {
+      list.splice(i, 1)
+      changes.push({
+        type: StateEnums.Remove,
+        index: i
+      })
+    }
+  }
+  // iterate the new list, check if a node is added or moved
+  // also add and move nodes for `list`
+  newList &&
+    newList.forEach((item, i) => {
+      let key = item.key
+      if (isString(item)) {
+        key = item
+      }
+      // check if the old children has the current node
+      let index = list.indexOf(key)
+      // if not then we need to insert
+      if (index === -1 || key == null) {
+        changes.push({
+          type: StateEnums.Insert,
+          node: item,
+          index: i
+        })
+        list.splice(i, 0, key)
+      } else {
+        // found the node, need to check if it needs to be moved.
+        if (index !== i) {
+          changes.push({
+            type: StateEnums.Move,
+            from: index,
+            to: i
+          })
+          move(list, index, i)
+        }
+      }
+    })
+  return { changes, list }
 }
 
 function getKeys(list) {
-let keys = []
-let text
-list &&
-list.forEach(item => {
-let key
-if (isString(item)) {
-key = [item]
-} else if (item instanceof Element) {
-key = item.key
-}
-keys.push(key)
-})
-return keys
+  let keys = []
+  let text
+  list &&
+    list.forEach(item => {
+      let key
+      if (isString(item)) {
+        key = [item]
+      } else if (item instanceof Element) {
+        key = item.key
+      }
+      keys.push(key)
+    })
+  return keys
 }
 ```
 
@@ -342,32 +342,32 @@ In general, the functionalities impelemented are simple.
 
 ```js
 function diffChildren(oldChild, newChild, index, patches) {
-let { changes, list } = listDiff(oldChild, newChild, index, patches)
-if (changes.length) {
-if (patches[index]) {
-patches[index] = patches[index].concat(changes)
-} else {
-patches[index] = changes
-}
-}
-// marking last iterated node
-let last = null
-oldChild &&
-oldChild.forEach((item, i) => {
-let child = item && item.children
-if (child) {
-index =
-last && last.children ? index + last.children.length + 1 : index + 1
-let keyIndex = list.indexOf(item.key)
-let node = newChild[keyIndex]
-// only iterate nodes existing in both lists
-// no need to visit the added or removed ones
-if (node) {
-dfs(item, node, index, patches)
-}
-} else index += 1
-last = item
-})
+  let { changes, list } = listDiff(oldChild, newChild, index, patches)
+  if (changes.length) {
+    if (patches[index]) {
+      patches[index] = patches[index].concat(changes)
+    } else {
+      patches[index] = changes
+    }
+  }
+  // marking last iterated node
+  let last = null
+  oldChild &&
+    oldChild.forEach((item, i) => {
+      let child = item && item.children
+      if (child) {
+        index =
+          last && last.children ? index + last.children.length + 1 : index + 1
+        let keyIndex = list.indexOf(item.key)
+        let node = newChild[keyIndex]
+        // only iterate nodes existing in both lists
+        // no need to visit the added or removed ones
+        if (node) {
+          dfs(item, node, index, patches)
+        }
+      } else index += 1
+      last = item
+    })
 }
 ```
 
@@ -385,66 +385,66 @@ This code snippet is pretty easy to understand as a whole.
 ```js
 let index = 0
 export default function patch(node, patchs) {
-let changes = patchs[index]
-let childNodes = node && node.childNodes
-// this deep search is the same as the one in diff algorithm
-if (!childNodes) index += 1
-if (changes && changes.length && patchs[index]) {
-changeDom(node, changes)
-}
-let last = null
-if (childNodes && childNodes.length) {
-childNodes.forEach((item, i) => {
-index =
-last && last.children ? index + last.children.length + 1 : index + 1
-patch(item, patchs)
-last = item
-})
-}
+  let changes = patchs[index]
+  let childNodes = node && node.childNodes
+  // this deep search is the same as the one in diff algorithm
+  if (!childNodes) index += 1
+  if (changes && changes.length && patchs[index]) {
+    changeDom(node, changes)
+  }
+  let last = null
+  if (childNodes && childNodes.length) {
+    childNodes.forEach((item, i) => {
+      index =
+        last && last.children ? index + last.children.length + 1 : index + 1
+      patch(item, patchs)
+      last = item
+    })
+  }
 }
 
 function changeDom(node, changes, noChild) {
-changes &&
-changes.forEach(change => {
-let { type } = change
-switch (type) {
-case StateEnums.ChangeProps:
-let { props } = change
-props.forEach(item => {
-if (item.value) {
-node.setAttribute(item.prop, item.value)
-} else {
-node.removeAttribute(item.prop)
-}
-})
-break
-case StateEnums.Remove:
-node.childNodes[change.index].remove()
-break
-case StateEnums.Insert:
-let dom
-if (isString(change.node)) {
-dom = document.createTextNode(change.node)
-} else if (change.node instanceof Element) {
-dom = change.node.create()
-}
-node.insertBefore(dom, node.childNodes[change.index])
-break
-case StateEnums.Replace:
-node.parentNode.replaceChild(change.node.create(), node)
-break
-case StateEnums.Move:
-let fromNode = node.childNodes[change.from]
-let toNode = node.childNodes[change.to]
-let cloneFromNode = fromNode.cloneNode(true)
-let cloenToNode = toNode.cloneNode(true)
-node.replaceChild(cloneFromNode, toNode)
-node.replaceChild(cloenToNode, fromNode)
-break
-default:
-break
-}
-})
+  changes &&
+    changes.forEach(change => {
+      let { type } = change
+      switch (type) {
+        case StateEnums.ChangeProps:
+          let { props } = change
+          props.forEach(item => {
+            if (item.value) {
+              node.setAttribute(item.prop, item.value)
+            } else {
+              node.removeAttribute(item.prop)
+            }
+          })
+          break
+        case StateEnums.Remove:
+          node.childNodes[change.index].remove()
+          break
+        case StateEnums.Insert:
+          let dom
+          if (isString(change.node)) {
+            dom = document.createTextNode(change.node)
+          } else if (change.node instanceof Element) {
+            dom = change.node.create()
+          }
+          node.insertBefore(dom, node.childNodes[change.index])
+          break
+        case StateEnums.Replace:
+          node.parentNode.replaceChild(change.node.create(), node)
+          break
+        case StateEnums.Move:
+          let fromNode = node.childNodes[change.from]
+          let toNode = node.childNodes[change.to]
+          let cloneFromNode = fromNode.cloneNode(true)
+          let cloenToNode = toNode.cloneNode(true)
+          node.replaceChild(cloneFromNode, toNode)
+          node.replaceChild(cloenToNode, fromNode)
+          break
+        default:
+          break
+      }
+    })
 }
 ```
 
@@ -470,9 +470,9 @@ let pathchs = diff(test1, test2)
 console.log(pathchs)
 
 setTimeout(() => {
-console.log('start updating')
-patch(root, pathchs)
-console.log('end updating')
+  console.log('start updating')
+  patch(root, pathchs)
+  console.log('end updating')
 }, 1000)
 ```
 
