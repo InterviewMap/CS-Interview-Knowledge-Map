@@ -459,7 +459,13 @@ self.addEventListener("fetch", e => {
 
 ![](https://user-gold-cdn.xitu.io/2018/4/11/162b2ab2ec70ac5b?w=900&h=352&f=png&s=49983)
 
-浏览器显示内容是一块块显示的，而不是等待 Redner Tree 全部生成后才显示。所以对于优化首屏加载速度来说，应该尽快提供首屏需要的 CSS 文件。
+在构建 CSSOM 树时，会阻塞渲染，直至 CSSOM 树构建完成。并且构建 CSSOM 树是一个十分消耗性能的过程，所以应该尽量保证层级扁平，减少过度层叠，越是具体的 CSS 选择器，执行速度越慢。
+
+当 HTML 解析到 script 标签时，会暂停构建 DOM，完成后才会从暂停的地方重新开始。也就是说，如果你想首屏渲染的越快，就越不应该在首屏就加载 JS 文件。并且 CSS 也会影响 JS 的执行，只有当解析完样式表才会执行 JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM。
+
+![](https://user-gold-cdn.xitu.io/2018/7/8/1647838a3b408372?w=1676&h=688&f=png&s=154480)
+
+![](https://user-gold-cdn.xitu.io/2018/7/8/16478388e773b16a?w=1504&h=760&f=png&s=123231)
 
 ## Load 和 DOMContentLoaded 区别
 

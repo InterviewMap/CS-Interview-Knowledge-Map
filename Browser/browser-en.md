@@ -461,7 +461,14 @@ The machanism of the browser engine usually has the following steps:
 
 ![](https://user-gold-cdn.xitu.io/2018/4/11/162b2ab2ec70ac5b?w=900&h=352&f=png&s=49983)
 
-The browser display the content by blocks. It won't wait until all the Render Tree finished. So, if wou want to load you first screen as soon as possiable, you'd better make the css data of the first page ready at first.
+When building the CSSOM tree, the rendering is blocked until the CSSOM tree is built. And building the CSSOM tree is a very cost-intensive process, so you should try to ensure that the level is flat, reduce excessive cascading, the more specific CSS selector, the slower the execution.
+
+When the HTML is parsed the script tag, the DOM is paused and will restart from the paused position. In other words, if you want to render the first screen faster, the less you should load the JS file on the first screen. And CSS will also affect the execution of JS. JS will only be executed when the stylesheet is parsed. Therefore, it can be considered that CSS will also suspend the DOM in this case.
+
+![](https://user-gold-cdn.xitu.io/2018/7/8/1647838a3b408372?w=1676&h=688&f=png&s=154480)
+
+![](https://user-gold-cdn.xitu.io/2018/7/8/16478388e773b16a?w=1504&h=760&f=png&s=123231)
+
 
 ## Difference between Load & DOMContentLoaded
 
