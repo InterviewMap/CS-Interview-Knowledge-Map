@@ -16,7 +16,7 @@
 
 对于面试来说，平时的积累肯定是必须的，但是在面试前的准备也是至关重要的。
 
-在几月前我个人组建了一个小团队，花了四个多月的时间写内容并翻译成英文，今天，终于开源出了第一个版本。
+在几月前我个人组建了一个小团队，花了将近半年的时间写内容并翻译成英文，今天，终于开源出了第一个版本。
 
 这些内容都是个人在学习编程中觉得不错的知识点，其中包含了 JS、网络、浏览器相关、性能优化、安全、框架、Git、数据结构、算法等内容，希望这个面试图谱能够帮助到大家更好的准备面试。
 
@@ -24,9 +24,9 @@
 
 ## 贡献
 
-如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)
+如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/KieSun/InterviewMap/issues/18) 中讨论
 
-如果你认为有一个不错的知识点（仅支持目前写过的大纲），欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)
+如果你认为有一个不错的知识点，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
 
 ## 协议
 
