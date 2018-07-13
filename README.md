@@ -28,6 +28,9 @@
 
 如果你认为有一个不错的知识点，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
 
+## 交流分享
+如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19)
+
 ## 协议
 
 [MIT](LICENSE). Copyright (c)
