@@ -31,6 +31,9 @@
 ## 交流分享
 如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19)
 
+## 支持我们
+如果图谱在面试中或者学习中帮助到你了，你可以请我 [支持我们的工作](https://github.com/KieSun/InterviewMap/issues/20)
+
 ## 协议
 
 [MIT](LICENSE). Copyright (c)
