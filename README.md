@@ -1,52 +1,60 @@
 <img align="center" src='./InterviewMap.png' />
 
+
+
+<img align="center" src='./InterviewMap.png' />
+
 <h1 align="center">
   Interview Map
 </h1>
 
-<h4 align="center">这是一份能让你更好准备下一次面试的图谱</h4>
+<h4 align="center">This is a map that can help you make a better preparation for the next interview</h4>
 
-## 前言
+[中文版本](./README-ZH.md)
 
->  当你老了，回顾一生，就会发觉：什么时候出国读书，什么时候决定做第一份职业，何时选定对象而恋爱，什么时候结婚，其实都是命运的巨变。只是当时站在三岔路口，眼见风云千樯，你做出选择的那一日，在日记上，相当沉闷和平凡，当时还以为是生命中普通的一天。
->
-> 一个改变面试的项目 -- 面试图谱。
+## Foreword
 
-金九银十的跳槽季近在眼前，想必大家也都心痒难耐，准备挑战更好的工作机会。那么，面试肯定是最大的挑战。
+> When you are old, looking back the whole lifetime, you will find out: When to study abroad, when to decide the first occupation, when to choose the other half to fall in love, when to marry, all these are great changes in fate. We were just standing at the three-forked intersection and seeing the wind blows the clouds and sails. The day you made your choice was quite dull and peaceful in the diary, and it was thought to be an ordinary day in a life. 
+> A project to change the interview — Interview Map.
 
-对于面试来说，平时的积累肯定是必须的，但是在面试前的准备也是至关重要的。
 
-在几月前我个人组建了一个小团队，花了将近半年的时间寻找大厂的面试题，筛选出了近百个知识点然后成文，并全部翻译为英文。今天，终于开源出了第一个版本，目前总字数已高达 10 余万字。
+The best job-hopping seasons, September and October are coming（For Chinese, and there is an idiom called "Golden September and Silver October”）, most people must be eager to try and prepare to challenge better job opportunities. Then, the interview must be the biggest challenge.
 
-我们认为，一味的背面试题是没多大作用的。只有熟悉了各个知识点并融会贯通，才能在面试中披荆斩棘。本图谱目前包含了近百个高频知识点，无论是面试前的准备还是平时学习中的查漏补缺，我们相信肯定能帮助到大家。目前内容包含了 JS、网络、浏览器相关、性能优化、安全、框架、Git、数据结构、算法等内容，无论是基础还是进阶，亦或是源码解读，你都能在本图谱中得到满意的答案，希望这个面试图谱能够帮助到大家更好的准备面试。
+For the interview, the usual accumulation of learning is necessary, but the preparation before the interview is also crucial.
 
-该仓库内容会持续更新，后期将会包含更多的内容，比如：系统设计、区块链、运维、后端等等，当然这些不是我的强项，我会邀请这方面有不错经验的朋友来书写内容。
+A few months ago, I set up a small team. It took half a year to search for interview questions from the big company, filtering out nearly 100 knowledge points, writing the content and translate them all into English. Today, we finally release the first version and the total number of words has reached more than 100,000 at present. 
 
-# 大纲
+We think that the blind memory of the interview questions is not very useful. Only when you are familiar with the various knowledge points and be capable of integrating them, you can get through the interviews. This interviewmap currently contains nearly a hundred high-frequency knowledge points, no matter the preparation before the interview or the study, we believe that it will help you. The current content includes JS, network, browser related, performance optimization, security, framework, Git, data structure, algorithm, etc. Whether it is basic or advanced learning or source code interpretation, you can get a satisfactory answer in this interviewmap, and we hope that the interviewmap can help you better prepare for the interview.
 
+The contents of the repository will update continuously, and more contents will be added into the repository later, such as system design, the blockchain, operating and support, backend, etc. Of course, these are not my strengths, and I will invite friends who have good experience in this area to write content.
+
+
+# Outline
 ![mind](./mind.png)
 
-## 贡献
 
-如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/KieSun/InterviewMap/issues/18) 中讨论
+## Contributing
+If you find something wrong with the knowledge point or there’s a Bug in the code, welcome to submit English [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new), if your English is not good, please discuss it in  [this issue](https://github.com/KieSun/InterviewMap/issues/18) 
 
-如果你认为有一个不错的知识点或者也想参与翻译校对，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
+If you think there is a good knowledge point or would like to participate in translation and proofreading, welcome [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，or you can contact me <zx597813039@gmail.com>
 
 ## Todo
 
-- 完成 CSS 内容
-- 完成 Webapck 内容
-- 完成小程序相关内容
-- 完善关于框架的内容
+* Complete the content about CSS 
+* Complete the content about Webpack
+* Complete the content about the mini program (WeiXin)
+* Improve the content of the framework
 
-以上内容预计将于 9 月份更新完毕，欢迎你一起参与本图谱的建设。
+The above content is expected to be updated completely in September, and welcome to participate in the construction of this interviewmap.
 
-## 交流分享
-如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19)
 
-## 支持我们
-如果图谱在面试中或者学习中帮助到你了，你可以请我 [支持我们的工作](https://github.com/KieSun/InterviewMap/issues/20)
+## Communicate and share
+If you want to communicate and share with others about the content of this interviewmap, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19), it's Chinese.
 
-## 协议
 
+## Support us
+If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20)
+
+
+## protocol
 [MIT](LICENSE). Copyright (c)
