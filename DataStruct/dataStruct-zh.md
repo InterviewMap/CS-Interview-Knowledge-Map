@@ -618,22 +618,22 @@ class AVL {
     node.height =
       1 + Math.max(this._getHeight(node.left), this._getHeight(node.right))
     let factor = this._getBalanceFactor(node)
-    // 当需要右旋时，根节点的左树一定比右数高度高
+    // 当需要右旋时，根节点的左树一定比右树高度高
     if (factor > 1 && this._getBalanceFactor(node.left) >= 0) {
       return this._rightRotate(node)
     }
-    // 当需要左旋时，根节点的左树一定比右数高度矮
+    // 当需要左旋时，根节点的左树一定比右树高度矮
     if (factor < -1 && this._getBalanceFactor(node.right) <= 0) {
       return this._leftRotate(node)
     }
     // 左右情况
-    // 节点的左树比右树高，且节点的左树的右数比节点的左树的左树高
+    // 节点的左树比右树高，且节点的左树的右树比节点的左树的左树高
     if (factor > 1 && this._getBalanceFactor(node.left) < 0) {
       node.left = this._leftRotate(node.left)
       return this._rightRotate(node)
     }
     // 右左情况
-    // 节点的左树比右树矮，且节点的右树的右数比节点的右树的左树矮
+    // 节点的左树比右树矮，且节点的右树的右树比节点的右树的左树矮
     if (factor < -1 && this._getBalanceFactor(node.right) > 0) {
       node.right = this._rightRotate(node.right)
       return this._leftRotate(node)
