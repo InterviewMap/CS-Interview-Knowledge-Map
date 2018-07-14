@@ -22,6 +22,10 @@
 
 该仓库内容会持续更新，后期将会包含更多的内容，比如：系统设计、区块链、运维、后端等等，当然这些不是我的强项，我会邀请这方面有不错经验的朋友来书写内容。
 
+# 大纲
+
+![mind](./mind.png)
+
 ## 贡献
 
 如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/KieSun/InterviewMap/issues/18) 中讨论
