@@ -26,7 +26,7 @@
 
 如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/KieSun/InterviewMap/issues/18) 中讨论
 
-如果你认为有一个不错的知识点，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
+如果你认为有一个不错的知识点或者也想参与翻译校对，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
 
 ## Todo
 
