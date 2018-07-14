@@ -303,7 +303,7 @@ HTTP 协议是个无状态协议，不会保存状态。
 
 * 301 moved permanently，永久性重定向，表示资源已被分配了新的 URL
 * 302 found，临时性重定向，表示资源临时被分配了新的 URL
-* 303 see other，表示资源存在着另一个 URL，应使用 GET 方法丁香获取资源
+* 303 see other，表示资源存在着另一个 URL，应使用 GET 方法获取资源
 * 304 not modified，表示服务器允许访问资源，但因发生请求未满足条件的情况
 * 307 temporary redirect，临时重定向，和302含义相同
 
