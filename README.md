@@ -10,8 +10,6 @@
 
 [中文版本](./README-ZH.md)
 
-[Online version is clearer to read](https://yuchengkai.cn/docs/)
-
 ## Foreword
 
 > When you are old, looking back the whole lifetime, you will find out: When to study abroad, when to decide the first occupation, when to choose the other half to fall in love, when to marry, all these are great changes in fate. We were just standing at the three-forked intersection and seeing the wind blows the clouds and sails. The day you made your choice was quite dull and peaceful in the diary, and it was thought to be an ordinary day in a life. 
@@ -47,6 +45,9 @@ If you think there is a good knowledge point or would like to participate in tra
 
 The above content is expected to be updated completely in September, and welcome to participate in the construction of this interviewmap.
 
+## Reading
+
+[Online version is clearer to read](https://yuchengkai.cn/docs/)
 
 ## Communicate and share
 If you want to communicate and share with others about the content of this interviewmap, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19), it's Chinese.
