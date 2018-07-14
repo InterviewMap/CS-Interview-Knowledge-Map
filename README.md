@@ -57,5 +57,5 @@ If you want to communicate and share with others about the content of this inter
 If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20)
 
 
-## protocol
+## License
 [MIT](LICENSE). Copyright (c)
