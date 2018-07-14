@@ -285,7 +285,7 @@ class LinkList {
 
 树拥有很多种结构，二叉树是树中最常用的结构，同时也是一个天然的递归结构。
 
-二叉树拥有一个根节点，每个节点至多拥有两个子节点，分别为：左节点和右节点。树的最底部节点称之为叶节点，当一颗树的叶数量数量为满时，该树可以称之为满二叉树。
+二叉树拥有一个根节点，每个节点至多拥有两个子节点，分别为：左节点和右节点。树的最底部节点称之为叶节点，当一颗树的叶节点数量为满时，该树可以称之为满二叉树。
 
 ![](https://user-gold-cdn.xitu.io/2018/5/22/163884f74c9f4e4d?w=320&h=267&f=png&s=11622)
 
@@ -400,7 +400,6 @@ breadthTraversal() {
     // 将队首出队，判断是否有左右子树
     // 有的话，就先左后右入队
     let n = q.deQueue()
-    console.log(n.value)
     if (n.left) q.enQueue(n.left)
     if (n.right) q.enQueue(n.right)
   }
@@ -490,7 +489,7 @@ _select(node, k) {
   // 如果大于 k，代表所需要的节点在左节点
   if (size > k) return this._select(node.left, k)
   // 如果小于 k，代表所需要的节点在右节点
-  // 注意这里需要重新计算 k，减去根节点除了右子树的节点数量
+  // 注意这里需要重新计算 k
   if (size < k) return this._select(node.right, k - size - 1)
   return node
 }
@@ -627,13 +626,13 @@ class AVL {
       return this._leftRotate(node)
     }
     // 左右情况
-    // 节点的左树比右树高，且节点的左树的右数比节点的左树的左树高
+    // 节点的左树比右树高，且节点的左树的右树比节点的左树的左树高
     if (factor > 1 && this._getBalanceFactor(node.left) < 0) {
       node.left = this._leftRotate(node.left)
       return this._rightRotate(node)
     }
     // 右左情况
-    // 节点的左树比右树矮，且节点的右树的右数比节点的右树的左树矮
+    // 节点的左树比右树矮，且节点的右树的右树比节点的右树的左树矮
     if (factor < -1 && this._getBalanceFactor(node.right) > 0) {
       node.right = this._rightRotate(node.right)
       return this._leftRotate(node)
@@ -703,13 +702,6 @@ class AVL {
 }
 ```
 
-
-
-
-## 红黑树
-
-
-
 # Trie
 
 ## 概念
@@ -749,7 +741,7 @@ class Trie {
     if (!str) return
     let node = this.root
     for (let i = 0; i < str.length; i++) {
-      // 获得字符先对应的索引
+      // 获得字符对应的索引
       let index = str[i].charCodeAt() - 'a'.charCodeAt()
       // 如果索引对应没有值，就创建
       if (!node.next[index]) {
@@ -781,7 +773,7 @@ class Trie {
     for (let i = 0; i < str.length; i++) {
       let index = str[i].charCodeAt() - 'a'.charCodeAt()
       // 如果索引对应的节点的 Path 为 0，代表经过该节点的字符串
-      // 已经一个，直接删除即可
+      // 已经只有当前这一个，直接删除即可
       if (--node.next[index].path == 0) {
         node.next[index] = null
         return
@@ -936,6 +928,3 @@ class MaxHeap {
   }
 }
 ```
-
-# 哈希
-

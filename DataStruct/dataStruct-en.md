@@ -1,37 +1,16 @@
-+ Stack
-  - Concept
-  - Implementation
-  - Application
-+ Queues
-  - Concept
-  - Implementation 
-    + Singly-linked Queue
-    + Circular Queue
-+ Linked List
-  - Concept
-  - Implementation
-+ Tree
-  - Binary tree
-  - Binary Search tree
-    + Implementation
-+ Trie
-  - Concept
-  - Implementation
-+ Disjoint Set
-  - Concept
-  - Implementation
-
 # Stack
-## Conception
-A stack is basic data structure that can be logically thought of as a linear structure.
 
-Insertion and deletion of items takes place at one end called top of the stack in stack, and the operation should obey the rules LIFO(Last In First Out).
+## Conception
+
+A stack is the basic data structure that can be logically thought of as a linear structure.
+
+Insertion and deletion of items at the top of the stack and the operation should obey the rules LIFO(Last In First Out).
 
 ![](https://user-gold-cdn.xitu.io/2018/5/20/1637b785d2d68735?w=640&h=460&f=png&s=6932)
 
 ## Implementation
 
-Each data structure can be implementated by different languages. We can treat stack as a subclass of Array. So we take the array for example here.
+Each data structure can be implemented by the different method. We can treat stack as a subclass of Array. So we take the array for example here.
 
 ```js
 class Stack {
@@ -60,7 +39,7 @@ class Stack {
 
 We choose [the NO.20 topic in LeetCode](https://leetcode.com/problems/valid-parentheses/submissions/1)
 
-Oue goal is to match the brackets. We can use the features of stack to implementate it.
+Our goal is to match the brackets. We can use the features of the stack to implement it.
 
 ```js
 var isValid = function (s) {
@@ -85,17 +64,18 @@ var isValid = function (s) {
   return true
 };
 ```
+
 # Queues
 
 ## concept
 
-A queue is linear data structure. The insertion takes place at one end while the deletion occurs the other one. And the first one inle the queue is the first one to be handle.
+A queue is a linear data structure. The insertion takes place at one end while the deletion occurs the other one. And the operation should obey the rules FIFO(First In First Out).
 
 ![](https://user-gold-cdn.xitu.io/2018/5/20/1637cba2a6155793?w=640&h=419&f=png&s=15737)
 
 ## implementation
 
-Here, we'll talk two implementations of queue: Singly-linked Queue and Circular Queue.
+Here, we'll talk two implementations of the queue: Singly-linked Queue and Circular Queue.
 
 ### Singly-linked Queue
 
@@ -122,7 +102,7 @@ class Queue {
 }
 ```
 
-It is a O(n) operation to enqueue in a Singly-linked Queue, while it is a O(1) in a Circular Queue. So here comes the Circular Queue.
+It is an O(n) operation to enqueue in a Singly-linked Queue, while it is an average O(1) in a Circular Queue. So here comes the Circular Queue.
 
 ### Circular Queue
 
@@ -139,7 +119,7 @@ class SqQueue {
   }
   enQueue(item) {
     // the array need to expand if last + 1 is the head
-    // % this.queue.length  to limit the array 
+    // `% this.queue.length` is to avoid index out of bounds
     if (this.first === (this.last + 1) % this.queue.length) {
       this.resize(this.getLength() * 2 + 1)
     }
@@ -156,7 +136,7 @@ class SqQueue {
     this.first = (this.first + 1) % this.queue.length
     this.size--
     // if the size of queue is too small 
-    // cut the size half when the real size is quarter of the length and the length is not 2
+    // reduce the size half when the real size is quarter of the length and the length is not 2
     if (this.size === this.getLength() / 4 && this.getLength() / 2 !== 0) {
       this.resize(this.getLength() / 2)
     }
@@ -190,7 +170,7 @@ class SqQueue {
 
 ## Concept
 
-Linked list is a linear data structure and born to be rescursive structure. It can fully use the memory of the cumputer and manage the memory dynamicly and flexibly. But Nodes in a linked list must be read in order from the beginning which can be random in array and it use more meomory than array because of the storage used by their pointers.
+The linked list is a linear data structure and born to be recursive structure. It can fully use the memory of the computer and manage the memory dynamically and flexibly. But Nodes in the linked list must be read in order from the beginning which can be random in the array, and it uses more memory than the array because of the storage used by their pointers.
 
 ![](https://user-gold-cdn.xitu.io/2018/5/22/16388487759b1152?w=1060&h=178&f=png&s=20820)
 
@@ -218,7 +198,9 @@ class LinkList {
   }
   addNode(v, index) {
     this.checkIndex(index)
-    // the  next of the node inserted should be previous node'next and the previous node's next should point to the node insert, except the tail which next is null
+    // the next of the node inserted should be previous node'next
+    // and the previous node's next should point to the node insert,
+    // except inserted to tail which next is null
     let prev = this.find(this.dummyNode, index, 0)
     prev.next = new Node(v, prev.next)
     this.size++
@@ -265,21 +247,22 @@ class LinkList {
   }
 }
 ```
+
 # Tree
 
 ## Binary Tree
 
-Binary Tree is a common one of the many structures of tree. And it is borned to be recursive.
+Binary Tree is a common one of the many structures of the tree. And it is born to be recursive.
 
-Binary start at a root node and each node consists two child-nodes at most: left and right.  The nodes in the bottom are usually called leaf nodes and when all the nodes, except the leaf nodes, have both children, we call the tree Full Binary Tree. 
+Binary tree start at a root node and each node consists of two child-nodes at most: left node and right node.  The nodes in the bottom are usually called leaf nodes, and when the leaf nodes is full, we call the Full Binary Tree. 
 
 ![](https://user-gold-cdn.xitu.io/2018/5/22/163884f74c9f4e4d?w=320&h=267&f=png&s=11622)
 
 ## Binary Search Tree
 
-Binary Search Tree (BST) is one of the binary tree so it has all the features of binary tree. But different with binary tree, the key in any node is larger than the keys in all nodes in that node's left subtree and smaller than the keys in all nodes in that node's right subtree.
+Binary Search Tree (BST) is one of the binary trees, so it has all the features of the binary tree. But different with the binary tree, the value in any node is larger than the values in all nodes in that node's left subtree and smaller than the values in all nodes in that node's right subtree.
 
-Therefore, operations like lookup is easy in BST. e.g: When looking for 6 in a BST, they traverse the tree from root to leaf and  make comparisons to the value of the each tree node. On average, each comparison allows the operations to skip about half of the tree, so that the search effectiveness is very high.
+This storage method is very suitable for data search. As shown below, when you need to find 6, because the value you need to find is larger than the value of the root node, you only need to find it in the right subtree of the root node, which greatly improves the search efficiency.
 
 ![](https://user-gold-cdn.xitu.io/2018/5/22/1638850ba7458208?w=596&h=485&f=png&s=36796)
 
@@ -325,14 +308,14 @@ class BST {
 
 Above is the basic implementation of BST, the implementation of traversing tree are as follows.
 
-There are three ways for traversing trees: Inorder Traversal, Preorder Traversal, PostOrder Traversal. The difference of these ways is the time when to visit the root node. Each node will be traversed by three times, self、root and right. The root will be visited at first in Preorder Traversal.
+There are three ways for traversing trees: Preorder Traversal, In order Traversal, PostOrder Traversal. The difference of these ways is the time when to visit the root node. In the process of traversing the tree, each node traverses three times, traversing itself, traversing the left subtree and traversing the right subtree. If you need to implement pre-order traversal, you only need to operate the first time when traversing to the node.
 
- Following are the implementation by recursive, if you want to find the non-recursive , [click here](../Algorithm/algorithm-ch.md#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
+ Following are the implementation by recursive, if you want to find the non-recursive, [click here](../Algorithm/algorithm-ch.md#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0)
 
- ```js
-// Preorder can be used to print the constructure of the tree
-// first root, then left and the right is last
-preTraversal() {
+```js
+// Preorder traversal can be used to print the structure of the tree
+// first root then left, and the right is last
+traversal() {
   this._pre(this.root)
 }
 _pre(node) {
@@ -342,8 +325,8 @@ _pre(node) {
     this._pre(node.right)
   }
 }
-// Inorder can be used to order
-// you can sort the value of tree only by one time of Inorder
+// Inorder traversal can be used to order
+// you can sort the value of BST only by one time of Inorder traversal
 // first left , then root and right is last
 midTraversal() {
   this._mid(this.root)
@@ -355,8 +338,9 @@ _mid(node) {
     this._mid(node.right)
   }
 }
-// Postorder can be used in the case that you need to operate the child node first and then the root
-// first left, then right and the root comes last
+// Postorder traversal can be used in the case that you want to
+// operate the child node first and then the parent node
+// first left, then right and the root is last
 backTraversal() {
   this._back(this.root)
 }
@@ -369,7 +353,7 @@ _back(node) {
 }
 ```
 
-These three ways are belong to Deep First Search, meanwhile there is Breadth First Search， which traverse the node layer by layer. We can implementate it by queue.
+These three ways belong to Deep First Search. Meanwhile, there is Breadth First Search， which traverse the node layer by layer. We can implement it in the queue.
 
 ```js
 breadthTraversal() {
@@ -379,15 +363,16 @@ breadthTraversal() {
   q.enQueue(this.root)
   // whether the queue is empty, if true, the traverse is finished.
   while (!q.isEmpty()) {
-    // dequeue the head, and whether it has child-node, if true, enqueue th left before the right
+    // dequeue the head, and whether it has child-node, 
+    // if true, enqueue th left and the right
     let n = q.deQueue()
-    console.log(n.value)
     if (n.left) q.enQueue(n.left)
     if (n.right) q.enQueue(n.right)
   }
 }
 ```
-We will introduce how to find the smallest and the biggest in the tree. Because of the feature of the BST, the smallset must be in the left while the biggest is in the right.
+
+We will introduce how to find the smallest and the biggest in the tree. Because of the feature of the BST, the smallest must be on the left while the biggest is on the right.
 
 ```js
 getMin() {
@@ -406,7 +391,7 @@ _getMax(node) {
 }
 ```
 
-**Round up and Round down** Since these two operations are opposite, the code is similar, here we'll just talk about round down. According to the feature of the BST, the target must be in the left. We only need to traverse the left nodes until the current node is no more bigger than the target. And then adjudge if there has right nodes, if do, continue the adjudgement recursively.
+**Round up and Round down** Since these two operations are opposite, the code is similar, here we'll talk about round down. According to the feature of the BST, the target must be on the left. We only need to traverse the left nodes until the current node is no bigger than the target. And then adjudge if there have right nodes, if do, continue the judgment recursively.
 
 ```js
 floor(v) {
@@ -420,14 +405,14 @@ _floor(node, v) {
   if (node.value > v) {
     return this._floor(node.left, v)
   }
-  // if the current node has the right subtree
+  // whether the current node has the right subtree
   let right = this._floor(node.right, v)
   if (right) return right
   return node
 }
 ```
 
-**Rank** get the index of the given key or get the value of the given index, these two operation are alse similar. We as usual only introduce the operation of latter. We should retrofit the code to add a property `size` to each node which indicates how many subnodes a node has, include itself. 
+**Rank** get the rank of the given value or get the value of the given rank, and these two operations are also similar. We as usual only introduce the operation of the latter. We should retrofit the code to add a property `size` to each node which indicates how many subnodes a node has, include itself. 
 
 ```js
 class Node {
@@ -435,11 +420,11 @@ class Node {
     this.value = value
     this.left = null
     this.right = null
-    // add
+    // add code 
     this.size = 1
   }
 }
-// add
+// add code
 _getSize(node) {
   return node ? node.size : 0
 }
@@ -448,11 +433,11 @@ _addChild(node, v) {
     return new Node(v)
   }
   if (node.value > v) {
-    // change
+    // edit code
     node.size++
     node.left = this._addChild(node.left, v)
   } else if (node.value < v) {
-    // change
+    // edit code
     node.size++
     node.right = this._addChild(node.right, v)
   }
@@ -464,24 +449,25 @@ select(k) {
 }
 _select(node, k) {
   if (!node) return null
-  // size of the left node
+  // get the size of the node in the left subtree
   let size = node.left ? node.left.size : 0
-  // if size is bigger than k, the target is in left side
+  // if size is bigger than k, the target is in the left side
   if (size > k) return this._select(node.left, k)
-  // if the size is smaller than k, the target is in right side
-  // there is need to recalculate the k, reduce the size of the left nodes
+  // if the size is smaller than k, the target is in the right side
+  // there is need to recalculate the k
   if (size < k) return this._select(node.right, k - size - 1)
   return node
 }
 ```
 
-Here comes the most difficult parts in BST: delete nodes, include the fellowing cases:
+Here come the most difficult parts in BST: delete nodes, include the following cases:
+
 - the target node has no subtree
 - the target node has only one subtree
 - the target node has two subtrees
 
-The first and the second is easy to reslove, while the last is a little difficult. 
-So let us implementate the simple operation at first: delete the least node. It could not appear in the third case, and the operation delete the largest node is opposite, so there is no need to talk.
+The first and the second is easy to resolve, while the last is a little difficult. 
+So let us implement the simple operation at first: delete the minimum node. It could not appear in the third case, and the operation delete the largest node is opposite, so there is no need to talk.
 
 ```js
 delectMin() {
@@ -491,7 +477,7 @@ delectMin() {
 _delectMin(node) {
   // rescursive  the left subtree
   // if the left subtree is null, check if the right is exist
-  // if true, take the right subtree in place of the target node
+  // if true, take the right subtree in place of the delect node
   if ((node != null) & !node.left) return node.right
   node.left = this._delectMin(node.left)
   // update the size at last
@@ -499,11 +485,12 @@ _delectMin(node) {
   return node
 }
 ```
-The last, how to delete a random node. T.Hibbard putted forward the solution in 1962 which can be used to solve the third case.
 
-In this situation, we should get the descendant node of the current node which is the smallest node if the current node's right subtree and replace the target node by it. And then assign the decendant node with the subtree of the target, and give the right subtree without decent node to the left subtree.
+The last, how to delete a random node. T.Hibbard put forward the solution in 1962 which can be used to solve the third case.
 
-Since the root node is bigger than all the nodes in left subtree, while less than all the nodes in right subtree. When you want to delete a root node, you need to pick a suitable node to take place, which should bigger than the root node that means it must come from the right subtree. Then the smallest node would be picked with the limit that all the nodes in right subtree should bigger than the root node.
+In this situation, we should get the descendant node of the current node which is the smallest node in the current node's right subtree and replace the target node by it. And then assign the descendant node with the subtree of the target, and give the right subtree without decent node to the left subtree.
+
+Since the root node is bigger than all the nodes in left subtree, while less than all the nodes in the right subtree. When you want to delete a root node, you need to pick a suitable node to take place, which should bigger than the root node that means it must come from the right subtree. Then the smallest node would be picked with the limit that all the nodes in the right subtree should bigger than the root node.
 
 ```js
 delect(v) {
@@ -524,10 +511,11 @@ _delect(node, v) {
     if (!node.left) return node.right
     if (!node.right) return node.left
     // in this case, the node has both subtree
-    // get the decendent node of the current node, which is the smallest node in the right subtree
+    // get the decendent node of the current node, 
+    // which is the smallest node in the right subtree
     let min = this._getMin(node.right)
     // delete the smallest after got it
-    // assign the smallest with the subtree after deletion
+    // Then assign the subtree after deleting the node to the smallest node
     min.right = this._delectMin(node.right)
     // subtree is the same
     min.left = node.left
@@ -538,31 +526,32 @@ _delect(node, v) {
   return node
 }
 ```
+
 ## AVL Tree
 
 ### Concept
 
-BST is limited in the production, because it is not the restrict O(logN) and sometimes it will degenerate to a linked list, eg. insertion of a ascending order number list.
+BST is limited in the production because it is not the strict O(log N) and sometimes it will degenerate to a linked list, e.g., insertion of an ascending order number list.
 
-AVL tree improved the BST, the difference between the left subtree and the right subtree in each node is less than 1, which can ensure that the time complexity is strict O(logN). Based on this, the insertion and deletion may need to rotate the tree to balance the height.
+AVL tree improved the BST, the difference between the left subtree height and the right subtree height in each node is less than 1, which can ensure that the time complexity is strict O(log N). Based on this, the insertion and deletion may need to rotate the tree to balance the height.
 
-### Implementation 
+### Implementation
 
-Since improved from the BST, somde codes in AVL are repeated, which we will not analysis again.
+Since improved from the BST, some codes in AVL are repeated, which we will not analysis again.
 
 Four cases are in the node insertion of AVL tree. 
 
-![](https://user-gold-cdn.xitu.io/2018/6/23/1642cc145a0cfb26?w=800&h=566&f=png&s=73573)
+![](https://user-gold-cdn.xitu.io/2018/7/14/164990f7d3ac14cf?w=799&h=836&f=png&s=67489)
 
-As for l-l(left-left), the new node is in the left side of the node 2.  The tree can not keep balance by now, so there need to rotate. After rotated, the tree should still obey the rules the mid is bigger than the left and less than the right according to the features of tree.
+As for l-l(left-left), the new node T1 is in the left side of the node X. The tree cannot keep balance by now, so there need to rotate. After rotating, the tree should still obey the rules the mid is bigger than the left and less than the right according to the features of the BST.
 
-before: new < 2 < C < 3 < B < 5 < A， after rotating, the node 3 is the root, so we need to add the right subtree of 3 to the left of the 5 and update the height of the nodes.
+before rotating: T1 < X < T2 < Y < T3 < Z < T4， after rotating, the node Y is the root, so we need to add the right subtree of Y to the left of the Z and update the height of the nodes.
 
-Same situation to the r-r, opposite to the l-l, we do not talk more.
+The same situation to the r-r, opposite to the l-l, we do not talk more.
 
-As for the l-r, the new node is in the right side of the node 4, we need to rotate twice.
+As for the l-r, the new node is on the right side of the node X, and we need to rotate twice.
 
-First, rotate the left node to left,  after that the case change to l-l, we can handle it like l-l.
+First, rotate the left node to the left, after that the case change to l-l, we can handle it like l-l.
 
 ```js
 class Node {
@@ -604,13 +593,17 @@ class AVL {
       return this._leftRotate(node)
     }
     // l-r
-    // left subtree is higher than right, and the right subtree of the left subtree of the node is higher than the left subtree of the left subtree of the node
+    // left subtree is higher than right, 
+    // and the right subtree of the left subtree of the node 
+    // is higher than the left subtree of the left subtree of the node
     if (factor > 1 && this._getBalanceFactor(node.left) < 0) {
       node.left = this._leftRotate(node.left)
       return this._rightRotate(node)
     }
     // r-l
-    // left subtree is lower than right, and the right subtree of the right subtree of the node is lower than the left subtree of the right subtree of the node
+    // left subtree is lower than right, 
+    // and the right subtree of the right subtree of the node 
+    // is lower than the left subtree of the right subtree of the node
     if (factor < -1 && this._getBalanceFactor(node.right) > 0) {
       node.right = this._rightRotate(node.right)
       return this._leftRotate(node)
@@ -666,7 +659,6 @@ class AVL {
     let moveNode = newRoot.left
     // left node of the node 6 change to node 4
     newRoot.left = node
-    // 节点 4 右节点改为节点 5
     // right node of the node 4 change to node 5
     node.right = moveNode
     // update the height
@@ -681,24 +673,23 @@ class AVL {
 }
 ```
 
-## Red Black Tree
-
 # Trie
 
 ## Concept
-In computer science, a trie, also called digital tree and sometimes radix tree or prefix tree (as they can be searched by prefixes), is a kind of search tree—an ordered tree data structure that is used to store a dynamic set or associative array where the keys are usually strings.
 
-Simplely, this data structure is used to earch string easily, with the following features:
+In computer science, a trie, also called digital tree and sometimes radix tree or prefix tree (as prefixes can search them), is a kind of search tree—an ordered tree data structure that is used to store a dynamic set or associative array where the keys are usually strings.
 
-- the root is on behalf of the empty string, each node has N links (N is 26 in searching english character), each link represent a character.
-- all nodes does not store character, obly the path does, this is the difference of others
-- the character in the path from root to the random node can combined to the very string
+Simply, this data structure is used to search string easily, with the following features:
+
+- the root is on behalf of the empty string, and each node has N links (N is 26 in searching English character), each link represents a character.
+- all nodes do not store a character, and only the path store, this is different from other tree structures.
+- the character in the path from the root to the random node can combine to the strings corresponding to the node
 
 ![](https://user-gold-cdn.xitu.io/2018/6/9/163e1d2f6cec3348?w=640&h=600&f=png&s=48344)
 
 ## Implementation
 
-Generally, the implementation of tris is much more simple than others, let's take the english character searching for example.
+Generally, the implementation of the trie is much more simple than others, let's take the English character searching for example.
 
 ```js
 class TrieNode {
@@ -732,13 +723,13 @@ class Trie {
     }
     node.end += 1
   }
-  // times of query string appear
+  // The number of times the search string appears
   search(str) {
     if (!str) return
     let node = this.root
     for (let i = 0; i < str.length; i++) {
       let index = str[i].charCodeAt() - 'a'.charCodeAt()
-      // if the index does node exists, there is no string to be query
+      // if the index does node exists, there is no string to be search
       if (!node.next[index]) {
         return 0
       }
@@ -752,8 +743,8 @@ class Trie {
     let node = this.root
     for (let i = 0; i < str.length; i++) {
       let index = str[i].charCodeAt() - 'a'.charCodeAt()
-      // if the path of the node linked to index is 0,  this means no string pass 
-      // delete
+      // if the path is 0,  this means no string pass 
+      // delete it
       if (--node.next[index].path == 0) {
         node.next[index] = null
         return
@@ -769,9 +760,10 @@ class Trie {
 
 ## Concept
 
-Disjoint Set is a special data structure of tree, which is usually used to handle the combination and query of the dis-join sets. Each node in this structure has a parent node, if there is noly the current node, then the pointer of the parenet node points to itself.
+Disjoint Set is a special data structure of the tree. Each node in this structure has a parent node, if there is only the current node, then the pointer of the parent node points to itself.
 
 Two important operations are in this structure,
+
 - Find: find the member of the set to which the element belongs,  and it can be used to determine whether the two elements belong to the same set
 - Union: combine two sets to a new set
 
@@ -808,11 +800,11 @@ class DisjointSet {
   }
   // combine
   union(p, q) {
-    // find the parent node the two number
+    // find the parent node of the two number
     let i = this.find(p)
     let j = this.find(q)
     if (i === j) return
-    // compare the deepth of the two trees and add the less to the more
+    // compare the deepth of the two trees 
     // if the deepth is equal, add as you wish
     if (this.rank[i] < this.rank[j]) {
       this.parent[i] = j
@@ -827,30 +819,87 @@ class DisjointSet {
 ```
 
 # Heap
+
 ## Concept
 
 Heap is usually treated as a tree-based array list.
 
-It is implementated by constructure binary heap, one of the BST. Features are as follows:
+It is implemented by constructure binary heap, one of the BST. Features are as follows:
+
 - each node either larger or less than all its child-nodes
-- heap is always a full-tree, all the node in each layer except the root has both child-nodes.
+- heap is always a full-tree
 
-We call the heap **Max Binary Heap** that its root is the largest, while the heap with smallest root is called  **Min Binary Heap**.
+We call the heap **Max Binary Heap** that its root value is the largest, while the heap with the smallest root value is called  **Min Binary Heap**.
 
-Priority Queue also can be implementated by heap, with the same operation.
+Priority Queue also can be implemented by the heap, with the same operation.
 
-## Implementation of Max Binary heap
+## Implementation of Max Binary Heap
 
 The index of the left-child of each node is `i * 2 + 1`, while the right's is `i * 2 + 2`, and the parent's is `(i - 1) / 2`
 
-There are two central operations in heap, `shiftUp` and `shiftDown`. The former is used to insertion, and the latter is to delete the root node.
+There are two central operations in the heap, `shiftUp` and `shiftDown`. The former is used for insertion, and the latter is to delete the root node.
 
-The key of `shiftUp` is to compare with the parent node bubblely , and exchange the value if it is largger than the parent.
+The key of `shiftUp` is to compare with the parent node bubbly and exchange the position if it is larger than the parent.
 
-As for `shiftDown`, first exchange the value of root and tha tail node, and then delete the tail. After that,. compare with the parent node and the both child-nodes circularly, if the child-node is largger, assign the parent node with the larggest value.
+As for `shiftDown`, first exchange root and the tail node, and then delete the tail. After that, Compare with the parent node and both child-nodes circularly, if the child-node is larger, assign the parent node with the larger node.
 
 ![](https://user-gold-cdn.xitu.io/2018/6/15/164009e58a5a21f8?w=537&h=394&f=png&s=77222)
 
+```js
+class MaxHeap {
+  constructor() {
+    this.heap = []
+  }
+  size() {
+    return this.heap.length
+  }
+  empty() {
+    return this.size() == 0
+  }
+  add(item) {
+    this.heap.push(item)
+    this._shiftUp(this.size() - 1)
+  }
+  removeMax() {
+    this._shiftDown(0)
+  }
+  getParentIndex(k) {
+    return parseInt((k - 1) / 2)
+  }
+  getLeftIndex(k) {
+    return k * 2 + 1
+  }
+  _shiftUp(k) {
+    // exchange if the current node is bigger than the parent node
+    while (this.heap[k] > this.heap[this.getParentIndex(k)]) {
+      this._swap(k, this.getParentIndex(k))
+      // update the index to the parent node's
+      k = this.getParentIndex(k)
+    }
+  }
+  _shiftDown(k) {
+    // exchange the head and tail, then delete the tail
+    this._swap(k, this.size() - 1)
+    this.heap.splice(this.size() - 1, 1)
+    // check whether the node has left child-node, 
+    // the right must exist because of full-tree
+    while (this.getLeftIndex(k) < this.size()) {
+      let j = this.getLeftIndex(k)
+      // check whether the right child exits, and whether it is largger than the left
+      if (j + 1 < this.size() && this.heap[j + 1] > this.heap[j]) j++
+      // check whether the parenet node is largger than both child-nodes
+      if (this.heap[k] >= this.heap[j]) break
+      this._swap(k, j)
+      k = j
+    }
+  }
+  _swap(left, right) {
+    let rightValue = this.heap[right]
+    this.heap[right] = this.heap[left]
+    this.heap[left] = rightValue
+  }
+}
+```
 ```js
 class MaxHeap {
   constructor() {
@@ -905,10 +954,3 @@ class MaxHeap {
   }
 }
 ```
-
-# Hash
-
-
-
-
-
