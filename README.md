@@ -1,5 +1,3 @@
-<img align="center" src='./InterviewMap.png' />
-
 
 
 <img align="center" src='./InterviewMap.png' />
