@@ -28,9 +28,9 @@ You should use `rebase` on the local branchs which need be rebased. If you need 
 ```shell
 ## branch develop
 git rebase master
-get checkout master
+git checkout master
 ## move HEAD on `master` to the latest commit
-get merge develop
+git merge develop
 ```
 
 ## stash
