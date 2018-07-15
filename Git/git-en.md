@@ -17,7 +17,7 @@ We usually use `merge` to merge the code from one branch to `master` , like this
 
 ![](https://user-gold-cdn.xitu.io/2018/4/23/162f109db27be054?w=505&h=461&f=png&s=22796)
 
-After using `rebase ` , the commits from `decelop` will be moved to the third `commit` of the `master` in order, as follows:
+After using `rebase ` , the commits from `develop` will be moved to the third `commit` of the `master` in order, as follows:
 
 ![](https://user-gold-cdn.xitu.io/2018/4/23/162f11cc2cb8b332?w=505&h=563&f=png&s=26514)
 
@@ -28,9 +28,9 @@ You should use `rebase` on the local branchs which need be rebased. If you need 
 ```shell
 ## branch develop
 git rebase master
-get checkout master
+git checkout master
 ## move HEAD on `master` to the latest commit
-get merge develop
+git merge develop
 ```
 
 ## stash
