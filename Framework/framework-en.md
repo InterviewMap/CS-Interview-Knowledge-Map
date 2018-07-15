@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [MVVM](#mvvm)
+  - [Dirty Checking](#dirty-checking)
+  - [Data hijacking](#data-hijacking)
+  - [Proxy vs. Obeject.defineProperty](#proxy-vs-obejectdefineproperty)
+- [Routing principle](#routing-principle)
+- [Virtual Dom](#virtual-dom)
+  - [Why Virtual Dom is needed](#why-virtual-dom-is-needed)
+  - [Virtual Dom algorithm introduction](#virtual-dom-algorithm-introduction)
+  - [Virtual Dom algorithm implementation](#virtual-dom-algorithm-implementation)
+    - [recursion of the tree](#recursion-of-the-tree)
+    - [checking property changes](#checking-property-changes)
+    - [Algorithm Implementation for Detecting List Changes](#algorithm-implementation-for-detecting-list-changes)
+    - [Iterating and Marking Child Elements](#iterating-and-marking-child-elements)
+    - [Rendering Difference](#rendering-difference)
+  - [The End](#the-end)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # MVVM
 
 MVVM consists of the following three contents

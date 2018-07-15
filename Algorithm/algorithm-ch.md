@@ -30,6 +30,7 @@
   - [斐波那契数列](#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97)
   - [0 - 1背包问题](#0---1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98)
   - [最长递增子序列](#%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97)
+- [字符串相关](#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -879,6 +880,4 @@ function lis(n) {
 - 前缀匹配
 
 如果你对于 Trie 树还不怎么了解，可以前往 [这里](../DataStruct/dataStruct-zh.md#trie) 阅读
-
-## KMP
 

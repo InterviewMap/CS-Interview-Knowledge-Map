@@ -14,7 +14,6 @@
     - [Token](#token)
 - [密码安全](#%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8)
   - [加盐](#%E5%8A%A0%E7%9B%90)
-  - [前端加密](#%E5%89%8D%E7%AB%AF%E5%8A%A0%E5%AF%86)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

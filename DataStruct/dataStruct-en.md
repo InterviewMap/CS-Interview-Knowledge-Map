@@ -1,3 +1,38 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Stack](#stack)
+  - [Conception](#conception)
+  - [Implementation](#implementation)
+  - [Application](#application)
+- [Queues](#queues)
+  - [concept](#concept)
+  - [implementation](#implementation)
+    - [Singly-linked Queue](#singly-linked-queue)
+    - [Circular Queue](#circular-queue)
+- [Linked List](#linked-list)
+  - [Concept](#concept)
+  - [Implementation](#implementation-1)
+- [Tree](#tree)
+  - [Binary Tree](#binary-tree)
+  - [Binary Search Tree](#binary-search-tree)
+    - [Implementation](#implementation-2)
+  - [AVL Tree](#avl-tree)
+    - [Concept](#concept-1)
+    - [Implementation](#implementation-3)
+- [Trie](#trie)
+  - [Concept](#concept-2)
+  - [Implementation](#implementation-4)
+- [Disjoint Set](#disjoint-set)
+  - [Concept](#concept-3)
+  - [Implementation](#implementation-5)
+- [Heap](#heap)
+  - [Concept](#concept-4)
+  - [Implementation of Max Binary Heap](#implementation-of-max-binary-heap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Stack
 
 ## Conception

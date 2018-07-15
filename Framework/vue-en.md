@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [NextTick principle analysis](#nexttick-principle-analysis)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # NextTick principle analysis
 
 `nextTick` allows us to defer the callback to be executed after the next DOM update cycle，to get the updated DOM.

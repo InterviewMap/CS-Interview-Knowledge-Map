@@ -1,3 +1,44 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [UDP](#udp)
+  - [Message-oriented](#message-oriented)
+  - [Unreliable](#unreliable)
+  - [Efficient](#efficient)
+  - [Transmission mode](#transmission-mode)
+- [TCP](#tcp)
+  - [Header](#header)
+  - [State machine](#state-machine)
+    - [Three-way handshake in opening a connection](#three-way-handshake-in-opening-a-connection)
+    - [Four-handshake of disconnect.](#four-handshake-of-disconnect)
+  - [ARQ protocol](#arq-protocol)
+    - [Stop-and-Wait ARQ](#stop-and-wait-arq)
+    - [Continuous ARQ](#continuous-arq)
+    - [Cumulative Acknowledgement](#cumulative-acknowledgement)
+  - [Sliding window](#sliding-window)
+    - [Zero window](#zero-window)
+  - [Congestion Control](#congestion-control)
+    - [Slow-start algorithms](#slow-start-algorithms)
+    - [Congestion Avoidance algorithms](#congestion-avoidance-algorithms)
+    - [Fast Retransmit](#fast-retransmit)
+    - [Fast Recovery (TCP New Reno)](#fast-recovery-tcp-new-reno)
+- [HTTP](#http)
+  - [Difference between POST & GET](#difference-between-post--get)
+  - [Common Status Code](#common-status-code)
+- [HTTPS](#https)
+  - [TLS](#tls)
+- [HTTP/2](#http2)
+  - [Binary Transport](#binary-transport)
+  - [MultiPlexing](#multiplexing)
+  - [Header compression](#header-compression)
+  - [server push](#server-push)
+  - [QUIC](#quic)
+- [DNS](#dns)
+- [What happens when you navigate to an URL](#what-happens-when-you-navigate-to-an-url)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # UDP
 
 ## Message-oriented

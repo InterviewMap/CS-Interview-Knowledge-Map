@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [XSS](#xss)
+  - [How to attack](#how-to-attack)
+  - [How to defend](#how-to-defend)
+  - [CSP](#csp)
+- [CSRF](#csrf)
+  - [How to attack](#how-to-attack-1)
+  - [How to defend](#how-to-defend-1)
+    - [SameSite](#samesite)
+    - [Verify  Referer](#verify--referer)
+    - [Token](#token)
+- [Password security](#password-security)
+  - [Add salt](#add-salt)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## XSS
 
 > **Cross-site scripting**（Cross-site scripting in English, often abbreviated as XSS）is one kind of security vulnerabilities attack of web applications ， and is a kind of [code input](https://www.wikiwand.com/zh-hans/%E4%BB%A3%E7%A2%BC%E6%B3%A8%E5%85%A5)It allows malicious users to input code into web pages, and other users are affected when they browse web pages. Such attacks often include HTML and consumer-side scripting languages.

@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [MVVM](#mvvm)
+  - [脏数据检测](#%E8%84%8F%E6%95%B0%E6%8D%AE%E6%A3%80%E6%B5%8B)
+  - [数据劫持](#%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81)
+  - [Proxy 与 Obeject.defineProperty 对比](#proxy-%E4%B8%8E-obejectdefineproperty-%E5%AF%B9%E6%AF%94)
+- [路由原理](#%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86)
+- [Virtual Dom](#virtual-dom)
+  - [为什么需要 Virtual Dom](#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-virtual-dom)
+  - [Virtual Dom 算法简述](#virtual-dom-%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0)
+  - [Virtual Dom 算法实现](#virtual-dom-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
+    - [树的递归](#%E6%A0%91%E7%9A%84%E9%80%92%E5%BD%92)
+    - [判断属性的更改](#%E5%88%A4%E6%96%AD%E5%B1%9E%E6%80%A7%E7%9A%84%E6%9B%B4%E6%94%B9)
+    - [判断列表差异算法实现](#%E5%88%A4%E6%96%AD%E5%88%97%E8%A1%A8%E5%B7%AE%E5%BC%82%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
+    - [遍历子元素打标识](#%E9%81%8D%E5%8E%86%E5%AD%90%E5%85%83%E7%B4%A0%E6%89%93%E6%A0%87%E8%AF%86)
+    - [渲染差异](#%E6%B8%B2%E6%9F%93%E5%B7%AE%E5%BC%82)
+  - [最后](#%E6%9C%80%E5%90%8E)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # MVVM
 
 MVVM 由以下三个内容组成

@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [React Lifecycle analysis](#react-lifecycle-analysis)
+  - [The usage advice of  Lifecycle methods in React V16](#the-usage-advice-of--lifecycle-methods-in-react-v16)
+- [setState](#setstate)
+- [Redux Source Code Analysis](#redux-source-code-analysis)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # React Lifecycle analysis
 
 The Fiber mechanism was introduced in the V16 release. The mechanism affects some of the lifecycle calls to a certain extent and introduces two new APIs to solve the problems.
