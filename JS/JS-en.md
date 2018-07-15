@@ -64,7 +64,7 @@ Object is a reference type. We will encouter the problems about shallow copy and
 let a = { name: 'FE' }
 let b = a
 b.name = 'EF'
-console.log(a) // EF
+console.log(a.name) // EF
 ```
 
 # Type Conversion

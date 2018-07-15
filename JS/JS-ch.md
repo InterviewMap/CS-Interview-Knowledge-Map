@@ -55,13 +55,13 @@ let a = 111 // 这只是字面量，不是 number 类型
 a.toString() // 使用时候才会转换为对象类型
 ```
 
-对象（Object）是引用类型，在使用过程中会遇到浅拷贝和深拷贝的问题（TODO）。
+对象（Object）是引用类型，在使用过程中会遇到浅拷贝和深拷贝的问题。
 
 ```js
 let a = { name: 'FE' }
 let b = a
 b.name = 'EF'
-console.log(a) // EF
+console.log(a.name) // EF
 ```
 
 # Typeof
