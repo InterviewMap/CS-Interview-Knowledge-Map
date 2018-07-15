@@ -1021,8 +1021,6 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-装饰器原理
-
 # Promise 实现
 
 Promise 是 ES6 新增的语法，解决了回调地狱的问题。
