@@ -1,24 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [
-  Interview Map
-](#interview-map)
-      - [This is a map that can help you make a better preparation for the next interview](#this-is-a-map-that-can-help-you-make-a-better-preparation-for-the-next-interview)
-  - [Foreword](#foreword)
-- [Outline](#outline)
-  - [Contributing](#contributing)
-  - [Todo](#todo)
-  - [Reading](#reading)
-  - [Communicate and share](#communicate-and-share)
-  - [Support us](#support-us)
-  - [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-
 <img align="center" src='./InterviewMap.png' />
 
 <h1 align="center">
