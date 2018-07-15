@@ -10,12 +10,6 @@
   - [`==` operator](#-operator)
   - [Comparison Operator](#comparison-operator)
 - [Typeof](#typeof)
-- [Type Conversion](#type-conversion-1)
-  - [Converting to Boolean](#converting-to-boolean-1)
-  - [Objects to Primitive Types](#objects-to-primitive-types-1)
-  - [Arithmetic Operators](#arithmetic-operators-1)
-  - [`==` operator](#-operator-1)
-  - [Comparison Operator](#comparison-operator-1)
 - [New](#new)
 - [This](#this)
 - [Instanceof](#instanceof)
@@ -29,6 +23,7 @@
 - [Modularization](#modularization)
   - [CommonJS](#commonjs)
   - [ADM](#adm)
+- [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
   - [simulation to implement   `call` and  `apply`](#simulation-to-implement---call-and--apply)
 - [Promise implementation](#promise-implementation)
 - [Generator Implementation](#generator-implementation)
@@ -181,76 +176,6 @@ let undefined = 1
 // it will always return `undefined`, whatever follows `void `
 a === void 0
 ```
-
-# Type Conversion
-
-## Converting to Boolean
-
-Except `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
-
-## Objects to Primitive Types
-
-When objects are converted, `valueOf` and `toString` will be called, respectively in order. These two methods can also be overridden.
-
-```js
-let a = {
-    valueOf() {
-        return 0
-    }
-}
-```
-
-## Arithmetic Operators
-
-Only for additions, if one of the parameters is a string, the other will be converted to the string as well. For all other operations, as long as one of the parameters is a number, the other will be converted to a number.
-
-Additions will invoke three types of type conversions: to primitive types, to numbers, and to string.
-
-```js
-1 + '1' // '11'
-2 * '2' // 4
-[1, 2] + [2, 1] // '1,22,1'
-// [1, 2].toString() -> '1,2'
-// [2, 1].toString() -> '2,1'
-// '1,2' + '2,1' = '1,22,1'
-```
-
-Note the expression `'a' + + 'b'` for addition.
-
-```js
-'a' + + 'b' // -> "aNaN"
-// since ++ 'b' -> NaN
-// You might have seen + '1' -> 1
-```
-
-## `==` operator
-
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
-
-`toPrimitive` in the above figure is converting objects to primitive types.
-
-`===` is usually recommended to compare to values. However, if you would like to know if a value is `null`, you can use `xx == null`.
-
-Let's take a look at an example `[] == ![] // -> true`. The following explains why the expression evaluates to `true`.
-
-```js
-// [] converting to true, then take the opposite to false
-[] == false
-// with #8
-[] == ToNumber(false)
-[] == 0
-// with #10
-ToPrimitive([]) == 0
-// [].toString() -> ''
-'' == 0
-// with #6
-0 == 0 // -> true
-```
-
-## Comparison Operator
-
-1. If it's an object, `toPrimitive` is used.
-2. If it's a string, `unicode` character index is used to compare.
 
 # New
 
@@ -787,6 +712,7 @@ define(function(require, exports, module) {
     var b = require('./b')
     b.doSomething()
 })
+```
 
 # The differences between call, apply, bind
 
@@ -816,7 +742,7 @@ We can consider how to implement them from the following points
 * If the first parameter isn’t passed, then the first parameter will default to  `window`
 * Change what  `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
 
-```js
+​```js
 Function.prototype.myCall = function (context) {
   var context = context || window
   // Add an property to the `context`
@@ -834,7 +760,7 @@ Function.prototype.myCall = function (context) {
 
 The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
 
-```js
+​```js
 Function.prototype.myApply = function (context) {
   var context = context || window
   context.fn = this

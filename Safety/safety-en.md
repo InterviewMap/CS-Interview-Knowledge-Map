@@ -10,7 +10,7 @@
   - [How to attack](#how-to-attack-1)
   - [How to defend](#how-to-defend-1)
     - [SameSite](#samesite)
-    - [Verify  Referer](#verify--referer)
+    - [Verify Referer](#verify-referer)
     - [Token](#token)
 - [Password security](#password-security)
   - [Add salt](#add-salt)
@@ -136,7 +136,7 @@ There are several rules for defending against CSRF:
 
 The `SameSite` attribute can be set on cookies. This attribute sets the cookie not to be sent along with cross-domain requests. This attribute can greatly reduce the CSRF attack, but this attribute is currently not compatible with all browsers.
 
-#### Verify  Referer
+#### Verify Referer
 
 For requests that need protection against CSRF, we can verify the Referer to determine if the request was initiated by a third-party website.
 

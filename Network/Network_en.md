@@ -11,7 +11,7 @@
   - [Header](#header)
   - [State machine](#state-machine)
     - [Three-way handshake in opening a connection](#three-way-handshake-in-opening-a-connection)
-    - [Four-handshake of disconnect.](#four-handshake-of-disconnect)
+    - [Four-handshake of disconnect](#four-handshake-of-disconnect)
   - [ARQ protocol](#arq-protocol)
     - [Stop-and-Wait ARQ](#stop-and-wait-arq)
     - [Continuous ARQ](#continuous-arq)
@@ -26,13 +26,14 @@
 - [HTTP](#http)
   - [Difference between POST & GET](#difference-between-post--get)
   - [Common Status Code](#common-status-code)
+  - [Common Fields](#common-fields)
 - [HTTPS](#https)
   - [TLS](#tls)
 - [HTTP/2](#http2)
   - [Binary Transport](#binary-transport)
   - [MultiPlexing](#multiplexing)
   - [Header compression](#header-compression)
-  - [server push](#server-push)
+  - [Server push](#server-push)
   - [QUIC](#quic)
 - [DNS](#dns)
 - [What happens when you navigate to an URL](#what-happens-when-you-navigate-to-an-url)
@@ -130,7 +131,7 @@ Imagine that, the client sends a connect request called A, but the network is ba
 
 PS: Through connecting, if any end is offline, it needs to retransmit, generally, five times. You can limit the times of retransmitting or refuse the request if can't handle it.
 
-### Four-handshake of disconnect.
+### Four-handshake of disconnect
 
 ![](https://user-gold-cdn.xitu.io/2018/5/2/1631fb807f2c6c1b?w=640&h=512&f=png&s=31059)
 
@@ -318,6 +319,8 @@ Technically:
 - 501 Not Implemented: The server cannot fulfil the request.
 - 503 Service Unavailable: The server is currently unavailable because it is overloaded or down for maintenance.
 
+## Common Fields
+
 |   Common Fields   |                         Description                          |
 | :---------------: | :----------------------------------------------------------: |
 |   Cache-Control   |                 It tells caching mechanisms                  |
@@ -445,7 +448,7 @@ In HTTP/1. X, we transfer data of the header by plain text. In the case where th
 
 In HTTP 2.0, the header of the transport was encoded using the HPACK compression format, reducing the size of the header. The index table is maintained at both ends to record the occurrence of the header. The key name of the already recorded header can be transmitted during the transmission. After receives the data, the corresponding value can be found by the key.
 
-## server push
+## Server push
 
 In HTTP/2, the server can push resources to the client without the client having to request. Imagine that, something in the server is necessary for the client, so the server can push the associated resources ahead of time to reduce the delay time. By the way, we can also use `pre-fetch` if the client is compatible.
 

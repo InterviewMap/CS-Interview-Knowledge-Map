@@ -22,7 +22,7 @@
 - [Storage](#storage)
   - [cookie，localStorage，sessionStorage，indexDB](#cookielocalstoragesessionstorageindexdb)
   - [Service Worker](#service-worker)
-- [Rendering machanism](#rendering-machanism)
+- [Rendering mechanism](#rendering-mechanism)
   - [Difference between Load & DOMContentLoaded](#difference-between-load--domcontentloaded)
   - [Layers](#layers)
   - [Repaint & Reflow](#repaint--reflow)
@@ -445,7 +445,7 @@ Refreshing the page, we can see that our cached data is read from the Service Wo
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
 
-# Rendering machanism
+# Rendering mechanism 
 
 The machanism of the browser engine usually has the following steps:
 

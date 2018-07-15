@@ -43,7 +43,7 @@
 
 # 大纲
 
-![mind](./mind.png)
+![mind](./InterviewMapMind.png)
 
 ## 贡献
 
@@ -70,7 +70,7 @@
 
 ## 支持我们
 
-如果图谱在面试中或者学习中帮助到你了，你可以请我 [支持我们的工作](https://github.com/KieSun/InterviewMap/issues/20)
+如果图谱在面试中或者学习中帮助到你了，你可以 [支持我们的工作](https://github.com/KieSun/InterviewMap/issues/20)
 
 ## 协议
 

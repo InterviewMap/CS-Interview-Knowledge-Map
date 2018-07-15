@@ -47,7 +47,7 @@ The contents of the repository will update continuously, and more contents will 
 
 
 # Outline
-![mind](./mind.png)
+![mind](./InterviewMapMind-en.png)
 
 
 ## Contributing
