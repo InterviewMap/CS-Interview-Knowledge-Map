@@ -30,9 +30,9 @@ Rebase 对比 merge，优势在于合并后的结果很清晰，只有一条线�
 ```shell
 ## branch develop
 git rebase master
-get checkout master
+git checkout master
 ## 用于将 `master` 上的 HEAD 移动到最新的 commit
-get merge develop
+git merge develop
 ```
 
 ## stash
