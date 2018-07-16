@@ -696,7 +696,7 @@ The differences between the modularizations in `CommonJS` and in ES6 are:
 - The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
 - In execution the latter is compiled to `require/exports`.
 
-## ADM
+## AMD
 
 AMD is brought forward by `RequireJS`.
 
