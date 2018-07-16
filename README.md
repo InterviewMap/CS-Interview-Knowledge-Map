@@ -30,9 +30,9 @@ The contents of the repository will update continuously, and more contents will 
 
 
 ## Contributing
-If you find something wrong with the knowledge point or there’s a Bug in the code, welcome to submit English [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new), if your English is not good, please discuss it in  [this issue](https://github.com/KieSun/InterviewMap/issues/18) 
+If you find something wrong with the knowledge point or there’s a bug in the code, welcome to submit English [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new), if your English is not good, please discuss it in  [this issue](https://github.com/KieSun/InterviewMap/issues/18).
 
-If you think there is a good knowledge point or would like to participate in translation and proofreading, welcome [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，or you can contact me <zx597813039@gmail.com>
+If you think there is a good knowledge point or would like to participate in translation and proofreading, welcome [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls), or you can contact me <zx597813039@gmail.com>.
 
 ## Todo
 
@@ -45,14 +45,14 @@ The above content is expected to be updated completely in September, and welcome
 
 ## Reading
 
-[Online version is clearer to read](https://yuchengkai.cn/docs/)
+[Online version is clearer to read](https://yuchengkai.cn/docs/).
 
 ## Communicate and share
 If you want to communicate and share with others about the content of this interviewmap, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19), it's Chinese.
 
 
 ## Support us
-If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20)
+If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20).
 
 
 ## License
