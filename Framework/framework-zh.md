@@ -482,7 +482,9 @@ function listDiff(oldList, newList, index, patches) {
       let index = newKeys.indexOf(key)
       if (index === -1) {
         list.push(null)
-      } else list.push(key)
+      } else {
+        list.push(key)
+      }
     })
   // 遍历变更后的数组
   let length = list.length
@@ -581,7 +583,9 @@ function diffChildren(oldChild, newChild, index, patches) {
         if (node) {
           dfs(item, node, index, patches)
         }
-      } else index += 1
+      } else {
+        index += 1
+      }
       last = item
     })
 }
