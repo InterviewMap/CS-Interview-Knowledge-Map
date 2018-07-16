@@ -87,7 +87,7 @@ class ExampleComponent extends React.Component {
   // 可以在此处移除订阅，定时器等等
   componentWillUnmount() {}
   // 组件销毁后调用
-  componentDidMount() {}
+  componentDidUnMount() {}
   // 组件更新后调用
   componentDidUpdate() {}
   // 渲染组件函数

@@ -87,7 +87,7 @@ class ExampleComponent extends React.Component {
   // Can remove subscriptions, timers, etc. here
   componentWillUnmount() {}
   // Called after the component is destroyed
-  componentDidMount() {}
+  componentDidUnMount() {}
   // Called after component update
   componentDidUpdate() {}
   // render component
