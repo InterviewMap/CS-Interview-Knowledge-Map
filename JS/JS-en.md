@@ -274,7 +274,7 @@ console.log(c.a);
 // is another situation whom's priority is only second to `new`
 ```
 
-Understanding the above several situstions ,  we won’t be confused by `this`  in a lot of codes，then let’s take a look at `this` of arrow function
+Understanding the above several situations ,  we won’t be confused by `this`  in a lot of codes，then let’s take a look at `this` of arrow function
 ```js
 function a() {
   return () => {
@@ -633,7 +633,7 @@ const clone = await structuralClone(obj);
 
 # Modularization
 
-With Babel, we can directly use ES6's modularizaiton.
+With Babel, we can directly use ES6's modularization.
 
 ```js
 // file a.js
@@ -718,7 +718,7 @@ define(function(require, exports, module) {
 
 Firstly, let’s tell the difference between the former two.
 
-Both `call`  and `apply`  are used to change what `this` refers to.Their role is the same, but the way to pass the parameters is different.
+Both `call`  and `apply`  are used to change what `this` refers to. Their role is the same, but the way to pass the parameters is different.
 
 In addition to the first parameter,  `call` can accept an argument list, while  `apply` accepts a single array of arguments.
 
@@ -781,7 +781,7 @@ Function.prototype.myApply = function (context) {
 
 The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
 
-let’s simulate `bind`
+Let’s simulate `bind`
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -1063,7 +1063,7 @@ function test() {
 
 # Debouncing
 
-Have you ever encountered this problem in your development: how to do a complex computation in a rolling event or to prevent the "secend accidental click" on a button?
+Have you ever encountered this problem in your development: how to do a complex computation in a rolling event or to prevent the "second accidental click" on a button?
 
 These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at a precise point in time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing.
 
