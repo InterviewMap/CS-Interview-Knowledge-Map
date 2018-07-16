@@ -104,7 +104,7 @@ Note the expression `'a' + + 'b'` for addition.
 
 ```js
 'a' + + 'b' // -> "aNaN"
-// since ++ 'b' -> NaN
+// since + 'b' -> NaN
 // You might have seen + '1' -> 1
 ```
 
