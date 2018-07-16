@@ -55,7 +55,7 @@ For the primitive data types, when we use literals to initialize a variable, the
 
 ```js
 let a = 111 // only literals, not a number
-a.toString() // converted to object when nucessary
+a.toString() // converted to object when necessary
 ```
 
 Object is a reference type. We will encouter the problems about shallow copy and deep copy when using it.
