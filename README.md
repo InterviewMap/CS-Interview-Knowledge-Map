@@ -18,7 +18,7 @@ The best job-hopping seasons, September and October, are coming（For Chinese, t
 
 For the interview, the usual accumulation of learning is necessary, but the preparation before the interview is also crucial.
 
-A few months ago, I set up a small team. It took half a year to search for interview questions from the big company, filtering out nearly 100 knowledge points, writing the content and translate them all into English. Today, we finally release the first version and the total number of words has reached more than 100,000 at present. 
+A few months ago, I set up a small team. It took half a year to search for interview questions from the big company, filtering out nearly 100 knowledge points, writing the content and translating them all into English. Today, we finally release the first version and the total number of words has reached more than 100,000 at present. 
 
 We think that the blind memory of the interview questions is not very useful. Only when you are familiar with the various knowledge points and are capable of integrating them, can you get through the interviews. This interviewmap currently contains nearly a hundred high-frequency knowledge points, no matter the preparation before the interview or the study, we believe that it will help you. The current content includes JS, network, browser related, performance optimization, security, framework, Git, data structure, algorithm, etc. Whether it is basic or advanced learning or source code interpretation, you can get a satisfactory answer in this interviewmap, and we hope that the interviewmap can help you better prepare for the interview.
 
