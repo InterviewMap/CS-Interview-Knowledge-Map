@@ -145,27 +145,27 @@ Next, improve on the `defineReactive` function.
 
 ```js
 function defineReactive(obj, key, val) {
-// recurse the properties of child
-observe(val)
-let dp = new Dep()
-Object.defineProperty(obj, key, {
-enumerable: true,
-configurable: true,
-get: function reactiveGetter() {
-console.log('get value')
-// Add Watcher to the subscription
-if (Dep.target) {
-dp.addSub(Dep.target)
-}
-return val
-},
-set: function reactiveSetter(newVal) {
-console.log('change value')
-val = newVal
-// Execute the update method of Watcher
-dp.notify()
-}
-})
+  // recurse the properties of child
+  observe(val)
+  let dp = new Dep()
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter() {
+      console.log('get value')
+      // Add Watcher to the subscription
+      if (Dep.target) {
+        dp.addSub(Dep.target)
+      }
+      return val
+    },
+    set: function reactiveSetter(newVal) {
+      console.log('change value')
+      val = newVal
+      // Execute the update method of Watcher
+      dp.notify()
+    }
+  })
 }
 ```
 

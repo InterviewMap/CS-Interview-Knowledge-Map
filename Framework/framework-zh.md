@@ -142,27 +142,27 @@ data.name = 'yyy'
 
 ```js
 function defineReactive(obj, key, val) {
-// 递归子属性
-observe(val)
-let dp = new Dep()
-Object.defineProperty(obj, key, {
-enumerable: true,
-configurable: true,
-get: function reactiveGetter() {
-console.log('get value')
-// 将 Watcher 添加到订阅
-if (Dep.target) {
-dp.addSub(Dep.target)
-}
-return val
-},
-set: function reactiveSetter(newVal) {
-console.log('change value')
-val = newVal
-// 执行 watcher 的 update 方法
-dp.notify()
-}
-})
+  // 递归子属性
+  observe(val)
+  let dp = new Dep()
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter() {
+      console.log('get value')
+      // 将 Watcher 添加到订阅
+      if (Dep.target) {
+        dp.addSub(Dep.target)
+      }
+      return val
+    },
+    set: function reactiveSetter(newVal) {
+      console.log('change value')
+      val = newVal
+      // 执行 watcher 的 update 方法
+      dp.notify()
+    }
+  })
 }
 ```
 
