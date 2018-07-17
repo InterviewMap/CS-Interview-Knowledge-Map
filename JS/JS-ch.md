@@ -74,7 +74,7 @@ typeof '1' // 'string'
 typeof undefined // 'undefined'
 typeof true // 'boolean'
 typeof Symbol() // 'symbol'
-typeof b // b 没有声明，但是还会显示 undefined
+typeof b // b 没有声明，但是还会显示 'undefined'
 ```
 
 `typeof` 对于对象，除了函数都会显示 `object`
