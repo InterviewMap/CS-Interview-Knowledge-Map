@@ -138,6 +138,34 @@ new Watcher(data, 'name', update)
 data.name = 'yyy' 
 ```
 
+接下来,对 `defineReactive` 函数进行改造
+
+```js
+function defineReactive(obj, key, val) {
+// 递归子属性
+observe(val)
+let dp = new Dep()
+Object.defineProperty(obj, key, {
+enumerable: true,
+configurable: true,
+get: function reactiveGetter() {
+console.log('get value')
+// 将 Watcher 添加到订阅
+if (Dep.target) {
+dp.addSub(Dep.target)
+}
+return val
+},
+set: function reactiveSetter(newVal) {
+console.log('change value')
+val = newVal
+// 执行 watcher 的 update 方法
+dp.notify()
+}
+})
+}
+```
+
 以上实现了一个简易的双向绑定，核心思路就是手动触发一次属性的 getter 来实现发布订阅的添加。
 
 ## Proxy 与 Obeject.defineProperty 对比
