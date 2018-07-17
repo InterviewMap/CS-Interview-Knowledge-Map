@@ -89,7 +89,9 @@ The above code simply implements how to listen for the `set` and `get` events of
 </div>
 ```
 
+::: v-pre
 In the process of parsing the template code like above, when encountering `{{name}}`, add a publish/subscribe to the property `name` 
+:::
 
 ```js
 // decouple by Dep
