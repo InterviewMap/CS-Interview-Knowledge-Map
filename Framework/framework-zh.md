@@ -86,7 +86,7 @@ function defineReactive(obj, key, val) {
 </div>
 ```
 
-在解析如上模板代码时，遇到 `{{name}}` 就会给属性 `name` 添加发布订阅。
+在解析如上模板代码时，遇到 ::: v-pre`{{name}}`::: 就会给属性 `name` 添加发布订阅。
 
 ```js
 // 通过 Dep 解耦
