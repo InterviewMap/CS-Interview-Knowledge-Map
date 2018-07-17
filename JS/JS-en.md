@@ -43,7 +43,7 @@
 # Built-in Types
 JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
 
-There are six primitive types: `null` , `undefined` , `boolean` , `number` , `string` , `symbol `.
+There are six primitive types: `null`, `undefined`, `boolean`, `number`, `string` and `symbol `.
 
 In JavaScript, there are no true integers, all numbers are implemented in double-precision 64-bit binary format IEEE 754. When we use binary floating-point numbers, it will have some side effects. Here is an example of these side effects.
 
@@ -58,7 +58,7 @@ let a = 111 // only literals, not a number
 a.toString() // converted to object when necessary
 ```
 
-Object is a reference type. We will encouter the problems about shallow copy and deep copy when using it.
+Object is a reference type. We will encouter problems about shallow copy and deep copy when using it.
 
 ```js
 let a = { name: 'FE' }
@@ -71,7 +71,7 @@ console.log(a.name) // EF
 
 ## Converting to Boolean
 
-When the condition is judged, other than `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
+When the condition is judged, other than `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, all of the values, including objects, are converted to `true`.
 
 ## Objects to Primitive Types
 
@@ -87,9 +87,9 @@ let a = {
 
 ## Arithmetic Operators
 
-Only for additions, if one of the parameters is a string, the other will be converted to the string as well. For all other operations, as long as one of the parameters is a number, the other will be converted to a number.
+Only for additions, if one of the parameters is a string, the other one will be converted to string as well. For all other operations, as long as one of the parameters is a number, the other one will be converted to a number.
 
-Additions will invoke three types of type conversions: to primitive types, to numbers, and to string.
+Additions will invoke three types of type conversions: to primitive types, to numbers and to string:
 
 ```js
 1 + '1' // '11'
@@ -100,7 +100,7 @@ Additions will invoke three types of type conversions: to primitive types, to nu
 // '1,2' + '2,1' = '1,22,1'
 ```
 
-Note the expression `'a' + + 'b'` for addition.
+Note the expression `'a' + + 'b'` for addition:
 
 ```js
 'a' + + 'b' // -> "aNaN"
@@ -112,11 +112,11 @@ Note the expression `'a' + + 'b'` for addition.
 
 ![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
-`toPrimitive` in the above figure is converting objects to primitive types.
+`toPrimitive` in above figure is converting objects to primitive types.
 
-`===` is usually recommended to compare to values. However, if you would like to know if a value is `null`, you can use `xx == null`.
+`===` is usually recommended to compare values. However, if you would like to check for `null` value, you can use `xx == null`.
 
-Let's take a look at an example `[] == ![] // -> true`. The following explains why the expression evaluates to `true`.
+Let's take a look at an example `[] == ![] // -> true`. The following process explains why the expression evaluates to `true`:
 
 ```js
 // [] converting to true, then take the opposite to false
@@ -135,11 +135,11 @@ ToPrimitive([]) == 0
 ## Comparison Operator
 
 1. If it's an object, `toPrimitive` is used.
-2. If it's a string, `unicode` character index is used to compare.
+2. If it's a string, `unicode` character index is used.
 
 # Typeof
 
- `typeof` can always display the correct type of the primitive types, except `null`
+`typeof` can always display the correct type of primitive types, except `null`:
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
@@ -149,21 +149,21 @@ typeof Symbol() // 'symbol'
 typeof b // b is not declared,but it still can be displayed as underfined
 ```
 
-For object,  `typeof`  will always display  `object`  except **function**
+For object,  `typeof` will always display `object`, except **function**:
 ```js
 typeof [] // 'object'
 typeof {} // 'object'
 typeof console.log // 'function'
 ```
 
-As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this happening is a bug that has been around for a long time.
+As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this is a bug that has been around for a long time.
 ```js
 typeof null // 'object'
 ```
 
-Why does this happen? Because the initial version of JS was based on the 32-bit systems, which stored the type information of variables in the lower bits for performance considerations. Those start with `000`  were objects, but all the bits of  `null`  are zero, so it is erroneously judged as an object. Although the current code of judging internal type has changed, but this bug has been passed down.
+Why does this happen? Because the initial version of JS was based on 32-bit systems, which stored type information of variables in the lower bits for performance considerations. Those start with `000` are objects, and all the bits of `null`  are zero, so it is erroneously treated as an object. Although the current code of checking internal types has changed, this bug has been passed down.
 
-We can use `Object.prototype.toString.call(xx)`  if we wish to get the correct data type of a variable, and then we can get a string like `[Object Type]`
+We can use `Object.prototype.toString.call(xx)` if we want to get the correct data type of a variable, and then we can get a string like `[Object Type]`:
 
 ```js
 let a
@@ -184,16 +184,16 @@ a === void 0
 3.   Bind this
 4.   Return a new object
 
-The above four things will happen in the process of calling `new`, We can also try to implement a `new ` by ourselves.
+The above four steps will happen in the process of calling `new`. We can also try to implement `new ` by ourselves:
 
 ```js
 function create() {
   // Create an empty object
   let obj = new Object()
   // Get the constructor
-  let Con = [].shift.call(arguments)
+  let Ctor = [].shift.call(arguments)
   // Chained to prototype
-  obj.__proto__ = Con.prototype
+  obj.__proto__ = Ctor.prototype
   // Bind this, Execute the constructor
   let result = Con.apply(obj, arguments)
   // Make sure the new one is an object
@@ -201,19 +201,19 @@ function create() {
 }
 ```
 
-Instance of object are created with `new` , Whether `function Foo()` , or `let a = { b: 1 }` .
+Instances of object are all created with `new`, whether it's `function Foo()` , or `let a = { b: 1 }` .
 
-For creating an object , It is recommended to create an object using literal(Whether performance or readability). Because you need to find `Object` by the scope chain when you create an object using `new Object()` , But you don't have this problem when you use literal.
+It is recommended to create objects using the literal notation (whether it's for performance or readability), since a look-up is needed for `Object` through the scope chain when creating an object using `new Object()`, but you don't have this kind of problem when using literals.
 
 ```js
 function Foo() {}
-// function is a syntactical sugar
+// Function is a syntactic sugar
 // Internally equivalent to new Function()
 let a = { b: 1 }
-// Inside this literal is also used `new Object()`
+// Inside this literal, `new Object()` is also used
 ```
 
-For `new`, we also need attention to the operator precedence.
+For `new`, we also need pay attention to the operator precedence:
 
 ```js
 function Foo() {
@@ -241,11 +241,11 @@ new (Foo.getName());
 ```
 
 For the first function, `Foo.getName()` is executed first, so the result is 1;
-As for the latter, it firstly executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
+As for the latter, it first executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
 
 # This
 
-`This`, a concept that many people will confuse, is not difficult to understand, as long as you remember the following rules
+`This`, a concept that is confusing to many peole, is actually not difficult to understand as long as you remember the following rules:
 
 ```js
 function foo() {
@@ -263,18 +263,19 @@ obj.foo();
 // In the above two situations, `this` only depends on the object before calling the function,
 // and the second case has higher priority than the first case .
 
-// the following situation has the highest priority，`this` will only be bound to c，
+// the following scenario has the highest priority，`this` will only be bound to c，
 // and there's no way to change what `this` is bound to .
 
 var c = new foo();
 c.a = 3;
 console.log(c.a);
 
-// finally, using `call、apply、bind` to change what `this` is bound to ,
-// is another situation whom's priority is only second to `new`
+// finally, using `call`, `apply`, `bind` to change what `this` is bound to,
+// is another scenario where its priority is only second to `new`
 ```
 
-Understanding the above several situations ,  we won’t be confused by `this`  in a lot of codes，then let’s take a look at `this` of arrow function
+Understanding the above several situations, we won’t be confused by `this` under most circumstances. Next, let’s take a look at `this` in arrow functions:
+
 ```js
 function a() {
   return () => {
@@ -285,20 +286,21 @@ function a() {
 }
 console.log(a()()());
 ```
-Actually , the arrow function does not have `this` , `this` in the above function only depends on the first function outside that is not arrow function . In above case , `this` is default to `window` because calling `a` matches the first situation in the above codes . And , what `this` is bound to will not be changed by any code once `this` is bound to the context
+Actually, the arrow function does not have `this`, `this` in the above function only depends on the first outer function that is not an arrow function. For this case, `this` is default to `window` because calling `a` matches the first condition in the above codes. Also, what `this` is bound to will not be changed by any codes once `this` is bound to the context.
 
 
 # Instanceof
 
-The  `instanceof`  operator  can  correctly judge the type of the object , bacause  it’s  internal  mechanism is to find out  if `prototype` of this type  can be found in the prototype chain of the object
-let’s try to implement it
+The `instanceof` operator can correctly check the type of objects, because its internal mechanism is to find out if `prototype` of this type can be found in the prototype chain of the object.
+
+let’s try to implement it:
 ```js
 function instanceof(left, right) {
     // get the `prototype` of the type
     let prototype = right.prototype
     // get the `prototype` of the object
     left = left.__proto__
-    // judge if the type of the object is equal to the prototype of the type
+    // check if the type of the object is equal to the prototype of the type
     while (true) {
     	if (left === null)
     		return false
@@ -311,11 +313,11 @@ function instanceof(left, right) {
 
 # Scope
 
-Executing JS code would generate execution environment , as long as the code is not written in a function , it belongs to the global execution environment . The code in a function will generate function execution environments , but only two (there’s an `eval`, which basically will not be used, so you can think of only two execution environments))
+Executing JS code would generate execution context, as long as code is not written in a function, it belongs to the global execution context. Code in a function will generate function execution context. There’s also an `eval` execution context, which basically is not used anymore, so you can think of only two execution contexts.
 
-The `[[Scope]]`  attribute is generated in the first stage of generating execution environment , which is a pointer , corresponding to a linked list of scope , And JS will look up the variable through this linked list until the global environment .
+The `[[Scope]]` attribute is generated in the first stage of generating execution context, which is a pointer, corresponds to the linked list of the scope, and JS will look up variables through this linked list up to the global context.
 
-Let's look at a common example , `var`
+Let's look at a common example , `var`:
 
 ```js
 b() // call b
@@ -328,11 +330,11 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs . The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code , there is nothing wrong with that and it’s easy for everyone to understand . But a more accurate explanation should be like this :
+It’s known that function and variable hoisting is the real reason for the above outputs. The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code, and there is nothing wrong with that and it’s easy for everyone to understand. But a more accurate explanation should be something like this:
 
-There would bo two stages when the execution environment is generated  . The first stage is the stage of creation(to be specific , the step of generating variable objects ) , in which the JS interpreter would find out the variables and functions that need to be hoisted, and allocate memory for them in advance , then the functions would be deposited into memory entirely , but the variables would only be declared and assigned to  `undefined`, therefore , we can use them in advance in the second stage (the code execution stage)
+There would be two stages when the execution context is generated. The first stage is the stage of creation(to be specific, the step of generating variable objects), in which the JS interpreter would find out variables and functions that need to be hoisted, and allocate memory for them in advance, then functions would be stored into memory entirely, but variables would only be declared and assigned to `undefined`, therefore, we can use them in advance in the second stage (the code execution stage).
 
-In the process of hoisting , the same function would overwrite the last function , and function has the higher priority than variable hoisting .
+In the process of hoisting, the same function would overwrite the last function, and functions have higher priority than variables hoisting.
 
 ```js
 b() // call b second
@@ -346,11 +348,11 @@ function b() {
 var b = 'Hello world'
 ```
 
-Using `var`  is more likely to make mistake , thus ES6 introduces a new keyword `let`  .  `let`  has an  important feature that it can’t be used before declared , which mismatches the often saying that `let` doesn’t  have the ability of hoisting . Indeed, `let`  hoists declared , but does not assign a value, because the temporary dead zone.
+Using `var` is more likely error-prone, thus ES6 introduces a new keyword `let`.  `let` has an important feature that it can’t be used before declared, which conflicts the common saying that `let` doesn’t have the ability of hoisting. In fact, `let`  hoists declaration, but is not assigned, because the **temporal dead zone**.
 
 # Closure
 
-The definition of a closure is simple: Function A returns a function B, and function B uses a variable of function A, and the function B is called a closure.
+The definition of closure is simple: function A returns a function B, and function B can access variables of function A, thus function B is called a closure.
 
 ```js
 function A() {
@@ -362,21 +364,21 @@ function A() {
 }
 ```
 
-Are you wondering why function B can also refer to a variable in function A while function A has been popped up from the call stack?  Because the variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
+Are you wondering why function B can also refer to variables in function A while function A has been popped up from the call stack? Because variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
 
-A classic question of interview,  using closures in loops to solve the problem of using `var` to define functions
+A classic interview question is using closures in loops to solve the problem of using `var` to define functions:
 
-```Js
+```js
 for ( var i=1; i<=5; i++) {
     setTimeout( function timer() {
         console.log( i );
     }, i*1000 );
-}˝
+)
 ```
 
-First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at this time `i` is 6, so there will print a bunch of 6
+First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at that time `i` is 6, so it will print a bunch of 6.
 
-There are three solutions，closure is the first one
+There are three solutions，closure is the first one:
 
 ```js
 for (var i = 1; i <= 5; i++) {
@@ -388,7 +390,7 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-The second one is to use the third parameter of `setTimeout`
+The second one is to make use of the third parameter of `setTimeout`:
 
 ```js
 for ( var i=1; i<=5; i++) {
@@ -398,7 +400,7 @@ for ( var i=1; i<=5; i++) {
 }
 ```
 
-The third is to define `i` using `let`
+The third is to define `i` using `let`:
 
 ```js
 for ( let i=1; i<=5; i++) {
@@ -436,16 +438,16 @@ For `let`, it will create a block-level scope, which is equivalent to:
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
 
-Each function, besides `Function.prototype.bind()` , has an internal property, denoted as `prototype` , which is a reference to the prototype.
+Each function, besides `Function.prototype.bind()`, has an internal property, denoted as `prototype`, which is a reference to the prototype.
 
-Each object has an internal property, denoted as `__proto__` , which is a reference to the prototype of the constructor that created the object. This property actually references to `[[prototype]]` , but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
+Each object has an internal property, denoted as `__proto__`, which is a reference to the prototype of the constructor that creates the object. This property actually refers to `[[prototype]]`, but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
 
-Objects can use `__proto__` to find properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
+Objects can use `__proto__` to look up properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
 
 
 # Inheritance
 
-In ES5, we can solve the problems of inheritance by using the following ways.
+In ES5, we can solve the problems of inheritance by using the following ways:
 
 ```js
 function Super() {}
@@ -467,7 +469,7 @@ Sub.prototype = Object.create(Super.prototype, {
 
 The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
 
-In ES6, we can easily solve this problem with the `class`  syntax.
+In ES6, we can easily solve this problem with the `class` syntax:
 
 ```js
 class MyDate extends Date {
@@ -481,13 +483,13 @@ myDate.test()
 
 However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
 
-If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error
+If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
 
-Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date` , it can’t call the function in `Date`, which also explains on the side:  `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date`, it can’t call functions in `Date`, which also explains from another aspect that `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
 
-Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance.
+Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance:
 
 ```js
 function MyData() {
@@ -501,7 +503,7 @@ Object.setPrototypeOf(d, MyData.prototype)
 Object.setPrototypeOf(MyData.prototype, Date.prototype)
 ```
 
-The Implement ideas of the above inheritance: firstly create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+The implementation idea of the above inheritance: first create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
 
 The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
 
@@ -523,7 +525,7 @@ Usually, we don't want such problem to appear during development, thus we can us
 
 ## Shallow copy
 
-Firstly we can solve the problem by `Object.assign`
+Firstly we can solve the problem by `Object.assign`:
 ```js
 let a = {
     age: 1
@@ -533,7 +535,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Certainly, we can use the spread operator (...) to solve the problem
+Certainly, we can use the spread operator (...) to solve the problem:
 ```js
 let a = {
     age: 1
@@ -543,7 +545,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Usually, shallow copy can solve most of the problems, but we need the deep copy when encountering the following situations
+Usually, shallow copy can solve most problems, but we need deep copy when encountering the following situation:
 ```js
 let a = {
     age: 1,
@@ -555,7 +557,7 @@ let b = {...a}
 a.jobs.first = 'native'
 console.log(b.jobs.first) // native
 ```
-The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that the values of both share the same reference. To solve the problem, we need to introduce deep copy.
+The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that both values share the same reference. To solve this problem, we need to introduce deep copy.
 
 ## Deep copy
 
@@ -573,7 +575,7 @@ a.jobs.first = 'native'
 console.log(b.jobs.first) // FE
 ```
 
-But this method also has its limits
+But this method also has its limits:
 * ignore `undefined`
 * unable to serialize function
 * unable to resolve circular references in an object
@@ -594,11 +596,11 @@ let newObj = JSON.parse(JSON.stringify(obj))
 console.log(newObj)
 ```
 
-If the object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object
+If an object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-Encountering function or `undefined`,  the object can also not be serialized properly.
+When dealing with function or `undefined`,  the object can also not be serialized properly.
 ```js
 let a = {
     age: undefined,
@@ -611,7 +613,7 @@ console.log(b) // {name: "yck"}
 
 In above case, you can see that the method ignores function and `undefined`.
 
-But usually, complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with the deep copy. Certainly, you can use [the deep copy function of `loadash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `loadash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
 
 If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
 ```js
@@ -633,7 +635,7 @@ const clone = await structuralClone(obj);
 
 # Modularization
 
-With Babel, we can directly use ES6's modularization.
+With Babel, we can directly use ES6's modularization:
 
 ```js
 // file a.js
@@ -648,7 +650,7 @@ import XXX from './b.js'
 
 ## CommonJS
 
-`CommonJs` is Node's unique feature. `Browserify` is needed for `CommonJs` to be used in browsers.
+`CommonJS` is Node's unique feature. `Browserify` is needed for `CommonJS` to be used in browsers.
 
 ```js
 // a.js
@@ -663,7 +665,7 @@ var module = require('./a.js')
 module.a // -> log 1
 ```
 
-In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations.
+In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations:
 
 ```js
 var module = require('./a.js')
@@ -718,9 +720,9 @@ define(function(require, exports, module) {
 
 Firstly, let’s tell the difference between the former two.
 
-Both `call`  and `apply`  are used to change what `this` refers to. Their role is the same, but the way to pass the parameters is different.
+Both `call` and `apply` are used to change what `this` refers to. Their role is the same, but the way to pass parameters is different.
 
-In addition to the first parameter,  `call` can accept an argument list, while  `apply` accepts a single array of arguments.
+In addition to the first parameter,  `call` can accept an argument list, while `apply` accepts a single array of arguments.
 
 ```js
 let a = {
@@ -735,14 +737,14 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-## simulation to implement   `call` and  `apply`
+## simulation to implement  `call` and  `apply`
 
-We can consider how to implement them from the following points
+We can consider how to implement them from the following rules:
 
-* If the first parameter isn’t passed, then the first parameter will default to  `window`
-* Change what  `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
+* If the first parameter isn’t passed, then the first parameter will default to  `window`;
+* Change what `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
 
-​```js
+```js
 Function.prototype.myCall = function (context) {
   var context = context || window
   // Add an property to the `context`
@@ -760,7 +762,7 @@ Function.prototype.myCall = function (context) {
 
 The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
 
-​```js
+```js
 Function.prototype.myApply = function (context) {
   var context = context || window
   context.fn = this
@@ -781,7 +783,7 @@ Function.prototype.myApply = function (context) {
 
 The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
 
-Let’s simulate `bind`
+let’s simulate `bind`:
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -803,13 +805,13 @@ Function.prototype.myBind = function (context) {
 
 # Promise implementation
 
-`Promise` is a new syntax introduced by ES6, which resolves the problem of  callback hell.
+`Promise` is a new syntax introduced by ES6, which resolves the problem of callback hell.
 
 Promise can be seen as a state machine and it's initial state is `pending`. We can change the state to `resolved` or `rejected` by using the `resolve` and `reject` functions. Once the state is changed, it cannot be changed again.
 
 The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
 
-For `then`, it can essentially be seen as `flatMap`
+For `then`, it can essentially be seen as `flatMap`:
 
 ```js
 // three states
@@ -995,7 +997,7 @@ The above codes, which is implemented based on the Promise / A+ specification,  
 
 # Generator Implementation
 
-Generator is an added grammatical feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
+Generator is an added syntactic feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
 
 ```js
 // * means this is a Generator function
@@ -1012,7 +1014,7 @@ console.log(b.next()); // >  { value: 3, done: false }
 console.log(b.next()); // >  { value: undefined, done: true }
 ```
 
-As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implmentation of the Generator function is shown below.
+As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implementation of the Generator function is shown below:
 
 ```js
 // cb is the compiled 'test' function
@@ -1063,9 +1065,9 @@ function test() {
 
 # Debouncing
 
-Have you ever encountered this problem in your development: how to do a complex computation in a rolling event or to prevent the "second accidental click" on a button?
+Have you ever encountered this problem in your development: how to do a complex computation in a scrolling event or to prevent the "second accidental click" on a button?
 
-These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at a precise point in time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing.
+These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at particular time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing:
 
 ```js
 /**
@@ -1122,7 +1124,7 @@ The complete function implementation is not too difficult. Let's summarize here.
 
 # Throttle
 
-`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into the last execution, and `Throttle` is to turn multiple executions into execution at regular intervals.
+`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into one last execution, and `Throttle` is to turn multiple executions into executions at regular intervals.
 
 ```js
 // The first two parameters with debounce are the same function
@@ -1185,7 +1187,7 @@ _.throttle = function(func, wait, options) {
 
 # Map、FlapMap and Reduce
 
-The effect of the `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
+The effect of `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
 ```js
 [1, 2, 3].map((v) => v + 1)
@@ -1201,14 +1203,14 @@ The effect of the `Map` is to generate a new array, iterate over the original ar
 //  parseInt('3', 2) -> NaN
 ```
 
-The effect of `FlapMap` is almost the same with a `Map`, but the original array will be dimensioned for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+The effect of `FlapMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-You can achieve this when you want to completely reduce the dimensions of a multidimensional array.
+You can achieve this when you want to completely reduce the dimensions of a multidimensional array:
 
 ```js
 const flattenDeep = (arr) => Array.isArray(arr)
@@ -1218,7 +1220,7 @@ const flattenDeep = (arr) => Array.isArray(arr)
 flattenDeep([1, [[2], [3, [4]], 5]])
 ```
 
-The effect of `Reduce` is to combine the values in the array and finally get a value
+The effect of `Reduce` is to combine the values in the array and get a final value:
 
 ```js
 function a() {
@@ -1236,7 +1238,7 @@ function b() {
 
 # Async and await
 
-A function with `async`, then the function will return a `Promise`.
+`async` function will return a `Promise`:
 
 ```js
 async function test() {
@@ -1247,7 +1249,7 @@ console.log(test()); // -> Promise {<resolved>: "1"}
 
 You can think of `async` as wrapping a function using `Promise.resolve()`.
 
-`await` can only be used in `async` functions.
+`await` can only be used in `async` functions:
 
 ```js
 function sleep() {
@@ -1265,11 +1267,11 @@ async function test() {
 test()
 ```
 
-The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, synchronization code is not executed before the asynchronization code is executed.
+The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, it is not executed before the asynchronous code is executed.
 
-The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can write code more clearly and accurately. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
+The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can produce clear and accurate code. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
 
-Let's look at a code that uses `await`.
+Let's look at a code that uses `await`:
 
 ```js
 var a = 0
@@ -1284,16 +1286,16 @@ a++
 console.log('1', a) // -> '1' 1
 ```
 
-You may have doubts about the above code, here explain the principle
+You may have doubts about the above code, here we explain the principle:
 
-- First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
+- First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `Generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
 - Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
-- At this point, the synchronization code is executed and asynchronous code is started. The saved value is used. At this time, `a = 10`
+- At this point, the synchronous code is completed and asynchronous code is started. The saved value is used. At this time, `a = 10`
 - Then comes the usual code execution
 
 # Proxy
 
-Proxy is a new feature since ES6. It can be used to define operations in objects.
+Proxy is a new feature since ES6. It can be used to define operations in objects:
 
 ```js
 let p = new Proxy(target, handler);
@@ -1301,7 +1303,7 @@ let p = new Proxy(target, handler);
 // `handler` customizes operations in the object
 ```
 
-Proxy can be handy for the implementation of data binding and listening.
+Proxy can be handy for implementation of data binding and listening:
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
@@ -1333,14 +1335,14 @@ p.a // -> Get 'a' = 2
 
 Because JS uses the IEEE 754 double-precision version (64-bit). Every language that uses this standard has this problem.
 
-As we know, computers uses binaries to represent decimals, so `0.1` in binary is represented as
+As we know, computers use binaries to represent decimals, so `0.1` in binary is represented as
 
 ```js
 // (0011) represents cycle
 0.1 = 2^-4 * 1.10011(0011)
 ```
 
-How did we come to this binary number? We can try computing it as below:
+How do we come to this binary number? We can try computing it as below:
 
 ![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
 
@@ -1364,22 +1366,22 @@ parseFloat((0.1 + 0.2).toFixed(10))
 
 | Metacharacter |                            Effect                            |
 | :-----------: | :----------------------------------------------------------: |
-|       .       |     Matches any character except the new line character      |
+|       .       |     matches any character except the new line character      |
 |      []       | matches anything within the brackets. For example, [0-9] can match any number |
 |       ^       | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters except '9' in between brackets |
 |    {1, 2}     |               matches 1 or 2 digit characters                |
 |     (yck)     |            only matches strings the same as 'yck'            |
 |      \|       |          matches any character before and after \|           |
 |       \       |                       escape character                       |
-|       *       |       Matches the preceding expression 0 or more times       |
-|       +       |       Matches the preceding expression 1 or more times       |
+|       *       |       matches the preceding expression 0 or more times       |
+|       +       |       matches the preceding expression 1 or more times       |
 |       ?       |             the character before '?' is optional             |
 
 ## Flags
 
 | Flag | Effect           |
 | :------: | :--------------: |
-| i        | Case-insensitive search |
+| i        | case-insensitive search |
 | g        | matches globally |
 | m        | multiline        |
 
