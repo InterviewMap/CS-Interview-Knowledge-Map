@@ -55,7 +55,7 @@ For the primitive data types, when we use literals to initialize a variable, the
 
 ```js
 let a = 111 // only literals, not a number
-a.toString() // converted to object when nucessary
+a.toString() // converted to object when necessary
 ```
 
 Object is a reference type. We will encouter problems about shallow copy and deep copy when using it.
@@ -71,7 +71,7 @@ console.log(a.name) // EF
 
 ## Converting to Boolean
 
-Other than `undefined`, `null`, `false`, `NaN`, `''`, `0` and `-0`, all of these values, including objects, are converted to `true`.
+When the condition is judged, other than `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, all of the values, including objects, are converted to `true`.
 
 ## Objects to Primitive Types
 
@@ -275,6 +275,7 @@ console.log(c.a);
 ```
 
 Understanding the above several situations, we won’t be confused by `this` under most circumstances. Next, let’s take a look at `this` in arrow functions:
+
 ```js
 function a() {
   return () => {

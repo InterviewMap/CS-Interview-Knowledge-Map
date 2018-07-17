@@ -112,7 +112,7 @@ a === void 0
 
 ## 转Boolean
 
-除了 `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`，其他所有值都转为 `true`，包括所有对象。
+在条件判断时，除了 `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`，其他所有值都转为 `true`，包括所有对象。
 
 ## 对象转基本类型
 
@@ -1332,7 +1332,7 @@ function b() {
 async function test() {
   return "1";
 }
-console.log(sync()); // -> Promise {<resolved>: "1"}
+console.log(test()); // -> Promise {<resolved>: "1"}
 ```
 
 可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
