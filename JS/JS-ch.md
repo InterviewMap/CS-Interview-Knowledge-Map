@@ -1332,7 +1332,7 @@ function b() {
 async function test() {
   return "1";
 }
-console.log(sync()); // -> Promise {<resolved>: "1"}
+console.log(test()); // -> Promise {<resolved>: "1"}
 ```
 
 可以把 `async` 看成将函数返回值使用 `Promise.resolve()` 包裹了下。
