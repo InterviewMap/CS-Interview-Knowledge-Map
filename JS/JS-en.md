@@ -71,7 +71,7 @@ console.log(a.name) // EF
 
 ## Converting to Boolean
 
-Other than `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
+When the condition is judged, other than `undefined`， `null`， `false`， `NaN`， `''`， `0`， `-0`, all of the values, including objects, are converted to `true`.
 
 ## Objects to Primitive Types
 
