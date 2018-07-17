@@ -194,7 +194,7 @@ The sender has a sending window in which all the data will be sent without the A
 
 The receiver will receive a message with nonstop in Continuous ARQ. If it sends the response immediately every time like the Stop-and-Wait ARQ, it may waste the resource too much. So the client B can send an ACK after receiving a sort of message, that is what we called Cumulative Acknowledgement. The ACK indicates that all the data before this flag had been received and the client A should send the next message.
 
-But it is not so perfect. Imagine that client A send a sort of message from segment 5 to segment 10 in Continuous ARQ, and the client B receives all the segments successfully except segment 6. In this case, the client B has to send the ACK of 6 even though the segments after 6 had been received successfully which caused the waste of resource. In fact, this problem can be solved by Stack which will be introduced following.
+But it is not so perfect. Imagine that client A sends a sort of message from segment 5 to segment 10 in Continuous ARQ, and the client B receives all the segments successfully except segment 6. In this case, the client B has to send the ACK of 6 even though the segments after 6 had been received successfully which caused the waste of resource. In fact, this problem can be solved by Stack which will be introduced following.
 
 ## Sliding window
 
@@ -329,7 +329,7 @@ Technically:
 |      Pragma       | message directives that may have various effects anywhere along the request-response chain |
 |        Via        | Informs the client of proxies through which the response was sent. |
 | Transfer-Encoding | the form of encoding used to safely transfer the entity to the user. |
-|      Upgrade      |     ask the opposite domain to upgrade another protocol      |
+|      Upgrade      |     ask the opposite domain to upgrade another protocol      |
 |      Warning      |    a general warning about problems with the entity body.    |
 
 |   Request Fields    |                         Description                          |
@@ -341,7 +341,7 @@ Technically:
 |       Expect        | Indicates that particular server behaviours are required by the client |
 |        From         |       the email address of the user making the request       |
 |        Host         | The domain name of the server and the TCP port number on which the server is listening. |
-|      If-Match       | if the client supplied entity matches the same entity on the server,r the request will be performed. |
+|      If-Match       | if the client supplied entity matches the same entity on the server, the request will be performed. |
 |  If-Modified-Since  | Allows a 304 Not Modified to return if the content is unchange（compare with the Date） |
 |    If-None-Match    | Allows a 304 Not Modified to return if the content is unchange（compare with the ETag） |
 |     User-Agent      |          the `user agent string` of the user agent           |
@@ -438,7 +438,7 @@ There are two important concepts in HTTP/2: frame and stream.
 - Stream: A bi-directional flow of bytes within an established connection, which may carry one or more message.
 - Frame: The smallest unit of communication in HTTP/2, each containing a frame header, which at a minimum identifies the stream to which the frame belongs.
 
-There is one or more stream in a single connection, so we can send more than one request, and the opposite end can identifier which the request belongs to by the identifiers in the frame. By this, we can avoid the head-in-line blocking and improve the performance highly.
+There is one or more stream in a single connection, so we can send more than one request, and the opposite end can identify which the request belongs to by the identifiers in the frame. By this, we can avoid the head-in-line blocking and improve the performance highly.
 
 ![](https://user-gold-cdn.xitu.io/2018/5/12/1635442531d3e5ee?w=494&h=138&f=png&s=9636)
 
