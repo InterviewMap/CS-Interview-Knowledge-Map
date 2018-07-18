@@ -1185,7 +1185,7 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-# Map、FlapMap and Reduce
+# Map、FlatMap and Reduce
 
 The effect of `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
