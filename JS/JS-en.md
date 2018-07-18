@@ -29,7 +29,7 @@
 - [Generator Implementation](#generator-implementation)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
-- [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
+- [Map、FlatMap and Reduce](#mapflapmap-and-reduce)
 - [Async and await](#async-and-await)
 - [Proxy](#proxy)
 - [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
