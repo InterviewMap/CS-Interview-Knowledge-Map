@@ -29,7 +29,7 @@
 - [Generator Implementation](#generator-implementation)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
-- [Map、FlapMap and Reduce](#mapflapmap-and-reduce)
+- [Map、FlatMap and Reduce](#mapFlatMap-and-reduce)
 - [Async and await](#async-and-await)
 - [Proxy](#proxy)
 - [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
@@ -1185,7 +1185,7 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-# Map、FlapMap and Reduce
+# Map、FlatMap and Reduce
 
 The effect of `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
 
@@ -1203,7 +1203,7 @@ The effect of `Map` is to generate a new array, iterate over the original array,
 //  parseInt('3', 2) -> NaN
 ```
 
-The effect of `FlapMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+The effect of `FlatMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlatMap` as a `map` and a `flatten`, which is currently not supported in browsers.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
