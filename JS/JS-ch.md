@@ -636,7 +636,7 @@ console.log(b) // {name: "yck"}
 
 你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
 
-但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [loadash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
+但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [lodash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
 
 如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
 
@@ -1016,7 +1016,7 @@ Function.prototype.myBind = function (context) {
     if (this instanceof F) {
       return new _this(args, ...arguments)
     }
-    return _this.apply(context, args.concat(arguments))
+    return _this.apply(context, args.concat(...arguments))
   }
 }
 ```
