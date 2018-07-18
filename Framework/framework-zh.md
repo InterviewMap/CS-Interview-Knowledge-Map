@@ -437,7 +437,7 @@ function dfs(oldNode, newNode, index, patches) {
 
 1. 遍历旧的属性列表，查看每个属性是否还存在于新的属性列表中
 2. 遍历新的属性列表，判断两个列表中都存在的属性的值是否有变化
-3. 在第二步中同时查看是否有属性不存在与旧的属性列列表中
+3. 在第二步中同时查看是否有属性不存在于旧的属性列列表中
 
 ```js
 function diffProps(oldProps, newProps) {
