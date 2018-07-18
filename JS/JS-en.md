@@ -143,7 +143,7 @@ ToPrimitive([]) == 0
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
-typeof undefined // 'underfined'
+typeof undefined // 'undefined'
 typeof true // 'boolean'
 typeof Symbol() // 'symbol'
 typeof b // b is not declared,but it still can be displayed as underfined
