@@ -3,13 +3,13 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [NextTick principle analysis](#nexttick-principle-analysis)
-- [Lifecycle analysis](# Lifecycle analysis)
+- [Lifecycle analysis](#Lifecycle analysis)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # NextTick principle analysis
 
-`nextTick` allows us to defer the callback to be executed after the next DOM update cycle，to get the updated DOM.
+`nextTick` allows us to defer the callback to be executed after the next DOM update cycle, to get the updated DOM.
 
 Before version 2.4, Vue used microtasks, but the priority of microtasks is too high, and in some cases, it may faster than event bubbling, but if you use macrotasks, there may be some issues of rendering performance. So in the new version, microtasks will be used by default, but macrotasks will be used in special cases, such as v-on.
 
@@ -82,7 +82,7 @@ The lifecycle function is the hook function that the component will trigger when
 
 ![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
 
-The following code will be called at initialization, and  lifecycle is called by `callHook`
+The following code will be called at initialization, and lifecycle is called by `callHook`
 
 ```js
 Vue.prototype._init = function(options) {
@@ -112,8 +112,7 @@ export function mountComponent {
 }
 ```
 
-`beforeMount` will be executed before mounting the instance, then starts to create the VDOM and replace it with the real DOM, and finally runs the `mounted` hook. And there’s a judgment logic here that if it is an external `new Vue({}) `,  `$vnode` doesn’t exist, so the `mounted` hook will be executed directly. If there are child components, they will be mounted recursively,  only when all the child components are mounted, the mount hooks of the root components will be executed. 
-
+`beforeMount` will be executed before mounting the instance, then starts to create the VDOM and replace it with the real DOM, and finally call the `mounted` hook. And there’s a judgment logic here that if it is an external `new Vue({}) `,  `$vnode` doesn’t exist, so the `mounted` hook will be executed directly. If there are child components, they will be mounted recursively,  only when all the child components are mounted, the mount hooks of the root components will be executed. 
 
 Next, it comes to the hook function that will be called when the data is updated.
 
