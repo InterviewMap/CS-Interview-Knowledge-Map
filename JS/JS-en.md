@@ -613,7 +613,7 @@ console.log(b) // {name: "yck"}
 
 In above case, you can see that the method ignores function and `undefined`.
 
-Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `loadash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
 
 If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
 ```js
