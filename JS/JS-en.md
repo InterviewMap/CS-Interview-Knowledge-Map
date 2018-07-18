@@ -146,7 +146,7 @@ typeof '1' // 'string'
 typeof undefined // 'undefined'
 typeof true // 'boolean'
 typeof Symbol() // 'symbol'
-typeof b // b is not declared,but it still can be displayed as underfined
+typeof b // b is not declared,but it still can be displayed as undefined
 ```
 
 For object,  `typeof` will always display `object`, except **function**:
@@ -798,7 +798,7 @@ Function.prototype.myBind = function (context) {
     if (this instanceof F) {
       return new _this(args, ...arguments)
     }
-    return _this.apply(context, args.concat(arguments))
+    return _this.apply(context, args.concat(...arguments))
   }
 }
 ```
