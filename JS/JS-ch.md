@@ -29,7 +29,7 @@
   - [模拟实现 call 和 apply](#%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0-call-%E5%92%8C-apply)
 - [Promise 实现](#promise-%E5%AE%9E%E7%8E%B0)
 - [Generator 实现](#generator-%E5%AE%9E%E7%8E%B0)
-- [Map、FlatMap 和 Reduce](#mapflapmap-%E5%92%8C-reduce)
+- [Map、FlatMap 和 Reduce](#mapflatmap-%E5%92%8C-reduce)
 - [async 和 await](#async-%E5%92%8C-await)
 - [Proxy](#proxy)
 - [为什么 0.1 + 0.2 != 0.3](#%E4%B8%BA%E4%BB%80%E4%B9%88-01--02--03)

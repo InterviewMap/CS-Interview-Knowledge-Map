@@ -3,7 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [NextTick principle analysis](#nexttick-principle-analysis)
-- [Lifecycle analysis](#Lifecycle analysis)
+- [Lifecycle analysis](#lifecycle-analysis)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

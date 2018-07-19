@@ -3,18 +3,18 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Event mechanism](#event-mechanism)
-  - [The three phases of event triggered](#the-three-phases-of-event-triggered)
+  - [The three phases of event propagation](#the-three-phases-of-event-propagation)
   - [Event Registration](#event-registration)
-  - [Event Agent](#event-agent)
-- [cross domain](#cross-domain)
+  - [Event Delegation](#event-delegation)
+- [Cross Domain](#cross-domain)
   - [JSONP](#jsonp)
   - [CORS](#cors)
   - [document.domain](#documentdomain)
   - [postMessage](#postmessage)
-- [Event loop](#event-loop)
-  - [Event loop in Node](#event-loop-in-node)
+- [Event Loop](#event-loop)
+  - [Event Loop in Node](#event-loop-in-node)
     - [timer](#timer)
-    - [I/O](#io)
+    - [pending callbacks](#pending-callbacks)
     - [idle, prepare](#idle-prepare)
     - [poll](#poll)
     - [check](#check)
@@ -26,7 +26,7 @@
   - [Difference between Load & DOMContentLoaded](#difference-between-load--domcontentloaded)
   - [Layers](#layers)
   - [Repaint & Reflow](#repaint--reflow)
-  - [Reduce Repaint & Reflow](#reduce-repaint--reflow)
+  - [Minimize Repaint & Reflow](#minimize-repaint--reflow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
