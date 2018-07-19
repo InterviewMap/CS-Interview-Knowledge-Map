@@ -99,7 +99,7 @@ PS：为什么会出现这种情况呢？因为在 JS 的最初版本中，使�
 let a
 // 我们也可以这样判断 undefined
 a === undefined
-// 但是 undefined 保留字，能够在低版本浏览器被赋值
+// 但是 undefined 不是保留字，能够在低版本浏览器被赋值
 let undefined = 1
 // 这样判断就会出错
 // 所以可以用下面的方式来判断，并且代码量更少
