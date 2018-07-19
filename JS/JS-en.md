@@ -169,7 +169,7 @@ We can use `Object.prototype.toString.call(xx)` if we want to get the correct da
 let a
 // We can also judge `undefined` like this
 a === undefined
-// But the reserved word `undefined` can be re-assigned in a lower version browser
+// But the nonreserved word `undefined` can be re-assigned in a lower version browser
 let undefined = 1
 // it will go wrong to judge like this
 // So we can use the following method, with less code
