@@ -32,15 +32,15 @@
 
 # Event mechanism
 
-## The three phases of event triggered
+## The three phases of event propagation
 
-Event triggered has three phases:
+Event propagation has three phases:
 
-- `document` propagate to the event trigger and the registered capture event will trigger.
-- The event that triggers registration when propagated to the event trigger.
-- From the event trigger to the `document` propagation, the bubbling event that is registered will trigger.
+- The event object propagates from the Window to the target’s parent. Capturing events will trigger.
+- The event object arrives at the event object’s event target. Events registered to target will trigger.
+- The event object propagates from the target's parent up to the Window. Bubbling events will trigger.
 
-Event triggers generally follow the above sequence, but there are exceptions. If a target node is registered for both bubble and capture events, event triggering is performed in the order in which it was registered.
+Event propagation generally follows the above sequence, but there are exceptions. If a target node is registered for both bubbling and capturing events, events are invoked in the order they were registered.
 
 ```js
 // The following code will print bubbling first and then trigger capture events
@@ -48,19 +48,19 @@ node.addEventListener('click',(event) =>{
 	console.log('bubble')
 },false);
 node.addEventListener('click',(event) =>{
-	console.log('capture ')
+	console.log('capture')
 },true)
 ```
 
 ## Event Registration
 
-Usually, we use `addEventListener` to register an event, the `useCapture` is a function parameter, which receives a Boolean value, the default value is `false`. `useCapture` determines whether the registered event is a capture event or a bubbling event. For the object parameters, you can use the following properties
+Usually, we use `addEventListener` to register an event, and the `useCapture` is a function parameter, which receives a Boolean value, the default value is `false`. `useCapture` determines whether the registered event is a capturing event or a bubbling event. For the object parameter, you can use the following properties:
 
-- `capture` Boolean value, same as `useCapture`
-- `once`, Boolean value, `true` indicating that the callback is only called once, after calling the listener will be removed
-- `passive`, Boolean, means never call `preventDefault`
+- `capture`, Boolean value, same as `useCapture`
+- `once`, Boolean value, `true` indicating that the callback should be called at most once, after invoked the listener will be removed
+- `passive`, Boolean, means it will never call `preventDefault`
 
-Generally speaking, we only want the event to trigger only on the target, this time can be used `stopPropagation` to prevent the spread of the event. Usually, we think that `stopPropagation` is used to stop the event bubbling, in fact, this function can also prevent the capture events. `stopImmediatePropagation` blocking events can also be implemented and this function can also prevent the event target from performing other registration events.
+Generally speaking, we only want the event to trigger only on the target, to achieve this we can use `stopPropagation` to prevent the propagation of the event. Usually, we would think that `stopPropagation` is used to stop the event bubbling, in fact, this function can also prevent the event capturing. `stopImmediatePropagation` can achieve the same effects, and it can also prevents other listeners of the same event from being called.
 
 ```js
 node.addEventListener('click',(event) =>{
@@ -73,9 +73,9 @@ node.addEventListener('click',(event) => {
 },true)
 ```
 
-## Event Agent
+## Event Delegation
 
-If a child node in a parent node is dynamically generated, the child node should to be registered on the parent node if it needs to register an event.
+If a child node inside a parent node is dynamically generated, events on child node should be added to parent node:
 
 ```html
 <ul id="ul">
@@ -93,20 +93,20 @@ If a child node in a parent node is dynamically generated, the child node should
 </script>
 ```
 
-The event agent approach has the following advantages over the direct registration event on child node:
+Event delegation has the following advantages over adding events straight to child nodes:
 
 - Save memory
-- Child nodes don't need remove event listener
+- No need remove event listeners on child nodes
 
-# cross domain
+# Cross Domain
 
-Because browsers have the same origin policy for security reasons. In other words, if the protocol, domain name, or port has a different that is cross-domain, the Ajax request will fail.
+Browsers have the same-origin policy for security reasons. In other words, if the protocol, domain name or port has one difference, that would be cross-domain, and the Ajax request will fail.
 
-We can solve the cross-domain issues through following methods  
+We can solve the cross-domain issues through following methods:  
 
 ## JSONP
 
-The principle of JSONP is very simple, that is to use the `<script>` tag vulnerabilities that not limit cross-domain. Use the `src` attribute of `<script>` tag and provide a callback function to receive data.
+The principle of JSONP is very simple, that is to make use of the `<script>` tag not subject to same-origin policy. Use the `src` attribute of `<script>` tag and provide a callback function to receive data:
 
 ```js
 <script src="http://domain/api?param1=a&param2=b&callback=jsonp"></script>
@@ -119,7 +119,7 @@ The principle of JSONP is very simple, that is to use the `<script>` tag vulnera
 
 JSONP is simple to use and has good compatibility, but is limited to `get` requests.
 
-You may encounter the same callback name in multiple JSONP requests, this time you need to package a JSONP, the following is a simple implementation
+You may encounter the situation where same callback names in multiple JSONP requests, under this situation you need to encapsulate JSONP, the following is a simple implementation:
 
 ```js
 function jsonp(url, jsonpCallback, success) {
@@ -145,19 +145,19 @@ jsonp(
 
 CORS requires browser and backend support at the same time. Internet Explorer 8 and 9 expose CORS via the XDomainRequest object.
 
-The browser will automatically perform CORS communication. The key to implementing CORS communication is the backend. As long as the back end implements CORS, it implements cross-domain.
+The browser will automatically perform CORS. The key to implementing CORS is the backend. As long as the backend implements CORS, it enables cross-domain.
 
-The server sets `Access-Control-Allow-Origin` to enable CORS. This property means which domain can access the resource. If set wildcards, all websites can access resources.
+The server sets `Access-Control-Allow-Origin` to enable CORS. This property means which domain can access the resource. If set wildcards, all websites can access the resource.
 
 ## document.domain
 
-This can only be used for the same Second-level domain, For example, `a.test.com` and `b.test.com` suitable for this case.
+This can only be used for the same second-level domain, for example, `a.test.com` and `b.test.com` are suitable for this case.
 
-Set `document.domain = 'test.com'` , as used by the same origin policy.
+Set `document.domain = 'test.com'` would enable CORS within the same second-level domain.
 
 ## postMessage
 
-This method is usually used to get data for third-party page. One page sends a message, another page judges the source and receives the message
+This method is usually used to get data from embedded third-party page. One page sends a message, the other page checks the source and receives the message:
 
 ```js
 // send of page
@@ -172,11 +172,11 @@ mc.addEventListener('message', (event) => {
 });
 ```
 
-# Event loop
+# Event Loop
 
-As we all know,  JS is a non-blocking and single-threaded language, because JS was born to interact with the browser in the beginning.  If JS is a multi-threaded language, we may have problems handling DOM in multiple threads (imagine adding nodes in a thread and deleting nodes in another thread in the same time),  certainly, we can introduce a read-write lock to solve this problem.
+As we all know, JS is a non-blocking and single-threaded language, because JS was born to interact with the browser in the beginning. If JS was a multi-threaded language, we might have problems handling DOM in multiple threads (imagine adding nodes in a thread and deleting nodes in another thread at the same time), however we could introduce a read-write lock to solve this problem.
 
-Execution context, generated during JS execution, will be pushed into call stack sequentially. Asynchronous codes encountered will be handed up and pushed into the Task queues (there are multiple tasks). Once the call stack is empty, the Event Loop will take out the codes that need to be executed from the Task queue and push it into the execution of the call stack, thus essentially speaking that the asynchronous behavior in JS is actually synchronous.
+Execution context, generated during JS execution, will be pushed into call stack sequentially. Asynchronous codes will hang up and get pushed into the task queues (there are multiple kinds of tasks). Once the call stack is empty, the Event Loop will process the next message in task queues and push it into call stack for execution, thus essentially the asynchronous operation in JS is actually synchronous.
 
 ```js
 console.log('script start');
@@ -188,9 +188,9 @@ setTimeout(function() {
 console.log('script end');
 ```
 
-The above code is asynchronous, even though the `setTimeout` delay is 0.  That’s because the HTML5 standard stipulates that the second parameter of the function  `setTimeout`  must not be less than 4 milliseconds, or it will increase automatically.  So `setTimeout` is  still logged after `script end`.
+The above code is asynchronous, even though the `setTimeout` delay is 0. That’s because the HTML5 standard stipulates that the second parameter of the function  `setTimeout` must not be less than 4 milliseconds, otherwise it will automatically .  So `setTimeout` is still logged after `script end`.
 
-Different task sources are assigned to different Task queues. Task sources can be divided into `microtasks` and `macrotasks`. In the ES6 specification, `microtask` is called `jobs` and `macrotask` is called `task`.
+Different tasks are assigned to different Task queues. Tasks can be divided into `microtasks` and `macrotasks`. In the ES6 specification, `microtask` is called `job` and `macrotask` is called `task`.
 
 ```js
 console.log('script start');
@@ -212,42 +212,42 @@ console.log('script end');
 // script start => Promise => script end => promise1 => promise2 => setTimeout
 ```
 
-Although  `setTimeout` is set before  `Promise`, the above printing still occurs because of that `Promise` belongs to microtask and `setTimeout` belongs to  macrotask
+Although `setTimeout` is set before `Promise`, the above printing still occurs because `Promise` belongs to microtask and `setTimeout` belongs to macrotask.
 
-Microtasks include `process.nextTick`, `promise`, `Object.observe`, `MutationObserver`
+Microtasks include `process.nextTick`, `promise`, `Object.observe` and `MutationObserver`.
 
-Macrotasks include  `script` ， `setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`
+Macrotasks include `script`, `setTimeout`, `setInterval`, `setImmediate`, `I/O` and `UI rendering`.
 
-Many people have a wrong misunderstanding that microtasks are faster than macrotasks. Because the macrotask includes `script`, the browser will perform a macrotask first, followed by microtasks if there is asynchronous code.
+Many people have the misunderstanding that microtasks always get executed before macrotasks and it's not correct. Because the macrotask includes `script`, the browser will perform this macrotask first, followed by any microtasks in asynchronous codes.
 
-So the correct sequence of an event loop is like this:
+So the correct sequence of an event loop looks like this:
 
 1. Execute synchronous codes, which belongs to macrotask
 2. Once call stack is empty, query if any microtasks need to be executed
 3. Execute all the microtasks
 4. If necessary, render the UI
-5. Then start the next round of the Event loop,  and execute the asynchronous codes in the macrotask
+5. Then start the next round of the Event loop, and execute the asynchronous operations in the macrotask
 
-According to the above sequence of the Event loop, if the asynchronous codes in the macrotask have a large number of calculations and need to operate the DOM, we can put the operation DOM into the microtask for faster interface response.
+According to the above sequence of the event loop, if the asynchronous codes in the macrotask have a large number of calculations and need to operate on DOM, we can put DOM operation into microtask for faster interface response.
 
-## Event loop in Node
+## Event Loop in Node
 
-The Event loop in Node is not the same as in the browser.
+The event loop in Node is not the same as in the browser.
 
-The Event loop in Node is divided into 6 phases,  and they will be executed in sequence.
+The event loop in Node is divided into 6 phases, and they will be executed in order repeatedly:
 
 ```
-┌───────────────────────┐
+   ┌───────────────────────┐
 ┌─>│        timers         │
 │  └──────────┬────────────┘
 │  ┌──────────┴────────────┐
-│  │     I/O callbacks     │
+│  │     pending callbacks │
 │  └──────────┬────────────┘
 │  ┌──────────┴────────────┐
 │  │     idle, prepare     │
 │  └──────────┬────────────┘      ┌───────────────┐
 │  ┌──────────┴────────────┐      │   incoming:   │
-│  │         poll          │<──connections───     │
+│  │         poll          │<──---|   connections │
 │  └──────────┬────────────┘      │   data, etc.  │
 │  ┌──────────┴────────────┐      └───────────────┘
 │  │        check          │
@@ -259,25 +259,27 @@ The Event loop in Node is divided into 6 phases,  and they will be executed in s
 
 ### timer
 
-The `timer` phase executes the callbacks of `setTimeout` and `setInterval`
+The `timer` phase executes the callbacks of `setTimeout` and `setInterval`.
 
 `Timer` specifies the time that callbacks will run as early as they can be scheduled after the specified amount of time has passed rather than the exact time a person wants it to be executed.
 
-The lower limit time has a range: `[1, 2147483647]`,  if the set time is not in this range, it will be set to 1.
+The lower bound time has a range: `[1, 2147483647]`,  if the set time is not in this range, it will be set to 1.
 
-### I/O
+### pending callbacks
 
-The `I/O` phase executes the callbacks of timers and  `setImmediate`, besides that for the close event
+This phase executes I/O callbacks deferred to the next loop iteration.
 
 ### idle, prepare
 
-The `idle, prepare` phase is for internal implementation
+The `idle, prepare` phase is for internal implementation.
 
 ### poll
 
+This phase retrieve new I/O events; execute I/O related callbacks (almost all with the exception of close callbacks, the ones scheduled by timers, and setImmediate()); node will block here when appropriate.
+
 The `poll` phase has two main functions:
 
-1. Executing scripts for timers whose threshold has elapsed, then
+1. Calculating how long it should block and poll for I/O, then
 2. Processing events in the poll queue.
 
 When the event loop enters the `poll` phase and there are no timers scheduled, one of two things will happen:
@@ -291,12 +293,13 @@ Once the `poll` queue is empty the event loop will check for timers whose time t
 
 ### check
 
-The `check` phase executes the callbacks of `setImmediate`
+The `check` phase executes the callbacks of `setImmediate`.
 
 ### close callbacks
 
- The `close` event will be emitted in this phase.
-And in Node, the order of execution of timers is random in some cases
+The `close` event will be emitted in this phase.
+
+And in Node, the order of execution of timers is random in some cases:
 
 ```js
 setTimeout(() => {
@@ -311,7 +314,7 @@ setImmediate(() => {
 // Otherwise it will execute `setTimeout`
 ```
 
-Certainly, in this case, the execution order is the same
+Certainly, in this case, the execution order is the same:
 
 ```js
 var fs = require('fs')
@@ -330,7 +333,7 @@ fs.readFile(__filename, () => {
 // so the above output must be `setImmediate` => `setTimeout`
 ```
 
-The above is the implementation of the macrotask.  The microtask will be executed immediately after each phase is completed.
+The above is the implementation of the macrotask. The microtask will be executed immediately after each phase is completed.
 
 ```js
 setTimeout(()=>{
@@ -353,7 +356,7 @@ setTimeout(()=>{
 // In node, it will log: timer1 => timer2 => promise1 => promise2
 ```
 
-`process.nextTick`  in Node will be executed before other microtasks.
+`process.nextTick` in Node will be executed before other microtasks.
 
 ```js
 setTimeout(() => {
@@ -376,26 +379,26 @@ process.nextTick(() => {
 
 |        features         |                            cookie                            |               localStorage                |                        sessionStorage                        |                  indexDB                  |
 | :---------------------: | :----------------------------------------------------------: | :---------------------------------------: | :----------------------------------------------------------: | :---------------------------------------: |
-|   life cycle  of data   | generally generated by the server, but you can set the expiration time | unless cleared manually, it always exists | once the browser tab is closed, it will be cleaned up immediately | unless cleared manually, it always exists |
+|   Life cycle of data   | generally generated by the server, but you can set the expiration time | unless cleared manually, it always exists | once the browser tab is closed, it will be cleaned up immediately | unless cleared manually, it always exists |
 |  Storage size of data   |                              4K                              |                    5M                     |                              5M                              |                 unlimited                 |
-| Communicate with server | it is carried in the header everytime, and has a performance impact on the request |            doesn't participate            |                     doesn't participate                      |            doesn't participate            |
+| Communication with server | it is carried in the header everytime, and has a performance impact on the request |            doesn't participate            |                     doesn't participate                      |            doesn't participate            |
 
-As we can see from the above table, `cookies` are no longer recommended for storage. We can use `localStorage` and `sessionStorage` if we don't have much data to storage. Use `localStorage` to storage the data that doesn't change much, otherwise `sessionStorage` can be used.
+As we can see from the above table, `cookies` are no longer recommended for storage. We can use `localStorage` and `sessionStorage` if we don't have much data to store. Use `localStorage` to store data that doesn't change much, otherwise `sessionStorage` can be used.
 
-For `cookies`, we also need attention to security.
+For `cookies`, we also need pay attention to security issue.
 
 | attribute |                            effect                            |
 | :-------: | :----------------------------------------------------------: |
 |   value   | the value should be encrypted if used to save the login state, and the cleartext user ID shouldn't be used |
 | http-only | cookies cannot be accessed through JS, for reducing XSS attack |
 |  secure   | cookies can only be carried in requests with HTTPS protocol  |
-| same-site | browsers cannot carry cookies in cross-origin requests, for reducing CSRF attacks |
+| same-site | browsers cannot pass cookies in cross-origin requests, for reducing CSRF attacks |
 
 ## Service Worker
 
-> Service workers essentially act as proxy servers that sit between web applications, the browser, and the network (when available). They are intended, among other things, to enable the creation of effective offline experiences, intercept network requests and take appropriate action based on whether the network is available, and update assets residing on the server. They will also allow access to push notifications and background sync APIs.
+> Service workers essentially act as proxy servers that sit between web applications, the browser and the network (when available). They are intended, among other things, to enable the creation of effective offline experiences, intercept network requests and take appropriate action based on whether the network is available, and update assets residing on the server. They will also allow access to push notifications and background sync APIs.
 
-At present, this technology is usually used to cache files, increase the render speed of the first screen, wo can try to  implement this function.
+At present, this technology is usually used to cache files, increase the render speed of the first screen. We can try to  implement this function:
 
 ```js
 // index.js
@@ -433,15 +436,15 @@ self.addEventListener("fetch", e => {
 });
 ```
 
-Open the page, we can see that the Service Worker has started in the `Application` of the devTools
+Open the page, we can see that the Service Worker has started in the `Application` pane of devTools:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
 
-In the Cache, we can also find that the files we need have been cached
+In Cache pane, we can also find that the files we need have been cached:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
 
-Refreshing the page, we can see that our cached data is read from the Service Worker
+Refreshing the page, we can see that our cached data is read from the Service Worker:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
 
@@ -449,21 +452,21 @@ Refreshing the page, we can see that our cached data is read from the Service Wo
 
 The machanism of the browser engine usually has the following steps:
 
-1. Parsing HTML to construct the DOM tree
+1. Parse HTML to construct the DOM tree.
 
-2. Parsing CSS to construct the CSSOM
+2. Parse CSS to construct the CSSOM tree.
 
-3. create the render tree by merging the SOM tree & CSS tree
+3. Create the render tree by combining the DOM & CSSOM.
 
-4. layout based on the render tree, calculate each node's exact coordinates on the screen
+4. Run layout based on the render tree, then calculate each node's exact coordinates on the screen.
 
-5. painting elements by GPU in the way of layers, and display on the screen
+5. Paint elements by GPU, composite layers and display on the screen.
 
 ![](https://user-gold-cdn.xitu.io/2018/4/11/162b2ab2ec70ac5b?w=900&h=352&f=png&s=49983)
 
-When building the CSSOM tree, the rendering is blocked until the CSSOM tree is built. And building the CSSOM tree is a very cost-intensive process, so you should try to ensure that the level is flat, reduce excessive cascading, the more specific CSS selector, the slower the execution.
+When building the CSSOM tree, the rendering is blocked until the CSSOM tree is built. And building the CSSOM tree is a very cost-intensive process, so you should try to ensure that the level is flat and reduce excessive cascading. The more specific CSS selector, the slower the execution.
 
-When the HTML is parsed the script tag, the DOM is paused and will restart from the paused position. In other words, if you want to render the first screen faster, the less you should load the JS file on the first screen. And CSS will also affect the execution of JS. JS will only be executed when the stylesheet is parsed. Therefore, it can be considered that CSS will also suspend the DOM in this case.
+When the HTML is parsing the script tag, the DOM is paused and will restart from the paused position. In other words, the faster you want to render the first screen, the less you should load the JS file on the first screen. And CSS will also affect the execution of JS. JS will only be executed when the stylesheet is parsed. Therefore, it can be considered that CSS will also suspend the DOM in this case.
 
 ![](https://user-gold-cdn.xitu.io/2018/7/8/1647838a3b408372?w=1676&h=688&f=png&s=154480)
 
@@ -472,15 +475,15 @@ When the HTML is parsed the script tag, the DOM is paused and will restart from 
 
 ## Difference between Load & DOMContentLoaded
 
-**Load** event occurs when all the resources (e.g. DOM、CSS、JS、pictures) had been loaded
+**Load** event occurs when all the resources (e.g. DOM、CSS、JS、pictures) have been loaded.
 
-**DOMContentLoaded** event occurs  as soon as the HTML of the pages has been loaded, no matter whether the other resources had been loaded
+**DOMContentLoaded** event occurs as soon as the HTML of the pages has been loaded, no matter whether the other resources have been loaded.
 
 ## Layers
 
-Generally，we can treate the documents flow as a single layer. Some special attributes alse could create a new layer. **Different Layers are separate**. So, it is recommed to create a new layer to rendeing some elements which changed frequently. **But it is also a bad idea to create too much layers.**
+Generally，we can treat the document flow as a single layer. Some special attributes also could create a new layer. **Different Layers are independent**. So, it is recommended to create a new layer to render some elements which changes frequently. **But it is also a bad idea to create too much layers.**
 
-the following attributes usually can create a new layer:
+The following attributes usually can create a new layer:
 
 - 3Dtranslate: `translate3d`, `translateZ`
 
@@ -488,23 +491,23 @@ the following attributes usually can create a new layer:
 
 - tags like: `video`, `iframe`
 
-- `opacity` animation translate
+- animation achieved by `opacity`
 
 - `position: fixed`
 
 ## Repaint & Reflow
 
-Repaint and Reflow are a little steps in the main rendering flow, but they have a great influence of the performance.
+Repaint and Reflow is a small step in the main rendering flow, but they have a great impact on the performance.
 
-- Repaint occurs when the node change but that dosn't affect the layout, e.g. `color`
+- Repaint occurs when the node changes but doesn't affect the layout, e.g. `color`.
 
-- Reflow occurs when the node change that caused by layout or the geometry attributes
+- Reflow occurs when the node changes caused by layout or the geometry attributes.
 
-The Repaint must appear while the Reflow occured. Otherwise not certain。Reflow is much heaver than Repaint . The changes of the deep node's attributes may cause a series of changes  of ancestral nodes.
+Reflow will trigger a Repaint but the contrary is not necessarily true. Reflow is much more expensive than Repaint. The changes in deep level node's attributes may cause a series of changes of its ancestral nodes.
 
-Actions like the following may cause the performance problems
+Actions like the following may cause the performance problems:
 
-- change window's  size
+- change window's size
 
 - change font-family
 
@@ -512,35 +515,35 @@ Actions like the following may cause the performance problems
 
 - change texts
 
-- position & float
+- change position & float
 
-- box
+- change box model
 
-You may not know that Repaint and Reflow have somthing to do with the **Event Loop**
+You may not know that Repaint and Reflow has somthing to do with the **Event Loop**.
 
-- In a event loop, when a Microtasks finished, the engine will determine whether the document need update. As the  refresh rate of the browse is 60Hz, which means it will update every 16ms
+- In a event loop, when a microtask finishes, the engine will check whether the document needs update. As the refresh rate of the browse is 60Hz, this means it will update every 16ms.
 
-- then determine whether there is events like `resize` or `scroll` occurs, if true, trigger the handlers. So the handlers of resize and scroll will trigger every 16 ms, which means automatic throttle
+- Then browser would check whether there are events like `resize` or `scroll`, if true, trigger the handlers. So the handlers of resize and scroll will be invoked every 16 ms, which means automatic throttling.
 
-- determine whether trigger the media query
+- Evaluate media queries and report changes.
 
-- update the animation and send event
+- Update animations and send events.
 
-- determine whether this is a full-screen event
+- Check whether this is a full-screen event.
 
-- excute ``requestAnimationFrame`` callback
+- Excute `requestAnimationFrame` callback.
 
-- excute `IntersectionObserver` callbak, which used to determine whether an element shoud be display, usually in lazy-load , but with poor compatibility
+- Excute `IntersectionObserver` callback, which is used to determine whether an element shoud be displaying, usually in lazy-load, but has poor compatibility.
 
-- update the screen
+- Update the screen.
 
-- the aboves may occur in every frame. If there is rest time, the `requestIdleCallback` callback will be called.
+- The aboves may occur in every frame. If there is idle time, the `requestIdleCallback` callback will be called.
 
-All above are from [HTML Documents](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+All above are from [HTML Documents](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model).
 
-## Reduce Repaint & Reflow
+## Minimize Repaint & Reflow
 
-- use `translate` instead of `top`
+- Use `translate` instead of `top`:
 
 ```html
 <div class="test"></div>
@@ -561,11 +564,11 @@ All above are from [HTML Documents](https://html.spec.whatwg.org/multipage/webap
 </script>
 ```
 
-- use `visibility` instead of `display: none`, because the former will only cause Repaint while the latter will cause the Reflow which change the layout.
+- Use `visibility` instead of `display: none`, because the former will only cause Repaint while the latter will cause Reflow which changes the layout.
 
-- change the DOM when it is offline, e.g. change the DOM 100 times after set it `display: none` and then show it on screen. Among this process there is only one Relow.
+- Change the DOM when it is offline, e.g. change the DOM 100 times after set it `display: none` and then show it on screen. During this process there is only one Reflow.
 
-- do not put an attribute of a node to the loop
+- Do not put an attribute of a node inside a loop:
 
 ```js
 for(let i = 0; i < 1000; i++) {
@@ -574,12 +577,12 @@ for(let i = 0; i < 1000; i++) {
 }
 ```
 
-- do not use table to construct the layout, because event a little change will cause the re-construct.
+- Do not use table to construct the layout, because even a little change will cause the re-construct.
 
-- the choice of the speed of the animation's realization, the faster the more Reflow, you can shoose the `requestAnimationFrame`
+- Animation speed matters, the faster it goes, the more Reflow. You can also utilize `requestAnimationFrame`.
 
-- the css selector will search to match from right to left, so you'd  better to avoid that the DOM is too deep.
+- The css selector will search to match from right to left, so you'd better avoid deep level DOM node.
 
-- As we konw that the layer will prevent the node which has changed from affecting others, so it is good to change the animation that run high frequency to a layer.
+- As we know that the layer will prevent the changed node from affecting others, so it is good practice to create a new layer for animations with high frequency.
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/1626fb6f33a6f9d7?w=1588&h=768&f=png&s=263260)
