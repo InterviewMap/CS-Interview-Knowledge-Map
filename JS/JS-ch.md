@@ -1014,7 +1014,7 @@ Function.prototype.myBind = function (context) {
   return function F() {
     // 因为返回了一个函数，我们可以 new F()，所以需要判断
     if (this instanceof F) {
-      return new _this(args, ...arguments)
+      return new _this(...args, ...arguments)
     }
     return _this.apply(context, args.concat(...arguments))
   }

@@ -796,7 +796,7 @@ Function.prototype.myBind = function (context) {
   return function F() {
     // we can use `new F()` because it returns a function, so we need to determine
     if (this instanceof F) {
-      return new _this(args, ...arguments)
+      return new _this(...args, ...arguments)
     }
     return _this.apply(context, args.concat(...arguments))
   }
