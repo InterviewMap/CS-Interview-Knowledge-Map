@@ -47,7 +47,7 @@
 
 ## 交流分享
 
-如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19)，请务必使用英文交流，谢谢。
+如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19) 或者 [gitter 聊天室](https://gitter.im/interview-map/Lobby)，请务必使用英文交流，谢谢。
 
 ## 支持我们
 
