@@ -191,9 +191,9 @@ function create() {
   // Create an empty object
   let obj = new Object()
   // Get the constructor
-  let Ctor = [].shift.call(arguments)
+  let Con = [].shift.call(arguments)
   // Chained to prototype
-  obj.__proto__ = Ctor.prototype
+  obj.__proto__ = Con.prototype
   // Bind this, Execute the constructor
   let result = Con.apply(obj, arguments)
   // Make sure the new one is an object
