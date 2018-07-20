@@ -48,7 +48,7 @@ The above content is expected to be updated completely in September, and welcome
 [Online version is clearer to read](https://yuchengkai.cn/docs/).
 
 ## Communicate and share
-If you want to communicate and share with others about the content of this interviewmap, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19).
+If you want to communicate and share with others about the content of this interviewmap, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19) or [gitter](https://gitter.im/interview-map/Lobby).
 
 
 ## Support us
