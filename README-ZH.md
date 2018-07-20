@@ -6,6 +6,11 @@
 
 <h4 align="center">这是一份能让你更好准备下一次面试的图谱</h4>
 
+<p align="center">
+  <a href="https://gitter.im/interview-map/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Gitter"></a>
+  <a href="https://t.me/joinchat/GULTjw9enq3J4NQ6Yh5Ntw"><img src="https://img.shields.io/badge/chat-Telegram-brightgreen.svg" alt="Telegram"></a>
+</p>
+
 ## 前言
 
 > 当你老了，回顾一生，就会发觉：什么时候出国读书，什么时候决定做第一份职业，何时选定对象而恋爱，什么时候结婚，其实都是命运的巨变。只是当时站在三岔路口，眼见风云千樯，你做出选择的那一日，在日记上，相当沉闷和平凡，当时还以为是生命中普通的一天。
