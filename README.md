@@ -9,6 +9,8 @@
 <p align="center">
   <a href="https://gitter.im/interview-map/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Gitter"></a>
   <a href="https://t.me/joinchat/GULTjw9enq3J4NQ6Yh5Ntw"><img src="https://img.shields.io/badge/chat-Telegram-brightgreen.svg" alt="Telegram"></a>
+  <a href="#backers" alt="Backers on Open Collective"><img src="https://opencollective.com/InterviewMap/backers/badge.svg" /></a> 
+  <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/InterviewMap/sponsors/badge.svg" /></a> 
 </p>
 
 [中文版本](./README-ZH.md)
@@ -58,6 +60,36 @@ If you want to communicate and share with others about the content of this inter
 
 ## Support us
 If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20).
+
+
+### Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/InterviewMap/contributors.svg?width=890&button=false" /></a>
+
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/InterviewMap#backer)]
+
+<a href="https://opencollective.com/InterviewMap#backers" target="_blank"><img src="https://opencollective.com/InterviewMap/backers.svg?width=890"></a>
+
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/InterviewMap#sponsor)]
+
+<a href="https://opencollective.com/InterviewMap/sponsor/0/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/1/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/2/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/3/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/4/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/5/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/6/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/7/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/8/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/InterviewMap/sponsor/9/website" target="_blank"><img src="https://opencollective.com/InterviewMap/sponsor/9/avatar.svg"></a>
+
 
 
 ## License
