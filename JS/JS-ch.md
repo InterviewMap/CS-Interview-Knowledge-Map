@@ -37,6 +37,9 @@
   - [元字符](#%E5%85%83%E5%AD%97%E7%AC%A6)
   - [修饰语](#%E4%BF%AE%E9%A5%B0%E8%AF%AD)
   - [字符简写](#%E5%AD%97%E7%AC%A6%E7%AE%80%E5%86%99)
+- [V8 下的垃圾回收机制](#v8-%E4%B8%8B%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6)
+  - [新生代算法](#%E6%96%B0%E7%94%9F%E4%BB%A3%E7%AE%97%E6%B3%95)
+  - [老生代算法](#%E8%80%81%E7%94%9F%E4%BB%A3%E7%AE%97%E6%B3%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
