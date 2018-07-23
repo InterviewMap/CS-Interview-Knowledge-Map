@@ -1366,7 +1366,7 @@ parseFloat((0.1 + 0.2).toFixed(10))
 
 | Metacharacter |                            Effect                            |
 | :-----------: | :----------------------------------------------------------: |
-|       .       |     matches any character except the new line character      |
+|       .       |     matches any character except line terminators: \n, \r, \u2028 or \u2029.    |
 |      []       | matches anything within the brackets. For example, [0-9] can match any number |
 |       ^       | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters except '9' in between brackets |
 |    {1, 2}     |               matches 1 or 2 digit characters                |
