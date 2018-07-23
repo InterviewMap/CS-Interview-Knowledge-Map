@@ -96,7 +96,7 @@ When talking about the header of TCP, these fields are significant:
 
 ## State machine
 
-  HTTP is stateless, so TCP which is based on HTTP is also stateless. It seems like that TCP links two ends, client and server, but it is actually that both these two ends maintain the state together:
+HTTP is stateless, so TCP which is under the HTTP is also stateless. It seems like that TCP links two ends, client and server, but it is actually that both these two ends maintain the state together:
 ![](https://user-gold-cdn.xitu.io/2018/5/1/1631bef9e3c60035?w=1280&h=965&f=png&s=101432)
 
 The state machine of TCP is very complicated, and it is closely related to the handshake of opening and closing a connection. Now we'll talk something about these two kinds of handshake.
@@ -450,7 +450,9 @@ In HTTP 2.0, the header of the transport is encoded using the HPACK compression 
 
 ## Server push
 
-In HTTP/2, the server can push resources to the client without the client having to request. Imagine that, something in the server is necessary to the client, so the server can push the associated resources ahead of time to reduce the delay time. By the way, we can also use `pre-fetch` if the client is compatible.
+In HTTP/2, the server can actively push other resources after a request from the client.
+
+Imagine that, something in the server is necessary to the client, so the server can push the associated resources ahead of time to reduce the delay time. By the way, we can also use `pre-fetch` if the client is compatible.
 
 ## QUIC
 

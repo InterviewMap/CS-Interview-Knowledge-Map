@@ -1389,7 +1389,7 @@ parseFloat((0.1 + 0.2).toFixed(10))
 
 | shorthand |            Effect            |
 | :--: | :------------------------: |
-|  \w  | alphanumeric characters, underline character or Chinese characters |
+|  \w  | alphanumeric characters, underline character |
 |  \W  |         the opposite of the above         |
 |  \s  |      any blank character      |
 |  \S  |         the opposite of the above         |
