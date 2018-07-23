@@ -15,7 +15,7 @@
 
 ## Foreword
 
-> When you are old, looking back on your life, you will find out: when to study abroad, when to decide on your first occupation, when to choose the other half to fall in love with, when to marry; all of these are great changes in fate. We were just standing at the three-forked intersection and seeing the wind blow the clouds and sails. The day you made your choice was a quite dull and peaceful in the diary, and it was thought to be an ordinary day in your life.
+> When you are old, looking back on your life, you will find out: when to study abroad, when to decide on your first occupation, when to choose the other half to fall in love with, when to marry; all of these are great changes in fate. We were just standing at the three-forked intersection and seeing the wind blow the clouds and sails. The day you made your choice was a quite dull and peaceful day in the diary, and it was thought to be an ordinary day in your life.
 > A project to change the interview — Interview Map.
 
 
@@ -23,11 +23,11 @@ The best job-hopping months, September and October, are coming（in Chinese, the
 
 For the interview, the usual accumulation of learning is necessary, but the preparation before the interview is also crucial.
 
-A few months ago, I set up a small team. It took half a year to search for interview questions from big companies, filtering out nearly 100 knowledge points, writing the content and translating them all into English. Today, we finally release the first version and the total number of words has reached more than 100,000 at present.
+A few months ago, I set up a small team. It took us half a year to search for interview questions from big companies, filtering out nearly 100 knowledge points, writing the content and translating it all into English. Today, we finally release the first version and the total number of words has reached more than 100,000 so far.
 
 We think that rote learning of the interview questions is not very useful. Only when you are familiar with the various knowledge points and are capable of integrating them, can you get through the interviews. This InterviewMap currently contains nearly a hundred high-frequency knowledge points. No matter the preparation before the interview or the study, we believe that it will help you. The current content includes JS, network, browser related, performance optimization, security, framework, Git, data structures, algorithms, etc. Whether it is basic or advanced learning or source code interpretation, you can get a satisfactory answer in this InterviewMap, and we hope that the InterviewMap can help you better prepare for your interview.
 
-The contents of the repository will update continuously, and more content will be added into the repository later, such as system design, the blockchain, operating and support, backend, etc. Of course, these are not my strengths, and I will invite friends who have good experience in this area to write content.
+The contents of the repository will update continuously, and more content will be added into the repository later, such as system design, the blockchain, operating and support, backend, etc. Of course, these are not my strengths, and I will invite friends who have good experience in this area to write this content.
 
 
 # Outline
