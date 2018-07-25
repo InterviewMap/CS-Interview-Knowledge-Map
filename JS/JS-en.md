@@ -1203,7 +1203,7 @@ The effect of `Map` is to generate a new array, iterate over the original array,
 //  parseInt('3', 2) -> NaN
 ```
 
-The effect of `FlapMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlapMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+The effect of `FlatMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlatMap` as a `map` and a `flatten`, which is currently not supported in browsers.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
