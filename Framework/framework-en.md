@@ -58,8 +58,8 @@ function observe(obj) {
   if (!obj || typeof obj !== 'object') {
     return
   }
-  Object.keys(data).forEach(key => {
-    defineReactive(data, key, data[key])
+  Object.keys(obj).forEach(key => {
+    defineReactive(obj, key, obj[key])
   })
 }
 
