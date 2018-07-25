@@ -1309,7 +1309,7 @@ function test() {
 //  parseInt('3', 2) -> NaN
 ```
 
-`FlapMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlapMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
+`FlatMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlatMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
