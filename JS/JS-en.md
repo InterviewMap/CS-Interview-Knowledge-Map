@@ -251,7 +251,7 @@ As for the latter, it first executes `new Foo()` to create an instance, then fin
 function foo() {
   console.log(this.a);
 }
-var a = 2;
+var a = 1;
 foo();
 
 var obj = {

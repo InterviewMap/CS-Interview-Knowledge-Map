@@ -301,7 +301,7 @@ function instanceof(left, right) {
 function foo() {
 	console.log(this.a)
 }
-var a = 2
+var a = 1
 foo()
 
 var obj = {
