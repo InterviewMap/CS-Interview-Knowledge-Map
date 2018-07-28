@@ -353,7 +353,8 @@ setTimeout(()=>{
 }, 0)
 // The log result is different, when the above code is executed in browser and node
 // In browser, it will log: timer1 => promise1 => timer2 => promise2
-// In node, it will log: timer1 => timer2 => promise1 => promise2
+// In node, it may log: timer1 => timer2 => promise1 => promise2
+// or timer1, promise1, timer2, promise2
 ```
 
 `process.nextTick` in Node will be executed before other microtasks.

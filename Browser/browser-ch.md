@@ -351,8 +351,9 @@ setTimeout(()=>{
 }, 0)
 
 // 以上代码在浏览器和 node 中打印情况是不同的
-// 浏览器中打印 timer1, promise1, timer2, promise2
-// node 中打印 timer1, timer2, promise1, promise2
+// 浏览器中一定打印 timer1, promise1, timer2, promise2
+// node 中可能打印 timer1, timer2, promise1, promise2
+// 也可能打印 timer1, promise1, timer2, promise2
 ```
 
 Node 中的 `process.nextTick` 会先于其他 microtask 执行。
