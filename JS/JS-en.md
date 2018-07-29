@@ -1071,7 +1071,7 @@ These requirements can be achieved with function debouncing. Especially for the 
 
 ```js
 /**
- * underscore's debouncing function. When the callback function is called in series, func will only execute when the idel time is larger or equal to `wait`.
+ * underscore's debouncing function. When the callback function is called in series, func will only execute when the idle time is larger or equal to `wait`.
  *
  * @param  {function} func        callback function
  * @param  {number}   wait        length of waiting intervals
