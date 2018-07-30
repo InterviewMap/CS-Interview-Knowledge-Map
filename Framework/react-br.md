@@ -19,28 +19,29 @@ Nas versões anteriores, se eu tiver um componente composto complexo e então mu
 
 Se a pilha de chamada for muito longa, e complicadas operações estiverem no meio, isso pode causar um bloqueio a thread principal por um longe tempo, resultando em uma experiência ruim para o usuário. Fiber nasceu para resolver esse problema. 
 
-Fiber is essentially a virtual stack frame, and the new scheduler freely schedules these frames according to their priority, thereby changing the previous synchronous rendering to asynchronous rendering, and segmenting the update without affecting the experience.
+Fiber é na essência uma pilha virtual de quadros, e o novo agendador espontaneamente agenda esses quadros de acordo
+com sua prioridade, desse modo, mudando a renderização síncrona anterior para renderização assíncrona, e segmentando a atualização sem afetar a experiência.
 
 ![](https://user-gold-cdn.xitu.io/2018/6/25/164358f89595d56f?w=1119&h=600&f=png&s=330885)
 
-React has its own set of logic on how to prioritize. For things that require high real-time performance, such as animation, which means it must be rendered once within 16 ms to ensure that it is not stuck, React pauses the update every 16 ms (within 16ms) and returns to continue rendering the animation.
+React tem seu proprio conjunto de lógica sobre como priorizar. Para coisas que requerem alta performance em tempo-real, tal como animação, que significa isso deve ser renderizado uma vez dentro de 16 ms para garantir que não está emperrando, React pausa o update a cada 16 ms (dentro de 16 ms) e retorna para continuar renderizando a animação.
 
-For asynchronous rendering, there are now two stages of rendering: `reconciliation` and `commit`. The former process can be interrupted, while the latter cannot be suspended, and the interface will be updated until it is completed.
+Para renderização assíncrona, existe agora dois estagios de renderização: `reconciliation` e `commit`. O primeiro processo pode ser interrompido, enquanto o último não poder ser suspenso, e a interface será atualizada até isso ser completo.
 
-**Reconciliation** stage
+**Reconciliation** etapa
 
 - `componentWillMount`
 - `componentWillReceiveProps`
 - `shouldComponentUpdate`
 - `componentWillUpdate`
 
-**Commit** stage
+**Commit** etapa
 
 - `componentDidMount`
 - `componentDidUpdate`
 - `componentWillUnmount`
 
-Because the `reconciliation` phase can be interrupted, the lifecycle functions that will be executed in the `reconciliation` phase may be called multiple times, which may cause bugs. So for these functions, except for `shouldComponentUpdate`, should be avoided as much as possible, and a new API is introduced in V16 to solve this problem.
+Pelo fato que a fase de `reconciliation` pode ser interrompida, as funções do ciclo de vida que executaram na fase de `reconciliation` podem ser chamadas multiplas vezes, o que pode causar vários bugs. Então para essas funções, exceto para `shouldComponentUpdate`, devemos evitar assim que possivel, e uma nova API está introduzida na V16 para resolver esse problema.
 
 `getDerivedStateFromProps` is used to replace `componentWillReceiveProps` , which is called during initialization and update
 
