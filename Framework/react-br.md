@@ -17,7 +17,7 @@ Nas versões anteriores, se eu tiver um componente composto complexo e então mu
 
 ![](https://user-gold-cdn.xitu.io/2018/6/25/164358b0310f476c?w=685&h=739&f=png&s=61462)
 
-If the call stack is too long, and complicated operations are performed in the middle, it may cause the main thread to be blocked for a long time, resulting in a bad user experience. Fiber is born to solve this problem.
+Se a pilha de chamada for muito longa, e complicadas operações estiverem no meio, isso pode causar um bloqueio a thread principal por um longe tempo, resultando em uma experiência ruim para o usuário. Fiber nasceu para resolver esse problema. 
 
 Fiber is essentially a virtual stack frame, and the new scheduler freely schedules these frames according to their priority, thereby changing the previous synchronous rendering to asynchronous rendering, and segmenting the update without affecting the experience.
 
