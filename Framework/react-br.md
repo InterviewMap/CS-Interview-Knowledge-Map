@@ -43,12 +43,12 @@ Para renderização assíncrona, existe agora dois estagios de renderização: `
 
 Pelo fato que a fase de `reconciliation` pode ser interrompida, as funções do ciclo de vida que executaram na fase de `reconciliation` podem ser chamadas multiplas vezes, o que pode causar vários bugs. Então para essas funções, exceto para `shouldComponentUpdate`, devemos evitar assim que possivel, e uma nova API está introduzida na V16 para resolver esse problema.
 
-`getDerivedStateFromProps` is used to replace `componentWillReceiveProps` , which is called during initialization and update
+`getDerivedStateFromProps` é usado para substituir `componentWillReceiveProps`, do qual é chamado durando a inicialização e atualização
 
 ```js
 class ExampleComponent extends React.Component {
-  // Initialize state in constructor,
-  // Or with a property initializer.
+  // Inicializa o state no construtor,
+  // Ou com a propriedade initializer.
   state = {};
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -59,23 +59,25 @@ class ExampleComponent extends React.Component {
       };
     }
 
-    // Return null to indicate no change to state.
+    // Retorna nulo para indicar que não há mudança no state.
     return null;
   }
 }
 ```
 
-`getSnapshotBeforeUpdate` is used to replace `componentWillUpdate`, which is called after the `update` but before the DOM update to read the latest DOM data.
+`getSnapshotBeforeUpdate` é usado para substituir o `componentWillUpdate`, do qual é chamado depois do `update` mas antes do DOM atualizar para leitura o último dado do DOM.
+
+## O conselho usado dos metodos do ciclos de vida no React V16
 
 ## The usage advice of  Lifecycle methods in React V16
 
 ```js
 class ExampleComponent extends React.Component {
-  // Used to initialize the state
+  // Usado para iniciar o state
   constructor() {}
-  // Used to replace `componentWillReceiveProps` , which will be called when initializing and `update`
-  // Because the function is static, you can't get `this`
-  // If need to compare `prevProps`, you need to maintain it separately in `state`
+  // Usado para substituir o `componentWillReceiveProps`, do qual ira ser chamado quando inicializado e `update`
+  // Porque a função é estática, você não pode acessar o `this`
+  // Se você precisar comparar `prevProps`, você precisa manter ele separado no `state`
   static getDerivedStateFromProps(nextProps, prevState) {}
   // Determine whether you need to update components, mostly for component performance optimization
   shouldComponentUpdate(nextProps, nextState) {}
