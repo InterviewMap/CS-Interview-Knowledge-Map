@@ -67,9 +67,7 @@ class ExampleComponent extends React.Component {
 
 `getSnapshotBeforeUpdate` é usado para substituir o `componentWillUpdate`, do qual é chamado depois do `update` mas antes do DOM atualizar para leitura o último dado do DOM.
 
-## O conselho usado dos metodos do ciclos de vida no React V16
-
-## The usage advice of  Lifecycle methods in React V16
+## O conselho usado nos métodos do ciclo de vida no React V16
 
 ```js
 class ExampleComponent extends React.Component {
@@ -79,23 +77,23 @@ class ExampleComponent extends React.Component {
   // Porque a função é estática, você não pode acessar o `this`
   // Se você precisar comparar `prevProps`, você precisa manter ele separado no `state`
   static getDerivedStateFromProps(nextProps, prevState) {}
-  // Determine whether you need to update components, mostly for component performance optimization
+  // Determina se você precisa atualizar os componentes, usado na maioria das vezes para otimização de performance do componente
   shouldComponentUpdate(nextProps, nextState) {}
-  // Called after the component is mounted
-  // Can request or subscribe in this function
+  // Chamado depois do componente ser montado
+  // Pode requisitar ou subscrever nessa função
   componentDidMount() {}
-  // Used to get the latest DOM data
+  // Obter o último dado do DOM
   getSnapshotBeforeUpdate() {}
-  // Component is about to be destroyed
-  // Can remove subscriptions, timers, etc. here
+  // É sobre o componente ser destruido
+  // Pode remover subscrições, timers, etc.
   componentWillUnmount() {}
-  // Called after the component is destroyed
+  // Chamado depois do componente ser destruido
   componentDidUnMount() {}
-  // Called after component update
+  // Chamado depois da atualização do componente
   componentDidUpdate() {}
-  // render component
+  // renderiza o componente
   render() {}
-  // The following functions are not recommended
+  // As seguintes funções não são recomendadas
   UNSAFE_componentWillMount() {}
   UNSAFE_componentWillUpdate(nextProps, nextState) {}
   UNSAFE_componentWillReceiveProps(nextProps) {}
@@ -104,13 +102,13 @@ class ExampleComponent extends React.Component {
 
 # setState
 
-`setState` is an API that is often used in React, but it has some problems that can lead to mistakes. The core reason is that the API is asynchronous.
+`setState` é uma API que é frequentemente usada no React, mas ele tem alguns problemas que podem levar a erros. O centro das razões é que a API é assíncrona.
 
-First, calling  `setState` does not immediately cause a change to `state`, and if you call multiple `setState` at a time, the result may not be as you expect.
+Primeiro, chamando `setState` não casa mudança imediata no `state`, e se você chamar multiplos `setState` de uma vez, o resultado pode não ser como o esperado.
 
 ```js
 handle() {
-  // Initialize `count` to 0
+  // Iniciado o `count` em 0
   console.log(this.state.count) // -> 0
   this.setState({ count: this.state.count + 1 })
   this.setState({ count: this.state.count + 1 })
@@ -119,9 +117,10 @@ handle() {
 }
 ```
 
-First, both prints are 0, because `setState` is an asynchronous API and will only execute after the sync code has finished running. The reason for `setState` is asynchronous is that `setState` may cause repainting of the DOM. If the call is repainted immediately after the call, the call will cause unnecessary performance loss. Designed to be asynchronous, you can put multiple calls into a queue and unify the update process when appropriate.
+Primeiro, ambos os prints são 0, porque o `setState` é uma API assíncrona e irá apenas executar depois do código síncrono terminar sua execução. O motivo para o `setState` ser assíncrono é que `setState` pode causar repintar no DOM. Se a chamada repintar imediatamente depois da chamada, a chamada vai causar uma perca de performance desnecessária. Desenhando para ser assíncrono, você pode colocar multiplas chamadas dentro da fila e unificar os processos de atualização quando apropriado.
 
-Second, although `setState` is called three times, the value of `count` is still 1. Because multiple calls are merged into one, only `state` will change when the update ends, and three calls are equivalent to the following code.
+Segundo, apesar do `setState` ser chamado três vezes, o valor do `count` ainda é 1. Porque multiplas chamadas são fundidas em uma, o `state` só vai mudar quando a atualização terminar, e três chamadas são equivalente para o seguinte código.
+
 
 ```js
 Object.assign(  
@@ -132,7 +131,7 @@ Object.assign(
 )
 ```
 
-Of course, you can also call `setState` three times by the following way  to make `count` 3
+De fato, você pode também chamar `setState` três vezes da seguinte maneira para fazer `count` 3
 
 ```js
 handle() {
@@ -142,7 +141,8 @@ handle() {
 }
 ```
 
-If you want to get the correct `state` after each call to `setState`, you can do it with the following code:
+Se você quer acessar o `state` correto depois de cada chamada ao `setState`, você pode fazer isso com o seguinte código:
+
 
 ```js
 handle() {
@@ -151,20 +151,20 @@ handle() {
     })
 }
 ```
-# Redux Source Code Analysis
+# Análise de código do Redux
 
-Let's take a look at the `combineReducers` function first.
+Vamos dar uma olhada na função `combineReducers` primeiro.
 
 ```js
-// pass an object
+// passe um objeto
 export default function combineReducers(reducers) {
- // get this object's keys
+ // capture as chaves desse objeto
   const reducerKeys = Object.keys(reducers)
-  // reducers after filtering
+  // reducers depois filtrados
   const finalReducers = {}
-  // get the values corresponding to every key
-  // in dev environment, check if the value is undefined
-  // then put function type values into finalReducers
+  // obtenha os valores correspondentes para cada chave
+  // no ambiente de desenvolvimento, verifique se o valor é undefined
+  // então coloque os valores do tipo de função dentro do finalReducers
   for (let i = 0; i < reducerKeys.length; i++) {
     const key = reducerKeys[i]
 
@@ -178,10 +178,10 @@ export default function combineReducers(reducers) {
       finalReducers[key] = reducers[key]
     }
   }
-  // get the keys of the reducers after filtering
+  // obtenha as chaves dos reducers depois de filtrado
   const finalReducerKeys = Object.keys(finalReducers)
   
-  // in dev environment check and save unexpected key to cache for warnings later
+  // no ambiente de desenvolvimento verifique e salvo as chaves inesperadas em cache para alertas futuros
   let unexpectedKeyCache
   if (process.env.NODE_ENV !== 'production') {
     unexpectedKeyCache = {}
@@ -189,14 +189,14 @@ export default function combineReducers(reducers) {
     
   let shapeAssertionError
   try {
-  // explanations of the function is below
+  // explicações de funções estão abaixo
     assertReducerShape(finalReducers)
   } catch (e) {
     shapeAssertionError = e
   }
-// combineReducers returns another function, which is reducer after merging
-// this function returns the root state
-// also notice a closure is used here. The function uses some outside properties
+// combineReducers retorna outra função, que é reduzido depois de fundido
+// essa função retorna o state raiz
+// também percena que um encerramento é usado aqui. A função usa algumas propriedades externas
   return function combination(state = {}, action) {
     if (shapeAssertionError) {
       throw shapeAssertionError
