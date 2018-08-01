@@ -201,7 +201,7 @@ export default function combineReducers(reducers) {
     if (shapeAssertionError) {
       throw shapeAssertionError
     }
-    // explanations of the function is below
+    // explicações das funções estão abaixo
     if (process.env.NODE_ENV !== 'production') {
       const warningMessage = getUnexpectedStateShapeWarningMessage(
         state,
@@ -215,37 +215,36 @@ export default function combineReducers(reducers) {
     }
     // if state changed
     let hasChanged = false
-    // state after changes
+    // state depois das mudanças
     const nextState = {}
     for (let i = 0; i < finalReducerKeys.length; i++) {
-    // get the key with index
+    // obter a chave com index
       const key = finalReducerKeys[i]
-      // get the corresponding reducer function with key
+      // obter a função de reducer correspondente com a chave
       const reducer = finalReducers[key]
-      // the key in state tree is the same as the key in finalReducers
-      // so the key of the parameter passed to combineReducers represents each reducer as well as each state
+      // a chave na arvore do state é a mesma chave no finalReducers
+      // então a chave passada nos parametros para o combineReducers representa cada reducer assim como cada state
       const previousStateForKey = state[key]
-      // execute reducer function to get the state corresponding to the key
+      // execute as funções reducer para pegar o state correspondente a chave
       const nextStateForKey = reducer(previousStateForKey, action)
-      // check the value of state, report error if it's undefined
+      // verifique o valor do state, reporte erros se ele não estiver undefined
       if (typeof nextStateForKey === 'undefined') {
         const errorMessage = getUndefinedStateErrorMessage(key, action)
         throw new Error(errorMessage)
       }
-      // put the value into nextState
+      // coloque o valor dentro do nextState
       nextState[key] = nextStateForKey
-      // if state changed
+      // se o state mudaou
       hasChanged = hasChanged || nextStateForKey !== previousStateForKey
     }
-    // as long as state changed, return the new state
+    // enquanto o state mudar, retorne um novo state
     return hasChanged ? nextState : state
   }
 }
 ```
+`combineReducers` é simples e generico. Resumindo, ele aceita um objeto e retorna uma função depois processado os parâmetros. Essa função tem um objeto finalReducers que armazena os parametros processados. O objeto é então iterado, cada função reducer nela é executada, e o novo state é executado.
 
-`combineReducers` is simple in general. In short, it accepts an object and return a function after processing the parameters. This function has an object finalReducers that stores the processed parameters. The object is then itereated on, each reducer function in it is executed, and the new state is returned.
-
-Let's then take a look at the two functions used in combineReducers.
+Vamos então olhar as duas funções usadas no combineReducers.
 
 ```js
 // the first function used to throw errors
