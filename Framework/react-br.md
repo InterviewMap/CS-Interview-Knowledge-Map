@@ -247,25 +247,25 @@ export default function combineReducers(reducers) {
 Vamos então olhar as duas funções usadas no combineReducers.
 
 ```js
-// the first function used to throw errors
+// a primeira função usada para lançar os erros
 function assertReducerShape(reducers) {
-// iterate on the parameters in combineReducers
+// iterar nós paramêtros no combineReducers
   Object.keys(reducers).forEach(key => {
     const reducer = reducers[key]
-    // pass an action
+    // passar uma ação
     const initialState = reducer(undefined, { type: ActionTypes.INIT })
-    // throw an error if the state is undefined
+    // lança um erro se o state estiver undefined
     if (typeof initialState === 'undefined') {
       throw new Error(
-        `Reducer "${key}" returned undefined during initialization. ` +
-          `If the state passed to the reducer is undefined, you must ` +
-          `explicitly return the initial state. The initial state may ` +
-          `not be undefined. If you don't want to set a value for this reducer, ` +
-          `you can use null instead of undefined.`
+        `Reducer "${key}" retorna undefined durante a inicialização. ` +
+          `Se o state passado para o reducer for undefined, você deve ` +
+          `explicitamente retornar o state inicial. O state inicial não deve ` +
+          `ser undefined. Se você não quer definir um valor para esse reducer, ` +
+          `você pode user null ao invés de undefined.`
       )
     }
-    // process again, considering the case that the user returned a value for ActionTypes.INIT in the reducer
-    // pass a random action and check if the value is undefined
+    // processe novamente, considerando o caso que o usuário retornou um valor para ActionTypes.INIT no reducer
+    // passa uma ação aleatória e verificar se o valor é undefined
     const type =
       '@@redux/PROBE_UNKNOWN_ACTION_' +
       Math.random()
@@ -275,14 +275,14 @@ function assertReducerShape(reducers) {
         .join('.')
     if (typeof reducer(undefined, { type }) === 'undefined') {
       throw new Error(
-        `Reducer "${key}" returned undefined when probed with a random type. ` +
-          `Don't try to handle ${
+        `Reducer "${key}" retorna undefined quando sondado com um tipo aleatório. ` +
+          `Não tente manipular ${
             ActionTypes.INIT
-          } or other actions in "redux/*" ` +
-          `namespace. They are considered private. Instead, you must return the ` +
-          `current state for any unknown actions, unless it is undefined, ` +
-          `in which case you must return the initial state, regardless of the ` +
-          `action type. The initial state may not be undefined, but can be null.`
+          } ou outras ações no "redux/*" ` +
+          `namespace.Eles são considerados privado. Ao invés, você deve retornar o ` +
+          `state atual para qualquer action desconhecida, a menos que esteja undefined, ` +
+          `nesse caso você deve retorna o state inicial, independemente do ` +
+          `tipo da ação. O state inicial não deve ser undefined, mas pode ser null.`
       )
     }
   })
@@ -294,30 +294,30 @@ function getUnexpectedStateShapeWarningMessage(
   action,
   unexpectedKeyCache
 ) {
-  // here the reducers is already finalReducers
+  // aqui os reducers já estão no finalReducers
   const reducerKeys = Object.keys(reducers)
   const argumentName =
     action && action.type === ActionTypes.INIT
-      ? 'preloadedState argument passed to createStore'
-      : 'previous state received by the reducer'
+      ? 'preloadedState argumento passado para o createStore'
+      : 'state anterior recebido pelo reducer'
   
-  // if finalReducers is empty
+  // se finalReducers estiver vázio
   if (reducerKeys.length === 0) {
     return (
-      'Store does not have a valid reducer. Make sure the argument passed ' +
-      'to combineReducers is an object whose values are reducers.'
+      'Store não tem um reducer válido. Certifique-se de que um argumento foi passado ' +
+      'para o combineReducers é um objeto do qual os valores são reducers.'
     )
   }
-  // if the state passed is not an object
+  // se o state passado não é um objeto
   if (!isPlainObject(inputState)) {
     return (
-      `The ${argumentName} has unexpected type of "` +
+      `O ${argumentName} tem um tipo inesperado de "` +
       {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] +
-      `". Expected argument to be an object with the following ` +
-      `keys: "${reducerKeys.join('", "')}"`
+      `". O argumento esperado deve ser um objeto com as seguintes ` +
+      `chaves: "${reducerKeys.join('", "')}"`
     )
   }
-  // compare the keys of the state and of finalReducers and filter out the extra keys
+  // compara as chaves do state a do finalReducers e filtra as chaves extras
   const unexpectedKeys = Object.keys(inputState).filter(
     key => !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key]
   )
@@ -328,30 +328,31 @@ function getUnexpectedStateShapeWarningMessage(
 
   if (action && action.type === ActionTypes.REPLACE) return
 
-// if unexpectedKeys is not empty
+// se unexpectedKeys não estiver vázia
   if (unexpectedKeys.length > 0) {
     return (
-      `Unexpected ${unexpectedKeys.length > 1 ? 'keys' : 'key'} ` +
-      `"${unexpectedKeys.join('", "')}" found in ${argumentName}. ` +
-      `Expected to find one of the known reducer keys instead: ` +
-      `"${reducerKeys.join('", "')}". Unexpected keys will be ignored.`
+      `Inesperada ${unexpectedKeys.length > 1 ? 'chaves' : 'chave'} ` +
+      `"${unexpectedKeys.join('", "')}" encontrada em ${argumentName}. ` +
+      `Esperado encontrar uma das chaves do reducer conhecida ao invés: ` +
+      `"${reducerKeys.join('", "')}". Chaves inesperadas serão ignoradas.`
     )
   }
 }
 ```
 
-Let's then take a look at `compose` function
+Vamos então dar uma olhada na função `compose`
 
 ```js
-// This function is quite elegant. It let us stack several functions via passing the references of functions. The term is called Higher-order function.
-// call functions from the right to the left with reduce function
-// for the example in the project above
+// Essa função é bem elegante. Ela nos permite empilhar diversas funções passando a
+// referências da função. O termo é chamado de Higher-order function.
+// chama funções a partir da direita para esquerda com funções reduce
+// por exemplo, no objeto acima
 compose(
     applyMiddleware(thunkMiddleware),
     window.devToolsExtension ? window.devToolsExtension() : f => f
-) 
-// with compose it turns into applyMiddleware(thunkMiddleware)(window.devToolsExtension()())
-// so you should return a function when window.devToolsExtension is not found
+)
+// Com compose ele retorna dentro do applyMiddleware(thunkMiddleware)(window.devToolsExtension()())
+// então você deveria retorna uma função quando window.devToolsExtension não for encontrada
 export default function compose(...funcs) {
   if (funcs.length === 0) {
     return arg => arg
@@ -365,7 +366,7 @@ export default function compose(...funcs) {
 }
 ```
 
-Let's then analyze part of the source code of `createStore` function
+Vamos então analisar pare do código da função `createStore`
 
 ```js
 export default function createStore(reducer, preloadedState, enhancer) {
