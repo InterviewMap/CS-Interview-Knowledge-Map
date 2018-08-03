@@ -370,36 +370,36 @@ Vamos então analisar pare do código da função `createStore`
 
 ```js
 export default function createStore(reducer, preloadedState, enhancer) {
-  // normally preloadedState is rarely used
-  // check type, is the second parameter is a function and there is no third parameter, then exchange positions
+  // normalmente preloadedState é raramente usado
+  // verificar o tipo, é o segundo parâmetro da função e não existe terceiro parâmetro, então troque as posições
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
     enhancer = preloadedState
     preloadedState = undefined
   }
-  // check if enhancer is a function
+  // verifique se enhancer é uma função
   if (typeof enhancer !== 'undefined') {
     if (typeof enhancer !== 'function') {
-      throw new Error('Expected the enhancer to be a function.')
+      throw new Error('É esperado que enhancer seja uma função.')
     }
-    // if there is no type error, first execute enhancer, then execute createStore
+    // se não existe um tipo error, primeiro execute o enhancer, então execute o createStore
     return enhancer(createStore)(reducer, preloadedState)
   }
-  // check if reducer is a function
+  // verifique se o reducer é uma função
   if (typeof reducer !== 'function') {
-    throw new Error('Expected the reducer to be a function.')
+    throw new Error('É esperado que o reducer seja uma função.')
   }
-  // current reducer
+  // reducer atual
   let currentReducer = reducer
-  // current state
+  // state atual
   let currentState = preloadedState
-  // current listener array
+  // atual listener array
   let currentListeners = []
-  // this is a very important design. The purpose is that currentListeners array is an invariant when the listeners are iterated every time
-  // we can consider if only currentListeners exists. If we execute subscribe again in some subscribe execution, or unsubscribe, it would change the length of the currentListeners array, so there might be an index error
+  // esse é um design muito importante. O proposito é que o currentListeners array seja invariante quando os listeners estiverem sendo interado
+  // Nós podemos considerar se apenas um currentListeners existe. Se nós executarmos o subscribe novamente em alguma execução do subscribe, ou unsubscribe isso mudaria o tamanho do currentListeners array, então devemos ter um index erro
   let nextListeners = currentListeners
-  // if reducer is executing
+  // se o reducer está executando
   let isDispatching = false
-  // if currentListeners is the same as nextListeners, assign the value back
+  // se o currentListeners é o mesmo que o nextListeners, atribua o valor de volta
   function ensureCanMutateNextListeners() {
     if (nextListeners === currentListeners) {
       nextListeners = currentListeners.slice()
@@ -409,31 +409,31 @@ export default function createStore(reducer, preloadedState, enhancer) {
 }
 ```
 
-We look at `applyMiddleware` function next
+Vamos dar uma olhada na função `applyMiddleware`
 
-Before that I need to introduce a concept called function Currying. Currying is a technology for changing a function with multiple parameters to a series of functions with a single parameter.
+Antes eu preciso introduzir um conceito chamado Currying. Currying é uma tecnologia para mudar uma função com multiplos parâmetros em uma série de funções com um único parâmetro.
 
 ```js
 function add(a,b) { return a + b }   
 add(1, 2) => 3
-// for the above function, we can use Currying like so
+// para a função abaixo, nós usamos Currying igual a
 function add(a) {
     return b => {
         return a + b
     }
 }
 add(1)(2) => 3
-// you can understand Currying like this:
-// we store an outside variable with a closure, and return a function that takes a parameter. In this function, we use the stored variable and return the value.
+// você pode entender Currying como:
+// nós armazenamos uma variável do lado de fora com um closure, e retornamos uma função que leva um parâmetro. Nessa função, nós usamos a variável armazenada e retornamos um valor.
 ```
 
 ```js
-// this function should be the most abstruse part of the whole source code
-// this function returns a function Curried
-// therefore the funciton should be called like so: applyMiddleware(...middlewares)(createStore)(...args)
+// essa função deve ser a parte mais obstrusa de todo código
+// essa função retorna um função Curried
+// assim sendo a função deve se chamada como: applyMiddleware(...middlewares)(createStore)(...args)
 export default function applyMiddleware(...middlewares) {
   return createStore => (...args) => {
-    // here we execute createStore, and pass the parameters passed lastly to the applyMiddleware function
+    // aqui nós executamos createStore, e passamos o parâmetro passado por último a função applyMiddleware
     const store = createStore(...args)
     let dispatch = () => {
       throw new Error(
@@ -442,24 +442,24 @@ export default function applyMiddleware(...middlewares) {
       )
     }
     let chain = []
-    // every middleware should have these two functions
+    // todo middleware deve ter essas duas funções
     const middlewareAPI = {
       getState: store.getState,
       dispatch: (...args) => dispatch(...args)
     }
-    // pass every middleware in middlewares to middlewareAPI
+    // passar cada middleware nos middlewares para o middlewareAPI
     chain = middlewares.map(middleware => middleware(middlewareAPI))
-    // same as before, calle very middleWare from right to left, and pass to store.dispatch
+    // assim como antes, chame cada middleware da esquerda para direita, e passo para o store.dispatch
     dispatch = compose(...chain)(store.dispatch)
-    // this piece is a little abstract, we'll analyze together with the code of redux-thunk
-    // createThunkMiddleware returns a 3-level function, the first level accepts a middlewareAPI parameter
-    // the second level accepts store.dispatch
-    // the third level accepts parameters in dispatch
+    // essa parte é um pouco abstrata, nós iremos analisar juntos com o código do redux-thunk
+    // createThunkMiddleware retorna uma função de 3-nível, o primeiro nível aceita um parâmetro middlewareAPI
+    // o segundo nível aceita store.dispatch
+    // o terceiro nível aceita parâmentros no dispatch
 {function createThunkMiddleware(extraArgument) {
   return ({ dispatch, getState }) => next => action => {
-    // check if the parameters in dispatch is a function
+    // verifique se o parâmetro no dispatch é uma função
     if (typeof action === 'function') {
-      // if so, pass those parameters, until action is no longer a function, then execute dispatch({type: 'XXX'})
+      // se assim for, passe esses parâmetros, até as acões não sejam mais uma função, então execute dispatch({type: 'XXX'})
       return action(dispatch, getState, extraArgument);
     }
 
@@ -469,7 +469,7 @@ export default function applyMiddleware(...middlewares) {
 const thunk = createThunkMiddleware();
 
 export default thunk;}
-// return the middleware-empowered dispatch and the rest of the properties in store.
+// retorn o middleware-empowered dispatch e o resto das propriedades no store.
     return {
       ...store,
       dispatch
@@ -478,10 +478,10 @@ export default thunk;}
 }
 ```
 
-Now we've passed the hardest part. Let's take a look at some easier pieces.
+Agora nós passamos a parte difícil. Vamos olhar uma parte mais fácil.
 
 ```js 
-// Not much to say here, return the current state, but we can't call this function when reducer is running
+// Não há muito para dizer aqui, retorne o state atual, mas nós não podemos chamar essa função quando o reducer estiver executando
 function getState() {
     if (isDispatching) {
       throw new Error(
@@ -493,12 +493,12 @@ function getState() {
 
     return currentState
 }
-// accept a function parameter
+// aceita uma função parâmetro
 function subscribe(listener) {
     if (typeof listener !== 'function') {
       throw new Error('Expected listener to be a function.')
     }
-    // the major design of this part is already covered in the description of nextListeners. Not much to talk about otherwise
+    // a maior parte desse design já foi coberto na descrição sobre nextListeners. Não há muito para falar sobre.
     if (isDispatching) {
       throw new Error(
         'You may not call store.subscribe() while the reducer is executing. ' +
@@ -513,7 +513,7 @@ function subscribe(listener) {
     ensureCanMutateNextListeners()
     nextListeners.push(listener)
 
-// return a cancel subscription function
+// retorne a função de cancelar a subscription
     return function unsubscribe() {
       if (!isSubscribed) {
         return
@@ -535,7 +535,7 @@ function subscribe(listener) {
   }
  
 function dispatch(action) {
-  // the prototype dispatch will check if action is an object
+  // o prototype dispatch vai verificar se a ação é um objeto
     if (!isPlainObject(action)) {
       throw new Error(
         'Actions must be plain objects. ' +
@@ -549,19 +549,19 @@ function dispatch(action) {
           'Have you misspelled a constant?'
       )
     }
-    // note that you can't call dispatch function in reducers
-    // it would cause a stack overflow
+    // perceba que você não pode chamar uma função dispatch nos reducers
+    // isso causaria um estouro de pilha
     if (isDispatching) {
       throw new Error('Reducers may not dispatch actions.')
     }
-    // execute the composed function after combineReducers
+    // execute a função composta depois do combineReducers
     try {
       isDispatching = true
       currentState = currentReducer(currentState, action)
     } finally {
       isDispatching = false
     }
-    // iterate on currentListeners and execute saved functions in the array
+    // itere nos currentListeners e execute as funções salvas no array de funções
     const listeners = (currentListeners = nextListeners)
     for (let i = 0; i < listeners.length; i++) {
       const listener = listeners[i]
@@ -570,6 +570,6 @@ function dispatch(action) {
 
     return action
   }
-  // at the end of createStore, invoke an action dispatch({ type: ActionTypes.INIT });
-  // to initialize state
+  // no fim do createStore, invoce uma ação dispatch({ type: ActionTypes.INIT });
+  // para inicializar o state
 ```
