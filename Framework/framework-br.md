@@ -40,19 +40,18 @@ Quando o evento especificado é disparado, ele irá entrar na verificação suja
 
 Embora a verificação suja ser ineficiente, ele consegue completar a tarefa sem se preocupar sobre como o dado mudou, mas o two-way binding no `Vue` é problemático. E a verificação suja consegue alcançar detecção de lotes de valores atualizados, e então unificar atualizações na UI, com grandeza reduzindo o número de operações no DOM. Assim sendo, ineficiência é relativa, e é assim que o benevolente vê o sábio e a sabedoria.
 
+## Sequesto de dados
 
-## Data hijacking
-
-Vue internally uses `Obeject.defineProperty()` to implement two-way binding, which allows you to listen for events of `set` and `get`.
+Vuew internamente usa `Obeject.defineProperty()` para implementar o two-way binding, do qual permite você escutar por eventos de `set` e `get`.
 
 ```js
 var data = { name: 'yck' }
 observe(data)
-let name = data.name // -> get value
-data.name = 'yyy' // -> change value
+let name = data.name // -> ontém o valor
+data.name = 'yyy' // -> muda o valor
 
 function observe(obj) {
-    // judge the type
+    // juiz do tipo
   if (!obj || typeof obj !== 'object') {
     return
   }
@@ -62,7 +61,7 @@ function observe(obj) {
 }
 
 function defineReactive(obj, key, val) {
-    // recurse the properties of child
+    // recurse as propriedades dos filhos
   observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
@@ -79,7 +78,7 @@ function defineReactive(obj, key, val) {
 }
 ```
 
-The above code simply implements how to listen for the `set` and `get` events of the data, but that's not enough. You also need to add a Publish/Subscribe to the property when appropriate.
+O código acima é uma simples implementação de como escutar os eventos `set` e `get` dos dados, mas isso não é o suficiente. Você também precisa adicionar um Publish/Subscribe para as propriedades quando apropriado.
 
 ```html
 <div>
@@ -88,17 +87,17 @@ The above code simply implements how to listen for the `set` and `get` events of
 ```
 
 ::: v-pre
-In the process of parsing the template code like above, when encountering `{{name}}`, add a publish/subscribe to the property `name` 
+Nesse processo, análisando o código do modelo, como acima, quando encontrando `{{name}}`, adicione um publish/subscribe para a propriedade `name` 
 :::
 
 ```js
-// decouple by Dep
+// dissociar por Dep
 class Dep {
   constructor() {
     this.subs = []
   }
   addSub(sub) {
-    // Sub is an instance of Watcher
+    // Sub é uma instância do observador
     this.subs.push(sub)
   }
   notify() {
@@ -107,7 +106,7 @@ class Dep {
     })
   }
 }
-// Global property, configure Watcher with this property
+// Propriedade global, configura o observador com essa propriedade
 Dep.target = null
 
 function update(value) {
@@ -116,9 +115,9 @@ function update(value) {
 
 class Watcher {
   constructor(obj, key, cb) {
-    // Point Dep.target to itself 
-    // Then trigger the getter of the property to add the listener
-    // Finally, set Dep.target as null 
+    // Aponte Dep.target para se mesmo
+    // Então dispare o getter para a propriedade adicionar o ouvinte
+    // Finalmente, set Dep.target como null
     Dep.target = this
     this.cb = cb
     this.obj = obj
@@ -127,17 +126,18 @@ class Watcher {
     Dep.target = null
   }
   update() {
-    // get the new value
+    // obtenha o novo valor
     this.value = this.obj[this.key]
     // update Dom with the update method
+    // atualize o DOM com o método de atualizar
     this.cb(this.value)
   }
 }
 var data = { name: 'yck' }
 observe(data)
-// Simulate the action triggered by parsing the `{{name}}`
+// Simulando a ação disparada analisando o `{{name}}`
 new Watcher(data, 'name', update)
-// update Dom innerText
+// atualiza o DOM innerText
 data.name = 'yyy' 
 ```
 
@@ -145,7 +145,7 @@ Next, improve on the `defineReactive` function.
 
 ```js
 function defineReactive(obj, key, val) {
-  // recurse the properties of child
+  // recurse as propriedades do filho
   observe(val)
   let dp = new Dep()
   Object.defineProperty(obj, key, {
@@ -153,7 +153,7 @@ function defineReactive(obj, key, val) {
     configurable: true,
     get: function reactiveGetter() {
       console.log('get value')
-      // Add Watcher to the subscription
+      // Adiciona o Watcher para inscrição
       if (Dep.target) {
         dp.addSub(Dep.target)
       }
@@ -162,14 +162,14 @@ function defineReactive(obj, key, val) {
     set: function reactiveSetter(newVal) {
       console.log('change value')
       val = newVal
-      // Execute the update method of Watcher
+      // Execute o método de atualização do Watcher
       dp.notify()
     }
   })
 }
 ```
 
-The above implements a simple two-way binding. The core idea is to manually trigger the getter of the property to add the Publish/Subscribe.
+A implementação acima é um simples two-way binding. A idéia central é manualmente disparar o getter das propriedades para adicionar o Publish/Subscribe.
 
 
 
