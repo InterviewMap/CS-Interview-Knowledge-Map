@@ -386,44 +386,44 @@ Nós então temos dois passos do algoritmo.
 - Do topo para fundo, da esquerda para direita itera o objeto, primeira pesquisa de profundidade. Nesse passo adicionamos um índice para cada nó, renderizando as diferenças depois. 
 - sempre que um nó tiver um elemento filho, nós verificamos se o elemento filho mudou.
 
-## Virtual Dom algorithm implementation
+## Implementação do algoritmo do Virtual Dom
 
-### recursion of the tree
+### recursão da árvore
 
-First let's implement the recursion algorithm of the tree. Before doing that, let's consider the different cases of comparing two nodes.
+Primeiro vamos implementar o algoritmo de recursão da árvore. Antes de fazer isso, vamos considerar os diferentes casos de comparar dois nós.
 
-1. new nodes's `tagName` or `key` is different from that of the old one. This menas the old node is replaced, and we don't have to recurse on the node any more because the whole subtree is removed.
-2. new node's `tagName` and `key` (maybe nonexistent) are the same as the old's. We start recursing on the subtree.
-3. no new node appears. No operation needed.
+1. novos nós `tagName` ou `key` são diferentes do antigo. Isso significa que o nó antigo é substituido, e nós não temos que recorrer no nó mais porque a subárvore foi completamente removida.
+2. novos nós `tagName` e `key` (talvez inexistente) são a mesma do antigo. Nós começamos a recursar na subárvore.
+3. não aparece novo nó. Não é preciso uma operação.
 
 ```js
 import { StateEnums, isString, move } from './util'
 import Element from './element'
 
 export default function diff(oldDomTree, newDomTree) {
-  // for recording changes
+  // para gravar mudanças
   let pathchs = {}
-  // the index starts at 0
+  // o índice começa no 0
   dfs(oldDomTree, newDomTree, 0, pathchs)
   return pathchs
 }
 
 function dfs(oldNode, newNode, index, patches) {
-  // for saving the subtree changes
+  // para salvar as mudanças na subárvore
   let curPatches = []
-  // three cases
-  // 1. no new node, do nothing
-  // 2. new nodes' tagName and `key` are different from the old one's, replace
-  // 3. new nodes' tagName and key are the same as the old one's, start recursing
+  // três casos
+  // 1. não é novo nó, não faça nada
+  // 2. novos nós tagName e `key` são diferentes dos antigos, substitua
+  // 3. novos nós tagName e chave são o mesmo do antigo, comece a recursão
   if (!newNode) {
   } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
-    // check whether properties changed
+    // verifique se as propriedades mudaram
     let props = diffProps(oldNode.props, newNode.props)
     if (props.length) curPatches.push({ type: StateEnums.ChangeProps, props })
-    // recurse the subtree
+    // recurse a subárvore
     diffChildren(oldNode.children, newNode.children, index, patches)
   } else {
-    // different node, replace
+    // diferentes nós, substitua
     curPatches.push({ type: StateEnums.Replace, node: newNode })
   }
 
