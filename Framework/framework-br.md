@@ -248,19 +248,19 @@ p.a = 2 // vincula `value` para `2`
 p.a // -> obtém 'a' = 2
 ```
 
-# Routing principle
+# Princípio de rotas
 
-The front-end routing is actually very simple to implement. The essence is to listen to changes in the URL, then match the routing rules, display the corresponding page, and no need to refresh. Currently, there are only two implementations of the route used by a single page.
+As rotas no front-end é atualmente simples de implementar. A essência é escutar as mudanças na URL, então coincidir com as regras de roteamento, exibindo a página correspondente, e não precisa atualizar. Atualmente, existe apenas duas implementações de rotas usados pela página única.
 
-- hash mode
-- history mode
+- modo hash
+- modo history
 
 
-`www.test.com/#/` is the hash URL. When the hash value after `#` changes, no request will be sent to server. You can listen to the URL change through the `hashchange` event, and then jump to the corresponding page.
+`www.test.com/#/` é a hash URL. Quando o valor depois do hash `#` muda, nenhuma request será enviada ao servidor. Você pode escutar as mudanças na URL através do evento `hashchange`, e então pular para a página correspondente.
 
 ![](https://user-gold-cdn.xitu.io/2018/7/13/1649266be7ec2fb7?w=981&h=546&f=png&s=36646)
 
-History mode is a new feature of HTML5, which is more beautiful than Hash URL.
+O modo history é uma nova funcionalidade do HTML5, do qual é muito mais lindo que o Hash URL. 
 
 ![](https://user-gold-cdn.xitu.io/2018/7/13/164926dc15df79d3?w=1244&h=546&f=png&s=49647)
 
@@ -268,27 +268,27 @@ History mode is a new feature of HTML5, which is more beautiful than Hash URL.
 
 [source code](https://github.com/KieSun/My-wheels/tree/master/Virtual%20Dom)
 
-## Why Virtual Dom is needed
+## Por que Virtual Dom é preciso
 
-As we know, modifying DOM is a costly task. We could consider using JS objects to simulate DOM objects, since operating on JS objects is much more time saving than operating on DOM.
+Como nós sabemos, modificar o DOM é uma tarefa custosa. Poderiamos considerar usar objetos JS para simular objetos DOM, desde de que operando em objetos JS é economizado muito mais tempo que operar no DOM.
 
-For example
+Por exemplo
 
 ```js
-// Let's assume this array simulates a ul which contains five li's.
+// Vamos assumir que esse array simula um ul do qual cotém 5 li's.
 [1, 2, 3, 4, 5]
-// using this to replace the ul above.
+// usando esse para substituir a ul acima.
 [1, 2, 5, 4]
 ```
 
-From the above example, it's apparent that the first ul's 3rd li is removed, and the 4th and the 5th are exchanged positions.
+A partir do exemplo acima, é aparente que a terceira li foi removida, e a quarta e quinta mudaram suas posições
 
-If the previous operation is applied to DOM, we have the following code:
+Se a operação anterior for aplicada no DOM, nós temos o seguinte código:
 
 ```js
-// removing the 3rd li
+// removendo a terceira li
 ul.childNodes[2].remove()
-// interexchanging positions between the 4th and the 5th
+// trocando internamente as posições do quarto e quinto elemento
 let fromNode = ul.childNodes[4]
 let toNode = node.childNodes[3]
 let cloneFromNode = fromNode.cloneNode(true)
@@ -297,11 +297,11 @@ ul.replaceChild(cloneFromNode, toNode)
 ul.replaceChild(cloenToNode, fromNode)
 ```
 
-Of course, in actual operations, we need an indentifier for each node, as an index for checking if two nodes are identical. This is why both Vue and React's official documentation suggests using a unique identifier `key` for nodes in a list to ensure efficiency.
+De fato, nas operações atuais, nós precisamos de um identificador para cada nó, como um index para verificar se os dois nós são idênticos. Esse é o motivo de ambos Vue e React sugerirem na documentação oficial usar identificadores `key` para os nós em uma lista para garantir eficiência.
 
-DOM element can not only be simulated, but they can also be rendered by JS objects.
+Elementos do DOM não só podem ser simulados, mas eles também podem ser renderizados por objetos JS.
 
-Below is a simple implementation of a JS object simulating a DOM element.
+Abaixo está uma simples implementação de um objeto JS simulando um elemento DOM.
 
 ```js
 export default class Element {
@@ -322,7 +322,7 @@ export default class Element {
     }
     if (key) this.key = key
   }
-  // render
+  // renderização
   render() {
     let root = this._createElement(
       this.tag,
@@ -336,11 +336,11 @@ export default class Element {
   create() {
     return this._createElement(this.tag, this.props, this.children, this.key)
   }
-  // create an element
+  // criando um elemento
   _createElement(tag, props, child, key) {
-    // create an element with tag
+    // criando um elemento com tag
     let el = document.createElement(tag)
-    // set properties on the element
+    // definindo propriedades em um elemento
     for (const key in props) {
       if (props.hasOwnProperty(key)) {
         const value = props[key]
@@ -350,7 +350,7 @@ export default class Element {
     if (key) {
       el.setAttribute('key', key)
     }
-    // add children nodes recursively
+    // adicionando nós filhos recursivamente
     if (child) {
       child.forEach(element => {
         let child
