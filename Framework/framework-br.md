@@ -372,18 +372,19 @@ export default class Element {
 }
 ```
 
-## Virtual Dom algorithm introduction
+## Introdução ao algoritmo de Virtual Dom
 
-The next step after using JS to implement DOM element is to detect object changes.
+O próximo passo depois de usar JS para implementar elementos DOM é detectar mudanças no objeto.
 
-DOM is a multi-branching tree. If we were to compare the old and the new trees thoroughly, the time complexity would be O(n ^ 3), which is simply unacceptable. Therefore, the React team optimized their algorithm to achieve an O(n) complexity for detecting changes.
+DOM é uma árvore de multi-ramifacações. Se nós compararmos a antiga e a nova árvore completamente, o tempo de complexidade seria O(n ^ 3), o que é simplesmente inaceitável. Assim sendo, o time do React otimizou esse algoritimo para alcançar uma complexidade O(n) para detectar as mudanças.
 
-The key to achieving O(n) is to only compare the nodes on the same level rather than across levels. This works because in actual usage we rarely move DOM elements across levels.
+A chave para alcançar O(n) é apenas comparar os
+nós no mesmo nível em vez de através dos níveis. Isso funciona porque no uso atual nós raramente movemos elementos DOM através dos níveis.
 
-We then have two steps of the algorithm.
+Nós então temos dois passos do algoritmo.
 
-- from top to bottom, from left to right to iterate the object, aka depth first search. This step adds an index to every node, for rendering the differences later.
-- whenever a node has a child element, we check whether the child element changed.
+- Do topo para fundo, da esquerda para direita itera o objeto, primeira pesquisa de profundidade. Nesse passo adicionamos um índice para cada nó, renderizando as diferenças depois. 
+- sempre que um nó tiver um elemento filho, nós verificamos se o elemento filho mudou.
 
 ## Virtual Dom algorithm implementation
 
