@@ -172,20 +172,19 @@ function defineReactive(obj, key, val) {
 A implementação acima é um simples two-way binding. A idéia central é manualmente disparar o getter das propriedades para adicionar o Publish/Subscribe.
 
 
-
 ## Proxy vs. Obeject.defineProperty
 
-Although  `Obeject.defineProperty` has been able to implement two-way binding, it is still flawed.
+Apesar do `Obeject.defineProperty` ser capaz de implementar o two-way binding, ele ainda é falho.
 
-* It can only implement data hijacking on properties, so it needs deep traversal of the entire object
-* it can't listen to changes in data for arrays
+* Ele consegue implementar apenas o sequestro de dados nas propriedades,
+* ele não consegue escutar a mudança de dados para arrays
 
-Although Vue can detect the changes in array data, it is actually a hack and is flawed.
+Apesar de Vue conseguir detectar mudanças em um array de dados, é na verdade um hack e é falho.
 
 ```js
 const arrayProto = Array.prototype
 export const arrayMethods = Object.create(arrayProto)
-// hack the following functions
+// hack as seguintes funções
 const methodsToPatch = [
   'push',
   'pop',
@@ -196,10 +195,10 @@ const methodsToPatch = [
   'reverse'
 ]
 methodsToPatch.forEach(function (method) {
-    // get the native function
+    // obter a função nativa
   const original = arrayProto[method]
   def(arrayMethods, method, function mutator (...args) {
-      // call the native function
+      // chama a função nativa
     const result = original.apply(this, args)
     const ob = this.__ob__
     let inserted
@@ -213,14 +212,15 @@ methodsToPatch.forEach(function (method) {
         break
     }
     if (inserted) ob.observeArray(inserted)
-      // trigger the update
+      // dispara uma atualização
     ob.dep.notify()
     return result
   })
 })
 ```
 
-On the other hand, `Proxy` doesn't have the above problem. It natively supports listening to array changes and can intercept the entire object directly, so Vue will also replace `Obeject.defineProperty` with `Proxy` in the next big version.
+Por outro lado, `Proxy` não tem o problema acima. Ele suporta nativamente a escuta para mudança no array e consegue interceptar o objeto completo diretamente, então Vue irá também substituir `Obeject.defineProperty` por `Proxy` na próxima grande versão.
+
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
@@ -244,8 +244,8 @@ let p = onWatch(obj, (v) => {
 }, (target, property) => {
   console.log(`Get '${property}' = ${target[property]}`);
 })
-p.a = 2 // bind `value` to `2`
-p.a // -> Get 'a' = 2
+p.a = 2 // vincula `value` para `2`
+p.a // -> obtém 'a' = 2
 ```
 
 # Routing principle
