@@ -30,15 +30,15 @@ MVVM consiste dos três seguintes conceitos
 
 Na época do JQuery, se você precisar atualizar a UI, você precisar obter o DOM correspondente e então atualizar a UI, então os dados e as regras de negócio estão fortemente acoplados com a página.
 
-No MVVM, o UI é condizudo pelos dados. Uma vez que é o dado mudou, a UI correspondente será atualizada. Se a UI mudar, o dado correspondente também ira mudar. Dessas forma, nos preocupamos apenas com o fluxo de dados no processamento do negócio sem lidar com a página diretamente. ViewModel apenas se preocupa com o processamento de dados e regras de negócio e não se preocupa como a View manipula os dados. Nesse caso, nós podemos separar a View da Model. Se qualquer uma das partes mudarem, isso não necessariamente precisa mudar a outra parte, e qualquer lógica reusável pode ser colocado na ViewModel, permitindo multiplas View reusar esse ViewModel.
+No MVVM, o UI é condizudo pelos dados. Uma vez que o dado mudou, a UI correspondente será atualizada. Se a UI mudar, o dado correspondente também ira mudar. Dessas forma, nos preocupamos apenas com o fluxo de dados no processamento do negócio sem lidar com a página diretamente. ViewModel apenas se preocupa com o processamento de dados e regras de negócio e não se preocupa como a View manipula os dados. Nesse caso, nós podemos separar a View da Model. Se qualquer uma das partes mudarem, isso não necessariamente precisa mudar na outra parte, e qualquer lógica reusável pode ser colocado na ViewModel, permitindo multiplas View reusarem esse ViewModel.
 
-NO MVVM, o núcleo é two-way binding de dados, tal como a verificação suja do Angular e sequestro de dados no Vue.
+No MVVM, o núcleo é two-way binding de dados, tal como a verificação suja do Angular e sequestro de dados no Vue.
 
-## Dirty Checking
+## Verificação Suja
 
-When the specified event is triggered, it will enter the dirty checking and call the `$digest` loop to walk through all the data observers to determine whether the current value is different from the previous value. If a change is detected, it will call the `$watch` function, and then call the `$digest` loop again until no changes are found. The cycle is at least two times, up to ten times.
+Quando o evento especificado é disparado, ele irá entrar na verificação suja e chamar o laço `$digest` caminhando através de todos os dados observados para determinar se o valor atual é diferente do valor anterior. Se a mudança é detectada, irá chamar a função `$watch`, e então chamar o laço `$digest` novamente até que nenhuma mudança seja encontrada. O ciclo vai de pelo menos de duas vezes até dez vezes.
 
-Although dirty checking has inefficiencies, it can complete the task without caring about how the data is changed, but the two-way binding in `Vue` is problematic. And dirty checking can achieve batch detection of updated values, and then unified update UI, greatly reducing the number of operating DOM. Therefore, inefficiency is also relative, and this is what the benevolent sees the wise and sees wisdom.
+Embora a verificação suja ser ineficiente, ele consegue completar a tarefa sem se preocupar sobre como o dado mudou, mas o two-way binding no `Vue` é problemático. E a verificação suja consegue alcançar detecção de lotes de valores atualizados, e então unificar atualizações na UI, com grandeza reduzindo o número de operações no DOM. Assim sendo, ineficiência é relativa, e é assim que o benevolente vê o sábio e a sabedoria.
 
 
 ## Data hijacking
