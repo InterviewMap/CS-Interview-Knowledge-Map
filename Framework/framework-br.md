@@ -30,12 +30,9 @@ MVVM consiste dos três seguintes conceitos
 
 Na época do JQuery, se você precisar atualizar a UI, você precisar obter o DOM correspondente e então atualizar a UI, então os dados e as regras de negócio estão fortemente acoplados com a página.
 
-No MVVM, o UI é condizudo pelos dados. Uma vez que é o dado mudou, a UI correspondente será atualizada. Se a UI mudar, o dado correspondente também ira mudar. Dessas forma, nos preocupamos apenas com o fluxo de dados no processamento do negócio sem lidar com a página diretamente. ViewModel apenas se preocupa com o processamento de dados e regras de negócio e não se preocupa como a View manipula os dados.
+No MVVM, o UI é condizudo pelos dados. Uma vez que é o dado mudou, a UI correspondente será atualizada. Se a UI mudar, o dado correspondente também ira mudar. Dessas forma, nos preocupamos apenas com o fluxo de dados no processamento do negócio sem lidar com a página diretamente. ViewModel apenas se preocupa com o processamento de dados e regras de negócio e não se preocupa como a View manipula os dados. Nesse caso, nós podemos separar a View da Model. Se qualquer uma das partes mudarem, isso não necessariamente precisa mudar a outra parte, e qualquer lógica reusável pode ser colocado na ViewModel, permitindo multiplas View reusar esse ViewModel.
 
-In MVVM, the UI is driven by data. Once the data is changed, the corresponding UI will be refreshed. If the UI changes, the corresponding data will also be changed. In this way, we can only care about the data flow in business processing without dealing with the page directly. ViewModel only cares about the processing of data and business and does not care how View handles data. In this case, we can separate the View from the Model. If either party changes, it does not necessarily need to change the other party, and some reusable logic can be placed in a ViewModel, allowing multiple Views to reuse this ViewModel.
-
-In MVVM, the core is the two-way binding of data, such as dirty checking by Angular and data hijacking in Vue.
-
+NO MVVM, o núcleo é two-way binding de dados, tal como a verificação suja do Angular e sequestro de dados no Vue.
 
 ## Dirty Checking
 
