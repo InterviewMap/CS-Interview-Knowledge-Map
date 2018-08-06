@@ -581,14 +581,14 @@ function getKeys(list) {
 }
 ```
 
-### Iterating and Marking Child Elements
+### Iterando e marcando elementos filho
 
-For this function, there are two main functionalities.
+Para essa função, existe duas principais funcionalidades.
 
-1. checking differences between two lists
-2. marking nodes
+1. verificando diferenças entre duas listas
+2. marcando nós
 
-In general, the functionalities impelemented are simple.
+No geral, a implementação das funcionalidades são simples.
 
 ```js
 function diffChildren(oldChild, newChild, index, patches) {
@@ -600,7 +600,7 @@ function diffChildren(oldChild, newChild, index, patches) {
       patches[index] = changes
     }
   }
-  // marking last iterated node
+  // marcando o ultimo nó iterado
   let last = null
   oldChild &&
     oldChild.forEach((item, i) => {
@@ -610,8 +610,8 @@ function diffChildren(oldChild, newChild, index, patches) {
           last && last.children ? index + last.children.length + 1 : index + 1
         let keyIndex = list.indexOf(item.key)
         let node = newChild[keyIndex]
-        // only iterate nodes existing in both lists
-        // no need to visit the added or removed ones
+        // só itera nós existentes em ambas as listas
+        // não precisamos visitar os adicionados ou removidos 
         if (node) {
           dfs(item, node, index, patches)
         }
@@ -621,23 +621,23 @@ function diffChildren(oldChild, newChild, index, patches) {
 }
 ```
 
-### Rendering Difference
+### Renderizando diferenças
 
-From the earlier algorithms, we can already get the differences between two trees. After knowing the differences, we need to locally update DOM. Let's take a look at the last step of Virtual Dom algorithms.
+A partir dos algoritmos anteriores, nós já obtemos as diferenças entre duas árvores. Depois de saber as diferenças, precisamos atualizar o DOM localmente. Vamos dar uma olhada no último passo do algoritmo do Virtual Dom.
 
-Two main functionalities for this function
+Há duas funcionalidades principais para isso
 
-1. Deep search the tree and extract the nodes needing modifications
-2. Locally update DOM
+1. Busca profunda na árvore e extrair os nós que precisam ser modificados.
+2. Atualize o DOM local
 
-This code snippet is pretty easy to understand as a whole.
+Esse pedaço de código é bastante fácil de entender como um todo.
 
 ```js
 let index = 0
 export default function patch(node, patchs) {
   let changes = patchs[index]
   let childNodes = node && node.childNodes
-  // this deep search is the same as the one in diff algorithm
+  // essa busca profunda é a mesma do algoritmo de diff
   if (!childNodes) index += 1
   if (changes && changes.length && patchs[index]) {
     changeDom(node, changes)
@@ -698,13 +698,13 @@ function changeDom(node, changes, noChild) {
 }
 ```
 
-## The End
+## Fim
 
-The implementation of the Virtual Dom algorithms contains the following three steps:
+A implementação dos algoritimos do Virtual Dom contém os três seguintes passos:
 
-1. Simulate the creation of DOM objects through JS
-2. Check differences between two objects
-3. Render the differences
+1. Simular a criação de objetos DOM através do JS
+2. Verifica a diferança entre dois objetos
+2. Renderiza a diferença
 
 ```js
 let test4 = new Element('div', { class: 'my-div' }, ['test4'])
@@ -726,4 +726,4 @@ setTimeout(() => {
 }, 1000)
 ```
 
-Although the current implementation is simple, it's definitely enough for understanding Virtual Dom algorithms.
+Embora a implementação atual seja simples, isso não é definitivamente o suficiente para ententer os algoritmos do Virtual Dom.
