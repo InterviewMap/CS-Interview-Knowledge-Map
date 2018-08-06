@@ -42,7 +42,7 @@ Embora a verificação suja ser ineficiente, ele consegue completar a tarefa sem
 
 ## Sequesto de dados
 
-Vuew internamente usa `Obeject.defineProperty()` para implementar o two-way binding, do qual permite você escutar por eventos de `set` e `get`.
+Vue internamente usa `Obeject.defineProperty()` para implementar o two-way binding, do qual permite você escutar por eventos de `set` e `get`.
 
 ```js
 var data = { name: 'yck' }
@@ -414,7 +414,7 @@ function dfs(oldNode, newNode, index, patches) {
   // três casos
   // 1. não é novo nó, não faça nada
   // 2. novos nós tagName e `key` são diferentes dos antigos, substitua
-  // 3. novos nós tagName e chave são o mesmo do antigo, comece a recursão
+  // 3. novos nós tagName e key são o mesmo do antigo, comece a recursão
   if (!newNode) {
   } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
     // verifique se as propriedades mudaram
@@ -437,20 +437,20 @@ function dfs(oldNode, newNode, index, patches) {
 }
 ```
 
-### checking property changes
+### verificando mudança das propriedades
 
-We also have three steps for checking for property changes
+Nós temos também três passos para verificar por mudanças nas propriedades
 
-1. iterate the old property list, check if the property still exists in the new property list.
-2. iterate the new property list, check if there are changes for properties existing in both lists.
-3. for the second step, also check if a property doesn't exist in the old property list.
+1. itere a lista de propriedades antiga, verifique se a propriedade ainda existe na nova lista de propriedade.
+2. itere a nova lista de propriedades, verifique se existe mudanças para propriedades existente nas duas listas.
+3. no segundo passo, também verifique se a propriedade não existe na lista de propriedades antiga.
 
 ```js
 function diffProps(oldProps, newProps) {
-  // three steps for checking for props
-  // iterate oldProps for removed properties
-  // iterate newProps for chagned property values
-  // lastly check if new properties are added
+  // três passos para checar as props
+  // itere oldProps para remover propriedades
+  // itere newProps para mudar os valores das propriedades
+  // por último verifique se novas propriedades foram adicionadas
   let change = []
   for (const key in oldProps) {
     if (oldProps.hasOwnProperty(key) && !newProps[key]) {
@@ -479,30 +479,30 @@ function diffProps(oldProps, newProps) {
 }
 ```
 
-### Algorithm Implementation for Detecting List Changes
+### Implementação do Algoritmo de detecção de mudanças na lista
 
-This algorithm is the core of the Virtual Dom. Let's go down the list.
-The main steps are similar to checking property changes. There are also three steps.
+Esse algoritmo é o núcle do Virtual Dom. Vamos descer a lista.
+O passo principal é similar a verificação de mudanças nas propriedades. Também existe três passos.
 
-1. iterate the old node list, check if the node still exists in the new list.
-2. iterate the new node list, check if there is any new node.
-3. for the second step, also check if a node moved.
+1. itere a antiga lista de nós, verifique se ao nó ainda existe na nova lista.
+2. itere a nova lista de nós, verifiquen se existe algum novo nó.
+3. para o seguindo passo, também verifique se o nó moveu.
 
-PS: this algorithm only handles nodes with `key`s.
+PS: esse algoritmo apenas manipula nós com `key`s.
 
 ```js
 function listDiff(oldList, newList, index, patches) {
-  // to make the iteration more convenient, first take all keys from both lists
+  // para fazer a iteração mais conveniente, primeiro pegue todas as chaves de ambas as listas
   let oldKeys = getKeys(oldList)
   let newKeys = getKeys(newList)
   let changes = []
 
-  // for saving the node daa after changes
-  // there are several advantages of using this array to save
-  // 1. we can correctly obtain the index of the deleted node
-  // 2. we only need to operate on the DOM once for interexchanged nodes
-  // 3. we only need to iterate for the checking in the `diffChildren` function
-  //    we don't need to check again for nodes existing in both lists
+  // para salvar o dado do nó depois das mudanças
+  // existe varia vantagem de usar esse array para salvar
+  // 1. nós conseguimos obter corretamente o index de nós deletados
+  // 2. precisamos apenas opera no DOM uma vez para interexchanged os nós 
+  // 3. precisamos apenas iterar para verificar na função `diffChildren`
+  // nós não precisamos verificar de novo para nós existente nas duas listas
   let list = []
   oldList &&
     oldList.forEach(item => {
@@ -510,19 +510,19 @@ function listDiff(oldList, newList, index, patches) {
       if (isString(item)) {
         key = item
       }
-      // checking if the new children has the current node
-      // if not then delete
+      // verificando se o novo filho tem o nó atual
+      // se não, então delete
       let index = newKeys.indexOf(key)
       if (index === -1) {
         list.push(null)
       } else list.push(key)
     })
-  // array after iterative changes
+  // array depois de alterações iterativas
   let length = list.length
-  // since deleting array elements changes the indices
-  // we remove from the back to make sure indices stay the same
+  // uma vez deletando um array de elementos, o índice muda
+  // removemos de trás para ter certeza que os índices permanecem o mesmo 
   for (let i = length - 1; i >= 0; i--) {
-    // check if the current element is null, if so then it means we need to remove it
+    // verifica se o elemento atual é null, se sim então significa que precisamos remover ele
     if (!list[i]) {
       list.splice(i, 1)
       changes.push({
@@ -531,17 +531,17 @@ function listDiff(oldList, newList, index, patches) {
       })
     }
   }
-  // iterate the new list, check if a node is added or moved
-  // also add and move nodes for `list`
+  // itere a nova lista, verificando se um nó é adicionado ou movido
+  // também adicione ou mova nós para `list`
   newList &&
     newList.forEach((item, i) => {
       let key = item.key
       if (isString(item)) {
         key = item
       }
-      // check if the old children has the current node
+      // verifique se o filho antigo tem o nó atual
       let index = list.indexOf(key)
-      // if not then we need to insert
+      // se não então precisamos inserir
       if (index === -1 || key == null) {
         changes.push({
           type: StateEnums.Insert,
@@ -550,7 +550,7 @@ function listDiff(oldList, newList, index, patches) {
         })
         list.splice(i, 0, key)
       } else {
-        // found the node, need to check if it needs to be moved.
+        // encontrado o nó, precisamos verificar se ele precisar ser movido.
         if (index !== i) {
           changes.push({
             type: StateEnums.Move,
