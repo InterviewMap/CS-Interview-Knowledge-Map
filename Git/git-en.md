@@ -9,7 +9,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-This is not for rookie, we'll introduce somthing about more advanced.
+This is not for rookie, we'll introduce something about more advanced.
 ## Merge with Rebase
 This command shows no difference with the command `merge`.    
 
@@ -21,7 +21,7 @@ After using `rebase ` , the commits from `develop` will be moved to the third `c
 
 ![](https://user-gold-cdn.xitu.io/2018/4/23/162f11cc2cb8b332?w=505&h=563&f=png&s=26514)
 
-Compare with `merge`, the result of `rebase` is very clear with a single flow. But if there is any conflict, you'll be in troule to solving them. You have to solve them one by one , while you only need to solve them one-time if using `merge`.
+Compare with `merge`, the result of `rebase` is very clear with a single flow. But if there is any conflict, you'll be in trouble to solving them. You have to solve them one by one , while you only need to solve them one-time if using `merge`.
 
 You should use `rebase` on the local branchs which need be rebased. If you need to `rebase` the `develop` to the `master`, you should do as follows:
 
