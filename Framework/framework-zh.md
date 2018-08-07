@@ -5,7 +5,7 @@
 - [MVVM](#mvvm)
   - [脏数据检测](#%E8%84%8F%E6%95%B0%E6%8D%AE%E6%A3%80%E6%B5%8B)
   - [数据劫持](#%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81)
-  - [Proxy 与 Obeject.defineProperty 对比](#proxy-%E4%B8%8E-obejectdefineproperty-%E5%AF%B9%E6%AF%94)
+  - [Proxy 与 Object.defineProperty 对比](#proxy-%E4%B8%8E-objectdefineproperty-%E5%AF%B9%E6%AF%94)
 - [路由原理](#%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86)
 - [Virtual Dom](#virtual-dom)
   - [为什么需要 Virtual Dom](#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-virtual-dom)
@@ -42,7 +42,7 @@ MVVM 由以下三个内容组成
 
 ## 数据劫持
 
-Vue 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这个函数可以监听到 `set` 和 `get` 的事件。
+Vue 内部使用了 `Object.defineProperty()` 来实现双向绑定，通过这个函数可以监听到 `set` 和 `get` 的事件。
 
 ```js
 var data = { name: 'yck' }
@@ -169,9 +169,9 @@ function defineReactive(obj, key, val) {
 
 以上实现了一个简易的双向绑定，核心思路就是手动触发一次属性的 getter 来实现发布订阅的添加。
 
-## Proxy 与 Obeject.defineProperty 对比
+## Proxy 与 Object.defineProperty 对比
 
-`Obeject.defineProperty` 虽然已经能够实现双向绑定了，但是他还是有缺陷的。
+`Object.defineProperty` 虽然已经能够实现双向绑定了，但是他还是有缺陷的。
 
 1. 只能对属性进行数据劫持，所以需要深度遍历整个对象
 2. 对于数组不能监听到数据的变化
@@ -216,7 +216,7 @@ methodsToPatch.forEach(function (method) {
 })
 ```
 
-反观 Proxy 就没以上的问题，原生支持监听数组变化，并且可以直接对整个对象进行拦截，所以 Vue 也将在下个大版本中使用 Proxy 替换 Obeject.defineProperty
+反观 Proxy 就没以上的问题，原生支持监听数组变化，并且可以直接对整个对象进行拦截，所以 Vue 也将在下个大版本中使用 Proxy 替换 Object.defineProperty
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
