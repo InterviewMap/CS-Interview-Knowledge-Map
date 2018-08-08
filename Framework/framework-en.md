@@ -5,7 +5,7 @@
 - [MVVM](#mvvm)
   - [Dirty Checking](#dirty-checking)
   - [Data hijacking](#data-hijacking)
-  - [Proxy vs. Obeject.defineProperty](#proxy-vs-obejectdefineproperty)
+  - [Proxy vs. Object.defineProperty](#proxy-vs-objectdefineproperty)
 - [Routing principle](#routing-principle)
 - [Virtual Dom](#virtual-dom)
   - [Why Virtual Dom is needed](#why-virtual-dom-is-needed)
@@ -45,7 +45,7 @@ Although dirty checking has inefficiencies, it can complete the task without car
 
 ## Data hijacking
 
-Vue internally uses `Obeject.defineProperty()` to implement two-way binding, which allows you to listen for events of `set` and `get`.
+Vue internally uses `Object.defineProperty()` to implement two-way binding, which allows you to listen for events of `set` and `get`.
 
 ```js
 var data = { name: 'yck' }
@@ -175,9 +175,9 @@ The above implements a simple two-way binding. The core idea is to manually trig
 
 
 
-## Proxy vs. Obeject.defineProperty
+## Proxy vs. Object.defineProperty
 
-Although  `Obeject.defineProperty` has been able to implement two-way binding, it is still flawed.
+Although  `Object.defineProperty` has been able to implement two-way binding, it is still flawed.
 
 * It can only implement data hijacking on properties, so it needs deep traversal of the entire object
 * it can't listen to changes in data for arrays
@@ -222,7 +222,7 @@ methodsToPatch.forEach(function (method) {
 })
 ```
 
-On the other hand, `Proxy` doesn't have the above problem. It natively supports listening to array changes and can intercept the entire object directly, so Vue will also replace `Obeject.defineProperty` with `Proxy` in the next big version.
+On the other hand, `Proxy` doesn't have the above problem. It natively supports listening to array changes and can intercept the entire object directly, so Vue will also replace `Object.defineProperty` with `Proxy` in the next big version.
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
