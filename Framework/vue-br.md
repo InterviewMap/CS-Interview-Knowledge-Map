@@ -13,7 +13,7 @@
 
 Antes da versão 2.4, Vue usou micro tarefas, mas prioridade das micro tarefas é bem alta, e em alguns casos, isso deve ser mais rápido que o evento de bubbling, mas se você usar macro tarefas, pode haver alguns problemas de performance na renderização. Então na nova versão, micro tarefas são usadas por padrão, mas macro tarefas serão usadas em casos especiais, como v-on.
 
-For implementing macrotasks, you will first determine if  `setImmediate` can be used, if not, downgrade to `MessageChannel`. If not again, use `setTimeout`.
+Para implementar macro tarefas, você primeiro deve determinar se o `setImmediate` pode ser usado, se não, abaixe para `MessageChannel`. Se não novamente, use `setTimeout`.
 
 ```js
 if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
@@ -40,12 +40,12 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 }
 ```
 
-`nextTick` also supports the use of `Promise`, which will determine whether `Promise` is implemented.
+`nextTick` também suporta o uso de `Promise`, do qual ira determinar se a `Promise` está implemented.
 
 ```js
 export function nextTick(cb?: Function, ctx?: Object) {
   let _resolve
-  // Consolidate callback functions into an array
+  // Consolidade funções de callback dentro do de um array
   callbacks.push(() => {
     if (cb) {
       try {
@@ -65,9 +65,9 @@ export function nextTick(cb?: Function, ctx?: Object) {
       microTimerFunc()
     }
   }
-    // Determine if Promise can be used
-    // Assign _resolve if possible
-    // This way the callback function can be called in the way of promise
+    // Determina se a Promisse pode ser usada
+    // Atribuir _resolve se possivel
+    // Desta maneira a função callback pode ser chamada em forma de promise
   if (!cb && typeof Promise !== 'undefined') {
     return new Promise(resolve => {
       _resolve = resolve
