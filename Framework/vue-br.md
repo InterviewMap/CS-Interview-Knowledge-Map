@@ -40,12 +40,12 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 }
 ```
 
-`nextTick` também suporta o uso de `Promise`, do qual ira determinar se a `Promise` está implemented.
+`nextTick` também suporta o uso de `Promise`, do qual ira determinar se a `Promise` está implementada.
 
 ```js
 export function nextTick(cb?: Function, ctx?: Object) {
   let _resolve
-  // Consolidade funções de callback dentro do de um array
+  // Consolide funções de callback dentro do de um array
   callbacks.push(() => {
     if (cb) {
       try {
@@ -76,20 +76,20 @@ export function nextTick(cb?: Function, ctx?: Object) {
 }
 ```
 
-# Lifecycle analysis
+# Análise do Ciclo de Vida
 
-The lifecycle function is the hook function that the component will trigger when it initializes or updates the data.
+A função do ciclo de vida é a função gancho que o componente vai disparar quando inicilaizar ou atualizar os dados.
 
 ![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
 
-The following code will be called at initialization, and lifecycle is called by `callHook`
+O seguinte código irá ser chamado na inicialização, e o ciclo de vida vai ser chamado pelo `callHook`
 
 ```js
 Vue.prototype._init = function(options) {
     initLifecycle(vm)
     initEvents(vm)
     initRender(vm)
-    callHook(vm, 'beforeCreate') // can not get props data
+    callHook(vm, 'beforeCreate') // não consegue receber dados das props
     initInjections(vm) 
     initState(vm)
     initProvide(vm)
@@ -97,9 +97,9 @@ Vue.prototype._init = function(options) {
 }
 ```
 
-It can be found that in the above code when `beforeCreate` is called, the data in `props` or `data` cannot be obtained because the initialization of these data is in `initState`.
+Ele pode ser encontrado no código acima quando `beforeCreate` é chamado, o dado no `props` ou `data` não pode ser obtido porque a inicialização desse dado está no `initState`.
 
-Next, the mount function will be called
+No próximo, a função motadora vai ser chamada
 
 ```js
 export function mountComponent {
@@ -112,9 +112,9 @@ export function mountComponent {
 }
 ```
 
-`beforeMount` will be executed before mounting the instance, then starts to create the VDOM and replace it with the real DOM, and finally call the `mounted` hook. And there’s a judgment logic here that if it is an external `new Vue({}) `,  `$vnode` doesn’t exist, so the `mounted` hook will be executed directly. If there are child components, they will be mounted recursively,  only when all the child components are mounted, the mount hooks of the root components will be executed. 
+`beforeMount` vai ser executado antes de montar uma instância, então comece a criar o VDOM e substituir ele com o DOM real, e finalmente chame o gancho `mounted`. E há um julgamente lógico aqui, que se ele for um `new Vue({}) ` externo, `$vnode` não existe, então o gancho `mounted` será executado diretamente. Se existe um componente filho, ele vai ser montado recursivamente, apenas quando todos os componentes filhos forem montados, o gancho de montar o componente raíz vai ser executado.
 
-Next, it comes to the hook function that will be called when the data is updated.
+Próximo, isso vem para a função gancho que vai ser chamada quando os dados forem atualizados.
 
 ```js
 function flushSchedulerQueue() {
