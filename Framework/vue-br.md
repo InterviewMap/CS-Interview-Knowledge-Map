@@ -9,7 +9,7 @@
 
 # Análises do princípio NextTick
 
-`nextTick` permiti-nos adiar a callback ser executada depois da próxima atualizada do clico do DOM, para obter a atualização.
+`nextTick` permiti-nos adiar a callback ser executada depois da próxima atualizada do ciclo do DOM, para obter a atualização.
 
 Antes da versão 2.4, Vue usou micro tarefas, mas prioridade das micro tarefas é bem alta, e em alguns casos, isso deve ser mais rápido que o evento de bubbling, mas se você usar macro tarefas, pode haver alguns problemas de performance na renderização. Então na nova versão, micro tarefas são usadas por padrão, mas macro tarefas serão usadas em casos especiais, como v-on.
 
@@ -78,7 +78,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
 
 # Análise do Ciclo de Vida
 
-A função do ciclo de vida é a função gancho que o componente vai disparar quando inicilaizar ou atualizar os dados.
+A função do ciclo de vida é a função gancho que o componente vai disparar quando inicializar ou atualizar os dados.
 
 ![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
 
@@ -99,7 +99,7 @@ Vue.prototype._init = function(options) {
 
 Ele pode ser encontrado no código acima quando `beforeCreate` é chamado, o dado no `props` ou `data` não pode ser obtido porque a inicialização desse dado está no `initState`.
 
-No próximo, a função motadora vai ser chamada
+No próximo, a função montadora vai ser chamada
 
 ```js
 export function mountComponent {
@@ -166,7 +166,7 @@ Vue.prototype.$destroy = function() {
   // ...
   callHook(vm, 'beforeDestroy')
   vm._isBeingDestroyed = true
-  // remove se mesmo a partir do pai
+  // remove-se mesmo a partir do pai
   const parent = vm.$parent
   if (parent && !parent._isBeingDestroyed && !vm.$options.abstract) {
     remove(parent.$children, vm)
