@@ -122,12 +122,12 @@ function flushSchedulerQueue() {
   for (index = 0; index < queue.length; index++) {
     watcher = queue[index]
     if (watcher.before) {
-      watcher.before() // call `beforeUpdate`
+      watcher.before() // chama `beforeUpdate`
     }
     id = watcher.id
     has[id] = null
     watcher.run()
-    // in dev build, check and stop circular updates.
+    // no dev build, verifca e para check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
       circular[id] = (circular[id] || 0) + 1
       if (circular[id] > MAX_UPDATE_COUNT) {
@@ -157,21 +157,21 @@ function callUpdatedHooks(queue) {
 }
 ```
 
-There are two lifecycle functions that aren’t mentioned in the above diagram,  `activated` and `deactivated`, and only the `kee-alive` component has these two life cycles. Components wrapped with `keep-alive` will not be destroyed during the switch, but be cached in memory and execute the `deactivated` hook function, and execute the `actived` hook function after matching the cache and rendering.
+Existem duas funções do ciclo de vida que não são mencionada no diagrama acima, `activated` e `deactivated`, e apenas o componente `kee-alive` possui esses dois ciclos. Componente encapsulado com `keep-alive` não serão destruídos durante o switch, mas sera cacheado em memória e executado a função gancho `deactivated`, e executar a função `actived` depois de coincidir o cache e a renderização.
 
-Finally, let’s see the hook function that used to destroy the component.
+Finalmente, vamos olhar a função gancho usada para destruir o componente.
 
 ```js
 Vue.prototype.$destroy = function() {
   // ...
   callHook(vm, 'beforeDestroy')
   vm._isBeingDestroyed = true
-  // remove self from parent
+  // remove se mesmo a partir do pai
   const parent = vm.$parent
   if (parent && !parent._isBeingDestroyed && !vm.$options.abstract) {
     remove(parent.$children, vm)
   }
-  // teardown watchers
+  // destroi watchers
   if (vm._watcher) {
     vm._watcher.teardown()
   }
@@ -179,28 +179,28 @@ Vue.prototype.$destroy = function() {
   while (i--) {
     vm._watchers[i].teardown()
   }
-  // remove reference from data ob
-  // frozen object may not have observer.
+  // remove a referência a partir do dado ob
+  // objeto congelados não devem ter um observador.
   if (vm._data.__ob__) {
     vm._data.__ob__.vmCount--
   }
-  // call the last hook...
+  // chame o último gancho...
   vm._isDestroyed = true
-  // invoke destroy hooks on current rendered tree
-  vm.__patch__(vm._vnode, null)
-  // fire destroyed hook
+  // invoque ganchos destruídos na árvore atualmente renderizada
+  // dispare o gancho destruído
   callHook(vm, 'destroyed')
-  // turn off all instance listeners.
+  // desligo todos os ouvintes da instância.
   vm.$off()
+  // remove __vue__ reference
   // remove __vue__ reference
   if (vm.$el) {
     vm.$el.__vue__ = null
   }
-  // release circular reference (#6759)
+  // lance uma referência circular (#6759)
   if (vm.$vnode) {
     vm.$vnode.parent = null
   }
 }
 ```
 
-The `beforeDestroy` hook function will be called before the destroy operation is performed, and then a series of destruction operations are performed. If there are child components, they will be destroyed recursively, and only when all the child components are destroyed, the hook  `destroyed` of the root component will be executed.
+A função `beforeDestroy` será chamada antes da operação de destruir ser desempenhada, e então uma série de operações de destruição são desempenhadas. Se existe um componente filho, eles serão destruidos recursivamente, e apenas quando todos os componente filhos são destruídos, o gancho `destroyed` do componente raíz será executado.
