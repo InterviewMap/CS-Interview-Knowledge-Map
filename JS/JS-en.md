@@ -163,7 +163,7 @@ typeof null // 'object'
 
 Why does this happen? Because the initial version of JS was based on 32-bit systems, which stored type information of variables in the lower bits for performance considerations. Those start with `000` are objects, and all the bits of `null`  are zero, so it is erroneously treated as an object. Although the current code of checking internal types has changed, this bug has been passed down.
 
-We can use `Object.prototype.toString.call(xx)` if we want to get the correct data type of a variable, and then we can get a string like `[Object Type]`:
+We can use `Object.prototype.toString.call(xx)` if we want to get the correct data type of a variable, and then we can get a string like `[object Type]`:
 
 ```js
 let a
