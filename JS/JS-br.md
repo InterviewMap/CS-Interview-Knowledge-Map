@@ -67,15 +67,15 @@ b.name = 'EF'
 console.log(a.name) // EF
 ```
 
-# Type Conversion
+# Conversão de Tipos
 
-## Converting to Boolean
+## Convertendo para Boleano
 
-When the condition is judged, other than `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, all of the values, including objects, are converted to `true`.
+Quando a condição é julgada, que não seja `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, os esses valores, incluindo objetos, são convertidos para `true`.
 
-## Objects to Primitive Types
+## Objeto para tipos primitivos
 
-When objects are converted, `valueOf` and `toString` will be called, respectively in order. These two methods can also be overridden.
+Quando objetos são convertidos, `valueOf` e `toString` serão chamados, respectivamente em ordem. Esses dois métodos também são sobrescritos.
 
 ```js
 let a = {
@@ -85,11 +85,11 @@ let a = {
 }
 ```
 
-## Arithmetic Operators
+## Operadores Aritméticos
 
-Only for additions, if one of the parameters is a string, the other one will be converted to string as well. For all other operations, as long as one of the parameters is a number, the other one will be converted to a number.
+Apenas para adicão, se um dos parâmentros for uma string, o outro será convertido para uma string também. Para todas as outras operações, enquanto se um dos parâmetros for um número, o outro será convertido para um número.
 
-Additions will invoke three types of type conversions: to primitive types, to numbers and to string:
+Adicões invocaram três tipos de conversões de tipos: para timos primitivos, para números e string:
 
 ```js
 1 + '1' // '11'
@@ -100,35 +100,35 @@ Additions will invoke three types of type conversions: to primitive types, to nu
 // '1,2' + '2,1' = '1,22,1'
 ```
 
-Note the expression `'a' + + 'b'` for addition:
+Observe a expressão `'a' + + 'b'` para adição:
 
 ```js
 'a' + + 'b' // -> "aNaN"
-// since + 'b' -> NaN
-// You might have seen + '1' -> 1
+// uma vez que + 'b' -> NaN
+// Você deve ter visto + '1' -> 1
 ```
 
 ## `==` operator
 
 ![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
-`toPrimitive` in above figure is converting objects to primitive types.
+`toPrimitive` na figura acima é convertido objetos para tipos primitivos.
 
-`===` is usually recommended to compare values. However, if you would like to check for `null` value, you can use `xx == null`.
+`===` é geralmente recomendado para comparar valores. Contudo, se você gostaria de checar o valor `null`, você pode usar `xx == null`.
 
-Let's take a look at an example `[] == ![] // -> true`. The following process explains why the expression evaluates to `true`:
+Vamos dar uma olhada no exemplo `[] == ![] // -> true`. O processo seguinte explica por que a expressão é `true`:
 
 ```js
-// [] converting to true, then take the opposite to false
+// [] convertendo para true, então pegue o oposto para false
 [] == false
-// with #8
+// com #8
 [] == ToNumber(false)
 [] == 0
-// with #10
+// com #10
 ToPrimitive([]) == 0
 // [].toString() -> ''
 '' == 0
-// with #6
+// com #6
 0 == 0 // -> true
 ```
 
