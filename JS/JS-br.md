@@ -2,13 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Built-in Types](#built-in-types)
-- [Type Conversion](#type-conversion)
-  - [Converting to Boolean](#converting-to-boolean)
-  - [Objects to Primitive Types](#objects-to-primitive-types)
-  - [Arithmetic Operators](#arithmetic-operators)
-  - [`==` operator](#-operator)
-  - [Comparison Operator](#comparison-operator)
+- [Tipos incorporados](#built-in-types)
+- [Conversão de tipo](#type-conversion)
+  - [Convertendo para boleano](#converting-to-boolean)
+  - [De objetos para tipos primitivos](#objects-to-primitive-types)
+  - [Operadores aritméticos](#arithmetic-operators)
+  - [`==` operador](#-operator)
+  - [Operador de comparação](#comparison-operator)
 - [Typeof](#typeof)
 - [New](#new)
 - [This](#this)
@@ -16,49 +16,49 @@
 - [Scope](#scope)
 - [Closure](#closure)
 - [Prototypes](#prototypes)
-- [Inheritance](#inheritance)
-- [Deep and Shallow Copy](#deep-and-shallow-copy)
-  - [Shallow copy](#shallow-copy)
+- [Herança](#inheritance)
+- [Cópia rasa e profunda](#deep-and-shallow-copy)
+  - [Cópia rasa](#shallow-copy)
   - [Deep copy](#deep-copy)
-- [Modularization](#modularization)
+- [Modularização](#modularization)
   - [CommonJS](#commonjs)
   - [AMD](#amd)
-- [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulation to implement  `call` and  `apply`](#simulation-to-implement--call-and--apply)
-- [Promise implementation](#promise-implementation)
-- [Generator Implementation](#generator-implementation)
+- [A diferença entre call, apply, bind](#the-differences-between-call-apply-bind)
+  - [simulação para implementar `call` e  `apply`](#simulation-to-implement--call-and--apply)
+- [Implementação de Promise](#promise-implementation)
+- [Implementação do Generator](#generator-implementation)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
-- [Map、FlatMap and Reduce](#mapflatmap-and-reduce)
-- [Async and await](#async-and-await)
+- [Map、FlatMap e Reduce](#mapflatmap-and-reduce)
+- [Async e await](#async-and-await)
 - [Proxy](#proxy)
-- [Why 0.1 + 0.2 != 0.3](#why-01--02--03)
-- [Regular Expressions](#regular-expressions)
-  - [Metacharacters](#metacharacters)
+- [Por que 0.1 + 0.2 != 0.3](#why-01--02--03)
+- [Expressões regulares](#regular-expressions)
+  - [Metacaracteres](#metacharacters)
   - [Flags](#flags)
   - [Character Shorthands](#character-shorthands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Built-in Types
-JavaScript defines seven built-in types, which can be broken down into two categories: `Primitive Type` and `Object`.
+# Tipos incorparados
+O JavaScript define sete tipos incorporados, dos quais podem ser divididos em duas categorias `Primitive Type` e `Object`.
 
-There are six primitive types: `null`, `undefined`, `boolean`, `number`, `string` and `symbol `.
+Existem seis tipos primitivos: `null`, `undefined`, `boolean`, `number`, `string` e `symbol `.
 
-In JavaScript, there are no true integers, all numbers are implemented in double-precision 64-bit binary format IEEE 754. When we use binary floating-point numbers, it will have some side effects. Here is an example of these side effects.
+Em JavaScript, não existe inteiros de verdade, todos os números são implementados em dupla-precisão 64-bit em formato binário IEEE 754. Quando nós usamos números de pontos flutuantes, iremos ter alguns efeitos colaterais. Aqui está um exemplo desses efeitos colaterais.
 
 ```js
 0.1 + 0.2 == 0.3 // false
 ```
 
-For the primitive data types, when we use literals to initialize a variable, the variable only has the literals as its value, it doesn’t have a type. It will be converted to the corresponding type only when necessary.
+Para tipos primitivos, quando usamos literais para inicializar uma variável, ela te apenas um valor literal, ela não tem um tipo. Isso será convertido para o tipo correspondente apenas quando necessário.
 
 ```js
-let a = 111 // only literals, not a number
-a.toString() // converted to object when necessary
+let a = 111 // apenas literais, não um número
+a.toString() // convertido para o objeto quando necessário
 ```
 
-Object is a reference type. We will encouter problems about shallow copy and deep copy when using it.
+Objeto é um tipo de referência. Nós iremos encontrar problemas sobre cópia rasa e cópia profunda quando usando ele.
 
 ```js
 let a = { name: 'FE' }
