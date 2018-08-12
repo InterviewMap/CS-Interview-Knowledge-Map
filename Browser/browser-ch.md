@@ -128,7 +128,7 @@ function jsonp(url, jsonpCallback, success) {
   script.async = true;
   script.type = "text/javascript";
   window[jsonpCallback] = function(data) {
-    success & success(data);
+    success && success(data);
   };
   document.body.appendChild(script);
 }
