@@ -108,7 +108,7 @@ Observe a expressão `'a' + + 'b'` para adição:
 // Você deve ter visto + '1' -> 1
 ```
 
-## `==` operator
+## `==` operador
 
 ![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
@@ -132,38 +132,38 @@ ToPrimitive([]) == 0
 0 == 0 // -> true
 ```
 
-## Comparison Operator
+## Operador de comparação
 
-1. If it's an object, `toPrimitive` is used.
-2. If it's a string, `unicode` character index is used.
+1. Se for um objeto, `toPrimitive` é usado.
+2. Se for uma string, o caractere índice `unicode` é usado.
 
 # Typeof
 
-`typeof` can always display the correct type of primitive types, except `null`:
+`typeof` também permite exibir o tipo correto de tipos primitivos, exceto `null`:
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
 typeof undefined // 'undefined'
 typeof true // 'boolean'
 typeof Symbol() // 'symbol'
-typeof b // b is not declared,but it still can be displayed as undefined
+typeof b // b não foi declarado, mas ainda pode ser exibido como undefined
 ```
 
-For object,  `typeof` will always display `object`, except **function**:
+Para objeto, `typeof` irá sempre exibir `object`, exceto **function**:
 ```js
 typeof [] // 'object'
 typeof {} // 'object'
 typeof console.log // 'function'
 ```
 
-As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this is a bug that has been around for a long time.
+Quanto a `null`, ele é sempre tratado como um `object` pelo `typeof`， apesar de ser um tipo primitivo, e esse é um bug que que existe a um bom tempo.
 ```js
 typeof null // 'object'
 ```
 
-Why does this happen? Because the initial version of JS was based on 32-bit systems, which stored type information of variables in the lower bits for performance considerations. Those start with `000` are objects, and all the bits of `null`  are zero, so it is erroneously treated as an object. Although the current code of checking internal types has changed, this bug has been passed down.
+Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenada a informação do tipo de variável em bits mais baixos para considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
 
-We can use `Object.prototype.toString.call(xx)` if we want to get the correct data type of a variable, and then we can get a string like `[object Type]`:
+Nós podemos usar `Object.prototype.toString.call(xx)` se quisermos pegar o tipo de dado correto da variável, e então obtemos uma string como `[object Type]`:
 
 ```js
 let a
