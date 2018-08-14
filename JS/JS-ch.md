@@ -481,7 +481,7 @@ for ( var i=1; i<=5; i++) {
 	setTimeout( function timer() {
 		console.log( i );
 	}, i*1000 );
-}˝
+}
 ```
 
 首先因为 `setTimeout` 是个异步函数，所有会先把循环全部执行完毕，这时候 `i` 就是 6 了，所以会输出一堆 6。
