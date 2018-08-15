@@ -167,36 +167,36 @@ Nós podemos usar `Object.prototype.toString.call(xx)` se quisermos pegar o tipo
 
 ```js
 let a
-// We can also judge `undefined` like this
+// Podemos declarar `undefined` da seguinte maneira
 a === undefined
-// But the nonreserved word `undefined` can be re-assigned in a lower version browser
+// mas a palavra não reservada `undefined` pode ser re assinada em versões antigas dos browsers
 let undefined = 1
-// it will go wrong to judge like this
-// So we can use the following method, with less code
-// it will always return `undefined`, whatever follows `void `
+// vai dar errado declarar assim
+// então nós podemos usar o seguinte método, com menos código
+// ele sempre vai retornar `undefined`, tanto faz vir seguido de `void`
 a === void 0
 ```
 
 # New
 
-1.   Create a new object
-2.   Chained to prototype
-3.   Bind this
-4.   Return a new object
+1.   Crie um novo objeto
+2.   Encadei o prototype
+3.   Ligue o this
+4.   Retorne um novo objeto
 
-The above four steps will happen in the process of calling `new`. We can also try to implement `new ` by ourselves:
+Os quatro passo aciema vão acontecer no processo chamado `new`. Podemos também tentar implementar o `new ` nós mesmos:
 
 ```js
 function create() {
-  // Create an empty object
+  // Crie um objeto vázio
   let obj = new Object()
-  // Get the constructor
+  // Obtenha o construtor
   let Ctor = [].shift.call(arguments)
-  // Chained to prototype
+  // Encadeie para o prototype
   obj.__proto__ = Ctor.prototype
-  // Bind this, Execute the constructor
+  // Ligue o this, execute o construtor
   let result = Con.apply(obj, arguments)
-  // Make sure the new one is an object
+  // Tenha certeza que o novo é um objeto
   return typeof result === 'object'? result : obj
 }
 ```
