@@ -201,19 +201,19 @@ function create() {
 }
 ```
 
-Instances of object are all created with `new`, whether it's `function Foo()` , or `let a = { b: 1 }` .
+Instância de um novo objeto são todas criadas com `new`, seja ele `function Foo()`, ou `let a = { b: 1 }` .
 
-It is recommended to create objects using the literal notation (whether it's for performance or readability), since a look-up is needed for `Object` through the scope chain when creating an object using `new Object()`, but you don't have this kind of problem when using literals.
+É recomendado criar os objetos usando notação literal (seja por questões de performance ou legibilidade), uma vez que é necessário um look-up para `Object` atravessar o escopo encadeado quando criando um objeto usando `new Object()`, mas você não precisa ter esse tipo de probelma quando usando literais.
 
 ```js
 function Foo() {}
-// Function is a syntactic sugar
-// Internally equivalent to new Function()
+// Função são sintáticamente amigáveis
+// Internamente é equivalente a new Function() 
 let a = { b: 1 }
-// Inside this literal, `new Object()` is also used
+// Dentro desse lireal, `new Object()` também é usado
 ```
 
-For `new`, we also need pay attention to the operator precedence:
+Para `new`, também precisamos prestart atenção ao operador precedente:
 
 ```js
 function Foo() {
