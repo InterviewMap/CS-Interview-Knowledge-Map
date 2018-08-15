@@ -801,12 +801,8 @@ _.debounce = function(func, wait, immediate) {
       var callNow = immediate && !timeout;
       // 如果定时器不存在就创建一个
       // 定时器存在则清除当前定时器并重新设定一个新的定时器
-      if (!timeout) {
-        timeout = setTimeout(later, wait);
-      } else {
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      }
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
       if (callNow) {
         // 如果需要立即执行函数的话 通过 apply 执行
         result = func.apply(context, args);
