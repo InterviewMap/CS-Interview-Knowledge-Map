@@ -232,20 +232,19 @@ new Foo().getName(); // -> 2
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
 
-As you can see from the above image, `new Foo()` has a higher priority than `new Foo`, so we can divide the execution order of the above code like this:
-
+Como você pode ver na imagem acima, `new Foo()` possui uma alta prioridade sobre `new Foo`, então podemos dividir a ordem de execução do código acima assim:
 
 ```js
 new (Foo.getName());
 (new Foo()).getName();
 ```
 
-For the first function, `Foo.getName()` is executed first, so the result is 1;
-As for the latter, it first executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
+Para a primeira função, `Foo.getName()` é executado primeiro, então o resultado é 1;
+Para mais tarte, ele primeiro executa `new Foo()` para criar uma instância, então encontrar a função `getName` no `Foo` via cadeia de prototype, então o resultado é 2.
 
 # This
 
-`This`, a concept that is confusing to many peole, is actually not difficult to understand as long as you remember the following rules:
+`This`, um conceito que é confuso para maioria das pessoas, atualmente não é difícil de entender enquanto você lembrar as seguintes regras:
 
 ```js
 function foo() {
@@ -260,11 +259,11 @@ var obj = {
 };
 obj.foo();
 
-// In the above two situations, `this` only depends on the object before calling the function,
-// and the second case has higher priority than the first case .
+// Nas duas situações acima, `this` depende apenas do objeto ser chamado antes da função,
+// e o segundo caso tem uma alta prioriade sobre o primeiro caso.
 
-// the following scenario has the highest priority，`this` will only be bound to c，
-// and there's no way to change what `this` is bound to .
+// o seguinte cenário tem uma alta prioridade, `this` só ficará ligado para c,
+// e não existe uma maneira de mudar o que `this` está limitado
 
 var c = new foo();
 c.a = 3;
