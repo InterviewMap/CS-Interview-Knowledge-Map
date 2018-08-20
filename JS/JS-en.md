@@ -1105,7 +1105,9 @@ _.debounce = function(func, wait, immediate) {
       // if the timer doesn't exist then execute the function immediately
       var callNow = immediate && !timeout;
       // if the timer doesn't exist then create one
-      if (!timeout) timeout = setTimeout(later, wait);
+      // else clear the current timer and reset a new timer
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
       if (callNow) {
         // if the immediate execution is needed, use apply to start the function
         result = func.apply(context, args);

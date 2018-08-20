@@ -66,8 +66,8 @@ Each bit is different, and the result is 1
 ```js
 8 ^ 7 // -> 15
 8 ^ 8 // -> 0
-// 1000 & 0111 -> 1111 -> 15
-// 1000 & 1000 -> 0000 -> 0
+// 1000 ^ 0111 -> 1111 -> 15
+// 1000 ^ 1000 -> 0000 -> 0
 ```
 
 From the above code, we can find that the bitwise XOR is the not carry addition.
