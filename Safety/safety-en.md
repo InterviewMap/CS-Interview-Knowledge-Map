@@ -158,7 +158,7 @@ It is often necessary to add a salt to the password and then encrypt it several 
 
 ```js
 // Adding salt means adding a string to the original password and increasing the length of the original password.
-sha256(sha1(md5(salt + password + slat)))
+sha256(sha1(md5(salt + password + salt)))
 ```
 
 But adding salt does not prevent others from stealing accounts. It only ensures that even if the database is compromised, the user's real password will not be exposed. Once the attacker gets the user's account, the password can be cracked by brute force. In this case, a verification code is usually used to increase the delay or limit the number of attempts. And once the user enters the wrong password, the user cannot directly prompt the user to enter the wrong password, but should prompt the account or password to be incorrect.
