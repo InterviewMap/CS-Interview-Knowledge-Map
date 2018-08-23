@@ -51,7 +51,7 @@ Em JavaScript, não existe inteiros de verdade, todos os números são implement
 0.1 + 0.2 == 0.3 // false
 ```
 
-Para tipos primitivos, quando usamos literais para inicializar uma variável, ela te apenas um valor literal, ela não tem um tipo. Isso será convertido para o tipo correspondente apenas quando necessário.
+Para tipos primitivos, quando usamos literais para inicializar uma variável, ela tem apenas um valor literal, ela não tem um tipo. Isso será convertido para o tipo correspondente apenas quando necessário.
 
 ```js
 let a = 111 // apenas literais, não um número
@@ -161,7 +161,7 @@ Quanto a `null`, ele é sempre tratado como um `object` pelo `typeof`， apesar 
 typeof null // 'object'
 ```
 
-Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenada a informação do tipo de variável em bits mais baixos para considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
+Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenava a informação do tipo de variável em bits mais baixos para considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
 
 Nós podemos usar `Object.prototype.toString.call(xx)` se quisermos pegar o tipo de dado correto da variável, e então obtemos uma string como `[object Type]`:
 
@@ -269,11 +269,11 @@ var c = new foo();
 c.a = 3;
 console.log(c.a);
 
-// finally, using `call`, `apply`, `bind` to change what `this` is bound to,
-// is another scenario where its priority is only second to `new`
+// finalmente, usando `call`, `apply`, `bind` para mudar o que o `this` é obrigado,
+// em outro cenário onde essa prioridade é apenas o segundo `new`
 ```
 
-Understanding the above several situations, we won’t be confused by `this` under most circumstances. Next, let’s take a look at `this` in arrow functions:
+Entendendo sobre as várias situações acima, nós não vamos ser confundidos pelo `this` na maioria dos casos. Depois, vamos dar uma olhada no `this` nas arrow functions:
 
 ```js
 function a() {
@@ -285,7 +285,7 @@ function a() {
 }
 console.log(a()()());
 ```
-Actually, the arrow function does not have `this`, `this` in the above function only depends on the first outer function that is not an arrow function. For this case, `this` is default to `window` because calling `a` matches the first condition in the above codes. Also, what `this` is bound to will not be changed by any codes once `this` is bound to the context.
+Atualmente, as arrow function não tem o `this`, `this` na função acima apenas depende da primeira função externa que não é uma arrow function. Nesse caso, `this` é o padrão para `window` porque chamando `a` iguala a primeira condição nos códigos acima. Também, o que o `this` está ligado não ira ser mudado por qualquer código uma vez que o `this` estiver ligado em um contexto.
 
 
 # Instanceof
