@@ -58,13 +58,15 @@
 
 [线上版本阅读更清晰](https://yuchengkai.cn/docs/zh/)
 
+## 捐赠
+
+如果你觉得项目内容帮助到了你，你可以请我喝杯咖啡
+
+![](https://user-gold-cdn.xitu.io/2018/7/13/164945d3f5934d89?w=200&h=300&f=jpeg&s=19516)  ![](https://user-gold-cdn.xitu.io/2018/7/13/164945d486a6e1b9?w=200&h=271&f=jpeg&s=18202)
+
 ## 交流分享
 
 如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19) 或者 [gitter 聊天室](https://gitter.im/interview-map/Lobby)，请务必使用英文交流，谢谢。
-
-## 支持我们
-
-如果图谱在面试中或者学习中帮助到你了，你可以 [支持我们的工作](https://github.com/KieSun/InterviewMap/issues/20)
 
 ## 协议
 
