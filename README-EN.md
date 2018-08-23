@@ -33,9 +33,9 @@ The contents of the repository will update continuously, and more content will b
 
 
 ## Contributing
-If you find something wrong with the knowledge point or there’s a bug in the code, you are welcome to submit an English [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new). If your English is not good, please discuss it in  [this issue](https://github.com/KieSun/InterviewMap/issues/18).
+If you find something wrong with the knowledge point or there’s a bug in the code, you are welcome to submit an English [issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/new). If your English is not good, please discuss it in  [this issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/18).
 
-If you think you know of a good knowledge point to contribute, or would like to participate in translation and proofreading, you are welcome to submit a [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls), or you can contact me at <zx597813039@gmail.com>.
+If you think you know of a good knowledge point to contribute, or would like to participate in translation and proofreading, you are welcome to submit a [PR](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/pulls), or you can contact me at <zx597813039@gmail.com>.
 
 ## Todo
 
@@ -51,11 +51,11 @@ The above content is expected to be updated completely in September, and you are
 [Online version is clearer to read](https://yuchengkai.cn/docs/).
 
 ## Communicate and share
-If you want to communicate and discuss the content of this interviewmap with others, you can join [communicate group](https://github.com/KieSun/InterviewMap/issues/19) or [gitter](https://gitter.im/interview-map/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link).
+If you want to communicate and discuss the content of this interviewmap with others, you can join [communicate group](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/19) or [gitter](https://gitter.im/interview-map/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link).
 
 
 ## Support us
-If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/KieSun/InterviewMap/issues/20).
+If the interviewmap helps you with your interview or study, you can [support our work](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/20).
 
 
 ## License

@@ -36,9 +36,9 @@
 
 ## 贡献
 
-如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/KieSun/Front-End-Interview-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/KieSun/InterviewMap/issues/18) 中讨论
+如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/18) 中讨论
 
-如果你认为有一个不错的知识点或者也想参与翻译校对，欢迎提交 [PR](https://github.com/KieSun/Front-End-Interview-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
+如果你认为有一个不错的知识点或者也想参与翻译校对，欢迎提交 [PR](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
 
 ## Todo
 
@@ -62,7 +62,7 @@
 
 ## 交流分享
 
-如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/KieSun/InterviewMap/issues/19) 或者 [gitter 聊天室](https://gitter.im/interview-map/Lobby)，请务必使用英文交流，谢谢。
+如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/19) 或者 [gitter 聊天室](https://gitter.im/interview-map/Lobby)，请务必使用英文交流，谢谢。
 
 ## 协议
 
