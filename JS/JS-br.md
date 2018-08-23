@@ -184,7 +184,7 @@ a === void 0
 3.   Ligue o this
 4.   Retorne um novo objeto
 
-Os quatro passo aciema vão acontecer no processo chamado `new`. Podemos também tentar implementar o `new ` nós mesmos:
+Os quatro passos acima vão acontecer no processo chamado `new`. Podemos também tentar implementar o `new ` nós mesmos:
 
 ```js
 function create() {
@@ -213,7 +213,7 @@ let a = { b: 1 }
 // Dentro desse lireal, `new Object()` também é usado
 ```
 
-Para `new`, também precisamos prestart atenção ao operador precedente:
+Para `new`, também precisamos prestar atenção ao operador precedente:
 
 ```js
 function Foo() {
