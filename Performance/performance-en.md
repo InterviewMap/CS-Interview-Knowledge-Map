@@ -7,7 +7,7 @@
   - [Cache](#cache)
     - [Strong cache](#strong-cache)
     - [Negotiation cache](#negotiation-cache)
-  - [`Last-Modified` and `If-Modified-Since`](#last-modified-and-if-modified-since)
+  - [`Last-Modified`  and  `If-Modified-Since`](#last-modified--and--if-modified-since)
   - [`ETag` and `If-None-Match`](#etag-and-if-none-match)
     - [Choosing the suitable caching strategy](#choosing-the-suitable-caching-strategy)
   - [Use HTTP / 2.0](#use-http--20)
