@@ -11,8 +11,6 @@
   <a href="https://t.me/joinchat/GULTjw9enq3J4NQ6Yh5Ntw"><img src="https://img.shields.io/badge/chat-Telegram-brightgreen.svg" alt="Telegram"></a>
 </p>
 
-[中文版本](./README-ZH.md)
-
 ## Foreword
 
 > When you are old, looking back on your life, you will find out: when to study abroad, when to decide on your first occupation, when to choose the other half to fall in love with, when to marry; all of these are great changes in fate. We were just standing at the three-forked intersection and seeing the wind blow the clouds and sails. The day you made your choice was a quite dull and peaceful day in the diary, and it was thought to be an ordinary day in your life.
