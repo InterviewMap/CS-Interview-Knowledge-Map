@@ -312,14 +312,14 @@ function instanceof(left, right) {
 
 # Scope
 
-Executing JS code would generate execution context, as long as code is not written in a function, it belongs to the global execution context. Code in a function will generate function execution context. There’s also an `eval` execution context, which basically is not used anymore, so you can think of only two execution contexts.
+Executar código JS deveria gerar execução do contexto, enquanto o código não é escrito na função, ele faz parte da execução do contexto global. O código na função vai gerar executação do contexto da função. Existe também uma execução do contexto do `eval`, do qual basicamente não é mais usado, então você pode pensar apenas em duas execuções de contexto.
 
-The `[[Scope]]` attribute is generated in the first stage of generating execution context, which is a pointer, corresponds to the linked list of the scope, and JS will look up variables through this linked list up to the global context.
+O atributo `[[Scope]]` é gerado no primeiro estágio de geração de contexto, que é um ponteiro, corresponde a linked list do escopo, e o JS vai procurar variáveis através dessas linked list no contexto global.
 
-Let's look at a common example , `var`:
+Vamos olhar um exemplo common, `var`:
 
 ```js
-b() // call b
+b() // chama b
 console.log(a) // undefined
 
 var a = 'Hello world'
@@ -329,25 +329,26 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs. The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code, and there is nothing wrong with that and it’s easy for everyone to understand. But a more accurate explanation should be something like this:
+Ele sabe que funcões e variáveis são içadas acima em relação aos outputs. A explicação usual para o hoisting diz que as declarações são ‘movidas’ para o topo do código, e não existe nada de errado com isso e é fácil de todo mundo entender. Mas para um explicação mais precisa deveria ser algo como:
 
-There would be two stages when the execution context is generated. The first stage is the stage of creation(to be specific, the step of generating variable objects), in which the JS interpreter would find out variables and functions that need to be hoisted, and allocate memory for them in advance, then functions would be stored into memory entirely, but variables would only be declared and assigned to `undefined`, therefore, we can use them in advance in the second stage (the code execution stage).
+Haveria dois estágios quando a execução do contexto é gerada. O primeiro estágio é o estágio de criação(para ser mais epecífico, o passo de geração variáveis objeto), no qual o interpretador de JS deveria encontrar variáveis e funções que precisam ser içadas, e aloca memória para eles atecipadamente, então as funções deveriam ser guardadas na memória internamente, mas variáveis seriam apenas declaradas e assinadas para `undefined`, assim sendo, nós podemos usar elas adiante no segundo estágio (a execução do código no estágio)
 
-In the process of hoisting, the same function would overwrite the last function, and functions have higher priority than variables hoisting.
+No processo de içar, a mesma função deveria sobrescrever a última função, e funções tem alta prioridade sobre variáveis içadas.
 
 ```js
-b() // call b second
+b() // chama segundo b
 
 function b() {
-	console.log('call b fist')
+	console.log('chama b primeiro')
 }
 function b() {
-	console.log('call b second')
+	console.log('chama b segundo')
 }
 var b = 'Hello world'
 ```
 
-Using `var` is more likely error-prone, thus ES6 introduces a new keyword `let`.  `let` has an important feature that it can’t be used before declared, which conflicts the common saying that `let` doesn’t have the ability of hoisting. In fact, `let`  hoists declaration, but is not assigned, because the **temporal dead zone**.
+Usando `var` é mais provável error-prone, portanto ES6 introduziu uma nova palava-chave `let`. `let` tem uma característica importante que ela não pode ser usada antes de declarada, que conflita com o ditado comum que `let` não tem a habilidade de içar. De fato, `let` iça a declaracão, mas não é assinada, por causa da **temporal dead zone**.
+
 
 # Closure
 
