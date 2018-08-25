@@ -290,16 +290,16 @@ Atualmente, as arrow function não tem o `this`, `this` na função acima apenas
 
 # Instanceof
 
-The `instanceof` operator can correctly check the type of objects, because its internal mechanism is to find out if `prototype` of this type can be found in the prototype chain of the object.
+O operador `instanceof` consegue checar corretamente o tipo dos objetos, porque o seu mecanismo interno encontra se o tipo do `prototype` pode ser encontrado na cadeia de prototype do objeto.
 
-let’s try to implement it:
+vamos tentar implementar ele:
 ```js
 function instanceof(left, right) {
-    // get the `prototype` of the type
+    // obtenha o type do `prototype`
     let prototype = right.prototype
-    // get the `prototype` of the object
+    // obtenha o `prototype` do objeto
     left = left.__proto__
-    // check if the type of the object is equal to the prototype of the type
+    // verifique se o tipo do objeto é igual ao prototype do tipo
     while (true) {
     	if (left === null)
     		return false
