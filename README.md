@@ -31,7 +31,7 @@
 
 ## 交流分享
 
-![](https://user-gold-cdn.xitu.io/2018/7/14/16499018ecf98fb9?w=300&h=399&f=png&s=107825)
+![](https://user-gold-cdn.xitu.io/2018/8/26/1657411117460f95?w=300&h=399&f=png&s=107825)
 
 
 ## 捐赠
