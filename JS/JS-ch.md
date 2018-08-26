@@ -446,7 +446,7 @@ var foo = 1
 
 因为当 JS 解释器在遇到非匿名的立即执行函数时，会创建一个辅助的特定对象，然后将函数名称作为这个对象的属性，因此函数内部才可以访问到 `foo`，但是这个值又是只读的，所以对它的赋值并不生效，所以打印的结果还是这个函数，并且外部的值也没有发生更改。
 
- ```js
+```js
 specialObject = {};
   
 Scope = specialObject + Scope;
@@ -456,7 +456,7 @@ foo.[[Scope]] = Scope;
 specialObject.foo = foo; // {DontDelete}, {ReadOnly}
   
 delete Scope[0]; // remove specialObject from the front of scope chain
- ```
+```
 
 # 闭包
 
