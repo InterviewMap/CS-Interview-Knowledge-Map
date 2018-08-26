@@ -29,10 +29,16 @@
 
 该仓库内容会持续更新，后期将会包含更多的内容，比如：系统设计、区块链、运维、后端等等，当然这些不是我的强项，我会邀请这方面有不错经验的朋友来书写内容。
 
-## 大纲
+## 交流分享
 
-![mind](./InterviewMapMind.png)
+![](https://user-gold-cdn.xitu.io/2018/7/14/16499018ecf98fb9?w=300&h=399&f=png&s=107825)
 
+
+## 捐赠
+
+如果你觉得项目内容帮助到了你，你可以请我喝杯咖啡
+
+![](https://user-gold-cdn.xitu.io/2018/7/13/164945d3f5934d89?w=200&h=300&f=jpeg&s=19516)  ![](https://user-gold-cdn.xitu.io/2018/7/13/164945d486a6e1b9?w=200&h=271&f=jpeg&s=18202)
 
 ## 贡献
 
@@ -49,20 +55,10 @@
 
 以上内容预计将于 9 月份更新完毕，欢迎你一起参与本图谱的建设。
 
-## 捐赠
-
-如果你觉得项目内容帮助到了你，你可以请我喝杯咖啡
-
-![](https://user-gold-cdn.xitu.io/2018/7/13/164945d3f5934d89?w=200&h=300&f=jpeg&s=19516)  ![](https://user-gold-cdn.xitu.io/2018/7/13/164945d486a6e1b9?w=200&h=271&f=jpeg&s=18202)
-
 ## 阅读
 
 [线上版本阅读更清晰](https://yuchengkai.cn/docs/zh/)
 
-
-## 交流分享
-
-如果你想与他人交流关于本图谱的内容，可以加入 [交流群](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/19) 或者 [gitter 聊天室](https://gitter.im/interview-map/Lobby)，请务必使用英文交流，谢谢。
 
 ## 协议
 
