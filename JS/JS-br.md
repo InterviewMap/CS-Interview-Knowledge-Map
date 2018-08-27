@@ -352,7 +352,7 @@ Usando `var` é mais provável error-prone, portanto ES6 introduziu uma nova pal
 
 # Closure
 
-The definition of closure is simple: function A returns a function B, and function B can access variables of function A, thus function B is called a closure.
+A definição de closure é simples: a função A retorna a função B, e a função b consegue acessar as variáveis da função A, portanto a função B é chamada de closure.
 
 ```js
 function A() {
@@ -363,6 +363,8 @@ function A() {
   return B
 }
 ```
+
+Se você estiver se perguntando por que a função B também consegue se referenciar as variáveis da função A enquanto a função A 
 
 Are you wondering why function B can also refer to variables in function A while function A has been popped up from the call stack? Because variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
 
