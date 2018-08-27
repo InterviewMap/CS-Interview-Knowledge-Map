@@ -245,7 +245,7 @@ As for the latter, it first executes `new Foo()` to create an instance, then fin
 
 # This
 
-`This`, a concept that is confusing to many peole, is actually not difficult to understand as long as you remember the following rules:
+`This`, a concept that is confusing to many people, is actually not difficult to understand as long as you remember the following rules:
 
 ```js
 function foo() {
