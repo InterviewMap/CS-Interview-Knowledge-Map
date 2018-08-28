@@ -214,7 +214,7 @@ console.log('script end');
 
 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务，所以会有以上的打印。
 
-微任务包括 `process.nextTick` ，`promise` ，`Object.observe` ，`MutationObserver`
+微任务包括 `process.nextTick` ，`promise` ，`MutationObserver.prototype.observe` 
 
 宏任务包括 `script` ， `setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`
 
