@@ -526,7 +526,7 @@ for ( let i=1; i<=5; i++) {
   {
     let ii = i
     setTimeout( function timer() {
-        console.log( i );
+        console.log( ii );
     }, i*1000 );
   }
   i++
