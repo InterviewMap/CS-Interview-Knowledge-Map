@@ -438,12 +438,11 @@ Para `let`, ele vai criar um escopo de block-level, do qual é equivalente a:
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
 
-Each function, besides `Function.prototype.bind()`, has an internal property, denoted as `prototype`, which is a reference to the prototype.
+Cada função, além de `Function.prototype.bind()`, tem uma propriedade interna, detonado como `prototype`, do qual é uma referência para o prototype.
 
-Each object has an internal property, denoted as `__proto__`, which is a reference to the prototype of the constructor that creates the object. This property actually refers to `[[prototype]]`, but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
+Cada objeto tem uma propriedade interna, denotada como `__proto__`, que é uma referência para o prototype do construtor que criou o objeto. Essa propriedade é atualmente referenciada ao `[[prototype]]`, mas o `[[prototype]]` é uma propriedade interna que nós não podemos acessar, então usamos o `__proto__` para acessar ele.
 
-Objects can use `__proto__` to look up properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
-
+Objetos podem usar `__proto__` para procurar propriedade que não fazem parte do objeto, e `__proto__` conecta os objetos juntos para formar uma cadeida de prototype.
 
 # Inheritance
 
