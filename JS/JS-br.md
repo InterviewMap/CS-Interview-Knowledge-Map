@@ -482,15 +482,13 @@ myDate.test()
 
 Contudo, ES6 não é compátivel com todos os navegadores, então usamos o Babel para compilar esser código.
 
-Se chamar `myDate.test()` com o código compilado,
-
-If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error:
+Se chamar `myDate.test()` com o código compilado, você vai ficar surpreso de ver que existe um erro:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
 
-Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date`, it can’t call functions in `Date`, which also explains from another aspect that `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+Porque existem restrições no baixo nível do JS, se a instância não for construida pelo `Date`, ele não pode chamar funções no `Date`, que também explica a partir de outro aspecto que herança de `Class` no ES6 é diferente das heranças gerais na sintaxe do ES5.
 
-Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance:
+Uma vez o baixo nível dos limites do JS que a instância deve ser construido pelo `Date`, nós podemos tentar outra maneira de implementar herança:
 
 ```js
 function MyData() {
