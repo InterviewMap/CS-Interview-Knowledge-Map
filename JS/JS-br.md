@@ -502,9 +502,9 @@ Object.setPrototypeOf(d, MyData.prototype)
 Object.setPrototypeOf(MyData.prototype, Date.prototype)
 ```
 
-The implementation idea of the above inheritance: first create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+A implementação da idéia acima sobre herança: primeiro cria uma instância da classe do pai => muda o original `__proto__` de instância, conectado ao `prototype` da classe do filho => muda o `__proto__` da classe do filho `prototype` para o `prototype` da classe do pai.
 
-The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
+A herança de implementação com o método acima pode perfeitamente resolve a restrição no baixo nível do JS.
 
 
 # Deep and Shallow Copy
