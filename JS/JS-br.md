@@ -364,11 +364,9 @@ function A() {
 }
 ```
 
-Se você estiver se perguntando por que a função B também consegue se referenciar as variáveis da função A enquanto a função A 
+Se você estiver se perguntando por que a função B também consegue se referenciar as variáveis da função A enquanto a função A aparece a partir da stack de chamadas? Porque as variáveis na função A são guardadas na pilha nesse momento. O motor atual do JS consegue indentificar quais variáveis precisam ser salvas na heap e quais precisam ser salvas na stack por análise de fuga.
 
-Are you wondering why function B can also refer to variables in function A while function A has been popped up from the call stack? Because variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
-
-A classic interview question is using closures in loops to solve the problem of using `var` to define functions:
+Uma pergunta classica de entrevista é usando closure em loops para resolver o problema de usar `var` para definir funções:
 
 ```js
 for ( var i=1; i<=5; i++) {
@@ -378,9 +376,9 @@ for ( var i=1; i<=5; i++) {
 )
 ```
 
-First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at that time `i` is 6, so it will print a bunch of 6.
+Em primeirio lugar, todos os loops vão ser executados completamente porque `setTimeout` é uma função assíncrona, e nesse momento `i` é 6, então isso vai exibir um bando de 6.
 
-There are three solutions，closure is the first one:
+Existe três soluções, closure é a primeira:
 
 ```js
 for (var i = 1; i <= 5; i++) {
@@ -392,7 +390,7 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-The second one is to make use of the third parameter of `setTimeout`:
+A segunda é fazer o uso do terceiro parâmetro do `setTimeout`:
 
 ```js
 for ( var i=1; i<=5; i++) {
@@ -402,7 +400,7 @@ for ( var i=1; i<=5; i++) {
 }
 ```
 
-The third is to define `i` using `let`:
+A terceira é definir o `i` usando `let`:
 
 ```js
 for ( let i=1; i<=5; i++) {
@@ -412,11 +410,11 @@ for ( let i=1; i<=5; i++) {
 }
 ```
 
-For `let`, it will create a block-level scope, which is equivalent to:
+Para `let`, ele vai criar um escopo de block-level, do qual é equivalente a:
 
 ```js
 {
-    // Form block-level scope
+    // Forma o escopo block-level
   let i = 0
   {
     let ii = i
