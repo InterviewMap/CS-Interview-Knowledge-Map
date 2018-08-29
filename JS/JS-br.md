@@ -507,7 +507,7 @@ A implementação da idéia acima sobre herança: primeiro cria uma instância d
 A herança de implementação com o método acima pode perfeitamente resolve a restrição no baixo nível do JS.
 
 
-# Deep and Shallow Copy
+# Cópia profunda e rasa
 
 ```js
 let a = {
@@ -517,6 +517,8 @@ let b = a
 a.age = 2
 console.log(b.age) // 2
 ```
+
+A partir do exemplo acima, nós podemos ver que se você assinar um objeto para uma variável, então os valores dos dois vão ter a mesma referência, um muda o outro muda adequadamente.
 
 From the above example, we can see that if you assign an object to a variable,  then the values of both will be the same reference, one changes, the other changes accordingly.
 
