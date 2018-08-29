@@ -444,9 +444,9 @@ Cada objeto tem uma propriedade interna, denotada como `__proto__`, que é uma r
 
 Objetos podem usar `__proto__` para procurar propriedade que não fazem parte do objeto, e `__proto__` conecta os objetos juntos para formar uma cadeida de prototype.
 
-# Inheritance
+# Herança
 
-In ES5, we can solve the problems of inheritance by using the following ways:
+No ES5, podemos resolve os problema de herança usando os seguintes passos:
 
 ```js
 function Super() {}
@@ -466,9 +466,9 @@ Sub.prototype = Object.create(Super.prototype, {
 })
 ```
 
-The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
+A idéia de herança implementada acima é para definir o `prototype` da classe filho como o `prototype` da classe pai.
 
-In ES6, we can easily solve this problem with the `class` syntax:
+No ES6, podemos facilmente resolver esse problema com a sintaxe `class`:
 
 ```js
 class MyDate extends Date {
@@ -480,7 +480,9 @@ let myDate = new MyDate()
 myDate.test()
 ```
 
-However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
+Contudo, ES6 não é compátivel com todos os navegadores, então usamos o Babel para compilar esser código.
+
+Se chamar `myDate.test()` com o código compilado,
 
 If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error:
 
