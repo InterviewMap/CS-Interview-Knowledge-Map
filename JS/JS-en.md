@@ -1400,3 +1400,58 @@ parseFloat((0.1 + 0.2).toFixed(10))
 |  \b  |    start or end of a word    |
 |  \B  |         the opposite of the above         |
 
+# Unit Testing - Jest
+
+It has now become mandatory to practice and implement Test Driven Development(TDD). FYI, Test-driven development(TDD) is the process of writing tests before any actual code. Below mentioned cycle is often referred as 'red-green-refactor' cycle of TDD:-
+	    
+   1. Write tests (that initially fail)
+
+   2. Write code to pass the tests
+
+   3. Refactor the code
+
+   4. Test refactored code
+
+   5. Write more tests for new features
+
+Let's get going!
+
+### Installation
+`npm i -D jest`
+
+### file.js
+```
+const testingFunctions = {
+
+   sum: (x,y) => {
+   	return x + y;
+   },
+   
+}
+
+module.exports = testingFunctions;
+```
+
+### file.test.js
+
+```
+//Let's just pretend that they are in the same folder
+
+const testingFunctions = require('./testingFunctions');
+
+// Output: Pass
+test('sum of 1 + 1 should give 2', () => {
+    expect(testingFunctions.sum(1,1)).toBe(2);
+});
+
+//Output: Fail
+test('sum of 1 + 1 should give 2', () => {
+    expect(testingFunctions.sum(1,2)).toBe(2);
+});
+
+//Output: Pass
+test('sum of 1 + 2 should give 2', () => {
+    expect(testingFunctions.sum(1,2)).not.toBe(2);
+});
+
+```
