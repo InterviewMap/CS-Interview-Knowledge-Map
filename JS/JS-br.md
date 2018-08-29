@@ -520,13 +520,11 @@ console.log(b.age) // 2
 
 A partir do exemplo acima, nós podemos ver que se você assinar um objeto para uma variável, então os valores dos dois vão ter a mesma referência, um muda o outro muda adequadamente.
 
-From the above example, we can see that if you assign an object to a variable,  then the values of both will be the same reference, one changes, the other changes accordingly.
+Geralmente, nós não queremos que tal problema apareça durante o desensolvimento, portanto podemos usar a cópia rasa para resolver esse problema.
 
-Usually, we don't want such problem to appear during development, thus we can use shallow copy to solve this problem.
+## Cópia rasa
 
-## Shallow copy
-
-Firstly we can solve the problem by `Object.assign`:
+Primeiramente podemos resolver o problema através do `Object.assign`:
 ```js
 let a = {
     age: 1
@@ -536,7 +534,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Certainly, we can use the spread operator (...) to solve the problem:
+Certamente, podemos usar o spread operator (...) para resolver o problema:
 ```js
 let a = {
     age: 1
@@ -546,7 +544,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Usually, shallow copy can solve most problems, but we need deep copy when encountering the following situation:
+Geralmente, a cópia rasa pode resolver a maioria dos problemas, mas precisamos da cópia profunda quando encontrado a seguinte situação:
 ```js
 let a = {
     age: 1,
@@ -558,11 +556,11 @@ let b = {...a}
 a.jobs.first = 'native'
 console.log(b.jobs.first) // native
 ```
-The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that both values share the same reference. To solve this problem, we need to introduce deep copy.
+A cópia rasa resolve apenas o problema na primeira camada. Se o objeto contém objetos, então ele retorna para o topico inicial que os dois valores compartilham a mesma referência. Para resolver esse problema, precisamos introduzir a cópia profunda. 
 
-## Deep copy
+## Cópia profunda
 
-The problem can usually be solved by  `JSON.parse(JSON.stringify(object))`
+O problema pode geralmente ser resolvido por `JSON.parse(JSON.stringify(object))`
 
 ```js
 let a = {
@@ -576,10 +574,10 @@ a.jobs.first = 'native'
 console.log(b.jobs.first) // FE
 ```
 
-But this method also has its limits:
-* ignore `undefined`
-* unable to serialize function
-* unable to resolve circular references in an object
+Mas esse método também tem seus limites:
+* ignora `undefined`
+* incapaz de serializar função
+* incapaz de resolver referência circular de um objeto
 ```js
 let obj = {
   a: 1,
