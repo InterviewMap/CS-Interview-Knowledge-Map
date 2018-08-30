@@ -595,11 +595,11 @@ let newObj = JSON.parse(JSON.stringify(obj))
 console.log(newObj)
 ```
 
-If an object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object:
+Se um objto é uam referência circular como o exemplo acima, você vai encontrar o método `JSON.parse(JSON.stringify(object))` ele não pode fazer a cópia profunda desse objeto:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-When dealing with function or `undefined`,  the object can also not be serialized properly.
+Quando lidando com uma função ou `undefined`, o objeto pode não ser serializado adequedamente.
 ```js
 let a = {
     age: undefined,
@@ -610,7 +610,7 @@ let b = JSON.parse(JSON.stringify(a))
 console.log(b) // {name: "yck"}
 ```
 
-In above case, you can see that the method ignores function and `undefined`.
+No caso acima, você pode perceber que o método ignora a função e `undefined`.
 
 Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
 
