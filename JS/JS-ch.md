@@ -671,7 +671,9 @@ var obj = {a: 1, b: {
 }}
 // 注意该方法是异步的
 // 可以处理 undefined 和循环引用对象
-const clone = await structuralClone(obj);
+(async () => {
+  const clone = await structuralClone(obj)
+})()
 ```
 
 # 模块化
