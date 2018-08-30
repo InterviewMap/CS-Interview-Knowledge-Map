@@ -577,6 +577,7 @@ console.log(b.jobs.first) // FE
 
 But this method also has its limits:
 * ignore `undefined`
+* ignore `symbol`
 * unable to serialize function
 * unable to resolve circular references in an object
 ```js
@@ -600,10 +601,11 @@ If an object is circularly referenced like the above example, you’ll find the 
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-When dealing with function or `undefined`,  the object can also not be serialized properly.
+When dealing with function, `undefined` or `symbol`, the object can also not be serialized properly.
 ```js
 let a = {
     age: undefined,
+    sex: Symbol('male'),
     jobs: function() {},
     name: 'yck'
 }
