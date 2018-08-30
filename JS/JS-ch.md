@@ -615,6 +615,7 @@ console.log(b.jobs.first) // FE
 但是该方法也是有局限性的：
 
 - 会忽略 `undefined`
+- 会忽略 `symbol`
 - 不能序列化函数
 - 不能解决循环引用的对象
 
@@ -639,11 +640,12 @@ console.log(newObj)
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-在遇到函数或者 `undefined` 的时候，该对象也不能正常的序列化
+在遇到函数、 `undefined` 或者 `symbol` 的时候，该对象也不能正常的序列化
 
 ```js
 let a = {
     age: undefined,
+    sex: Symbol('male'),
     jobs: function() {},
     name: 'yck'
 }
