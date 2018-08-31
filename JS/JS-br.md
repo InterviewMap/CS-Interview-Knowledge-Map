@@ -612,9 +612,9 @@ console.log(b) // {name: "yck"}
 
 No caso acima, você pode perceber que o método ignora a função e `undefined`.
 
-Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+A maioria dos dados conseguem ser serializados, então esse método resolve a maioria dos problemas, e como uma função embutida, ele tem uma performance melhor quando lidando com a cópia profunda. Certamente, você pode usar [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) quando sues dados contém os três casos acima.
 
-If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
+Se o objeto que você quer copiar contém um tipo embutido mas não contém uma função, você pode usar `MessageChannel`
 ```js
 function structuralClone(obj) {
   return new Promise(resolve => {
@@ -627,8 +627,8 @@ function structuralClone(obj) {
 var obj = {a: 1, b: {
     c: b
 }}
-// pay attention that this method is asynchronous
-// it can handle `undefined` and circular reference object
+// preste atenção que esse método é assíncrono
+// ele consegue manipular `undefined` e referência circular do objeto
 const clone = await structuralClone(obj);
 ```
 
