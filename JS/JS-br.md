@@ -2,13 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Tipos incorporados](#built-in-types)
-- [Conversão de tipo](#type-conversion)
-  - [Convertendo para boleano](#converting-to-boolean)
-  - [De objetos para tipos primitivos](#objects-to-primitive-types)
-  - [Operadores aritméticos](#arithmetic-operators)
-  - [`==` operador](#-operator)
-  - [Operador de comparação](#comparison-operator)
+- [Tipos incorporados](#tipos-incorporados)
+- [Conversão de Tipos](#conversão-de-tipos)
+  - [Convertendo para boleano](#convertendo-para-boleano)
+  - [De objetos para tipos primitivos](#de-objetos-para-tipos-primitivos)
+  - [Operadores aritméticos](#operadores-aritméticos)
+  - [`==` operador](#-operador)
+  - [Operador de comparação](#operador-de-comparação)
 - [Typeof](#typeof)
 - [New](#new)
 - [This](#this)
@@ -16,11 +16,11 @@
 - [Scope](#scope)
 - [Closure](#closure)
 - [Prototypes](#prototypes)
-- [Herança](#inheritance)
-- [Cópia rasa e profunda](#deep-and-shallow-copy)
-  - [Cópia rasa](#shallow-copy)
-  - [Deep copy](#deep-copy)
-- [Modularização](#modularization)
+- [Herança](#herança)
+- [Cópia rasa e profunda](#cópia-rasa-e-profunda)
+  - [Cópia rasa](#cópia-rasa)
+  - [Cópia profunda](#cópia-profunda)
+- [Modularização](#modularização)
   - [CommonJS](#commonjs)
   - [AMD](#amd)
 - [A diferença entre call, apply, bind](#the-differences-between-call-apply-bind)
@@ -40,7 +40,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Tipos incorparados
+# Tipos incorporados
 O JavaScript define sete tipos incorporados, dos quais podem ser divididos em duas categorias `Primitive Type` e `Object`.
 
 Existem seis tipos primitivos: `null`, `undefined`, `boolean`, `number`, `string` e `symbol `.
@@ -73,7 +73,7 @@ console.log(a.name) // EF
 
 Quando a condição é julgada, que não seja `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, os esses valores, incluindo objetos, são convertidos para `true`.
 
-## Objeto para tipos primitivos
+## De objetos para tipos primitivos
 
 Quando objetos são convertidos, `valueOf` e `toString` serão chamados, respectivamente em ordem. Esses dois métodos também são sobrescritos.
 
@@ -507,7 +507,7 @@ A implementação da idéia acima sobre herança: primeiro cria uma instância d
 A herança de implementação com o método acima pode perfeitamente resolve a restrição no baixo nível do JS.
 
 
-# Cópia profunda e rasa
+# Cópia rasa e profunda
 
 ```js
 let a = {
@@ -632,15 +632,15 @@ var obj = {a: 1, b: {
 const clone = await structuralClone(obj);
 ```
 
-# Modularization
+# Modularização
 
-With Babel, we can directly use ES6's modularization:
+Com o Babel, nós conseguimos usar a ES6 modularização:
 
 ```js
-// file a.js
+// arquivo a.js
 export function a() {}
 export function b() {}
-// file b.js
+// arquivo b.js
 export default function() {}
 
 import {a, b} from './a.js'
@@ -649,14 +649,14 @@ import XXX from './b.js'
 
 ## CommonJS
 
-`CommonJS` is Node's unique feature. `Browserify` is needed for `CommonJS` to be used in browsers.
+`CommonJS` é uma aspecto único do Node. É preciso `Browserify` para o `CommonJS` ser usado nos navegadores.
 
 ```js
 // a.js
 module.exports = {
     a: 1
 }
-// or
+// ou
 exports.a = 1
 
 // b.js
@@ -664,21 +664,21 @@ var module = require('./a.js')
 module.a // -> log 1
 ```
 
-In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations:
+No código acima, `module.exports` e `exports` podem causar confusão. Vamos dar uma olhada na implementação interna:
 
 ```js
 var module = require('./a.js')
 module.a
-// this is actually a wrapper of a function to be executed immediately so that we don't mess up the global variables.
-// what's important here is that module is a Node only variable.
+// esse é o empacotador atual de uma função a ser executada imediatamente, de modo que não precisamos bagunçar as variáveis globais.
+// O que é importante aqui é que o módulo é apenas uma variável do Node.
 module.exports = {
     a: 1
 }
-// basic implementation
+// implementação básica
 var module = {
-  exports: {} // exports is an empty object
+  exports: {} // exporta em um objeto vázio
 }
-// This is why exports and module.exports have similar usage.
+// Esse é o por que o exports e module.exports tem usos similares.
 var exports = module.exports
 var load = function (module) {
     // to be exported
