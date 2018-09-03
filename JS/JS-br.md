@@ -688,12 +688,13 @@ var load = function (module) {
 };
 ```
 
-Let's then talk about `module.exports` and `exports`, which have similar usage, but one cannot assign a value to `exports` directly. The assignment would be a no-op.
+Vamos então falar sobre `module.exports` e `exports`, que tem uso similar, mas um não atribui um valor para `exports` diretamente. A tarefa seria um no-op.
 
-The differences between the modularizations in `CommonJS` and in ES6 are:
+A diferença entre as modularizações no `CommonJS` a no ES6 são:
 
-- The former supports dynamic imports, which is `require(${path}/xx.js)`; the latter doesn't support it yet, but there have been proposals.
-- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if asynchronous import was used.
+- O antigo suporta importes dinamico, que é `require(${path}/xx.js)`; o último não suporta isso ainda, mas 
+existem propostas.
+- O antigo usa importes síncronos. Desde de que usado no servidor os arquivos são locais, não importa muito mesmo se o import síncrono bloqueia a main thread. O último usa importe assíncrono, porque ele é usado no navegador em que os arquivos baixados são precisos. O processo de rendereização seria afetado muito se assíncrono importe for usado.
 - The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
 - In execution the latter is compiled to `require/exports`.
 
