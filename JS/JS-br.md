@@ -23,8 +23,8 @@
 - [Modularização](#modularização)
   - [CommonJS](#commonjs)
   - [AMD](#amd)
-- [A diferença entre call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulação para implementar `call` e  `apply`](#simulation-to-implement--call-and--apply)
+- [A diferença entre call apply bind](#a-diferença-entre-call-apply-bind)
+  - [simulação para implementar `call` e `apply`](#simulação-para-implementar--call-e--apply)
 - [Implementação de Promise](#promise-implementation)
 - [Implementação do Generator](#generator-implementation)
 - [Debouncing](#debouncing)
@@ -700,7 +700,7 @@ existem propostas.
 
 ## AMD
 
-AMD is brought forward by `RequireJS`.
+AMD é apresentado por `RequireJS`.
 
 ```js
 // AMD
@@ -716,13 +716,13 @@ define(function(require, exports, module) {
 })
 ```
 
-# The differences between call, apply, bind
+# A diferença entre call apply bind
 
-Firstly, let’s tell the difference between the former two.
+Primeiro, vamos falar a diferença entre os dois antigos.
 
-Both `call` and `apply` are used to change what `this` refers to. Their role is the same, but the way to pass parameters is different.
+Ambos `call` e `apply` são usados para mudar o que o `this` se refere. Seu papel é o mesmo, mas a maneira de passar os parâmetros é diferente.
 
-In addition to the first parameter,  `call` can accept an argument list, while `apply` accepts a single array of arguments.
+Além do primeiro parâmetro, `call` também aceita uma lista de argumentos, enquanto `apply` aceita um único array de argumentos.
 
 ```js
 let a = {
@@ -737,12 +737,13 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-## simulation to implement  `call` and  `apply`
+## simulação para implementar `call` e `apply`
 
-We can consider how to implement them from the following rules:
+Consideramos implementar eles a partir das seguintes regras:
 
-* If the first parameter isn’t passed, then the first parameter will default to  `window`;
-* Change what `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
+* Se o primeiro parâmetro não foi passado, então o primeiro será o padrão `window`;
+
+* Mude a referência do `this`, que faz um novo objeto capaz de executar a função. Então vamos pensar assim: adicione a função para um novo objeto e então delete ele depois da execução.
 
 ```js
 Function.prototype.myCall = function (context) {
