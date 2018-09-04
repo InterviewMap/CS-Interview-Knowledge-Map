@@ -748,20 +748,20 @@ Consideramos implementar eles a partir das seguintes regras:
 ```js
 Function.prototype.myCall = function (context) {
   var context = context || window
-  // Add an property to the `context`
+  // Adiciona uma propriedade ao `context`
   // getValue.call(a, 'yck', '24') => a.fn = getValue
   context.fn = this
-  // take out the rest parameters of `context`
+  // pega os parâmentros do `context`
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
   var result = context.fn(...args)
-  // delete fn
+  // deleta fn
   delete context.fn
   return result
 }
 ```
 
-The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
+O exemplo acima é a idéia central da simulação do `call`, e a implementação do `apply` é similar.
 
 ```js
 Function.prototype.myApply = function (context) {
@@ -769,8 +769,8 @@ Function.prototype.myApply = function (context) {
   context.fn = this
 
   var result
-  // There's a need to determine whether to store the second parameter
-  // If the second parameter exists, spread it
+  // Existe a necessidade de determinar se guarda o segundo parâmentro
+  // Se o segundo parâmetro existir, espalhe ele
   if (arguments[1]) {
     result = context.fn(...arguments[1])
   } else {
@@ -782,9 +782,9 @@ Function.prototype.myApply = function (context) {
 }
 ```
 
-The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
+A regra do `bind` é a mesma das outras duas, exceto que ela retorna uma função. E nós podemos implementar currying com o `bind`
 
-let’s simulate `bind`:
+vamos simular o `bind`:
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -793,9 +793,9 @@ Function.prototype.myBind = function (context) {
   }
   var _this = this
   var args = [...arguments].slice(1)
-  // return a function
+  // retorna uma função
   return function F() {
-    // we can use `new F()` because it returns a function, so we need to determine
+    // Nós podemos usar `new F()` porque ele retorna uma função, então precisamos determinar
     if (this instanceof F) {
       return new _this(...args, ...arguments)
     }
