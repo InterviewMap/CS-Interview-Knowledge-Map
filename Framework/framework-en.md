@@ -294,12 +294,12 @@ ul.childNodes[2].remove()
 let fromNode = ul.childNodes[4]
 let toNode = node.childNodes[3]
 let cloneFromNode = fromNode.cloneNode(true)
-let cloenToNode = toNode.cloneNode(true)
+let cloneToNode = toNode.cloneNode(true)
 ul.replaceChild(cloneFromNode, toNode)
-ul.replaceChild(cloenToNode, fromNode)
+ul.replaceChild(cloneToNode, fromNode)
 ```
 
-Of course, in actual operations, we need an indentifier for each node, as an index for checking if two nodes are identical. This is why both Vue and React's official documentation suggests using a unique identifier `key` for nodes in a list to ensure efficiency.
+Of course, in actual operations, we need an identifier for each node, as an index for checking if two nodes are identical. This is why both Vue and React's official documentation suggests using a unique identifier `key` for nodes in a list to ensure efficiency.
 
 DOM element can not only be simulated, but they can also be rendered by JS objects.
 
@@ -393,7 +393,7 @@ We then have two steps of the algorithm.
 
 First let's implement the recursion algorithm of the tree. Before doing that, let's consider the different cases of comparing two nodes.
 
-1. new nodes's `tagName` or `key` is different from that of the old one. This menas the old node is replaced, and we don't have to recurse on the node any more because the whole subtree is removed.
+1. new node's `tagName` or `key` is different from that of the old one. This means the old node is replaced, and we don't have to recurse on the node any more because the whole subtree is removed.
 2. new node's `tagName` and `key` (maybe nonexistent) are the same as the old's. We start recursing on the subtree.
 3. no new node appears. No operation needed.
 
@@ -403,10 +403,10 @@ import Element from './element'
 
 export default function diff(oldDomTree, newDomTree) {
   // for recording changes
-  let pathchs = {}
+  let patches = {}
   // the index starts at 0
-  dfs(oldDomTree, newDomTree, 0, pathchs)
-  return pathchs
+  dfs(oldDomTree, newDomTree, 0, patches)
+  return patches
 }
 
 function dfs(oldNode, newNode, index, patches) {
@@ -450,7 +450,7 @@ We also have three steps for checking for property changes
 function diffProps(oldProps, newProps) {
   // three steps for checking for props
   // iterate oldProps for removed properties
-  // iterate newProps for chagned property values
+  // iterate newProps for changed property values
   // lastly check if new properties are added
   let change = []
   for (const key in oldProps) {
@@ -498,7 +498,7 @@ function listDiff(oldList, newList, index, patches) {
   let newKeys = getKeys(newList)
   let changes = []
 
-  // for saving the node daa after changes
+  // for saving the node data after changes
   // there are several advantages of using this array to save
   // 1. we can correctly obtain the index of the deleted node
   // 2. we only need to operate on the DOM once for interexchanged nodes
@@ -589,7 +589,7 @@ For this function, there are two main functionalities.
 1. checking differences between two lists
 2. marking nodes
 
-In general, the functionalities impelemented are simple.
+In general, the functionalities implemented are simple.
 
 ```js
 function diffChildren(oldChild, newChild, index, patches) {
@@ -635,12 +635,12 @@ This code snippet is pretty easy to understand as a whole.
 
 ```js
 let index = 0
-export default function patch(node, patchs) {
-  let changes = patchs[index]
+export default function patch(node, patches) {
+  let changes = patches[index]
   let childNodes = node && node.childNodes
   // this deep search is the same as the one in diff algorithm
   if (!childNodes) index += 1
-  if (changes && changes.length && patchs[index]) {
+  if (changes && changes.length && patches[index]) {
     changeDom(node, changes)
   }
   let last = null
@@ -648,7 +648,7 @@ export default function patch(node, patchs) {
     childNodes.forEach((item, i) => {
       index =
         last && last.children ? index + last.children.length + 1 : index + 1
-      patch(item, patchs)
+      patch(item, patches)
       last = item
     })
   }
@@ -688,9 +688,9 @@ function changeDom(node, changes, noChild) {
           let fromNode = node.childNodes[change.from]
           let toNode = node.childNodes[change.to]
           let cloneFromNode = fromNode.cloneNode(true)
-          let cloenToNode = toNode.cloneNode(true)
+          let cloneToNode = toNode.cloneNode(true)
           node.replaceChild(cloneFromNode, toNode)
-          node.replaceChild(cloenToNode, fromNode)
+          node.replaceChild(cloneToNode, fromNode)
           break
         default:
           break
@@ -717,12 +717,12 @@ let test2 = new Element('div', { id: '11' }, [test5, test4])
 
 let root = test1.render()
 
-let pathchs = diff(test1, test2)
-console.log(pathchs)
+let patches = diff(test1, test2)
+console.log(patches)
 
 setTimeout(() => {
   console.log('start updating')
-  patch(root, pathchs)
+  patch(root, patches)
   console.log('end updating')
 }, 1000)
 ```

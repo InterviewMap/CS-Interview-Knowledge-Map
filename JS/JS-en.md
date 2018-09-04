@@ -1291,7 +1291,7 @@ console.log('1', a) // -> '1' 1
 You may have doubts about the above code, here we explain the principle:
 
 - First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `Generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
-- Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
+- Because `await` is an asynchronous operation,  it will immediately return a `pending` state `Promise` object when it encounter `await`, and temporarily returning control of the execution code, so that the code outside the function can continue to be executed. `console.log('1', a)` will be executed first.
 - At this point, the synchronous code is completed and asynchronous code is started. The saved value is used. At this time, `a = 10`
 - Then comes the usual code execution
 
