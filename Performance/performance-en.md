@@ -92,7 +92,7 @@ Since browsers have limitations on concurrent requests, each request needs to be
 
 Multiplexing was introduced in HTTP/2.0, allowing multiple requests to use the same TCP connect, greatly speeding up the loading of websites. Header compression is also supported, further shortening the size of the request data.
 
-To know more detailed content,  you can view  [this section](../Network/Network-zh.md##http-20) TODO
+To know more detailed content,  you can view  [this section](../Network/Network-zh.md#http-2-0) TODO
 
 ## PreLoad
 
