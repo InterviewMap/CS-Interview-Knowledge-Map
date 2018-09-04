@@ -25,7 +25,7 @@
   - [AMD](#amd)
 - [A diferença entre call apply bind](#a-diferença-entre-call-apply-bind)
   - [simulação para implementar `call` e `apply`](#simulação-para-implementar--call-e--apply)
-- [Implementação de Promise](#promise-implementation)
+- [Implementação de Promise](#implementação-de-promise)
 - [Implementação do Generator](#generator-implementation)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
@@ -804,13 +804,15 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-# Promise implementation
+# Implementação de Promise
 
-`Promise` is a new syntax introduced by ES6, which resolves the problem of callback hell.
+`Promise` é a nova sintaxe introduzida pelo ES6, que resolve os problemas de callback hell.
 
-Promise can be seen as a state machine and it's initial state is `pending`. We can change the state to `resolved` or `rejected` by using the `resolve` and `reject` functions. Once the state is changed, it cannot be changed again.
+Promise pode ser visto como um estado de máquina e o seu estado inicial é `pending`. Nós podemos mudar o estado para `resolved` ou `rejected` usando as funções `resolve` e `reject`. Uma vez que o state mudou, ele não pode mudar novamente.
 
-The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
+A função `then` retorna uma instância da Promise, do qual é uma nova instância ao invés do anterior. E existe por que a especificação de estado da Promise que adiciona para o estado `pending`, outro estado não pode ser mudado, e multiplas chamadas a função `then` serão insignificantes se a mesma instância for retornada.
+
+Para `then`, ele pode essencialmente ser visto como flatMap`:
 
 For `then`, it can essentially be seen as `flatMap`:
 
