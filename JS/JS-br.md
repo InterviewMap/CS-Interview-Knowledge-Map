@@ -695,8 +695,8 @@ A diferença entre as modularizações no `CommonJS` a no ES6 são:
 - O antigo suporta importes dinamico, que é `require(${path}/xx.js)`; o último não suporta isso ainda, mas 
 existem propostas.
 - O antigo usa importes síncronos. Desde de que usado no servidor os arquivos são locais, não importa muito mesmo se o import síncrono bloqueia a main thread. O último usa importe assíncrono, porque ele é usado no navegador em que os arquivos baixados são precisos. O processo de rendereização seria afetado muito se assíncrono importe for usado.
-- The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
-- In execution the latter is compiled to `require/exports`.
+- O anterior copia os valores quando exportando. Mesmo se o valor exportado mudou, os valores importados não irão mudar. Portanto, se os valores devem ser atualizados, outro importe precisa acontecer. Contudo, o último usa ligações em tempo real, os valores importados são importados no mesmo endereço de memória, então o valor importado muda junto com os importados.
+- Em execução o último é compilado para `require/exports`.
 
 ## AMD
 
