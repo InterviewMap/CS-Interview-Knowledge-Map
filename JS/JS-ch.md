@@ -1024,7 +1024,7 @@ Function.prototype.myCall = function (context) {
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
   var result = context[tempOrginalFunc](...args)
-  // 删除 fn
+  // 删除 [tempOrginalFunc]
   delete context[tempOrginalFunc]
   return result
 }
