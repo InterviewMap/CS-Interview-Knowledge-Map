@@ -24,7 +24,7 @@
   - [CommonJS](#commonjs)
   - [AMD](#amd)
 - [The differences between call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulation to implement  `call` and  `apply`](#simulation-to-implement--call-and--apply)
+  - [simulation to implement  `call`, `apply` and `bind`](#simulation-to-implement--call-apply-and-bind)
 - [Promise implementation](#promise-implementation)
 - [Generator Implementation](#generator-implementation)
 - [Debouncing](#debouncing)
@@ -737,7 +737,7 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-## simulation to implement  `call` and  `apply`
+## simulation to implement  `call`, `apply` and `bind`
 
 We can consider how to implement them from the following rules:
 
@@ -748,14 +748,17 @@ We can consider how to implement them from the following rules:
 Function.prototype.myCall = function (context) {
   var context = context || window
   // Add an property to the `context`
+  // Use Symbol here to ensure that the properties does not conflict with context's
   // getValue.call(a, 'yck', '24') => a.fn = getValue
-  context.fn = this
+  var tempOrginalFunc = Symbol('Original function name')
+  context[tempOrginalFunc] = this
+  
   // take out the rest parameters of `context`
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
-  var result = context.fn(...args)
-  // delete fn
-  delete context.fn
+  var result = context[tempOrginalFunc](...args)
+  // delete [tempOrginalFunc]
+  delete context[tempOrginalFunc]
   return result
 }
 ```
@@ -765,18 +768,20 @@ The above is the main idea of simulating  `call`, and the implementation of  `ap
 ```js
 Function.prototype.myApply = function (context) {
   var context = context || window
-  context.fn = this
+  
+  var tempOrginalFunc = Symbol('Original function name')
+  context[tempOrginalFunc] = this
 
   var result
   // There's a need to determine whether to store the second parameter
   // If the second parameter exists, spread it
   if (arguments[1]) {
-    result = context.fn(...arguments[1])
+    result = context[tempOrginalFunc](...arguments[1])
   } else {
-    result = context.fn()
+    result = context[tempOrginalFunc]()
   }
 
-  delete context.fn
+  delete context[tempOrginalFunc]
   return result
 }
 ```
