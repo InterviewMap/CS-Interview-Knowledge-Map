@@ -96,19 +96,19 @@
 
 👆提过，`OpenId` 是一个小程序对于一个用户的标识，利用这一点我们可以轻松的实现一套基于小程序的用户体系，值得一提的是这种用户体系对用户的打扰最低，可以实现静默登录。具体步骤如下：
 
-  1. 小程序客户端通过 `wx.login` 获取 code
+    1. 小程序客户端通过 `wx.login` 获取 code
 
-  2. 传递 code 向服务端，服务端拿到 code 调用微信登录凭证校验接口，微信服务器返回 `openid` 和会话密钥 `session_key` ，此时开发者服务端便可以利用 `openid` 生成用户入库，再向小程序客户端返回自定义登录态
+    2. 传递 code 向服务端，服务端拿到 code 调用微信登录凭证校验接口，微信服务器返回 `openid` 和会话密钥 `session_key` ，此时开发者服务端便可以利用 `openid` 生成用户入库，再向小程序客户端返回自定义登录态
 
-  3. 小程序客户端缓存 （通过`storage`）自定义登录态（token），后续调用接口时携带该登录态作为用户身份标识即可
+    3. 小程序客户端缓存 （通过`storage`）自定义登录态（token），后续调用接口时携带该登录态作为用户身份标识即可
 
 ### 利用 Unionid 创建用户体系
-   
+
 如果想实现多个小程序，公众号，已有登录系统的数据互通，可以通过获取到用户 unionid 的方式建立用户体系。因为 unionid 在同一开放平台下的所所有应用都是相同的，通过 `unionid` 建立的用户体系即可实现全平台数据的互通，更方便的接入原有的功能，那如何获取 `unionid` 呢，有以下两种方式：
 
-   1. 如果户关注了某个相同主体公众号，或曾经在某个相同主体App、公众号上进行过微信登录授权，通过 `wx.login` 可以直接获取 到 `unionid`
+      1. 如果户关注了某个相同主体公众号，或曾经在某个相同主体App、公众号上进行过微信登录授权，通过 `wx.login` 可以直接获取 到 `unionid`
 
-   2. 结合 `wx.getUserInfo` 和 `<button open-type="getUserInfo"><button/>` 这两种方式引导用户主动授权，主动授权后通过返回的信息和服务端交互 (这里有一步需要服务端解密数据的过程，很简单，微信提供了示例代码) 即可拿到 `unionid` 建立用户体系， 然后由服务端返回登录态，本地记录即可实现登录，附上微信提供的最佳实践：
+      2. 结合 `wx.getUserInfo` 和 `<button open-type="getUserInfo"><button/>` 这两种方式引导用户主动授权，主动授权后通过返回的信息和服务端交互 (这里有一步需要服务端解密数据的过程，很简单，微信提供了示例代码) 即可拿到 `unionid` 建立用户体系， 然后由服务端返回登录态，本地记录即可实现登录，附上微信提供的最佳实践：
 
       - 调用 wx.login 获取 code，然后从微信后端换取到 session_key，用于解密 getUserInfo返回的敏感数据。
 
@@ -117,7 +117,7 @@
         - 用户未授权，在界面中显示一个按钮提示用户登入，当用户点击并授权后就获取到用户的最新信息。
 
       - 获取到用户数据后可以进行展示或者发送给自己的后端。
- 
+
 ### 注意事项
 
 1. 需要获取 `unionid` 形式的登录体系，在以前（18年4月之前）是通过以下这种方式来实现，但后续微信做了调整（因为一进入小程序，主动弹起各种授权弹窗的这种形式，比较容易导致用户流失），调整为必须使用按钮引导用户主动授权的方式，这次调整对开发者影响较大，开发者需要注意遵守微信的规则，并及时和业务方沟通业务形式，不要存在侥幸心理，以防造成小程序不过审等情况。
@@ -149,9 +149,9 @@
 根据上述的原理来看，实现是很简单的，只不过就是设计稿的提取，绘制即可，但是作为一个常用功能，每次都这样写一坨代码岂不是非常的难受。那小程序如何设计一个通用的方法来帮助我们导出图片呢？思路如下：
 
 1. 绘制出需要的样式这一步是省略不掉的。但是我们可以封装一个绘制库，包含常见图形的绘制，例如矩形，圆角矩形，圆， 扇形， 三角形， 文字，图片减少绘制代码，只需要提炼出样式信息，便可以轻松的绘制，最后导出图片存入相册。笔者觉得以下这种方式绘制更为优雅清晰一些，其实也可以使用加入一个type参数来指定绘制类型，传入的一个是样式数组，实现绘制。
- 
+
 2. 结合上一步的实现，如果对于同一类型的卡片有多次导出需求的场景，也可以使用自定义组件的方式，封装同一类型的卡片为一个通用组件，在需要导出图片功能的地方，引入该组件即可。
-   
+
 
 ```js
     
@@ -193,7 +193,7 @@
 数据统计作为目前一种常用的分析用户行为的方式，小程序端也是必不可少的。小程序采取的曝光，点击数据埋点其实和h5原理是一样的。但是埋点作为一个和业务逻辑不相关的需求，我们如果在每一个点击事件，每一个生命周期加入各种埋点代码，则会干扰正常的业务逻辑，和使代码变的臃肿，笔者提供以下几种思路来解决数据埋点：
 
 ## 设计一个埋点sdk
-    
+
 小程序的代码结构是，每一个 Page 中都有一个 Page 方法，接受一个包含生命周期函数，数据的 `业务逻辑对象` 包装这层数据，借助小程序的底层逻辑实现页面的业务逻辑。通过这个我们可以想到思路，对Page进行一次包装，篡改它的生命周期和点击事件，混入埋点代码，不干扰业务逻辑，只要做一些简单的配置即可埋点，简单的代码实现如下：
 
 ```js
@@ -266,13 +266,13 @@
 1. 支持新建项目，创建Page，创建Component
 2. 支持内置构建脚本
 3. 支持发布小程序，也可以想办法接入Jenkins等工具做持续集成 (小程序持续集成后面会提)
-...
+  ...
 
 # 小程序架构
 
 ![architecture](https://user-images.githubusercontent.com/2350193/44563914-ff97c380-a792-11e8-8e77-6d0970891e24.png)
 
-微信小程序的框架包含两部分View视图层、App Service逻辑层。View层用来渲染页面结构，AppService层用来逻辑处理、数据请求、接口调用。
+微信小程序的框架包含两部分 View 视图层、App Service逻辑层。View 层用来渲染页面结构，AppService 层用来逻辑处理、数据请求、接口调用。
 
 它们在**两个线程里**运行。
 
@@ -280,28 +280,28 @@
 
 它们在**两个线程里**运行。
 
-视图层和逻辑层通过系统层的JSBridage进行通信，逻辑层把数据变化通知到视图层，触发视图层页面更新，视图层把触发的事件通知到逻辑层进行业务处理。
+视图层和逻辑层通过系统层的 JSBridage 进行通信，逻辑层把数据变化通知到视图层，触发视图层页面更新，视图层把触发的事件通知到逻辑层进行业务处理。
 
 补充
 
 ![one-context](https://user-images.githubusercontent.com/2350193/44186238-db146980-a14a-11e8-8096-bcb8fa6d28b2.png)
 
-**视图层使用WebView渲染，iOS中使用自带WKWebView，在android使用腾讯的x5内核(基于Blink)运行。**
+**视图层使用 WebView 渲染，iOS 中使用自带 WKWebView，在 Android 使用腾讯的 x5 内核（基于 Blink）运行。**
 
-**逻辑层使用在iOS中使用自带的JSCore运行，在android中使用腾讯的x5内核(基于Blink)运行。**
+**逻辑层使用在 iOS 中使用自带的 JSCore 运行，在 Android 中使用腾讯的 x5 内核（基于 Blink）运行。**
 
-**开发工具使用nw.js同时提供了视图层和逻辑层的运行环境。**
+**开发工具使用 nw.js 同时提供了视图层和逻辑层的运行环境。**
 
 
 
-在mac下使用js-beautify对微信开发工具@v1.02.1808080代码批量格式化：
+在 Mac下 使用 js-beautify 对微信开发工具 @v1.02.1808080代码批量格式化：
 
 ```Shell
 cd /Applications/wechatwebdevtools.app/Contents/Resources/package.nw
 find . -type f -name '*.js' -not -path "./node_modules/*" -not -path -exec js-beautify -r -s 2 -p -f '{}' \;
 ```
 
-在js/extensions/appservice/index.js中找到：
+在 `js/extensions/appservice/index.js` 中找到：
 
 ```js
 	267: function(a, b, c) {
@@ -349,7 +349,7 @@ find . -type f -name '*.js' -not -path "./node_modules/*" -not -path -exec js-be
   }
 ```
 
-在js/extensions/gamenaitveview/index.js中找到：
+在 `js/extensions/gamenaitveview/index.js` 中找到：
 
 ```js
   299: function(a, b, c) {
@@ -370,7 +370,7 @@ find . -type f -name '*.js' -not -path "./node_modules/*" -not -path -exec js-be
   },
 ```
 
-在js/extensions/pageframe/index.js中找到：
+在 `js/extensions/pageframe/index.js `中找到：
 
 ```js
 317: function(a, b, c) {
@@ -404,11 +404,9 @@ find . -type f -name '*.js' -not -path "./node_modules/*" -not -path -exec js-be
 
 
 
+我们都看到了 WeixinJSBridge 的定义。分别都有 `on`、`invoke`、`publish`、`subscribe` 这个几个关键方法。
 
-
-我们都看到了WeixinJSBridge的定义。分别都有`on`,`invoke`,`publish`,`subscribe`这个几个关键方法。
-
-拿`invoke`举例，在js/extensions/appservice/index.js中发现这段代码：
+拿 `invoke` 举例，在 `js/extensions/appservice/index.js `中发现这段代码：
 
 ```js
 f (!r) p[b] = s, f.send({
@@ -421,7 +419,7 @@ f (!r) p[b] = s, f.send({
 });
 ```
 
-在js/extensions/pageframe/index.js中发现这段代码：
+在 `js/extensions/pageframe/index.js` 中发现这段代码：
 
 ```js
 g[d] = c, e.a.send({
@@ -435,15 +433,11 @@ g[d] = c, e.a.send({
 
 ```
 
-简单的分析得知：字段command用来区分行为，invoke用来调用native的api。在不同的来源要使用不同的前缀。data里面包含api名，参数。另外callbackID指定接受回调的方法句柄。appservice和webview使用的通信协议是一致的。
+简单的分析得知：字段 `command` 用来区分行为，`invoke` 用来调用 Native 的 Api。在不同的来源要使用不同的前缀。`data` 里面包含 Api 名，参数。另外 `callbackID` 指定接受回调的方法句柄。Appservice 和 Webview 使用的通信协议是一致的。
 
+我们不能在代码里使用 BOM 和 DOM 是因为根本没有，另一方面也不希望 JS 代码直接操作视图。
 
-
-
-
-我们不能在代码里使用BOM和DOM是因为根本没有，另一方面也不希望JS代码直接操作视图。
-
-在开发工具中remote-helper.js中找到了这样的代码：
+在开发工具中 `remote-helper.js` 中找到了这样的代码：
 
 ```js
 const vm = require("vm");
@@ -497,13 +491,9 @@ function loadCode(filePath, sourceURL, content) {
 }
 ```
 
-
-
 这样的分层设计显然是有意为之的，它的中间层完全控制了程序对于界面进行的操作， 同时对于传递的数据和响应时间也能做到监控。一方面程序的行为受到了极大限制， 另一方面微信可以确保他们对于小程序内容和体验有绝对的控制。
 
-这样的结构也说明了小程序的动画和绘图 API 被设计成生成一个最终对象而不是一步一步执行的样子， 原因就是 json格式的数据传递和解析相比与原生 API 都是损耗不菲的，如果频繁调用很可能损耗过多性能，进而影响用户体验。
-
-
+这样的结构也说明了小程序的动画和绘图 API 被设计成生成一个最终对象而不是一步一步执行的样子， 原因就是  Json 格式的数据传递和解析相比与原生 API 都是损耗不菲的，如果频繁调用很可能损耗过多性能，进而影响用户体验。
 
 ## 下载小程序完整包
 
@@ -514,7 +504,7 @@ function loadCode(filePath, sourceURL, content) {
 ![lifecycle](https://user-images.githubusercontent.com/2350193/44563935-1b02ce80-a793-11e8-88d1-a89b7c93d4da.png)
 
 ## 面试题
-**1.动画需要绑定在data上，而绘图却不用。你觉得是为什么呢？**
+**1.动画需要绑定在 data 上，而绘图却不用。你觉得是为什么呢？**
 
 ```js
 var context = wx.createCanvasContext('firstCanvas')
@@ -536,8 +526,6 @@ context.arc(120, 80, 5, 0, 2 * Math.PI, true)
 context.stroke()
 context.draw()
 ```
-
-
 
 ```Js
 Page({
@@ -561,13 +549,13 @@ Page({
 })
 ```
 
-**2.小程序的http rquest请求是不是用的浏览器fetch API?**
+**2.小程序的 Http Rquest 请求是不是用的浏览器 Fetch API?**
 
 知识点考察
 
-- 知道request是由native实现的
-- jscore是不带http request、websocket、storage等功能的，那是webkit带的
-- 小程序的wx.request是不是遵循fetch API规范实现的呢？答案，显然不是。因为没有Promise。
+- 知道 Request 是由 Native 实现的
+- JSCore 是不带 Http Request、Websocket、Storage等功能的，那是 Webkit 带的
+- 小程序的 `wx.request` 是不是遵循 fetch API 规范实现的呢？答案，显然不是。因为没有 `Promise`
 
 # View - WXML
 
@@ -580,11 +568,11 @@ WXML（WeiXin Markup Language）
 
 ![WXML](https://pic3.zhimg.com/80/v2-e0a34d00890cab73c79d137edd1377a3_hd.jpg)
 
-wxml编译器：wcc  把wxml文件 转为 js 
+Wxml编译器：Wcc  把 Wxml文件 转为 JS
 
-执行方式：wcc index.wxml
+执行方式：Wcc index.wxml
 
-**使用Virtual DOM，进行局部更新**
+**使用 Virtual DOM，进行局部更新**
 
 
 
@@ -632,13 +620,13 @@ wxss编译器：wcsc 把wxss文件转化为 js
 - iconfont
 
 
-建议css3的特性都可以做一下尝试。
+建议 Css3 的特性都可以做一下尝试。
 
 
 
-## 尺寸单位rpx
+## 尺寸单位 rpx
 
-rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。公式:
+rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为 750rpx。公式：
 
 ```Js
 const dsWidth = 750
@@ -663,11 +651,11 @@ export const pxToRpx = function (px) {
 | iPhone6      | 1rpx = 0.5px             | 1px = 2rpx               |
 | iPhone6 Plus | 1rpx = 0.552px           | 1px = 1.81rpx            |
 
-可以了解一下[pr2rpx-loader](https://github.com/mpvue/px2rpx-loader)这个库。
+可以了解一下 [pr2rpx-loader ](https://github.com/mpvue/px2rpx-loader)这个库。
 
 ## 样式导入
 
-使用`@import`语句可以导入外联样式表，`@import`后跟需要导入的外联样式表的相对路径，用`;`表示语句结束。
+使用 `@import `语句可以导入外联样式表，`@import `后跟需要导入的外联样式表的相对路径，用 `;` 表示语句结束。
 
 
 
@@ -686,11 +674,11 @@ export const pxToRpx = function (px) {
 
 小程序未来有计划支持字体。参考[微信公开课](http://daxue.qq.com/content/content/id/4113)。
 
-小程序开发与平时web开发类似，也可以使用字体图标，但是src:url()无论本地还是远程地址都不行，base64值则都是可以显示的。
+小程序开发与平时 Web开发类似，也可以使用字体图标，但是 `src:url()` 无论本地还是远程地址都不行，base64 值则都是可以显示的。
 
-将ttf文件转换成base64。打开这个平台transfonter.org/。点击Add fonts按钮，加载ttf格式的那个文件。将下边的base64 encode改为on。点击Convert按钮进行转换。转换后点击download下载。
+将 ttf 文件转换成 base64。打开这个平台 transfonter.org/。点击 Add fonts 按钮，加载ttf格式的那个文件。将下边的 base64 encode 改为 on。点击 Convert 按钮进行转换，转换后点击 download 下载。
 
-复制下载的压缩文件中的stylesheet.css的内容到font.wxss,并且将icomoon中的style.css除了@font-face所有的代码也复制到font.wxss并将i选择器换成.iconfont。最后：
+复制下载的压缩文件中的 stylesheet.css 的内容到 font.wxss ，并且将 icomoon 中的 style.css 除了 @font-face 所有的代码也复制到 font.wxss 并将i选择器换成 .iconfont，最后：
 
 ```html
 <text class="iconfont icon-home" style="font-size:50px;color:red"></text>
@@ -722,10 +710,10 @@ export const pxToRpx = function (px) {
 
   ![Native Component](https://pic1.zhimg.com/80/v2-f0e838350357658699aeeed7dad74048_hd.jpg)
 
-Native组件层在WebView层之上。这目前带来了一些问题：
-- 1.Native实现的组件会遮挡其他组件
-- 2.WebView渲染出来的视图在滚动时，Native实现的组件需要更新位置，这会带来性能问题，在安卓机器上比较明显
-- 3.小程序原生组件cover-view可以覆盖 cavnas video等，但是也有一下弊端，比如在cavnas上覆盖cover-view，就会发现坐标系不统一处理麻烦
+Native组件层在 WebView 层之上。这目前带来了一些问题：
+- Native 实现的组件会遮挡其他组件
+- WebView 渲染出来的视图在滚动时，Native 实现的组件需要更新位置，这会带来性能问题，在安卓机器上比较明显
+- 小程序原生组件 `cover-view` 可以覆盖 cavnas video 等，但是也有一下弊端，比如在 cavnas 上覆盖 `cover-view`，就会发现坐标系不统一处理麻烦
 
 
 # 目前小程序的问题或限制
@@ -733,36 +721,36 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 包含但不限于：
 
-- 小程序仍然使用WebView渲染，并非原生渲染。（部分原生）
+- 小程序仍然使用 WebView 渲染，并非原生渲染。（部分原生）
 
 - 服务端接口返回的头无法执行，比如：Set-Cookie。
 
-- 依赖浏览器环境的js库不能使用。
+- 依赖浏览器环境的 JS 库不能使用。
 
-- 不能使用npm，但是可以自搭构建工具或者使用mpvue。（未来官方有计划支持）
+- 不能使用 npm，但是可以自搭构建工具或者使用 mpvue。（未来官方有计划支持）
 
-- 不能使用ES7，可以自己用babel+webpack自搭或者使用mpvue。
+- 不能使用 ES7，可以自己用babel+webpack自搭或者使用 mpvue。
 
 - 不支持使用自己的字体（未来官方计划支持）。
 
-- 可以用base64的方式来使用iconfont。
+- 可以用 base64 的方式来使用 iconfont。
 
 - 小程序不能发朋友圈（可以通过保存图片到本地，发图片到朋友前。二维码可以使用[B接口](https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html)）。
 
 - 获取[二维码/小程序](https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html)接口的限制。
 
-  - B接口scene最大32个可见字符。
-  - AC接口总共生成的码数量限制为100,000，请谨慎调用。
-  - 真机扫描二维码只能跳转到线上版本，所以测试环境下只可通过开发者工具的‘通过二维码编译’进行调试。
+  - B 接口 scene 最大32个可见字符。
+  - AC 接口总共生成的码数量限制为 100,000，请谨慎调用。
+  - 真机扫描二维码只能跳转到线上版本，所以测试环境下只可通过开发者工具的通过二维码编译进行调试。
   - 没有发布到线上版本的小程序页面路径会导致生成二维码失败，需要先将添加了页面的小程序发布到线上版本。
 
-- 小程序推送只能使用“服务通知” 而且需要用户主动触发提交formId，formId只有7天有效期。（现在的做法是在每个页面都放入form并且隐藏以此获取更多的formId。后端使用原则为：优先使用有效期最短的）
+- 小程序推送只能使用“服务通知” 而且需要用户主动触发提交 formId，formId 只有7天有效期。（现在的做法是在每个页面都放入form并且隐藏以此获取更多的 formId。后端使用原则为：优先使用有效期最短的）
 
-- 小程序大小限制2M，分包总计不超过8M
+- 小程序大小限制 2M，分包总计不超过 8M
 
 - 转发（分享）小程序不能拿到成功结果，原来可以。[链接](https://mp.weixin.qq.com/s?__biz=MjM5NDAwMTA2MA==&mid=2695730124&idx=1&sn=666a448b047d657350de7684798f48d3&chksm=83d74a07b4a0c311569a748f4d11a5ebcce3ba8f6bd5a4b3183a4fea0b3442634a1c71d3cdd0&scene=21#wechat_redirect)（小游戏造的孽）
 
-- 拿到相同的unionId必须绑在同一个开放平台下。开放平台绑定限制：
+- 拿到相同的 unionId 必须绑在同一个开放平台下。开放平台绑定限制：
 
   - 50个移动应用
   - 10个网站
@@ -784,7 +772,7 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 - 小程序授权需要用户主动点击
 
-- 小程序不提供测试**access_token**
+- 小程序不提供测试 **access_token**
 
 - 安卓系统下，小程序授权获取用户信息之后，删除小程序再重新获取，并重新授权，得到旧签名，导致第一次授权失败
 
@@ -792,10 +780,10 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 ## 小程序HTTP2支持情况
 ### HTTP2支持情况：模拟器与真机均不支持
-为了验证小程序对HTTP的支持适配情况，我找了两个服务器做测试，一个是网上搜索到支持HTTP2的服务器，一个是我本地起的一个HTTP2服务器。测试中所有请求方法均使用`wx.request`。
+为了验证小程序对HTTP的支持适配情况，我找了两个服务器做测试，一个是网上搜索到支持HTTP2的服务器，一个是我本地起的一个HTTP2服务器。测试中所有请求方法均使用 `wx.request`。
 
 1. 网上支持HTTP2的服务器：`HTTPs://www.snel.com:443`
-2. 在Chrome上查看该服务器为HTTP2
+2. 在Chrome上查看该服务器为 HTTP2
 
     ![WechatIMG11](https://user-images.githubusercontent.com/17850400/44331323-d11c9e80-a49b-11e8-9a52-5be0e17a016b.jpeg)
 
@@ -804,40 +792,40 @@ Native组件层在WebView层之上。这目前带来了一些问题：
     ![WechatIMG12](https://user-images.githubusercontent.com/17850400/44331316-cfeb7180-a49b-11e8-83fb-f18ad4ff0bab.jpeg)
 
 
-4. 由于小程序线上环境需要在项目管理里配置请求域名，而这个域名不是我们需要的请求域名，没必要浪费一个域名位置，所以打开不验证域名，TSL等选项请求该接口，通过抓包工具表现与模拟器相同
+4. 由于小程序线上环境需要在项目管理里配置请求域名，而这个域名不是我们需要的请求域名，没必要浪费一个域名位置，所以打开不验证域名，TSL 等选项请求该接口，通过抓包工具表现与模拟器相同
 
     ![WechatIMG14](https://user-images.githubusercontent.com/17850400/44331317-d0840800-a49b-11e8-854d-20c704b5da56.png)
 
 
 ### HTTP2服务器需要对小程序做兼容性适配
-由上可以看出，在真机与模拟器都不支持HTTP2，但是都是成功请求的，并且`响应头`里的HTTP版本都变成了HTTP1.1版本，说明服务器对HTTP1.1做了兼容性适配。
+由上可以看出，在真机与模拟器都不支持 HTTP2，但是都是成功请求的，并且 `响应头` 里的 HTTP 版本都变成了HTTP1.1 版本，说明服务器对 HTTP1.1 做了兼容性适配。
 
-1. 本地新启一个node服务器，返回json为请求的HTTP版本
+1. 本地新启一个 node 服务器，返回 JSON 为请求的 HTTP 版本
 
     ![WechatIMG16](https://user-images.githubusercontent.com/17850400/44331322-d0840800-a49b-11e8-9f4b-85a31458d32d.jpeg)
 
-2. 如果服务器只支持HTTP2，在模拟器请求时发生了一个`ALPN`协议的错误。并且提醒使用适配HTTP1。
+2. 如果服务器只支持 HTTP2，在模拟器请求时发生了一个 `ALPN` 协议的错误。并且提醒使用适配 HTTP1
 
     ![WechatIMG8](https://user-images.githubusercontent.com/17850400/44331314-cfeb7180-a49b-11e8-98a7-2baff8de63b4.jpeg)
 
-3. 当把服务器的`allowHTTP1`,设置为`true`,并在请求时处理相关相关请求参数后，模拟器能正常访问接口，并打印出对应的HTTP请求版本
+3. 当把服务器的 `allowHTTP1`，设置为 `true`，并在请求时处理相关相关请求参数后，模拟器能正常访问接口，并打印出对应的 HTTP 请求版本
 
     ![WechatIMG15](https://user-images.githubusercontent.com/17850400/44331318-d0840800-a49b-11e8-9931-a95c1fe2b0c4.jpeg)
 
 # 授权获取用户信息流程
 <img src="https://user-images.githubusercontent.com/35895755/44379940-fa403c00-a53a-11e8-9165-21b217496aad.png" width="70%" height="70%" />
 
-- session_key有有效期，有效期并没有被告知开发者，只知道用户越频繁使用小程序，session_key有效期越长
-- 在调用wx.login时会直接更新session_key，导致旧session_key失效
-- 小程序内先调用wx.checkSession检查登录态，并保证没有过期的session_key不会被更新，再调用wx.login获取code。接着用户授权小程序获取用户信息，小程序拿到加密后的用户数据，把加密数据和code传给后端服务。后端通过code拿到session_key并解密数据，将解密后的用户信息返回给小程序
+- session_key 有有效期，有效期并没有被告知开发者，只知道用户越频繁使用小程序，session_key 有效期越长
+- 在调用 wx.login 时会直接更新 session_key，导致旧 session_key 失效
+- 小程序内先调用 wx.checkSession 检查登录态，并保证没有过期的 session_key 不会被更新，再调用 wx.login 获取 code。接着用户授权小程序获取用户信息，小程序拿到加密后的用户数据，把加密数据和 code 传给后端服务。后端通过 code 拿到 session_key 并解密数据，将解密后的用户信息返回给小程序
 
-**面试题：先授权获取用户信息再login会发生什么？**
+**面试题：先授权获取用户信息再 login 会发生什么？**
 
 <img src="https://user-images.githubusercontent.com/35895755/44244965-268d4d00-a209-11e8-8ef4-b80cc7a78af7.png" width="70%" height="70%" />
 <img src="https://user-images.githubusercontent.com/35895755/44379952-0af0b200-a53b-11e8-86be-640bf651bc9e.png" width="50%" height="50%" />
 
-- 用户授权时，开放平台使用旧的session_key对用户信息进行加密。调用wx.login重新登录，会刷新session_key，这时后端服务从开放平台获取到新session_key，但是无法对老session_key加密过的数据解密，用户信息获取失败
-- 在用户信息授权之前先调用wx.checkSession呢？wx.checkSession检查登录态，并且保证wx.login不会刷新session_key，从而让后端服务正确解密数据。但是这里存在一个问题，如果小程序较长时间不用导致session_key过期，则wx.login必定会重新生成session_key，从而再一次导致用户信息解密失败。
+- 用户授权时，开放平台使用旧的 session_key 对用户信息进行加密。调用 wx.login 重新登录，会刷新 session_key，这时后端服务从开放平台获取到新 session_key，但是无法对老 session_key 加密过的数据解密，用户信息获取失败
+- 在用户信息授权之前先调用 wx.checkSession 呢？wx.checkSession 检查登录态，并且保证 wx.login 不会刷新 session_key，从而让后端服务正确解密数据。但是这里存在一个问题，如果小程序较长时间不用导致 session_key 过期，则 wx.login 必定会重新生成 session_key，从而再一次导致用户信息解密失败。
 
 # 性能优化
 
@@ -871,7 +859,7 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 **首屏加载的体验优化建议**
 
 - 提前请求: 异步数据请求不需要等待页面渲染完成。
-- 利用缓存: 利用storage API对异步请求数据进行缓存，二次启动时先利用缓存数据渲染页面，在进行后台更新。
+- 利用缓存: 利用 storage API 对异步请求数据进行缓存，二次启动时先利用缓存数据渲染页面，在进行后台更新。
 - 避免白屏：先展示页面骨架页和基础内容。
 - 及时反馈：即时地对需要用户等待的交互操作给出反馈，避免用户以为小程序无响应。
 
@@ -963,18 +951,18 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 ## 渲染性能优化
 ![render](https://user-images.githubusercontent.com/2350193/44185879-af907f80-a148-11e8-8dcb-22aadd4e49a6.png)
-- 每次setData的调用都是一次进程间通信过程，通信开销与setData的数据量正相关。
+- 每次 setData 的调用都是一次进程间通信过程，通信开销与 setData 的数据量正相关。
 
-- setData会引发视图层页面内容的更新，这一耗时操作一定时间中会阻塞用户交互。
+- setData 会引发视图层页面内容的更新，这一耗时操作一定时间中会阻塞用户交互。
 
-- **setData是小程序开发使用最频繁，也是最容易引发性能问题的。**
-  
+- **setData 是小程序开发使用最频繁，也是最容易引发性能问题的。**
 
-**避免不当使用setData**
-- 使用data在方法间共享数据，**可能增加setData传输的数据量。**。data应仅包括与页面渲染相关的数据。
-- 使用setData传输大量数据，**通讯耗时与数据正相关，页面更新延迟可能造成页面更新开销增加。**仅传输页面中发生变化的数据，使用setData的特殊key实现局部更新。
-- 短时间内频繁调用setData，**操作卡顿，交互延迟，阻塞通信，页面渲染延迟。**避免不必要的setData，对连续的setData调用进行合并。
-- 在后台页面进行setData，**抢占前台页面的渲染资源。**页面切入后台后的setData调用，延迟到页面重新展示时执行。
+**避免不当使用 setData**
+
+- 使用 data 在方法间共享数据，**可能增加 setData 传输的数据量。**。data 应仅包括与页面渲染相关的数据。
+- 使用 setData 传输大量数据，**通讯耗时与数据正相关，页面更新延迟可能造成页面更新开销增加。**仅传输页面中发生变化的数据，使用 setData 的特殊 key 实现局部更新。
+- 短时间内频繁调用 setData，**操作卡顿，交互延迟，阻塞通信，页面渲染延迟。**避免不必要的 setData，对连续的setData调用进行合并。
+- 在后台页面进行 setData，**抢占前台页面的渲染资源。**页面切入后台后的 setData 调用，延迟到页面重新展示时执行。
 
 ![one-context](https://user-images.githubusercontent.com/2350193/44186238-db146980-a14a-11e8-8096-bcb8fa6d28b2.png)
 
@@ -982,9 +970,9 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 **避免不当使用onPageScroll**
 
-- 只在有必要的时候监听pageScroll事件。不监听，则不会派发。
-- 避免在onPageScroll中执行复杂逻辑
-- 避免在onPageScroll中频繁调用setData
+- 只在有必要的时候监听 pageScroll 事件。不监听，则不会派发。
+- 避免在 onPageScroll 中执行复杂逻辑
+- 避免在 onPageScroll 中频繁调用 setData
 - 避免滑动时频繁查询节点信息（SelectQuery）用以判断是否显示，部分场景建议使用节点布局橡胶状态监听（inersectionObserver）替代
 
 **使用自定义组件**
@@ -999,11 +987,11 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 小程序的几个页面间，存在一些相同或是类似的区域，这时候可以把这些区域逻辑封装成一个自定义组件，代码就可以重用，或者对于比较独立逻辑，也可以把它封装成一个自定义组件，也就是微信去年发布的自定义组件，它让代码得到复用、减少代码量，更方便模块化，优化代码架构组织，也使得模块清晰，后期更好地维护，从而保证更好的性能。
 
-但微信打算在原来的基础上推出的自定义组件2.0，它将拥有更高级的性能：
+但微信打算在原来的基础上推出的自定义组件 2.0，它将拥有更高级的性能：
 
-- usingComponents计划支持全局定义和通配符定义：这意味着不用在每个页面反复定义，可以批量导入目录下的所有自定义组件
-- 计划支持类似Computed和watch的功能，它能使代码逻辑更清晰
-- 计划支持Component构造器插件，在实例化一个自定义组件的时候，允许你在构造器的这个阶段，加入一些逻辑，方便进行一些扩展，甚至是可以扩展成VUE的语法
+- usingComponents 计划支持全局定义和通配符定义：这意味着不用在每个页面反复定义，可以批量导入目录下的所有自定义组件
+- 计划支持类似 Computed 和 watch 的功能，它能使代码逻辑更清晰
+- 计划支持 Component 构造器插件，在实例化一个自定义组件的时候，允许你在构造器的这个阶段，加入一些逻辑，方便进行一些扩展，甚至是可以扩展成 Vue 的语法
 
 ## npm支持
 
@@ -1023,38 +1011,38 @@ Native组件层在WebView层之上。这目前带来了一些问题：
 
 ## 原生组件同层渲染
 
-小程序在最初的技术选型时，引入了原生组件的概念，因为原生组件可以使小程序的能力更加丰富，比如地图、音视频的能力，但是原生组件是由客户端原生渲染的，导致了原生组件的层级是最高的，开发者很容易遇到打开调试的问题，发现视频组件挡在了vConsole上。
+小程序在最初的技术选型时，引入了原生组件的概念，因为原生组件可以使小程序的能力更加丰富，比如地图、音视频的能力，但是原生组件是由客户端原生渲染的，导致了原生组件的层级是最高的，开发者很容易遇到打开调试的问题，发现视频组件挡在了 vConsole 上。
 
-为了解决这个问题，当时微信做了一个过渡的方案：cover-view。cover-view可以覆盖在原生组件之上，这一套方案解决了大部分的需求场景。比如说视频组件上很多的按钮、标题甚至还有动画的弹幕，这些都是用cover-view去实现的，但它还是没有完全解决原生组件的开发体验问题，因为cover-view有一些限制：
+为了解决这个问题，当时微信做了一个过渡的方案：cover-view。cover-view可以覆盖在原生组件之上，这一套方案解决了大部分的需求场景。比如说视频组件上很多的按钮、标题甚至还有动画的弹幕，这些都是用 cover-view 去实现的，但它还是没有完全解决原生组件的开发体验问题，因为 cover-view 有一些限制：
 
 - 无法与其他组件混在一起渲染
 - 没有完整的触摸事件
-- cover-view对样式的表现有差异
-- cover-view对样式的支持度不够高
+- cover-view 对样式的表现有差异
+- cover-view 对样式的支持度不够高
 
-因此微信决定将用同层渲染取代cover-view，它能像普通组件一样使用，原生组件的层级不再是最高，而是和其他的非原生组件在同一层级渲染，可完全由z-index控制，可完全支持触摸事件。
+因此微信决定将用同层渲染取代 cover-view，它能像普通组件一样使用，原生组件的层级不再是最高，而是和其他的非原生组件在同一层级渲染，可完全由 z-index 控制，可完全支持触摸事件。
 
-微信表示，同层渲染在iOS平台小程序上已经开始内测，会很快开放给开发者，Android平台已经取得突破性进展，目前正在做一轮封装的工作，开放指日可待。
+微信表示，同层渲染在 iOS 平台小程序上已经开始内测，会很快开放给开发者，Android 平台已经取得突破性进展，目前正在做一轮封装的工作，开放指日可待。
 
 # wepy vs mpvue
 
 ## 数据流管理
-相比传统的小程序框架，这个一直是我们作为资深开发者比较期望去解决的，在web开发中，随着 flux、redux、vuex 等多个数据流工具出现，我们也期望在业务复杂的小程序中使用。
+相比传统的小程序框架，这个一直是我们作为资深开发者比较期望去解决的，在 Web 开发中，随着 Flux、Redux、Vuex 等多个数据流工具出现，我们也期望在业务复杂的小程序中使用。
 
 * WePY 默认支持 Redux，在脚手架生成项目的时候可以内置
 
-* mpvue 作为 vue 的移植版本，当然支持 vuex，同样在脚手架生成项目的时候可以内置
+* Mpvue 作为 Vue 的移植版本，当然支持 Vuex，同样在脚手架生成项目的时候可以内置
 
 ## 组件化
 如果你和我们一样，经历了从无到有的小程序业务开发，建议阅读【小程序的组件化开发】章节，进行官方语法的组件库开发（从基础库 1.6.3 开始，官方提供了组件化解决方案）。
 
-* WePY 类似 vue 实现了单文件组件，最大的差别是文件后缀 .wpy，只是写法上会有差异，具体可以查看【主流框架使用案例 1：WePY】章节，学习起来有一定成本，不过也会很快适应：
+* WePY 类似 Vue 实现了单文件组件，最大的差别是文件后缀 .wpy，只是写法上会有差异，具体可以查看【主流框架使用案例 1：WePY】章节，学习起来有一定成本，不过也会很快适应：
 
 ```
 export default class Index extends wepy.page {}
 ```
 
-* mpvue 作为 vue 的移植版本，支持单文件组件，template、script 和 style 都在一个 .vue 文件中，和 vue 的写法类似，所以对 vue 开发熟悉的同学会比较适应。
+* Mpvue 作为 Vue 的移植版本，支持单文件组件，template、script 和 style 都在一个 .vue 文件中，和 vue 的写法类似，所以对 Vue 开发熟悉的同学会比较适应。
 
 ## 工程化
 所有的小程序开发依赖官方提供的开发者工具。开发者工具简单直观，对调试小程序很有帮助，现在也支持腾讯云（目前我们还没有使用，但是对新的一些开发者还是有帮助的），可以申请测试报告查看小程序在真实的移动设备上运行性能和运行效果，但是它本身没有类似前端工程化中的概念和工具。
@@ -1073,19 +1061,19 @@ export default class Index extends wepy.page {}
 - 但是配置方式还是类似，分环境配置文件，最终都会编译成小程序支持的目录结构和文件后缀。
 
 ## 综合比较
-| 对比\框架 | 微信小程序 | mpvue | wepy |
-| ------ | ------ | ------ | ------ |
-| 语法规范 | 小程序开发规范 | vue.js | 类vue.js |
-| 标签集合 | 小程序 | htm l + 小程序 | 小程序 |
-| 样式规范 | wxss | sass,less,postcss | sass,less,styus |
-| 组件化 | 无组件化机制 | vue规范 | 自定义组件规范 |
-| 多段复用 | 不可复用 | 支持h5 | 支持h5 |
-| 自动构建 | 无自动构建 | webpack | 框架内置 |
-| 上手成本 | 全新学习 | vue 学习 | vue 和 wepy |
-| 数据管理 | 不支持 | vuex | redux |
+| 对比\框架 | 微信小程序     | mpvue             | wepy            |
+| --------- | -------------- | ----------------- | --------------- |
+| 语法规范  | 小程序开发规范 | vue.js            | 类vue.js        |
+| 标签集合  | 小程序         | htm l + 小程序    | 小程序          |
+| 样式规范  | wxss           | sass,less,postcss | sass,less,styus |
+| 组件化    | 无组件化机制   | vue规范           | 自定义组件规范  |
+| 多段复用  | 不可复用       | 支持h5            | 支持h5          |
+| 自动构建  | 无自动构建     | webpack           | 框架内置        |
+| 上手成本  | 全新学习       | vue 学习          | vue 和 wepy     |
+| 数据管理  | 不支持         | vuex              | redux           |
 
 ## 选型的个人看法
-先说结论：选择mpvue。
+先说结论：选择 mpvue。
 
 wepy vs mpvue。
 
@@ -1093,16 +1081,16 @@ wepy vs mpvue。
 
 **工程化**
 原生开发因为不带工程化，诸如NPM包（未来会引入）、ES7、图片压缩、PostCss、pug、ESLint等等不能用。如果自己要搭工程化，不如直接使用wepy或mpvue。mpvue和wepy都可以和小程序原生开发混写。[参考mpvue-echart](#https://github.com/mpvue/examples/tree/master/echarts)，[参考wepy](https://github.com/Tencent/wepy/issues/1560)。
-而问题在于wepy没有引入webpack(wepy@2.0.x依然没有引入)，以上说的这些东西都要造轮子（作者造或自己造）。没有引入webpack是一个重大的硬伤。社区维护的成熟webpack显然更稳定，轮子更多。
+而问题在于wepy没有引入webpack(wepy@2.0.x依然没有引入)，以上说的这些东西都要造轮子（作者造或自己造）。没有引入 Webpack 是一个重大的硬伤。社区维护的成熟 Webpack 显然更稳定，轮子更多。
 
 **维护**
-wepy也是社区维护的，是官方的？其实wepy的主要开发者只有作者一人，附上一个[contrubutors](https://github.com/Tencent/wepy/graphs/contributors)链接。另外被官方招安了也是后来的事，再说腾讯要有精力帮着一起维护好wepy，为什么不花精力在小程序原生开发上呢？再来看看mpvue，是美团一个前端小组维护的。
+wepy 也是社区维护的，是官方的？其实 wepy 的主要开发者只有作者一人，附上一个[contrubutors](https://github.com/Tencent/wepy/graphs/contributors)链接。另外被官方招安了也是后来的事，再说腾讯要有精力帮着一起维护好 wepy，为什么不花精力在小程序原生开发上呢？再来看看 mpvue，是美团一个前端小组维护的。
 
 **学习成本**
-vue的学习曲线比较平缓。mpvue是vue的子集。所以mpvue的学习成本会低于wepy。尤其是之前技术栈有学过用过vue的。
+Vue 的学习曲线比较平缓。mpvue 是 Vue的子集。所以 mpvue 的学习成本会低于 wepy。尤其是之前技术栈有学过用过 Vue 的。
 
 **未来规划**
-mpvue已经支持web和小程序。因为mpvue基于AST，所以未来可以支持支付宝小程序和快应用。他们也是有这样的规划。
+mpvue 已经支持 web 和小程序。因为 mpvue 基于AST，所以未来可以支持支付宝小程序和快应用。他们也是有这样的规划。
 
 请在需求池下面自己找
 ![mpvue-feature](https://user-images.githubusercontent.com/2350193/44379522-f9a6a600-a538-11e8-8939-273ace7871ae.jpg)
@@ -1113,36 +1101,36 @@ wepy和mpvue我都开发过完整小程序的体验下，我觉得wepy的坑更�
 
 # mpvue
 > Vue.js 小程序版, fork 自 vuejs/vue@2.4.1，保留了 vue runtime 能力，添加了小程序平台的支持。
-`mpvue` 是一个使用 `Vue.js` 开发小程序的前端框架。框架基于 `Vue.js` 核心，`mpvue` 修改了 `Vue.js` 的 runtime 和 compiler 实现，使其可以运行在小程序环境中，从而为小程序开发引入了整套 `Vue.js` 开发体验。
+> `mpvue` 是一个使用 `Vue.js` 开发小程序的前端框架。框架基于 `Vue.js` 核心，`mpvue` 修改了 `Vue.js` 的 runtime 和 compiler 实现，使其可以运行在小程序环境中，从而为小程序开发引入了整套 `Vue.js` 开发体验。
 
 
 ## 框架原理
 
 **两个大方向**
 
-- 通过`mpvue`提供mp的runtime适配小程序
+- 通过`mpvue`提供 mp 的 runtime 适配小程序
 - 通过`mpvue-loader`产出微信小程序所需要的文件结构和模块内容。
 
 **七个具体问题**
 
-要了解mpvue原理必然要了解vue原理，这是大前提。但是要讲清楚vue原理需要花费大量的篇幅，不如参考[learnVue](https://github.com/answershuto/learnVue)。
+要了解 mpvue 原理必然要了解 Vue 原理，这是大前提。但是要讲清楚 Vue 原理需要花费大量的篇幅，不如参考[learnVue](https://github.com/answershuto/learnVue)。
 
-现在假设您对vue原理有个大概的了解。
+现在假设您对 Vue 原理有个大概的了解。
 
-由于Vue使用了Virtual DOM，所以Virtual DOM可以在任何支持JavaScript语言的平台上操作，譬如说目前vue支持浏览器平台或weex，也可以是mp(小程序)。那么最后Virtual DOM如何映射到真实的DOM节点上呢？vue为平台做了一层适配层，浏览器平台见[runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/web/runtime/node-ops.js)、weex平台见[runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/weex/runtime/node-ops.js)，小程序见[runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/mp/runtime/node-ops.js)。不同平台之间通过适配层对外提供相同的接口，Virtual DOM进行操作Real DOM节点的时候，只需要调用这些适配层的接口即可，而内部实现则不需要关心，它会根据平台的改变而改变。
+由于 Vue 使用了 Virtual DOM，所以 Virtual DOM 可以在任何支持 JavaScript 语言的平台上操作，譬如说目前 Vue 支持浏览器平台或 weex，也可以是 mp(小程序)。那么最后 Virtual DOM 如何映射到真实的 DOM 节点上呢？vue为平台做了一层适配层，浏览器平台见 [runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/web/runtime/node-ops.js)、weex平台见[runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/weex/runtime/node-ops.js)，小程序见[runtime/node-ops.js](https://github.com/Meituan-Dianping/mpvue/blob/master/src/platforms/mp/runtime/node-ops.js)。不同平台之间通过适配层对外提供相同的接口，Virtual DOM进行操作Real DOM节点的时候，只需要调用这些适配层的接口即可，而内部实现则不需要关心，它会根据平台的改变而改变。
 
-所以思路肯定是往增加一个mp平台的runtime方向走。但问题是小程序不能操作DOM，所以mp下的`node-ops.js`里面的实现都是直接`return obj`。
+所以思路肯定是往增加一个 mp 平台的 runtime 方向走。但问题是小程序不能操作 DOM，所以 mp 下的`node-ops.js` 里面的实现都是直接 `return obj`。
 
-新Virtual DOM和旧Virtual DOM之间需要做一个patch，找出diff。patch完了之后的diff怎么更新视图，也就是如何给这些DOM加入attr、class、style等DOM属性呢？vue中有nextTick的概念用以更新视图，mpvue这块对于小程序的`setData`应该怎么处理呢？
+新 Virtual DOM 和旧 Virtual DOM 之间需要做一个 patch，找出 diff。patch完了之后的 diff 怎么更新视图，也就是如何给这些 DOM 加入 attr、class、style 等 DOM 属性呢？ Vue 中有 nextTick 的概念用以更新视图，mpvue这块对于小程序的 `setData` 应该怎么处理呢？
 
-另外个问题在于小程序的Virtual DOM怎么生成？也就是怎么将template编译成`render function`。这当中还涉及到[运行时-编译器-vs-只包含运行时](https://cn.vuejs.org/v2/guide/installation.html#%E8%BF%90%E8%A1%8C%E6%97%B6-%E7%BC%96%E8%AF%91%E5%99%A8-vs-%E5%8F%AA%E5%8C%85%E5%90%AB%E8%BF%90%E8%A1%8C%E6%97%B6)，显然如果要提高性能、减少包大小、输出wxml、mpvue也要提供预编译的能力。因为要预输出wxml且没法动态改变DOM，所以动态组件，自定义 render，和`<script type="text/x-template">` 字符串模版等都不支持([参考](http://mpvue.com/mpvue/#_15))。
+另外个问题在于小程序的 Virtual DOM 怎么生成？也就是怎么将 template 编译成`render function`。这当中还涉及到[运行时-编译器-vs-只包含运行时](https://cn.vuejs.org/v2/guide/installation.html#%E8%BF%90%E8%A1%8C%E6%97%B6-%E7%BC%96%E8%AF%91%E5%99%A8-vs-%E5%8F%AA%E5%8C%85%E5%90%AB%E8%BF%90%E8%A1%8C%E6%97%B6)，显然如果要提高性能、减少包大小、输出 wxml、mpvue 也要提供预编译的能力。因为要预输出 wxml 且没法动态改变 DOM，所以动态组件，自定义 render，和`<script type="text/x-template">` 字符串模版等都不支持([参考](http://mpvue.com/mpvue/#_15))。
 
 
 另外还有一些其他问题，最后总结一下
 
 - 1.如何预编译生成`render function`
-- 2.如何预编译生成wxml，wxss，wxs
-- 3.如何patch出diff
+- 2.如何预编译生成 wxml，wxss，wxs
+- 3.如何 patch 出 diff
 - 4.如何更新视图
 - 5.如何建立小程序事件代理机制，在事件代理函数中触发与之对应的vue组件事件响应
 - 6.如何建立vue实例与小程序 Page 实例关联
@@ -1214,7 +1202,7 @@ wepy和mpvue我都开发过完整小程序的体验下，我觉得wepy的坑更�
 ```
 
 * wxml
-每一个 ```.vue``` 的组件都会被生成为一个 wxml 规范的 template，然后通过 wxml 规范的 import 语法来达到一个复用，同时组件如果涉及到 props 的 data 数据，我们也会做相应的处理，举个实际的例子：
+  每一个 ```.vue``` 的组件都会被生成为一个 wxml 规范的 template，然后通过 wxml 规范的 import 语法来达到一个复用，同时组件如果涉及到 props 的 data 数据，我们也会做相应的处理，举个实际的例子：
 
 ```html
 <template>
@@ -1238,7 +1226,7 @@ export default {
 </script>
 ```
 
-这样一个 vue 的组件的模版部分会生成相应的 wxml
+这样一个 Vue 的组件的模版部分会生成相应的 wxml
 
 ```html
 <import src="components/other-component$hash.wxml" />
@@ -1850,7 +1838,7 @@ export function initMP (mpType, next) {
   }
 </script>
 ```
- 
+
 ```html
 <!--PageB.vue-->
 <template>
@@ -1875,7 +1863,7 @@ data () {
 </style>
 ```
  但是这样会有问题就是style加上scoped之后，编译模板生成的代码是下面这样的：
- 
+
 ```css
  .a-class.data-v-8f1d914e {
    border: #f00 solid 2rpx;
@@ -1885,7 +1873,7 @@ data () {
  }
 ```
  所以想要这些组件的class生效就不能使用scoped的style，改成下面这样，最好自己给a-class和b-class加前缀以防其他的文件引用这些样式：
- 
+
 ```css
  <style lang="stylus">
   .a-class
@@ -1902,7 +1890,7 @@ data () {
 </style>
 ```
 - 在定义组件上绑定style属性到一个props属性上：
- 
+
 ```html
  <!--P组件ComponentA.vue-->
  <template>
@@ -1923,7 +1911,7 @@ data () {
   }
 </script>
 ```
- 
+
 ```html
 <!--PageB.vue-->
 <template>
@@ -1946,9 +1934,9 @@ data () {
   ...
 </style>
 ```
- 
+
 也可以通过定义styleObject，然后通过工具函数转化为styleString，如下所示：
- 
+
 ```js
 const bstyle = {
   border: 'red solid 2rpx',
@@ -1961,7 +1949,7 @@ for (let [key, value] of Object.entries(bstyle)) {
 
 const cusComponentAStyle = arr.join('; ')
 ```
- 
+
 - 当然自定义组件确定只会改变某个css样式，通过pros传入单个样式的值，然后通过:style绑定肯定没问题：
 
 ```html
@@ -2037,7 +2025,7 @@ to
 * mpvue-loader@1.1.2-rc.4 依赖 webpack-mpvue-asset-plugin@0.1.0 做依赖资源引用
 * 之前写在 main.js 中的 config 信息，需要在 main.js 同级目录下新建 main.json 文件，使用 webapck-copy-plugin copy 到 build 目录下
 * app.json 中引用的图片不会自动 copy 到 dist 目录下
-json 配置文件是由 webapck-copy-plugin copy 过去的，不会处理依赖，可以将图片放到根目录下 static 目录下，使用 webapck-copy-plugin copy 过去
+  json 配置文件是由 webapck-copy-plugin copy 过去的，不会处理依赖，可以将图片放到根目录下 static 目录下，使用 webapck-copy-plugin copy 过去
 
 build/webpack.base.conf.js
 
