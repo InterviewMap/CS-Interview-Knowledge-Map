@@ -1066,7 +1066,7 @@ export default class Index extends wepy.page {}
 | 语法规范  | 小程序开发规范 | vue.js            | 类vue.js        |
 | 标签集合  | 小程序         | htm l + 小程序    | 小程序          |
 | 样式规范  | wxss           | sass,less,postcss | sass,less,styus |
-| 组件化    | 无组件化机制   | vue规范           | 自定义组件规范  |
+| 组件化    | 基础库@2.2.3自定义组件   | vue规范           | 自定义组件规范  |
 | 多段复用  | 不可复用       | 支持h5            | 支持h5          |
 | 自动构建  | 无自动构建     | webpack           | 框架内置        |
 | 上手成本  | 全新学习       | vue 学习          | vue 和 wepy     |
