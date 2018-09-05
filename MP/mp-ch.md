@@ -2205,6 +2205,22 @@ module.exports = {
 
 ```
 
+## 问题与展望
+技术的更新迭代是很快的，很多内容在写的时候还是这样。过了几天就发生了变化。又仔细看了小程序的文档，发现小程序原生开发深受vue影响啊，越来越像了。
+
+希望mpvue能够使用`wx.nextTick`，[链接](https://developers.weixin.qq.com/miniprogram/dev/api/custom-component.html#wxnexttickfunction)尝试来代替50毫秒
+
+希望能够解决(使用脏检查优化每次更新数据时都会传输大量数据的问题, 解决删除回退, 列表忽然滚动到顶部等问题)[https://github.com/Meituan-Dianping/mpvue/issues/639]。也许可以靠下面的自定义组件。
+
+使用[自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)代替template，这样可以解决诸如:
+
+- [组件根标签不能使用style和class](http://mpvue.com/mpvue/#_10)
+- [slot的各种问题](https://github.com/Meituan-Dianping/mpvue/issues?utf8=%E2%9C%93&q=slot)
+- [Slot（scoped 暂时还没做支持）](http://mpvue.com/mpvue/#vue_1)
+- setData的性能提升，因为官方说的:"在需要频繁更新的场景下，自定义组件的更新只在组件内部进行，不受页面其他部分内容复杂性影响。"。也就是说，组件内部的setData只会影响组件范围。这个和Vue就很像了，我觉得原理肯定是一致的。
+
+在小程序完善了自定义组件之后，我现在的倾向变成了自搭或者网上找脚手架来工程化项目，使用诸如：NPM、PostCSS、pug、babel、ESLint、图片优化等功能。然后使用小程序原生开发的方式来开发，因为它做的越来越好，越来越像vue了。
+
 # 参考链接
 
 以上内容部分来自：
