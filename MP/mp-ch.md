@@ -60,6 +60,7 @@
      - [runtime](#runtime)
   - [Class和Style为什么暂不支持组件](#class和style为什么暂不支持组件)
   - [分包加载](#分包加载)
+  - [问题与展望](#问题与展望)
 - [参考链接](#参考链接)
 
 <!-- /TOC -->
@@ -2208,9 +2209,9 @@ module.exports = {
 ## 问题与展望
 技术的更新迭代是很快的，很多内容在写的时候还是这样。过了几天就发生了变化。又仔细看了小程序的文档，发现小程序原生开发深受vue影响啊，越来越像了。
 
-希望mpvue能够使用`wx.nextTick`，[链接](https://developers.weixin.qq.com/miniprogram/dev/api/custom-component.html#wxnexttickfunction)尝试来代替50毫秒
+希望mpvue能够使用`wx.nextTick`[链接](https://developers.weixin.qq.com/miniprogram/dev/api/custom-component.html#wxnexttickfunction)，尝试来代替50毫秒
 
-希望能够解决(使用脏检查优化每次更新数据时都会传输大量数据的问题, 解决删除回退, 列表忽然滚动到顶部等问题)[https://github.com/Meituan-Dianping/mpvue/issues/639]。也许可以靠下面的自定义组件。
+希望能够解决[使用脏检查优化每次更新数据时都会传输大量数据的问题, 解决删除回退, 列表忽然滚动到顶部等问题](https://github.com/Meituan-Dianping/mpvue/issues/639)。也许可以靠下面的自定义组件。
 
 使用[自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)代替template，这样可以解决诸如:
 
