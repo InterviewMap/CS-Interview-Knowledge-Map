@@ -15,51 +15,64 @@
 - [小程序-数据统计](#小程序-数据统计)
     - [设计一个埋点sdk](#设计一个埋点sdk)
     - [分析接口](#分析接口)
-    - [微信自定义数据分析](#微信自定义数据分析httpsdevelopersweixinqqcomminiprogramanalysisindexhtmlt18081011)
+    - [微信自定义数据分析](#分析接口)
 - [小程序-工程化](#小程序-工程化)
     - [工程化做什么](#工程化做什么)
     - [方案选型](#方案选型)
     - [具体开发思路](#具体开发思路)
+- [小程序-持续集成](#小程序-持续集成)
+    - [规范化的开发流程](#规范化的开发流程)
+    - [如何做小程序的持续集成](#如何做小程序的持续集成)
+        - [准备工作](#准备工作)
+        - [开发小程序的集成脚本](#开发小程序的集成脚本可以使用各种语言shell-js-python)
+        - [集成](#集成)
+    - [总结](#总结)
 - [小程序架构](#小程序架构)
-  - [下载小程序完整包](#下载小程序完整包)
-  - [App Service - Life Cylce](#app-service-life-cylce)
-  - [面试题](#面试题)
-- [View - WXML](#view-wxml)
-- [View - WXSS](#view-wxss)
-  - [支持大部分CSS特性](#支持大部分CSS特性)
-  - [尺寸单位rpx](#尺寸单位rpx)
-  - [样式导入](#样式导入)
-  - [内联样式](#内联样式)
-  - [全局样式与局部样式](#全局样式与局部样式)
-  - [iconfont](#iconfont)
-- [View - Component](#view-component)
-- [View - Native Component](#view-native-component)
+    - [下载小程序完整包](#下载小程序完整包)
+    - [App Service - Life Cylce](#app-service---life-cylce)
+    - [面试题](#面试题)
+- [View - WXML](#view---wxml)
+- [View - WXSS](#view---wxss)
+    - [支持大部分CSS特性](#支持大部分css特性)
+    - [尺寸单位 rpx](#尺寸单位-rpx)
+    - [样式导入](#样式导入)
+    - [内联样式](#内联样式)
+    - [全局样式与局部样式](#全局样式与局部样式)
+    - [iconfont](#iconfont)
+- [View - Component](#view---component)
+- [View - Native Component](#view---native-component)
 - [目前小程序的问题或限制](#目前小程序的问题或限制)
-  - [小程序HTTP2支持情况](#小程序HTTP2支持情况)
+    - [小程序HTTP2支持情况](#小程序http2支持情况)
+        - [HTTP2支持情况：模拟器与真机均不支持](#http2支持情况模拟器与真机均不支持)
+        - [HTTP2服务器需要对小程序做兼容性适配](#http2服务器需要对小程序做兼容性适配)
 - [授权获取用户信息流程](#授权获取用户信息流程)
 - [性能优化](#性能优化)
-  - [加载优化](#加载优化)
-     - [使用分包加载优化](#使用分包加载优化)
-  - [渲染性能优化](#渲染性能优化)
+    - [加载优化](#加载优化)
+        - [使用分包加载优化](#使用分包加载优化)
+    - [渲染性能优化](#渲染性能优化)
 - [官方小程序技术能力规划](#官方小程序技术能力规划)
-  - [自定义组件2.0](#自定义组件20)
-  - [npm支持](#npm支持)
-  - [官方自定义组件](#官方自定义组件)
-  - [添加体验评分](#添加体验评分)
-  - [原生组件同层渲染](#原生组件同层渲染)
+    - [自定义组件2.0](#自定义组件20)
+    - [npm支持](#npm支持)
+    - [官方自定义组件](#官方自定义组件)
+    - [添加体验评分](#添加体验评分)
+    - [原生组件同层渲染](#原生组件同层渲染)
 - [wepy vs mpvue](#wepy-vs-mpvue)
-  - [数据流管理](#数据流管理)
-  - [组件化](#组件化)
-  - [工程化](#工程化)
-  - [综合比较](#综合比较)
-  - [选型的个人看法](#选型的个人看法)
+    - [数据流管理](#数据流管理)
+    - [组件化](#组件化)
+    - [工程化](#工程化)
+    - [综合比较](#综合比较)
+    - [选型的个人看法](#选型的个人看法)
 - [mpvue](#mpvue)
-  - [框架原理](#框架原理)
-     - [mpvue-loader](#mpvue-loader)
-     - [compiler](#compiler)
-     - [runtime](#runtime)
-  - [Class和Style为什么暂不支持组件](#class和style为什么暂不支持组件)
-  - [分包加载](#分包加载)
+    - [框架原理](#框架原理)
+        - [mpvue-loader](#mpvue-loader)
+        - [compiler](#compiler)
+        - [runtime](#runtime)
+    - [Class和Style为什么暂不支持组件](#class和style为什么暂不支持组件)
+    - [分包加载](#分包加载)
+- [小程序-学习](#小程序-学习)
+    - [学习建议](#学习建议)
+    - [如何解决遇到的问题](#如何解决遇到的问题)
+    - [总结](#总结-1)
 - [参考链接](#参考链接)
 
 <!-- /TOC -->
@@ -68,7 +81,7 @@
 
 ## unionid和openid
 
-了解小程序登陆之前，我们写了解下小程序/公众号登录涉及到两个最关键的用户标识：
+了解小程序登录之前，我们写了解下小程序/公众号登录涉及到两个最关键的用户标识：
 
 - `OpenId` 是一个用户对于一个小程序／公众号的标识，开发者可以通过这个标识识别出用户。
 - `UnionId` 是一个用户对于同主体微信小程序／公众号／APP的标识，开发者需要在微信开放平台下绑定相同账号的主体。开发者可通过UnionId，实现多个小程序、公众号、甚至APP 之间的数据互通了。
@@ -233,7 +246,6 @@
 
 
 
-
 # 小程序-工程化
 
 ## 工程化做什么
@@ -265,8 +277,95 @@
 
 1. 支持新建项目，创建Page，创建Component
 2. 支持内置构建脚本
-3. 支持发布小程序，也可以想办法接入Jenkins等工具做持续集成 (小程序持续集成后面会提)
+3. 支持发布小程序，也可以想办法接入Jenkins等工具做持续集成
   ...
+
+限于篇幅，没有将完整的代码贴上来，如果感兴趣，可以参考笔者公司实现和在生产环境实践过的一整套小程序工程化方案[pandora-cli](https://github.com/pandolajs/pandora-cli)。
+
+
+# 小程序-持续集成
+
+很多成熟的公司的软件开发流程中为了规范化和保证产品质量，都有 `持续集成` 这个环节。在小程序这一侧，由于依赖微信开发者平台，和以往的web开发有一定的区别，本节主要介绍如何自动化的做小程序的预览，发布，提审，以实现规范化的开发，上线。
+
+## 规范化的开发流程
+
+小程序在提审之前，开发者可以通过二维码测试，预览。在这种情况下，如果没有规范化的流程，开发测试流程就会比较混乱，也会存在一些问题(例如不同同学的功能测试，手动提供二维码给测试同学，二维码失效)，所以在开发时笔者建议采用如下开发流程（未接入持续集成）：
+
+1. 不同的开发同学根据开发任务拉分支在本地开发，自测
+2. 开发完成后提交到远端，经过 `review` 或者 `代码审核` 之后，合并到develop分支并上传体验包，作为可提测的版本
+3. 告知测试同学可以测试，测试同学可以通过[小程序开发助手](https://developers.weixin.qq.com/miniprogram/dev/devtools/mydev.html)打开体验版本来测试
+4. 测试完成之后，合并 `develop` 代码至 `master` 分支，并提审上线，上线完成后删除无用分支，打上版本`tag`
+
+
+## 如何做小程序的持续集成
+
+### 准备工作
+
+1. 操作系统为 `windows` 或者 `macOS` 的服务器
+2. 服务端安装小程序开发者工具 [下载地址](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
+3. 准备一个通用打包构建角色微信号，并将改微信号添加到所有小程序的开发者中，提供开发者权限
+
+### 开发小程序的集成脚本（可以使用各种语言`shell`, `js`, `python`...）
+
+开发者工具根据提供了 [cli](https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html 和 [http](https://developers.weixin.qq.com/miniprogram/dev/devtools/http.html)两种方式供外部调用来实现登录，预览，上传，下面介绍下 `http` 调用，`cli` 方式也很类似。
+开发者工具打开之后，本地会启动一个 `http` 服务，端口号在用户目录的 `.ide` 文件中，并且提供以下几个接口供开发者调用：
+
+- `/open` 打开指定路径项目
+- `/login` 登录
+- `/preview` 预览指定项目
+- `/upload` 上传指定项目
+- `/test` 提交项目
+
+根据提供的这些能力，我们可以编写出发布脚本(以下是简单示例)：
+
+
+```js
+
+  function getPort () {
+    const home = os.homedir()
+    const portPath = process.platform === 'win32' 
+      ? path.join(home, '/AppData/Local/微信web开发者工具/User Data/Default/.ide') 
+      : path.join(home, '/Library/Application Support/微信web开发者工具/Default/.ide')
+    if (!fs.existsSync(portPath)) {
+      this.log.error('error')
+    } else {
+      const port = fs.readFileSync(portPath, { encoding: 'utf8' })
+      return +port
+    }
+  }
+
+  function release() {
+      http.get(`http://127.0.0.1:${port}/upload?projectpath=${encodeURIComponent(path)}&version=${version}&desc=${encodeURIComponent(message)}`, res => {
+      const { statusCode } = res
+      if (statusCode === 200) {
+        // success
+      } else {
+        // fail
+      }
+    })
+  }
+
+```
+
+### 集成
+
+不同公司使用的工具有一些区别，下面简单介绍一下常见的两种(一般是运维同学来执行，笔者不是特别熟悉，所以只是简单介绍)：
+
+- gitlab
+
+  安装[gitlab runner](https://docs.gitlab.com.cn/runner/register/index.html)，搭配gitlab提供的CI
+  编写CI文件，这份文件会包含构建命令，将上一步编写的脚本集成进执行命令即可
+
+- Jenkis
+
+  安装[Jenkis](https://jenkins.io/download/)后新建构建任务，配置任务(指定代码仓库，分支，构建参数)，指明构建方式（可以选择shell，然后编写shell来执行你的脚本）
+
+做完集成后，就可以优化上面介绍的开发流程，将`打测试包`和`发布`的权利交给测试同学，开发者安心的开发啦。
+
+## 总结
+
+以上是笔者实践过的对小程序持续集成的整个流程，不管公司有没有接入持续集成，上面的方式都可以方便开发者自动化的预览，发布，也可以集成到工程化流程中，使用起来会更加方便。具体的实现可以参考[pandora-cli](https://github.com/pandolajs/pandora-cli)。
+
 
 # 小程序架构
 
@@ -304,7 +403,7 @@ find . -type f -name '*.js' -not -path "./node_modules/*" -not -path -exec js-be
 在 `js/extensions/appservice/index.js` 中找到：
 
 ```js
-	267: function(a, b, c) {
+  267: function(a, b, c) {
     const d = c(8),
       e = c(227),
       f = c(226),
@@ -535,7 +634,7 @@ Page({
   onShow: function(){
     var animation = wx.createAnimation({
       duration: 1000,
-  	  timingFunction: 'ease',
+      timingFunction: 'ease',
     })
 
     this.animation = animation
@@ -700,7 +799,7 @@ export const pxToRpx = function (px) {
 
 目前Native实现的组件有
 
-- cavnas
+- canvas
 
 - video
 
@@ -713,7 +812,7 @@ export const pxToRpx = function (px) {
 Native组件层在 WebView 层之上。这目前带来了一些问题：
 - Native 实现的组件会遮挡其他组件
 - WebView 渲染出来的视图在滚动时，Native 实现的组件需要更新位置，这会带来性能问题，在安卓机器上比较明显
-- 小程序原生组件 `cover-view` 可以覆盖 cavnas video 等，但是也有一下弊端，比如在 cavnas 上覆盖 `cover-view`，就会发现坐标系不统一处理麻烦
+- 小程序原生组件 `cover-view` 可以覆盖 canvas video 等，但是也有一下弊端，比如在 canvas 上覆盖 `cover-view`，就会发现坐标系不统一处理麻烦
 
 
 # 目前小程序的问题或限制
@@ -2204,6 +2303,81 @@ module.exports = {
      // CSS Sourcemaps off by default because relative paths are "buggy"
 
 ```
+
+
+
+# 小程序-学习
+
+经常会看到一些同学在查找小程序的学习资料，和面对一些问题无从下手。这一节笔者会基于自己的经验告诉大家如何学习开发小程序和如何解决遇到的问题。
+
+## 学习建议
+
+
+1. **文档一定要通读**，**文档一定要通读**，**文档一定要通读**。如果你想轻松的实现各种功能先，不要去搜网上的各种二手资料，请一定要熟读文档。不是为了记下来，而是有个大概印象，知道小程序有哪些能力，哪些限制。下面笔者列一些文档或者社区里很优质的内容（首页的就不列了），虽然在很显眼的位置，但是很多人没看过🤦。(个人感觉，平时很多开发者问的问题，百分之九十都在文档里有答案)
+
+    - [小程序-小故事](https://developers.weixin.qq.com/community/develop/list/512) 可以了解小程序的发展和对一些功能的权衡取舍过程
+    - [小程序基础教程](https://developers.weixin.qq.com/community/develop/list/4) 非常好和全面的教程，墙裂推荐
+    - [官方公告](https://developers.weixin.qq.com/community/develop/list/2)  小程序仍然在快速迭代当中，了解官方的动态对于开发者非常有必要
+    - [小程序已知问题和修复日志](https://developers.weixin.qq.com/community/develop/buglist) 躲坑指南
+    - [运营规范&常见拒绝情形](https://developers.weixin.qq.com/miniprogram/product/)  小程序宪法
+    - [需要授权的操作](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) 授权是有可能流失用户的，要多注意
+    - [微信公众平台技术文档](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183) 涉及到和公众号交互等内容可能会用到
+    - [微信开放平台技术文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_ list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN) 涉及和App交互等内容可能会用到
+
+2. 利用好微信提供的各种辅助工具，能力
+
+    - [小程序开发助手](https://developers.weixin.qq.com/miniprogram/dev/devtools/mydev.html) 方便查看开发版，体验版，线上版
+    - [小程序示例](https://developers.weixin.qq.com/miniprogram/dev/demo.html) 直观的了解小程序的各种能力，新手可以当做demo跑一下
+    - [小程序数据助手](https://developers.weixin.qq.com/miniprogram/analysis/assistant/) 查看小程序pv，uv，方便了解自己的工作成果
+    - 利用好小程序提供的[调试能力](https://developers.weixin.qq.com/miniprogram/dev/devtools/debug.html) 现在小程序已经有了真机调试，各种特殊场景的测试(扫码，支付)，已经非常全面。
+
+3. 看完文档直接上手开发，多动手喽，干就完了!
+
+建议的进阶路线: 
+
+    1. 熟读文档 
+    2. 可开发一些小功能，熟悉开发流程
+    3. 尝试开发一些复杂的任务(例如设计一个绘图库，埋点库) 
+    4. 可以翻阅一下业界优秀的小程序源码(办法自己想🤔)，框架源码
+    5. 将微信开发者根据拖入你的ide翻一翻底层代码,思考和理解小程序的设计
+    6. 成为老司机
+
+
+
+## 如何解决遇到的问题
+
+由于小程序本身的技术架构，开发技能和web技术共性很多，我们之前在web开发中的很多开发经验也是有效的，大多数问题也是很好解决的(看文档)。常见的一些问题：
+
+1. 兼容性问题
+
+    一般遇到设备兼容性问题，从以下几个角度思考:
+
+    1. 不通的微信版本的[小程序基础库](https://developers.weixin.qq.com/miniprogram/dev/framework/client-lib.html)是不一样的，很多 `API` 是有基础库的要求。
+    2. 样式写法问题，小程序提供了rpx单位让样式开发更简单，但如果单位混用的话可能会导致意想不到的效果。
+    3. css兼容性问题 例如ios7，8对 `flex布局` 支持的不够好。
+    4. 设备兼容问题，例如ios不支持 `webp` 图片格式。
+
+2. 代码逻辑问题
+
+   对于平常的业务逻辑来说一般都是跟小程序的[生命周期](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html)挂钩，如果业务逻辑复杂，代码组织能力不够，很容易将代码写的很乱，这样出现问题的风险自然也会很高。
+   所以建议在开发复杂业务逻辑时，一定要先借助流程图，思维脑图等方式分析清楚业务，然后再规划代码逻辑，拆分出逻辑主次。
+   遇到问题时，推荐如下方法:
+   1. `debugger` 大法，在出现问题的地方打上断点，一步步查看上下文中的变量异常
+   2. `二分删代码大法` 遇到极其诡异（注意是极其诡异）的问题时，二分删代码直到问题消失，定位到问题代码(悄悄告诉你们，笔者用这个方法帮同事定位到好几个诡异的问题)
+
+3. 性能问题
+
+   官方提供的[性能优化工具，和文档](https://developers.weixin.qq.com/miniprogram/dev/framework/performance/)为第一资料，毕竟他们自己写的坑，自己最清楚。另外上面已经介绍过一些性能优化的方法了，参照业务场景对症下药即可。    
+
+4. 各种奇怪的问题
+
+   事实上，90%的问题还是不看文档导致的，所以你们懂得。另外一些问题参考上述也可以定位到，如果还有不能解决的问题怎么办？
+   那可能是微信的`bug`，所以去已知问题文档，官方社区翻一翻，一般都有蛛丝马迹。实在不行也可以向老司机提问，注意提问姿势，最好提供最小可复现demo，代码片段功能了解一下
+
+## 总结
+
+祝大家开发愉快!
+
 
 # 参考链接
 
