@@ -2322,7 +2322,7 @@ module.exports = {
     - [运营规范&常见拒绝情形](https://developers.weixin.qq.com/miniprogram/product/)  小程序宪法
     - [需要授权的操作](https://developers.weixin.qq.com/miniprogram/dev/api/authorize-index.html) 授权是有可能流失用户的，要多注意
     - [微信公众平台技术文档](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183) 涉及到和公众号交互等内容可能会用到
-    - [微信开放平台技术文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_ list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN) 涉及和App交互等内容可能会用到
+    - [微信开放平台技术文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=1417674108&token=&lang=zh_CN) 涉及和App交互等内容可能会用到
 
 2. 利用好微信提供的各种辅助工具和能力
 
