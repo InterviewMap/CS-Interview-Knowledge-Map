@@ -814,28 +814,26 @@ A função `then` retorna uma instância da Promise, do qual é uma nova instân
 
 Para `then`, ele pode essencialmente ser visto como flatMap`:
 
-For `then`, it can essentially be seen as `flatMap`:
-
 ```js
-// three states
+// árvore de estados
 const PENDING = 'pending';
 const RESOLVED = 'resolved';
 const REJECTED = 'rejected';
-// promise accepts a function argument that will execute immediately.
+// promise aceita um argumento na função que será executada imediatamente.
 function MyPromise(fn) {
   let _this = this;
   _this.currentState = PENDING;
   _this.value = undefined;
-  // To save the callback of `then`，only cached when the state of the promise is pending,
-  //  at most one will be cached in every instance
+  // Save o callback do `then`, apenas em cache quando o estado da promise for pending,
+  // no máximo será cacheado em cada instância
   _this.resolvedCallbacks = [];
   _this.rejectedCallbacks = [];
 
   _this.resolve = function(value) {
-    // execute asynchronously to guarantee the execution order
+    // execute assícronamente para garantir a ordem de execução
     setTimeout(() => {
       if (value instanceof MyPromise) {
-        // if value is a Promise, execute recursively
+        // se o valor é uma Promise, execute recursivamente
         return value.then(_this.resolve, _this.reject)
       }
       if (_this.currentState === PENDING) {
@@ -847,7 +845,7 @@ function MyPromise(fn) {
   }
 
   _this.reject = function(reason) {
-    // execute asynchronously to guarantee the execution order
+    // execute assícronamente para garantir a ordem de execução
     setTimeout(() => {
       if (_this.currentState === PENDING) {
         _this.currentState = REJECTED;
@@ -857,7 +855,7 @@ function MyPromise(fn) {
     })
   }
 
-  // to solve the following problem
+  // para resolver o seguinte problema
   // `new Promise(() => throw Error('error))`
   try {
     fn(_this.resolve, _this.reject);
@@ -868,10 +866,10 @@ function MyPromise(fn) {
 
 MyPromise.prototype.then = function(onResolved, onRejected) {
   const self = this;
-  // specification 2.2.7， `then` must return a new promise
+  // especificação 2.2.7， `then` deve retornar uma nova promise
   let promise2;
-  // specification 2.2, both `onResolved` and `onRejected` are optional arguments
-  // it should be ignored if `onResolved` or `onRjected` is not a function,
+  // especificação 2.2, ambos `onResolved` e `onRejected` são argumentos opcionais
+  // isso deveria ser ignorado se `onResolved` ou `onRjected` não for uma função,
   // which implements the penetrate pass of it's value
   // `Promise.resolve(4).then().then((value) => console.log(value))`
   onResolved = typeof onResolved === 'function' ? onResolved : v => v;
