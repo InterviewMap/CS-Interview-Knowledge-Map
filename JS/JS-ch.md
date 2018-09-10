@@ -26,7 +26,7 @@
 - [节流](#%E8%8A%82%E6%B5%81)
 - [继承](#%E7%BB%A7%E6%89%BF)
 - [call, apply, bind 区别](#call-apply-bind-%E5%8C%BA%E5%88%AB)
-  - [模拟实现 call 和 apply](#%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0-call-%E5%92%8C-apply)
+  - [模拟实现 call, apply 和 bind](#%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0-call-apply-%E5%92%8C-bind)
 - [Promise 实现](#promise-%E5%AE%9E%E7%8E%B0)
 - [Generator 实现](#generator-%E5%AE%9E%E7%8E%B0)
 - [Map、FlatMap 和 Reduce](#mapflatmap-%E5%92%8C-reduce)
@@ -1004,7 +1004,7 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-## 模拟实现 call 和 apply
+## 模拟实现 call, apply 和 bind
 
 可以从以下几点来考虑如何实现
 
@@ -1015,14 +1015,17 @@ getValue.apply(a, ['yck', '24'])
 Function.prototype.myCall = function (context) {
   var context = context || window
   // 给 context 添加一个属性
+  // 为了避免这个属性跟原有的对象属性冲突，此处用 Symbol 保证唯一
   // getValue.call(a, 'yck', '24') => a.fn = getValue
-  context.fn = this
+  var tempOrginalFunc = Symbol('Original function name')
+  context[tempOrginalFunc] = this
+  
   // 将 context 后面的参数取出来
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
-  var result = context.fn(...args)
-  // 删除 fn
-  delete context.fn
+  var result = context[tempOrginalFunc](...args)
+  // 删除 [tempOrginalFunc]
+  delete context[tempOrginalFunc]
   return result
 }
 ```
@@ -1032,18 +1035,20 @@ Function.prototype.myCall = function (context) {
 ```js
 Function.prototype.myApply = function (context) {
   var context = context || window
-  context.fn = this
+  
+  var tempOrginalFunc = Symbol('Original function name')
+  context[tempOrginalFunc] = this
 
   var result
   // 需要判断是否存储第二个参数
   // 如果存在，就将第二个参数展开
   if (arguments[1]) {
-    result = context.fn(...arguments[1])
+    result = context[tempOrginalFunc](...arguments[1])
   } else {
-    result = context.fn()
+    result = context[tempOrginalFunc]()
   }
 
-  delete context.fn
+  delete context[tempOrginalFunc]
   return result
 }
 ```
