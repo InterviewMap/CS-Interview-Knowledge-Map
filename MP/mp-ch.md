@@ -63,12 +63,13 @@
     - [综合比较](#综合比较)
     - [选型的个人看法](#选型的个人看法)
 - [mpvue](#mpvue)
-    - [框架原理](#框架原理)
-        - [mpvue-loader](#mpvue-loader)
-        - [compiler](#compiler)
-        - [runtime](#runtime)
-    - [Class和Style为什么暂不支持组件](#class和style为什么暂不支持组件)
-    - [分包加载](#分包加载)
+  - [框架原理](#框架原理)
+     - [mpvue-loader](#mpvue-loader)
+     - [compiler](#compiler)
+     - [runtime](#runtime)
+  - [Class和Style为什么暂不支持组件](#class和style为什么暂不支持组件)
+  - [分包加载](#分包加载)
+  - [问题与展望](#问题与展望)
 - [小程序-学习](#小程序-学习)
     - [学习建议](#学习建议)
     - [如何解决遇到的问题](#如何解决遇到的问题)
@@ -1058,10 +1059,10 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 
 **避免不当使用 setData**
 
-- 使用 data 在方法间共享数据，**可能增加 setData 传输的数据量。**。data 应仅包括与页面渲染相关的数据。
-- 使用 setData 传输大量数据，**通讯耗时与数据正相关，页面更新延迟可能造成页面更新开销增加。**仅传输页面中发生变化的数据，使用 setData 的特殊 key 实现局部更新。
-- 短时间内频繁调用 setData，**操作卡顿，交互延迟，阻塞通信，页面渲染延迟。**避免不必要的 setData，对连续的setData调用进行合并。
-- 在后台页面进行 setData，**抢占前台页面的渲染资源。**页面切入后台后的 setData 调用，延迟到页面重新展示时执行。
+- 使用 data 在方法间共享数据，**可能增加 setData 传输的数据量**。data 应仅包括与页面渲染相关的数据。
+- 使用 setData 传输大量数据，**通讯耗时与数据正相关，页面更新延迟可能造成页面更新开销增加**。仅传输页面中发生变化的数据，使用 setData 的特殊 key 实现局部更新。
+- 短时间内频繁调用 setData，**操作卡顿，交互延迟，阻塞通信，页面渲染延迟**。避免不必要的 setData，对连续的setData调用进行合并。
+- 在后台页面进行 setData，**抢占前台页面的渲染资源**。页面切入后台后的 setData 调用，延迟到页面重新展示时执行。
 
 ![one-context](https://user-images.githubusercontent.com/2350193/44186238-db146980-a14a-11e8-8096-bcb8fa6d28b2.png)
 
@@ -1165,7 +1166,7 @@ export default class Index extends wepy.page {}
 | 语法规范  | 小程序开发规范 | vue.js            | 类vue.js        |
 | 标签集合  | 小程序         | htm l + 小程序    | 小程序          |
 | 样式规范  | wxss           | sass,less,postcss | sass,less,styus |
-| 组件化    | 无组件化机制   | vue规范           | 自定义组件规范  |
+| 组件化    | 基础库@2.2.3自定义组件   | vue规范           | 自定义组件规范  |
 | 多段复用  | 不可复用       | 支持h5            | 支持h5          |
 | 自动构建  | 无自动构建     | webpack           | 框架内置        |
 | 上手成本  | 全新学习       | vue 学习          | vue 和 wepy     |
@@ -2304,6 +2305,21 @@ module.exports = {
 
 ```
 
+## 问题与展望
+技术的更新迭代是很快的，很多内容在写的时候还是这样。过了几天就发生了变化。又仔细看了小程序的文档，发现小程序原生开发深受vue影响啊，越来越像了。
+
+希望mpvue能够使用`wx.nextTick`[链接](https://developers.weixin.qq.com/miniprogram/dev/api/custom-component.html#wxnexttickfunction)，尝试来代替50毫秒
+
+希望能够解决[使用脏检查优化每次更新数据时都会传输大量数据的问题, 解决删除回退, 列表忽然滚动到顶部等问题](https://github.com/Meituan-Dianping/mpvue/issues/639)。也许可以靠下面的自定义组件。
+
+使用[自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)代替template，这样可以解决诸如:
+
+- [组件根标签不能使用style和class](http://mpvue.com/mpvue/#_10)
+- [slot的各种问题](https://github.com/Meituan-Dianping/mpvue/issues?utf8=%E2%9C%93&q=slot)
+- [Slot（scoped 暂时还没做支持）](http://mpvue.com/mpvue/#vue_1)
+- setData的性能提升，因为官方说的:"在需要频繁更新的场景下，自定义组件的更新只在组件内部进行，不受页面其他部分内容复杂性影响。"。也就是说，组件内部的setData只会影响组件范围。这个和Vue就很像了，我觉得原理肯定是一致的。
+
+在小程序完善了自定义组件之后，我现在的倾向变成了自搭或者网上找脚手架来工程化项目，使用诸如：NPM、PostCSS、pug、babel、ESLint、图片优化等功能。然后使用小程序原生开发的方式来开发，因为它做的越来越好，越来越像vue了。
 
 
 # 小程序-学习
@@ -2377,7 +2393,6 @@ module.exports = {
 ## 总结
 
 祝大家开发愉快!
-
 
 # 参考链接
 
