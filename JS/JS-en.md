@@ -87,11 +87,16 @@ let a = {
 
 ## Arithmetic Operators
 
+Type Coercion:
+
 Only for additions, if one of the parameters is a string, the other one will be converted to string as well. For all other operations, as long as one of the parameters is a number, the other one will be converted to a number.
 
 Additions will invoke three types of type conversions: to primitive types, to numbers and to string:
 
+
 ```js
+'cs' + 5 // cs5
+'cs' * 5 // NaN
 1 + '1' // '11'
 2 * '2' // 4
 [1, 2] + [2, 1] // '1,22,1'
@@ -100,6 +105,7 @@ Additions will invoke three types of type conversions: to primitive types, to nu
 // '1,2' + '2,1' = '1,22,1'
 ```
 
+Unary operator:
 Note the expression `'a' + + 'b'` for addition:
 
 ```js
@@ -285,6 +291,17 @@ function a() {
   };
 }
 console.log(a()()());
+
+function b(...args){
+    if(args.length == 2){
+        return args[0] + args[1]
+    }
+    return (x) => {
+      return args[0] + x;
+    }
+ }
+ console.log(b(1,1));
+ console.log(b(1)(2));
 ```
 Actually, the arrow function does not have `this`, `this` in the above function only depends on the first outer function that is not an arrow function. For this case, `this` is default to `window` because calling `a` matches the first condition in the above codes. Also, what `this` is bound to will not be changed by any codes once `this` is bound to the context.
 
