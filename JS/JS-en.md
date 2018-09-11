@@ -630,7 +630,9 @@ var obj = {a: 1, b: {
 }}
 // pay attention that this method is asynchronous
 // it can handle `undefined` and circular reference object
-const clone = await structuralClone(obj);
+(async () => {
+  const clone = await structuralClone(obj)
+})()
 ```
 
 # Modularization
