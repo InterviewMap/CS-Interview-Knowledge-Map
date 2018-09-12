@@ -245,7 +245,7 @@ As for the latter, it first executes `new Foo()` to create an instance, then fin
 
 # This
 
-`This`, a concept that is confusing to many peole, is actually not difficult to understand as long as you remember the following rules:
+`This`, a concept that is confusing to many people, is actually not difficult to understand as long as you remember the following rules:
 
 ```js
 function foo() {
@@ -577,6 +577,7 @@ console.log(b.jobs.first) // FE
 
 But this method also has its limits:
 * ignore `undefined`
+* ignore `symbol`
 * unable to serialize function
 * unable to resolve circular references in an object
 ```js
@@ -600,10 +601,11 @@ If an object is circularly referenced like the above example, you’ll find the 
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-When dealing with function or `undefined`,  the object can also not be serialized properly.
+When dealing with function, `undefined` or `symbol`, the object can also not be serialized properly.
 ```js
 let a = {
     age: undefined,
+    sex: Symbol('male'),
     jobs: function() {},
     name: 'yck'
 }
@@ -630,7 +632,9 @@ var obj = {a: 1, b: {
 }}
 // pay attention that this method is asynchronous
 // it can handle `undefined` and circular reference object
-const clone = await structuralClone(obj);
+(async () => {
+  const clone = await structuralClone(obj)
+})()
 ```
 
 # Modularization

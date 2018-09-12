@@ -398,12 +398,14 @@ There are two related keys -- a key pair -- in the asymmetric encryption. A publ
 
 ![](https://user-gold-cdn.xitu.io/2018/5/12/1635260126b3a10c?w=1558&h=1006&f=webp&s=59424)
 
-1. The client sends a random value, along with the required protocol and encryption method.
-2. The server receives the random value of the client, and also generates a random value by itself, and sends the certificate according to the requirement. 
-3. The client verifies the server's digital certificate and then creates another random value encrypted with the server's public key. If the server requires a certificate from the client, the client sends it.
-4. The server receives the second random value from the client and decrypts it with its private key. And both the server and the client have all three random values. So they can generate the session key and exchange data that are encrypted with the session key later.
+1. Client: Sends a "hello" to the server along with a random value and supported cipher suites. 
+2. Server: Responds back by saying "hello" with it's own generated random value and its certificate. 
+3. Client: Verifies the certificate. Creates a Pre-Master Shared (secret) key and encrypts it using the public key from the server Certificate and sends it to the server.
+4. Server: Recieves the Pre-Master Shared secret key and decrypts using its private key. Both the server and client generate a master key & sessions key based on the Pre-Master Shared (secret) Key. 
+5. Client: Sends a message to the Server to inform that it will be changing cipher spec and will use the sessions key for hashing and encrypting the messages. 
+6. Server: Changes its cipher spec and switches to symmetric encryption using the sessions key for performance. 
 
-Gives the above steps, during the handshake process, the client and server communicate with symmetric encryption. When considering performance, they use the asymmetric encryption to communicate with each other after connected.
+Gives the above steps, during the handshake process, the client and server communicate with asymmetric encryption. And later switch to symmetric encryption, once the connection is established for better performance. 
 
 PS: The above description is the handshake of TLS 1.2 protocol. In 1.3 protocol, only one RTT is needed to establish a connection for the first time, and the RTT is not required to restore the connection later.
 
