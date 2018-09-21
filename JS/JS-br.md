@@ -26,7 +26,7 @@
 - [A diferença entre call apply bind](#a-diferença-entre-call-apply-bind)
   - [simulação para implementar `call` e `apply`](#simulação-para-implementar--call-e--apply)
 - [Implementação de Promise](#implementação-de-promise)
-- [Implementação do Generator](#generator-implementation)
+- [Implementação do Generator](#implementação-do-generator)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
 - [Map、FlatMap e Reduce](#mapflatmap-and-reduce)
@@ -996,14 +996,14 @@ O código acima, que é implementado baseado em Promise / A+ especificação, po
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
-# Generator Implementation
+# Implementação do Generator
 
-Generator is an added syntactic feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
+Generator é uma funcionalidade sintática adicionada no ES6. Similar a `Promise`, pode ser usado para programação assíncrona.
 
 ```js
-// * means this is a Generator function
-// yield within the block can be used to pause the execution
-// next can resume execution
+// * significa que isso é uma função Generator
+// yield dentro de um bloco pode ser usado para pausar a execução
+// next consegue resumir a execução
 function* test() {
   let a = 1 + 2;
   yield 2;
