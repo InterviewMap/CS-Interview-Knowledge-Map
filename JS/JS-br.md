@@ -870,15 +870,15 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   let promise2;
   // especificação 2.2, ambos `onResolved` e `onRejected` são argumentos opcionais
   // isso deveria ser ignorado se `onResolved` ou `onRjected` não for uma função,
-  // which implements the penetrate pass of it's value
+  // do qual implementa a penetrar a passagem desse valor
   // `Promise.resolve(4).then().then((value) => console.log(value))`
   onResolved = typeof onResolved === 'function' ? onResolved : v => v;
   onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // specification 2.2.4, wrap them with `setTimeout`,
-      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously
+      // especificação 2.2.4, encapsula eles com `setTimeout`,
+      // em ordem para garantir que `onFulfilled` e `onRjected` executam assícronamente
       setTimeout(() => {
         try {
           let x = onResolved(self.value);
@@ -892,7 +892,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
   if (self.currentState === REJECTED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // execute `onRejected` asynchronously
+      // execute `onRejected` assícronamente
       setTimeout(() => {
         try {
           let x = onRejected(self.value);
@@ -907,7 +907,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   if (self.currentState === PENDING) {
     return (promise2 = new MyPromise((resolve, reject) => {
       self.resolvedCallbacks.push(() => {
-         // Considering that it may throw error, wrap them with `try/catch`
+         // Considerando que isso deve lançar um erro, encapsule eles com `try/catch`
         try {
           let x = onResolved(self.value);
           resolutionProcedure(promise2, x, resolve, reject);
@@ -928,22 +928,22 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   }
 }
 
-// specification 2.3
+// especificação 2.3
 function resolutionProcedure(promise2, x, resolve, reject) {
-  // specification 2.3.1，`x` and  `promise2` can't refer to the same object,
-  // avoiding the circular references
+  // especificação 2.3.1，`x` e  `promise2` não podem ser referenciados para o mesmo objeto,
+  // evitando referência circular
   if (promise2 === x) {
     return reject(new TypeError('Error'));
   }
 
-  // specification 2.3.2, if `x` is a Promise and the state is `pending`,
-  // the promise must remain, If not, it should execute.
+  // especificação 2.3.2, se `x` é uma Promise e o estado é `pending`,
+  // a promisse deve permanecer, se não, ele deve ser executado.
   if (x instanceof MyPromise) {
     if (x.currentState === PENDING) {
-      // call the function `resolutionProcedure` again to
-      // confirm the type of the argument that x resolves
-      // If it's a primitive type, it will be resolved again to
-      // pass the value to next `then`.
+      // chame a função `resolutionProcedure` novamente para 
+      // confirmar o tipo de argumento que x resolve
+      // Se for um tipo primitivo, irá ser resolvido novamente
+      // passando o valor para o próximo `then`.
       x.then((value) => {
         resolutionProcedure(promise2, value, resolve, reject);
       }, reject)
@@ -953,9 +953,9 @@ function resolutionProcedure(promise2, x, resolve, reject) {
     return;
   }
 
-  // specification 2.3.3.3.3
-  // if both `reject` and `resolve` are executed, the first successful
-  // execution takes precedence, and any further executions are ignored
+  // especificação 2.3.3.3.3
+  // se ambos `reject` e `resolve` forem executado, a primeira execução 
+  // de sucesso tem precedência, e qualquer execução é ignorada
   let called = false;
   // specification 2.3.3, determine whether `x` is an object or a function
   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
