@@ -957,19 +957,19 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   // se ambos `reject` e `resolve` forem executado, a primeira execução 
   // de sucesso tem precedência, e qualquer execução é ignorada
   let called = false;
-  // specification 2.3.3, determine whether `x` is an object or a function
+  // especificação 2.3.3, determina se `x` é um objeto ou uma função 
   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
-    // specification 2.3.3.2, if can't get `then`, execute the `reject`
+    // especificação 2.3.3.2, se não conseguir obter o `then`, execute o `reject`
     try {
-      // specification 2.3.3.1
+      // especificação 2.3.3.1
       let then = x.then;
-      // if `then` is a function, call the `x.then`
+      // se `then` é uma função, chame o `x.then`
       if (typeof then === 'function') {
-        // specification 2.3.3.3
+        // especificação 2.3.3.3
         then.call(x, y => {
           if (called) return;
           called = true;
-          // specification 2.3.3.3.1
+          // especificação 2.3.3.3.1
           resolutionProcedure(promise2, y, resolve, reject);
         }, e => {
           if (called) return;
@@ -977,7 +977,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
           reject(e);
         });
       } else {
-        // specification 2.3.3.4
+        // especificação 2.3.3.4
         resolve(x);
       }
     } catch (e) {
@@ -986,13 +986,13 @@ function resolutionProcedure(promise2, x, resolve, reject) {
       reject(e);
     }
   } else {
-    // specification 2.3.4, `x` belongs to primitive data type
+    // especificação 2.3.4, `x` pertence ao tipo primitivo de dados
     resolve(x);
   }
 }
 ```
 
-The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
+O código acima, que é implementado baseado em Promise / A+ especificação, pode passar os testes completos de `promises-aplus-tests`
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
