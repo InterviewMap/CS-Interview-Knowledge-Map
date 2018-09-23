@@ -30,7 +30,7 @@
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
 - [Map、FlatMap e Reduce](#mapflatmap-e-reduce)
-- [Async e await](#async-and-await)
+- [Async e await](#async-e-await)
 - [Proxy](#proxy)
 - [Por que 0.1 + 0.2 != 0.3](#why-01--02--03)
 - [Expressões regulares](#regular-expressions)
@@ -1237,9 +1237,9 @@ function b() {
 ```
 
 
-# Async and await
+# Async e await
 
-`async` function will return a `Promise`:
+A função `async` vai retornar uma `Promise`:
 
 ```js
 async function test() {
@@ -1248,9 +1248,9 @@ async function test() {
 console.log(test()); // -> Promise {<resolved>: "1"}
 ```
 
-You can think of `async` as wrapping a function using `Promise.resolve()`.
+Você pode pensar em `async` como uma função encapsuladora usando `Promise.resolve()`.
 
-`await` can only be used in `async` functions:
+`await` pode ser usado apenas em funcões `async`:
 
 ```js
 function sleep() {
@@ -1267,6 +1267,10 @@ async function test() {
 }
 test()
 ```
+
+O código acime vai exibir `finish` antes de exibir `object`. Porque `await` espera pela funcão `sleep` `resolve`, mesmo se a sincronização de código estiver seguida, ele não executa antes do código assíncrono ser executado.
+
+A vantagem do `async` e `await` comparado ao uso direto da `Promise` mente em manipular a cadeia de chamada do `then`, que pode produzir código claro e acurado. 
 
 The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, it is not executed before the asynchronous code is executed.
 
