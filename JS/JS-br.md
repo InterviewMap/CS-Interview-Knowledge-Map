@@ -1121,12 +1121,7 @@ _.debounce = function(func, wait, immediate) {
 A implementação completa da ƒunção não é tão difícil.
 
 - Para a implementação de proteger contra clicks acidentais: enquanto eu começar o time e o time existir, não importa quantas vezes eu clicar o butão, a função de callback não será executada. Contudo quando o time termina, é setado para `null`, outro click é permitido.
-- 
-
-The complete function implementation is not too difficult. Let's summarize here.
-
-- For the implementation of protecting against accidental clicks: as long as I start a timer and the timer is there, no matter how you click the button, the callback function won't be executed. Whenever the timer ends and is set to `null`, another click is allowed.
-- For the implementation of a delayed function execution: every call to the debouncing function will trigger an evaluation of time interval between the current call and the last one. If the interval is less than the required, another timer will be created, and the delay is set to the set interval minus the previous elapsed time. When the time's up, the corresponding callback function is executed.
+- Para a implementação da executação da função de atraso: toda chamada para a função debouncing vai disparar um tempo de intervalo equivalente entre a chamada tual e a última chamada. Se o intervalo é menor que o requerido, outro time será cirado, e o atraso é atribuido ao set interval menos o tempo anterior. Quando o tempo passa, a função de callback é executada.
 
 # Throttle
 
