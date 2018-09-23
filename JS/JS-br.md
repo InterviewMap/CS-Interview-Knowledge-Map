@@ -29,7 +29,7 @@
 - [Implementação do Generator](#implementação-do-generator)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
-- [Map、FlatMap e Reduce](#mapflatmap-and-reduce)
+- [Map、FlatMap e Reduce](#mapflatmap-e-reduce)
 - [Async e await](#async-and-await)
 - [Proxy](#proxy)
 - [Por que 0.1 + 0.2 != 0.3](#why-01--02--03)
@@ -1186,16 +1186,16 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-# Map、FlatMap and Reduce
+# Map、FlatMap e Reduce
 
-The effect of `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
+O efeito do `Map` é para gerar um novo array, iterando sobre o array original, tomando cada elemento para fazer alguma transformação, e então `append` para um novo array.
 
 ```js
 [1, 2, 3].map((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-`Map` has three parameters, namely the current index element, the index, the original array.
+`Map` tem três parâmetros, nomeando o índice atual do elemento, o índice, o array original.
 
 ```js
 ['1','2','3'].map(parseInt)
@@ -1204,14 +1204,14 @@ The effect of `Map` is to generate a new array, iterate over the original array,
 //  parseInt('3', 2) -> NaN
 ```
 
-The effect of `FlatMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlatMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+O efeito do `FlatMap` é quase o mesmo do `Map`, mas o array original será substituído para um array multidimensional. Você pode pensar no `FlatMap` com um `map` e um `flatten`, que atualmente não é suportado nos navegadores.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-You can achieve this when you want to completely reduce the dimensions of a multidimensional array:
+Você pode alcançar isso quando você quer reduzir completamente dimensões de um array multidimensional:
 
 ```js
 const flattenDeep = (arr) => Array.isArray(arr)
@@ -1221,7 +1221,7 @@ const flattenDeep = (arr) => Array.isArray(arr)
 flattenDeep([1, [[2], [3, [4]], 5]])
 ```
 
-The effect of `Reduce` is to combine the values in the array and get a final value:
+O efeito do `Reduce` é para combinar os valores em um array e pegar o valor final:
 
 ```js
 function a() {
