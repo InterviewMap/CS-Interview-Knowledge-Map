@@ -1125,50 +1125,50 @@ A implementação completa da ƒunção não é tão difícil.
 
 # Throttle
 
-`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into one last execution, and `Throttle` is to turn multiple executions into executions at regular intervals.
+`Debounce` e `Throttle` possuem naturezas diferentes. `Debounce` é para tornar multiplas execuções na última execução, e `Throttle` é para tornar multiplas execuções em uma execução de intervalos regulares.
 
 ```js
-// The first two parameters with debounce are the same function
-// options: You can pass two properties
-// trailing: Last time does not execute
-// leading: First time does not execute
-// The two properties cannot coexist, otherwise the function cannot be executed
+// Os dois primeiro parâmetros com debounce são a mesma função
+// options: você pode passar duas propriedades
+// trailing: o último tempo não é executado
+// leading: o primeiro tempo não é executado
+// As duas propriedades não coexistem, contudo a função não será executada
 _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
-    // Previous timestamp
+    // timestamp anterior
     var previous = 0;
-    // Set empty if options is not passed
+    // Defina vázio se as opções não forem passadas
     if (!options) options = {};
-    // Timer callback function
+    // Função Timer callback
     var later = function() {
-        // If you set `leading`, then set `previous` to zero
-        // The first `if` statement of the following function is used
+        // se você definiu `leading`, então defina `previous` para zero
+        // O primeiro if da seguinte função é usada
         previous = options.leading === false ? 0 : _.now();
-        // The first is prevented memory leaks and the second is judged the following timers when setting `timeout` to null
+        // O primeiro é prevenindo memory leaks e o segundo é julgado os seguintes timers quando configurado `timeout` para null
         timeout = null;
         result = func.apply(context, args);
         if (!timeout) context = args = null;
     };
     return function() {
-        // Get current timestamp
+        // Obtenha o timestamp atual
         var now = _.now();
-        // It must be true when it entering firstly
-        // If you do not need to execute the function firstly
-        // Set the last timestamp to current
-        // Then it will be greater than 0 when the remaining time is calculated next
+        // Deve ser verdado quando entrar pela primeira vez
+        // Se você não precisa executar essa função na primeira vez
+        // Defina o último timestamp para o atual
+        // Então ele será maior que 0 quando o termo remanecente for calculado da próxima vez
         if (!previous && options.leading === false)
             previous = now;
         var remaining = wait - (now - previous);
         context = this;
         args = arguments;
-        // This condition will only be entered if it set `trailing`
-        // This condition will be entered firstly if it not set `leading`
-        // Another point, you may think that this condition will not be entered if you turn on the timer
-        // In fact, it will still enter because the timer delay is not accurate
-        // It is very likely that you set 2 seconds, but it needs 2.2 seconds to trigger, then this time will enter this condition
+        // Essa condição só será preenchida se definido para `trailing`
+        // Essa condição só será preenchida no ínicio se não definido `leading`
+        // Outro ponto, você deve pensar que essa condição não será preenchida se você ligar o timer
+        // De fato, será assim até entrar porque o atraso do timer não é acurado
+        // Isso é muito como se você setar a 2 segundos, mas ele precisa 2.2 segundos para disparar, então o tempo será preenchido nessa condição
         if (remaining <= 0 || remaining > wait) {
-            // Clean up if there exist a timer otherwise it call twice callback
+            // Limpe se existe um timer e ele chama a callback duas vezes
             if (timeout) {
                 clearTimeout(timeout);
                 timeout = null;
@@ -1177,8 +1177,8 @@ _.throttle = function(func, wait, options) {
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         } else if (!timeout && options.trailing !== false) {
-            // Judgment whether timer and trailing are set
-            // And you can't set leading and trailing at the same time
+            // Julge se o timer e trailing forem definidos
+            // E você não pode defirnor leading e trailing no mesmo instante
             timeout = setTimeout(later, remaining);
         }
         return result;
