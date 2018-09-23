@@ -1015,10 +1015,10 @@ console.log(b.next()); // >  { value: 3, done: false }
 console.log(b.next()); // >  { value: undefined, done: true }
 ```
 
-As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implementation of the Generator function is shown below:
-
+Como podemos dizer no código acima, a função com um `*` teria a execução da função `next`. Em outras palavras, a execução de função retorna um objeto. Toda chamada a função `next` pode continuar a execução do código pausado. Um simples implementação da função Generator é mostrada abaixo:
 ```js
 // cb is the compiled 'test' function
+// cb é a função 'test' compilada
 function generator(cb) {
   return (function() {
     var object = {
@@ -1038,15 +1038,15 @@ function generator(cb) {
     };
   })();
 }
-// After babel's compilation, 'test' function turns into this:
+// Depois da compilação do babel's, a função 'test' retorna dentro dessa:
 function test() {
   var a;
   return generator(function(_context) {
     while (1) {
       switch ((_context.prev = _context.next)) {
-        // yield splits the code into several blocks
-        // every 'next' call executes one block of clode
-        // and indicates the next block to execute
+        // yield separa o código em diversos blocos
+        // cada chamada 'next' executa um bloco de código
+        // e indica o próximo bloco a ser executado
         case 0:
           a = 1 + 2;
           _context.next = 4;
@@ -1054,7 +1054,7 @@ function test() {
         case 4:
           _context.next = 6;
           return 3;
-        // execution complete
+        // execução completa
         case 6:
         case "end":
           return _context.stop();
@@ -1066,30 +1066,30 @@ function test() {
 
 # Debouncing
 
-Have you ever encountered this problem in your development: how to do a complex computation in a scrolling event or to prevent the "second accidental click" on a button?
+Tendo você encontrado esse problema e seu dia-a-dia no desenvolvimento: como fazer uma computação complexa em um evento de scroll ou prevenir o "segundo clique acidental" no butão?
 
-These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at particular time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing:
+Esses requisitos podem ser alcançados com funcões debouncing. Especialmente para o primeiro, se uma computação complexa estiver sendo chamado em frequentes eventos de callbacks, existe uma grande chance que a página se torne lenta. É melhor combinar essas multiplas computações e uma, e apenas operar em determinado periodo de tempo. Desde que existe muitas bibliotecas que implementam debouncing, nós não construimos nosso próprio aqui e vamos pegar o código do underscore para explicar o debouncing:
 
 ```js
 /**
- * underscore's debouncing function. When the callback function is called in series, func will only execute when the idel time is larger or equal to `wait`.
+ * função underscore debouncing. Quando a função callback é chamada em série, a funcão vai executar apenas quando o tempo ideal é maior ou igual ao `wait`.
  *
- * @param  {function} func        callback function
- * @param  {number}   wait        length of waiting intervals
- * @param  {boolean}  immediate   when set to true, func is executed immediately
- * @return {function}             returns the function to be called by the client
+ * @param  {function} func        função callback
+ * @param  {number}   wait        tamanho do intervalo de espera
+ * @param  {boolean}  immediate   quando definido para true, func é executada imadiatamente
+ * @return {function}             retorna a função a ser chamada pelo cliente
  */
 _.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;
 
     var later = function() {
-      // compare now to the last timestamp
+      // compara now para o último timestamp
       var last = _.now() - timestamp;
-      // if the current time interval is smaller than the set interval and larger than 0, then reset the timer.
+      // se o tempo de intervalo atual é menor então o set interval é maior que 0, então reinicie o timer.
       if (last < wait && last >= 0) {
         timeout = setTimeout(later, wait - last);
       } else {
-        // otherwise it's time to execute the callback function
+        // senão é o momento de executar a função callback
         timeout = null;
         if (!immediate) {
           result = func.apply(context, args);
@@ -1101,14 +1101,14 @@ _.debounce = function(func, wait, immediate) {
     return function() {
       context = this;
       args = arguments;
-      // obtain the timestamp
+      // obtendo o timestamp
       timestamp = _.now();
-      // if the timer doesn't exist then execute the function immediately
+      // se o timer não existir então execute a função imediatamente
       var callNow = immediate && !timeout;
-      // if the timer doesn't exist then create one
+      // se o time não existe então crie um
       if (!timeout) timeout = setTimeout(later, wait);
       if (callNow) {
-        // if the immediate execution is needed, use apply to start the function
+        // se a função imediata é precisa, use aplly para começar a função
         result = func.apply(context, args);
         context = args = null;
       }
@@ -1117,6 +1117,11 @@ _.debounce = function(func, wait, immediate) {
     };
   };
 ```
+
+A implementação completa da ƒunção não é tão difícil.
+
+- Para a implementação de proteger contra clicks acidentais: enquanto eu começar o time e o time existir, não importa quantas vezes eu clicar o butão, a função de callback não será executada. Contudo quando o time termina, é setado para `null`, outro click é permitido.
+- 
 
 The complete function implementation is not too difficult. Let's summarize here.
 
