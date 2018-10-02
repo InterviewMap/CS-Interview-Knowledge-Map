@@ -1270,13 +1270,9 @@ test()
 
 O código acime vai exibir `finish` antes de exibir `object`. Porque `await` espera pela funcão `sleep` `resolve`, mesmo se a sincronização de código estiver seguida, ele não executa antes do código assíncrono ser executado.
 
-A vantagem do `async` e `await` comparado ao uso direto da `Promise` mente em manipular a cadeia de chamada do `then`, que pode produzir código claro e acurado. 
+A vantagem do `async` e `await` comparado ao uso direto da `Promise` mente em manipular a cadeia de chamada do `then`, que pode produzir código claro e acurado. A desvantagem é que uso indevido do `await` pode causar problemas de performance porque `await` bloqueia o código. Possivelmente o código assíncrono não depende do anterior, mas ele ainda precisa esperar o anterir ser completo, ocasionando perda de concorrência.
 
-The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, it is not executed before the asynchronous code is executed.
-
-The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can produce clear and accurate code. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
-
-Let's look at a code that uses `await`:
+Vamos dar uma olhada em um código que usa `await`:
 
 ```js
 var a = 0
@@ -1291,24 +1287,24 @@ a++
 console.log('1', a) // -> '1' 1
 ```
 
-You may have doubts about the above code, here we explain the principle:
+Você pode ter dúvidas sobre o código acima, aqui nós explicamos o príncipio:
 
-- First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `Generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
-- Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
-- At this point, the synchronous code is completed and asynchronous code is started. The saved value is used. At this time, `a = 10`
-- Then comes the usual code execution
+- Primeiro a função `b` é executada. A variável `a` ainda é zero antes da execução do `await 10`, porque os `Generators` são implementados dentro do `await` e `Generators` matém as coisas na pilha, então nesse momento `a = 0` é salvo
+- Porque `await` é uma operação assíncrona, `console.log('1', a)` será executada primeiro.
+- Nesse ponto, o código síncrono é completado e o código assíncrono é iniciado. O valor salvo é usado. Nesse instante, `a = 10`
+- Então chega a execução usual do código
 
 # Proxy
 
-Proxy is a new feature since ES6. It can be used to define operations in objects:
+Proxi é uma nova funcionalidade desde o ES6. Ele costuma ser usado para definir operações em objetos:
 
 ```js
 let p = new Proxy(target, handler);
-// `target` represents the object of need to add the proxy
-// `handler` customizes operations in the object
+// `target` representa o objeto que precisamos adicionar o proxy
+// `handler` operações customizadas no objeto
 ```
 
-Proxy can be handy for implementation of data binding and listening:
+Proxy podem ser conveniente para implementação de data bindind e listening:
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
@@ -1332,8 +1328,8 @@ let p = onWatch(obj, (v) => {
 }, (target, property) => {
   console.log(`Get '${property}' = ${target[property]}`);
 })
-p.a = 2 // bind `value` to `2`
-p.a // -> Get 'a' = 2
+p.a = 2 // liga `value` para `2`
+p.a // -> obtém 'a' = 2
 ```
 
 # Why 0.1 + 0.2 != 0.3
