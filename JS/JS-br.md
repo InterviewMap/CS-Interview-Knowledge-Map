@@ -32,7 +32,7 @@
 - [Map、FlatMap e Reduce](#mapflatmap-e-reduce)
 - [Async e await](#async-e-await)
 - [Proxy](#proxy)
-- [Por que 0.1 + 0.2 != 0.3](#why-01--02--03)
+- [Por que 0.1 + 0.2 != 0.3](#por-que-01--02--03)
 - [Expressões regulares](#regular-expressions)
   - [Metacaracteres](#metacharacters)
   - [Flags](#flags)
@@ -1332,24 +1332,28 @@ p.a = 2 // liga `value` para `2`
 p.a // -> obtém 'a' = 2
 ```
 
-# Why 0.1 + 0.2 != 0.3
+# Por que 0.1 + 0.2 != 0.3
 
-Because JS uses the IEEE 754 double-precision version (64-bit). Every language that uses this standard has this problem.
+Porque JS usa o precisão-dupla do IEEE 754 versão (64-bit). Toda linguagem que usa esse padrão tem esse problema.
+
+Como nós sabemos, computadores usam binários para representar decimais, então `0.1` em binário é representado como
 
 As we know, computers use binaries to represent decimals, so `0.1` in binary is represented as
 
 ```js
-// (0011) represents cycle
+// (0011) representa o ciclo
 0.1 = 2^-4 * 1.10011(0011)
 ```
 
-How do we come to this binary number? We can try computing it as below:
+Como nós chegamos a esse número binário? Podemos tentar computar ele como abaixo:
 
 ![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
 
-Binary computations in float numbers are different from those in integers. For multiplications, only the float bits are computed, while the integer bits are used for the binaries for each bit. Then the first bit is used as the most significant bit. Therefore we get `0.1 = 2^-4 * 1.10011(0011)`.
+Computações binária em números flutuantes são diferentes daqueles em inteiros. Por multiplicação, apenas bits flutuants são computados, enquanto bits do tipo inteiro são usados pelos binários para cada bit. Então o primeiro bit é usado como o bit mais significante. Assim sendo nós obtemos 0.1 = 2^-4 * 1.10011(0011)`.
 
-`0.2` is similar. We just need to get rid of the first multiplcation and get `0.2 = 2^-3 * 1.10011(0011)`.
+`0.2` é similar. Nós apenas precisamos passear na primeira multiplicação e obter `0.2 = 2^-3 * 1.10011(0011)`
+
+Voltando a precisão dupla pelo padrão IEE 754. Entre o 64 bits, um bit é usado
 
 Back to the double float for IEEE 754 standard. Among the 64 bits, one bit is used for signing, 11 used for integer bits, and the rest 52 bits are floats. Since `0.1` and `0.2` are infinitely cycling binaries, the last bit of the floats needs to indicate whether to round (same as rounding in decimals).
 
