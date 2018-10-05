@@ -92,7 +92,8 @@ Since browsers have limitations on concurrent requests, each request needs to be
 
 Multiplexing was introduced in HTTP/2.0, allowing multiple requests to use the same TCP connect, greatly speeding up the loading of websites. Header compression is also supported, further shortening the size of the request data.
 
-To know more detailed content,  you can view  [this section](../Network/Network-zh.md#http-2-0) TODO
+To know more detailed content,  you can view  [this section](../Network/Network-zh.md##http-20) TODO
+
 
 ## PreLoad
 
@@ -111,7 +112,7 @@ Preloading can reduce the loading time of home screen to a certain degree becaus
 The downloaded file can be pre-rendered in the background through pre-rendering. You can use the following code to enable pre-rendering.
 
 ```html
-<link rel="prerender" href="http://example.com"> 
+<link rel="prerender" href="http://example.com">
 ```
 
 Although pre-rendering can improve the loading speed of a website, it must be 100 percent ensured that this page will be opened by the user, otherwise, it would waste resources to render.
