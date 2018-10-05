@@ -256,7 +256,7 @@ Foo.prototype.getName = function () {
 };
 
 new Foo.getName();   // -> 1
-new Foo().getName(); // -> 2       
+new Foo().getName(); // -> 2
 ```
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
@@ -264,7 +264,7 @@ new Foo().getName(); // -> 2
 从上图可以看出，`new Foo() ` 的优先级大于 `new Foo` ，所以对于上述代码来说可以这样划分执行顺序
 
 ```js
-new (Foo.getName());   
+new (Foo.getName());
 (new Foo()).getName();
 ```
 
@@ -448,13 +448,13 @@ var foo = 1
 
 ```js
 specialObject = {};
-  
+
 Scope = specialObject + Scope;
-  
+
 foo = new FunctionExpression;
 foo.[[Scope]] = Scope;
 specialObject.foo = foo; // {DontDelete}, {ReadOnly}
-  
+
 delete Scope[0]; // remove specialObject from the front of scope chain
 ```
 
@@ -484,7 +484,7 @@ for ( var i=1; i<=5; i++) {
 }
 ```
 
-首先因为 `setTimeout` 是个异步函数，所有会先把循环全部执行完毕，这时候 `i` 就是 6 了，所以会输出一堆 6。
+首先因为 `setTimeout` 是个异步函数，所以会先把循环全部执行完毕，这时候 `i` 就是 6 了，所以会输出一堆 6。
 
 解决办法两种，第一种使用闭包
 
@@ -657,6 +657,31 @@ console.log(b) // {name: "yck"}
 
 但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [lodash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
 
+你也可以自己实现一个简单的函数的深拷贝，代码如下：
+
+```js
+// 拷贝fromObj到toObj
+function deepCopy(fromObj, toObj) {
+  // 容错
+  if (fromObj === null) return null // 当fromObj为null
+  if (fromObj instanceof RegExp) return new RegExp(fromObj) // 当fromObj为正则
+  if (fromObj instanceof Date) return new Date(fromObj) // 当fromObj为Date
+
+  toObj = toObj || {}
+  // 遍历
+  for (let key in fromObj) {
+    // 是否为对象
+    if (typeof fromObj[key] !== 'object') {
+      toObj[key] = fromObj[key] // 如果为普通值，则直接赋值
+    } else {
+      toObj[key] = new fromObj[key].constructor() // 如果为object，则new这个object指向的构造函数
+      deepCopy(fromObj[key], toObj[key]) // 递归
+    }
+  }
+  return toObj
+}
+```
+
 如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
 
 ```js
@@ -754,9 +779,9 @@ define(['./a', './b'], function(a, b) {
     a.do()
     b.do()
 })
-define(function(require, exports, module) {   
-    var a = require('./a')  
-    a.doSomething()   
+define(function(require, exports, module) {
+    var a = require('./a')
+    a.doSomething()
     var b = require('./b')
     b.doSomething()
 })
@@ -812,7 +837,7 @@ function now() {
  */
 function debounce (func, wait = 50, immediate = true) {
   let timer, context, args
-  
+
   // 延迟执行函数
   const later = () => setTimeout(() => {
     // 延迟函数执行完毕，清空缓存的定时器序号
@@ -866,7 +891,7 @@ function debounce (func, wait = 50, immediate = true) {
  * @param  {object}     options   如果想忽略开始函数的的调用，传入{leading: false}。
  *                                如果想忽略结尾函数的调用，传入{trailing: false}
  *                                两者不能共存，否则函数不能执行
- * @return {function}             返回客户调用函数   
+ * @return {function}             返回客户调用函数
  */
 _.throttle = function(func, wait, options) {
     var context, args, result;
