@@ -617,6 +617,31 @@ In above case, you can see that the method ignores function and `undefined`.
 
 Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
 
+You can also implement a deep copy of a simple function on your own:
+
+```js
+function deepCopy(fromObj, toObj) {
+  if (fromObj === null) return null
+  if (fromObj instanceof RegExp) return new RegExp(fromObj)
+  if (fromObj instanceof Date) return new Date(fromObj)
+
+  toObj = toObj || {}
+
+  // loop
+  for (let key in fromObj) {
+    // check fromObj[key], if fromObj[key] not object , toObj[key] = fromObj[key]
+    if (typeof fromObj[key] !== 'object') {
+      toObj[key] = fromObj[key]
+    } else {
+      // if fromObj[key] is object , new object.constructor
+      toObj[key] = new fromObj[key].constructor()
+      deepCopy(fromObj[key], toObj[key])
+    }
+  }
+  return toObj
+}
+```
+
 If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
 ```js
 function structuralClone(obj) {
@@ -713,8 +738,8 @@ define(['./a', './b'], function(a, b) {
     b.do()
 })
 define(function(require, exports, module) {
-    var a = require('./a')  
-    a.doSomething()   
+    var a = require('./a')
+    a.doSomething()
     var b = require('./b')
     b.doSomething()
 })

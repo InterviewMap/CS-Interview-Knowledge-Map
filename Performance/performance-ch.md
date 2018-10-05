@@ -110,7 +110,7 @@ Cache-control: max-age=30
 可以通过预渲染将下载的文件预先在后台渲染，可以使用以下代码开启预渲染
 
 ```html
-<link rel="prerender" href="http://example.com"> 
+<link rel="prerender" href="http://example.com">
 ```
 
 预渲染虽然可以提高页面的加载速度，但是要确保该页面百分百会被用户在之后打开，否则就白白浪费资源去渲染

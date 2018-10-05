@@ -94,6 +94,7 @@ Multiplexing was introduced in HTTP/2.0, allowing multiple requests to use the s
 
 To know more detailed content,  you can view  [this section](../Network/Network-zh.md##http-20) TODO
 
+
 ## PreLoad
 
 In development, you may encounter such a situation. Some resources do not need to be used immediately, but you want to get it as soon as possible. At this point, you can use preloading.
@@ -111,7 +112,7 @@ Preloading can reduce the loading time of home screen to a certain degree becaus
 The downloaded file can be pre-rendered in the background through pre-rendering. You can use the following code to enable pre-rendering.
 
 ```html
-<link rel="prerender" href="http://example.com"> 
+<link rel="prerender" href="http://example.com">
 ```
 
 Although pre-rendering can improve the loading speed of a website, it must be 100 percent ensured that this page will be opened by the user, otherwise, it would waste resources to render.
