@@ -33,8 +33,8 @@
 - [Async e await](#async-e-await)
 - [Proxy](#proxy)
 - [Por que 0.1 + 0.2 != 0.3](#por-que-01--02--03)
-- [Expressões regulares](#regular-expressions)
-  - [Metacaracteres](#metacharacters)
+- [Expressões regulares](#expressões-regulares)
+  - [Metacaracteres](#metacaracteres)
   - [Flags](#flags)
   - [Character Shorthands](#character-shorthands)
 
@@ -1017,7 +1017,6 @@ console.log(b.next()); // >  { value: undefined, done: true }
 
 Como podemos dizer no código acima, a função com um `*` teria a execução da função `next`. Em outras palavras, a execução de função retorna um objeto. Toda chamada a função `next` pode continuar a execução do código pausado. Um simples implementação da função Generator é mostrada abaixo:
 ```js
-// cb is the compiled 'test' function
 // cb é a função 'test' compilada
 function generator(cb) {
   return (function() {
@@ -1334,11 +1333,9 @@ p.a // -> obtém 'a' = 2
 
 # Por que 0.1 + 0.2 != 0.3
 
-Porque JS usa o precisão-dupla do IEEE 754 versão (64-bit). Toda linguagem que usa esse padrão tem esse problema.
+Porque JS usa a precisão-dupla do IEEE 754 versão (64-bit). Toda linguagem que usa esse padrão tem esse problema.
 
 Como nós sabemos, computadores usam binários para representar decimais, então `0.1` em binário é representado como
-
-As we know, computers use binaries to represent decimals, so `0.1` in binary is represented as
 
 ```js
 // (0011) representa o ciclo
@@ -1349,57 +1346,55 @@ Como nós chegamos a esse número binário? Podemos tentar computar ele como aba
 
 ![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
 
-Computações binária em números flutuantes são diferentes daqueles em inteiros. Por multiplicação, apenas bits flutuants são computados, enquanto bits do tipo inteiro são usados pelos binários para cada bit. Então o primeiro bit é usado como o bit mais significante. Assim sendo nós obtemos 0.1 = 2^-4 * 1.10011(0011)`.
+Computações binária em números flutuantes são diferentes daqueles em inteiros. Por multiplicação, apenas bits flutuantes são computados, enquanto bits do tipo inteiro são usados pelos binários para cada bit. Então o primeiro bit é usado como o bit mais significante. Assim sendo nós obtemos 0.1 = 2^-4 * 1.10011(0011)`.
 
 `0.2` é similar. Nós apenas precisamos passear na primeira multiplicação e obter `0.2 = 2^-3 * 1.10011(0011)`
 
-Voltando a precisão dupla pelo padrão IEE 754. Entre o 64 bits, um bit é usado
+Voltando a precisão dupla pelo padrão IEE 754. Entre o 64 bits, um bit é usado para assinatura, 11 é usado para bits inteiros, e o outros 52 bits são floats. Uma vez que `0.1` e `0.2` são ciclos infinitos de binários, o último bit do float precisa indicar se volta (mesmo como o arredendomaneto em decimal).
 
-Back to the double float for IEEE 754 standard. Among the 64 bits, one bit is used for signing, 11 used for integer bits, and the rest 52 bits are floats. Since `0.1` and `0.2` are infinitely cycling binaries, the last bit of the floats needs to indicate whether to round (same as rounding in decimals).
+Depois do arredondamento, `2^-4 * 1.10011...001` se torna `2^-4 * 1.10011(0011 * 12 vezes)010`. Depois de adicionado esses dois binários obtemos `2^-2 * 1.0011(0011 * 11 vezes)0100`, que é `0.30000000000000004` em decimal.
 
-After rounding, `2^-4 * 1.10011...001` becomes `2^-4 * 1.10011(0011 * 12 times)010`. After adding these two binaries we get `2^-2 * 1.0011(0011 * 11 times)0100`, which is `0.30000000000000004` in decimals.
-
-The native solution to this problem is shown below:
+A solução nativa pra esse problema é mostrado abaixo:
 
 ```js
 parseFloat((0.1 + 0.2).toFixed(10))
 ```
 
-# Regular Expressions
+# Expressões Regulares
 
-## Metacharacters
+## Metacaracteres
 
-| Metacharacter |                            Effect                            |
+| Metacaractere |                            Efeito                            |
 | :-----------: | :----------------------------------------------------------: |
-|       .       |     matches any character except line terminators: \n, \r, \u2028 or \u2029.    |
-|      []       | matches anything within the brackets. For example, [0-9] can match any number |
-|       ^       | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters except '9' in between brackets |
-|    {1, 2}     |               matches 1 or 2 digit characters                |
-|     (yck)     |            only matches strings the same as 'yck'            |
-|      \|       |          matches any character before and after \|           |
-|       \       |                       escape character                       |
-|       *       |       matches the preceding expression 0 or more times       |
-|       +       |       matches the preceding expression 1 or more times       |
-|       ?       |             the character before '?' is optional             |
+|       .       |     corresponde a qualquer caractere exceto de terminadores de linhas: \n, \r, \u2028 or \u2029.    |
+|      []       | corresponde a qualquer coisa dentro dos colchetes. Por exemplo, [0-9] corresponde a qualquer número |
+|       ^       | ^9 significa corresponder qualquer coisa que começa com '9'; [`^`9] significa não corresponder aos caracteres exceto '9' nos colchetes |
+|    {1, 2}     |           corresponde 1 ou 2 caracteres digitais             |
+|     (yck)     |         corresponde apenas strings com o mesmo 'yck'         |
+|      \|       |     corresponde a qualquer caractere antes e depois \|       |
+|       \       |                      caracter de escape                      |
+|       *       |      corresponde a expressão precedente 0 ou mais vezes      |
+|       +       |      corresponde a expressão precedente 1 ou mais vezes      |
+|       ?       |             o caractere antes do '?' é opcional              |
 
-## Flags
+## Bandeiras
 
-| Flag | Effect           |
-| :------: | :--------------: |
-| i        | case-insensitive search |
-| g        | matches globally |
-| m        | multiline        |
+| Bandeira | Efeito                  |
+| :------: | :--------------:        |
+| i        | pesquisa insensível a maiúsculas e minúsculas |
+| g        | corresponde globalmente |
+| m        | multilinha              |
 
-## Character Shorthands
+## Caracteres Atalhos
 
-| shorthand |            Effect            |
+| Atalho |            Efeito            |
 | :--: | :------------------------: |
-|  \w  | alphanumeric characters, underline character |
-|  \W  |         the opposite of the above         |
-|  \s  |      any blank character      |
-|  \S  |         the opposite of the above         |
-|  \d  |          numbers          |
-|  \D  |         the opposite of the above         |
-|  \b  |    start or end of a word    |
-|  \B  |         the opposite of the above         |
+|  \w  | caracteres alfanuméricos, caracteres sublinhados |
+|  \W  |         o oposto do acima         |
+|  \s  |      qualquer caractere em branco      |
+|  \S  |         o oposto do acima         |
+|  \d  |          números          |
+|  \D  |         o oposto do acima         |
+|  \b  |    inicio ou fim da palavra    |
+|  \B  |         o oposto do acima         |
 
