@@ -245,7 +245,7 @@ As for the latter, it first executes `new Foo()` to create an instance, then fin
 
 # This
 
-`This`, a concept that is confusing to many peole, is actually not difficult to understand as long as you remember the following rules:
+`This`, a concept that is confusing to many people, is actually not difficult to understand as long as you remember the following rules:
 
 ```js
 function foo() {
@@ -577,6 +577,7 @@ console.log(b.jobs.first) // FE
 
 But this method also has its limits:
 * ignore `undefined`
+* ignore `symbol`
 * unable to serialize function
 * unable to resolve circular references in an object
 ```js
@@ -600,10 +601,11 @@ If an object is circularly referenced like the above example, you’ll find the 
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-When dealing with function or `undefined`,  the object can also not be serialized properly.
+When dealing with function, `undefined` or `symbol`, the object can also not be serialized properly.
 ```js
 let a = {
     age: undefined,
+    sex: Symbol('male'),
     jobs: function() {},
     name: 'yck'
 }
@@ -630,7 +632,9 @@ var obj = {a: 1, b: {
 }}
 // pay attention that this method is asynchronous
 // it can handle `undefined` and circular reference object
-const clone = await structuralClone(obj);
+(async () => {
+  const clone = await structuralClone(obj)
+})()
 ```
 
 # Modularization
@@ -694,7 +698,7 @@ Let's then talk about `module.exports` and `exports`, which have similar usage, 
 The differences between the modularizations in `CommonJS` and in ES6 are:
 
 - The former supports dynamic imports, which is `require(${path}/xx.js)`; the latter doesn't support it yet, but there have been proposals.
-- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if asynchronous import was used.
+- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if synchronous import was used.
 - The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
 - In execution the latter is compiled to `require/exports`.
 
@@ -1105,7 +1109,9 @@ _.debounce = function(func, wait, immediate) {
       // if the timer doesn't exist then execute the function immediately
       var callNow = immediate && !timeout;
       // if the timer doesn't exist then create one
-      if (!timeout) timeout = setTimeout(later, wait);
+      // else clear the current timer and reset a new timer
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
       if (callNow) {
         // if the immediate execution is needed, use apply to start the function
         result = func.apply(context, args);
@@ -1289,7 +1295,7 @@ console.log('1', a) // -> '1' 1
 You may have doubts about the above code, here we explain the principle:
 
 - First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `Generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
-- Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
+- Because `await` is an asynchronous operation,  it will immediately return a `pending` state `Promise` object when it encounter `await`, and temporarily returning control of the execution code, so that the code outside the function can continue to be executed. `console.log('1', a)` will be executed first.
 - At this point, the synchronous code is completed and asynchronous code is started. The saved value is used. At this time, `a = 10`
 - Then comes the usual code execution
 

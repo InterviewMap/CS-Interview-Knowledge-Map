@@ -31,7 +31,7 @@ Shift arithmetic left is to move all the binary to the left, `10` is represented
 10 >> 1 // -> 5
 ```
 
-The right shift of the arithmetic is to move all the binary to the right and remove the extra right. `10` is represented as `1010` in binary, and becomes `101` after shifting one bit to the right, and converted to decimal is 5, so the right shift is seen as the following formula `a >> b => a / (2 ^ b)` by basically.
+The bitwise right shift moves all the binary digits to the right and remove the extra left digit. `10` is represented as `1010` in binary, and becomes `101` after shifting one bit to the right, and becomes 5 in decimal value, so the right shift is basically the following formula: `a >> b => a / (2 ^ b)`.
 
 Right shift is very useful, for example, you can calculate the intermediate value in the binary algorithm.
 
@@ -66,8 +66,8 @@ Each bit is different, and the result is 1
 ```js
 8 ^ 7 // -> 15
 8 ^ 8 // -> 0
-// 1000 & 0111 -> 1111 -> 15
-// 1000 & 1000 -> 0000 -> 0
+// 1000 ^ 0111 -> 1111 -> 15
+// 1000 ^ 1000 -> 0000 -> 0
 ```
 
 From the above code, we can find that the bitwise XOR is the not carry addition.

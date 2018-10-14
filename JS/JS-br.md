@@ -603,6 +603,7 @@ Quando lidando com uma função ou `undefined`, o objeto pode não ser serializa
 ```js
 let a = {
     age: undefined,
+    sex: Symbol('male'),
     jobs: function() {},
     name: 'yck'
 }
@@ -627,9 +628,12 @@ function structuralClone(obj) {
 var obj = {a: 1, b: {
     c: b
 }}
+
 // preste atenção que esse método é assíncrono
 // ele consegue manipular `undefined` e referência circular do objeto
-const clone = await structuralClone(obj);
+(async () => {
+  const clone = await structuralClone(obj)
+})()
 ```
 
 # Modularização
