@@ -89,7 +89,7 @@ let a = {
 
 Apenas para adicão, se um dos parâmentros for uma string, o outro será convertido para uma string também. Para todas as outras operações, enquanto se um dos parâmetros for um número, o outro será convertido para um número.
 
-Adicões invocaram três tipos de conversões de tipos: para timos primitivos, para números e string:
+Adicões invocaram três tipos de conversões de tipos: para tipos primitivos, para números e string:
 
 ```js
 1 + '1' // '11'
@@ -161,7 +161,7 @@ Quanto a `null`, ele é sempre tratado como um `object` pelo `typeof`， apesar 
 typeof null // 'object'
 ```
 
-Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenava a informação do tipo de variável em bits mais baixos para considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
+Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenava a informação do tipo de variável em bits mais baixos por considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
 
 Nós podemos usar `Object.prototype.toString.call(xx)` se quisermos pegar o tipo de dado correto da variável, e então obtemos uma string como `[object Type]`:
 
@@ -438,7 +438,7 @@ Para `let`, ele vai criar um escopo de block-level, do qual é equivalente a:
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
 
-Cada função, além de `Function.prototype.bind()`, tem uma propriedade interna, detonado como `prototype`, do qual é uma referência para o prototype.
+Cada função, além de `Function.prototype.bind()`, tem uma propriedade interna, denotado como `prototype`, do qual é uma referência para o prototype.
 
 Cada objeto tem uma propriedade interna, denotada como `__proto__`, que é uma referência para o prototype do construtor que criou o objeto. Essa propriedade é atualmente referenciada ao `[[prototype]]`, mas o `[[prototype]]` é uma propriedade interna que nós não podemos acessar, então usamos o `__proto__` para acessar ele.
 
@@ -504,7 +504,7 @@ Object.setPrototypeOf(MyData.prototype, Date.prototype)
 
 A implementação da idéia acima sobre herança: primeiro cria uma instância da classe do pai => muda o original `__proto__` de instância, conectado ao `prototype` da classe do filho => muda o `__proto__` da classe do filho `prototype` para o `prototype` da classe do pai.
 
-A herança de implementação com o método acima pode perfeitamente resolve a restrição no baixo nível do JS.
+A herança de implementação com o método acima pode perfeitamente resolver a restrição no baixo nível do JS.
 
 
 # Cópia rasa e profunda
@@ -595,7 +595,7 @@ let newObj = JSON.parse(JSON.stringify(obj))
 console.log(newObj)
 ```
 
-Se um objto é uam referência circular como o exemplo acima, você vai encontrar o método `JSON.parse(JSON.stringify(object))` ele não pode fazer a cópia profunda desse objeto:
+Se um objto é uma referência circular como o exemplo acima, você vai encontrar o método `JSON.parse(JSON.stringify(object))` ele não pode fazer a cópia profunda desse objeto:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
@@ -694,7 +694,7 @@ A diferença entre as modularizações no `CommonJS` a no ES6 são:
 
 - O antigo suporta importes dinamico, que é `require(${path}/xx.js)`; o último não suporta isso ainda, mas 
 existem propostas.
-- O antigo usa importes síncronos. Desde de que usado no servidor os arquivos são locais, não importa muito mesmo se o import síncrono bloqueia a main thread. O último usa importe assíncrono, porque ele é usado no navegador em que os arquivos baixados são precisos. O processo de rendereização seria afetado muito se assíncrono importe for usado.
+- O antigo usa importes síncronos. Desde de que usado no servidor os arquivos são locais, não importa muito mesmo se o import síncrono bloqueia a main thread. O último usa importe assíncrono, porque ele é usado no navegador em que os arquivos baixados são precisos. O processo de renderização seria afetado muito se assíncrono importe for usado.
 - O anterior copia os valores quando exportando. Mesmo se o valor exportado mudou, os valores importados não irão mudar. Portanto, se os valores devem ser atualizados, outro importe precisa acontecer. Contudo, o último usa ligações em tempo real, os valores importados são importados no mesmo endereço de memória, então o valor importado muda junto com os importados.
 - Em execução o último é compilado para `require/exports`.
 
@@ -1295,7 +1295,7 @@ Você pode ter dúvidas sobre o código acima, aqui nós explicamos o príncipio
 
 # Proxy
 
-Proxi é uma nova funcionalidade desde o ES6. Ele costuma ser usado para definir operações em objetos:
+Proxy é uma nova funcionalidade desde o ES6. Ele costuma ser usado para definir operações em objetos:
 
 ```js
 let p = new Proxy(target, handler);
