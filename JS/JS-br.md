@@ -2,13 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Tipos incorporados](#built-in-types)
-- [Conversão de tipo](#type-conversion)
-  - [Convertendo para boleano](#converting-to-boolean)
-  - [De objetos para tipos primitivos](#objects-to-primitive-types)
-  - [Operadores aritméticos](#arithmetic-operators)
-  - [`==` operador](#-operator)
-  - [Operador de comparação](#comparison-operator)
+- [Tipos incorporados](#tipos-incorporados)
+- [Conversão de Tipos](#conversão-de-tipos)
+  - [Convertendo para boleano](#convertendo-para-boleano)
+  - [De objetos para tipos primitivos](#de-objetos-para-tipos-primitivos)
+  - [Operadores aritméticos](#operadores-aritméticos)
+  - [`==` operador](#-operador)
+  - [Operador de comparação](#operador-de-comparação)
 - [Typeof](#typeof)
 - [New](#new)
 - [This](#this)
@@ -16,31 +16,31 @@
 - [Scope](#scope)
 - [Closure](#closure)
 - [Prototypes](#prototypes)
-- [Herança](#inheritance)
-- [Cópia rasa e profunda](#deep-and-shallow-copy)
-  - [Cópia rasa](#shallow-copy)
-  - [Deep copy](#deep-copy)
-- [Modularização](#modularization)
+- [Herança](#herança)
+- [Cópia rasa e profunda](#cópia-rasa-e-profunda)
+  - [Cópia rasa](#cópia-rasa)
+  - [Cópia profunda](#cópia-profunda)
+- [Modularização](#modularização)
   - [CommonJS](#commonjs)
   - [AMD](#amd)
-- [A diferença entre call, apply, bind](#the-differences-between-call-apply-bind)
-  - [simulação para implementar `call` e  `apply`](#simulation-to-implement--call-and--apply)
-- [Implementação de Promise](#promise-implementation)
-- [Implementação do Generator](#generator-implementation)
+- [A diferença entre call apply bind](#a-diferença-entre-call-apply-bind)
+  - [simulação para implementar `call` e `apply`](#simulação-para-implementar--call-e--apply)
+- [Implementação de Promise](#implementação-de-promise)
+- [Implementação do Generator](#implementação-do-generator)
 - [Debouncing](#debouncing)
 - [Throttle](#throttle)
-- [Map、FlatMap e Reduce](#mapflatmap-and-reduce)
-- [Async e await](#async-and-await)
+- [Map、FlatMap e Reduce](#mapflatmap-e-reduce)
+- [Async e await](#async-e-await)
 - [Proxy](#proxy)
-- [Por que 0.1 + 0.2 != 0.3](#why-01--02--03)
-- [Expressões regulares](#regular-expressions)
-  - [Metacaracteres](#metacharacters)
+- [Por que 0.1 + 0.2 != 0.3](#por-que-01--02--03)
+- [Expressões regulares](#expressões-regulares)
+  - [Metacaracteres](#metacaracteres)
   - [Flags](#flags)
   - [Character Shorthands](#character-shorthands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Tipos incorparados
+# Tipos incorporados
 O JavaScript define sete tipos incorporados, dos quais podem ser divididos em duas categorias `Primitive Type` e `Object`.
 
 Existem seis tipos primitivos: `null`, `undefined`, `boolean`, `number`, `string` e `symbol `.
@@ -51,7 +51,7 @@ Em JavaScript, não existe inteiros de verdade, todos os números são implement
 0.1 + 0.2 == 0.3 // false
 ```
 
-Para tipos primitivos, quando usamos literais para inicializar uma variável, ela te apenas um valor literal, ela não tem um tipo. Isso será convertido para o tipo correspondente apenas quando necessário.
+Para tipos primitivos, quando usamos literais para inicializar uma variável, ela tem apenas um valor literal, ela não tem um tipo. Isso será convertido para o tipo correspondente apenas quando necessário.
 
 ```js
 let a = 111 // apenas literais, não um número
@@ -67,15 +67,15 @@ b.name = 'EF'
 console.log(a.name) // EF
 ```
 
-# Type Conversion
+# Conversão de Tipos
 
-## Converting to Boolean
+## Convertendo para Boleano
 
-When the condition is judged, other than `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, all of the values, including objects, are converted to `true`.
+Quando a condição é julgada, que não seja `undefined`, `null`, `false`, `NaN`, `''`, `0`, `-0`, os esses valores, incluindo objetos, são convertidos para `true`.
 
-## Objects to Primitive Types
+## De objetos para tipos primitivos
 
-When objects are converted, `valueOf` and `toString` will be called, respectively in order. These two methods can also be overridden.
+Quando objetos são convertidos, `valueOf` e `toString` serão chamados, respectivamente em ordem. Esses dois métodos também são sobrescritos.
 
 ```js
 let a = {
@@ -85,11 +85,11 @@ let a = {
 }
 ```
 
-## Arithmetic Operators
+## Operadores Aritméticos
 
-Only for additions, if one of the parameters is a string, the other one will be converted to string as well. For all other operations, as long as one of the parameters is a number, the other one will be converted to a number.
+Apenas para adicão, se um dos parâmentros for uma string, o outro será convertido para uma string também. Para todas as outras operações, enquanto se um dos parâmetros for um número, o outro será convertido para um número.
 
-Additions will invoke three types of type conversions: to primitive types, to numbers and to string:
+Adicões invocaram três tipos de conversões de tipos: para tipos primitivos, para números e string:
 
 ```js
 1 + '1' // '11'
@@ -100,120 +100,120 @@ Additions will invoke three types of type conversions: to primitive types, to nu
 // '1,2' + '2,1' = '1,22,1'
 ```
 
-Note the expression `'a' + + 'b'` for addition:
+Observe a expressão `'a' + + 'b'` para adição:
 
 ```js
 'a' + + 'b' // -> "aNaN"
-// since + 'b' -> NaN
-// You might have seen + '1' -> 1
+// uma vez que + 'b' -> NaN
+// Você deve ter visto + '1' -> 1
 ```
 
-## `==` operator
+## `==` operador
 
 ![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
 
-`toPrimitive` in above figure is converting objects to primitive types.
+`toPrimitive` na figura acima é convertido objetos para tipos primitivos.
 
-`===` is usually recommended to compare values. However, if you would like to check for `null` value, you can use `xx == null`.
+`===` é geralmente recomendado para comparar valores. Contudo, se você gostaria de checar o valor `null`, você pode usar `xx == null`.
 
-Let's take a look at an example `[] == ![] // -> true`. The following process explains why the expression evaluates to `true`:
+Vamos dar uma olhada no exemplo `[] == ![] // -> true`. O processo seguinte explica por que a expressão é `true`:
 
 ```js
-// [] converting to true, then take the opposite to false
+// [] convertendo para true, então pegue o oposto para false
 [] == false
-// with #8
+// com #8
 [] == ToNumber(false)
 [] == 0
-// with #10
+// com #10
 ToPrimitive([]) == 0
 // [].toString() -> ''
 '' == 0
-// with #6
+// com #6
 0 == 0 // -> true
 ```
 
-## Comparison Operator
+## Operador de comparação
 
-1. If it's an object, `toPrimitive` is used.
-2. If it's a string, `unicode` character index is used.
+1. Se for um objeto, `toPrimitive` é usado.
+2. Se for uma string, o caractere índice `unicode` é usado.
 
 # Typeof
 
-`typeof` can always display the correct type of primitive types, except `null`:
+`typeof` também permite exibir o tipo correto de tipos primitivos, exceto `null`:
 ```js
 typeof 1 // 'number'
 typeof '1' // 'string'
 typeof undefined // 'undefined'
 typeof true // 'boolean'
 typeof Symbol() // 'symbol'
-typeof b // b is not declared,but it still can be displayed as undefined
+typeof b // b não foi declarado, mas ainda pode ser exibido como undefined
 ```
 
-For object,  `typeof` will always display `object`, except **function**:
+Para objeto, `typeof` irá sempre exibir `object`, exceto **function**:
 ```js
 typeof [] // 'object'
 typeof {} // 'object'
 typeof console.log // 'function'
 ```
 
-As for `null`, it is always be treated as an  `object`  by `typeof`，although it is a primitive data type, and this is a bug that has been around for a long time.
+Quanto a `null`, ele é sempre tratado como um `object` pelo `typeof`， apesar de ser um tipo primitivo, e esse é um bug que que existe a um bom tempo.
 ```js
 typeof null // 'object'
 ```
 
-Why does this happen? Because the initial version of JS was based on 32-bit systems, which stored type information of variables in the lower bits for performance considerations. Those start with `000` are objects, and all the bits of `null`  are zero, so it is erroneously treated as an object. Although the current code of checking internal types has changed, this bug has been passed down.
+Por que isso acontece? Porque a versão inicial do JS era baseada em sistemas de 32-bits, do qual armazenava a informação do tipo de variável em bits mais baixos por considerações de performance. Essas começam com objetos `000`, e todos os bits de `null` são zero, então isso é erroneamente tratado como um objeto. Apesar do código atual verificar se os tipos internos mudaram, esse bug foi passado para baixo.
 
-We can use `Object.prototype.toString.call(xx)` if we want to get the correct data type of a variable, and then we can get a string like `[object Type]`:
+Nós podemos usar `Object.prototype.toString.call(xx)` se quisermos pegar o tipo de dado correto da variável, e então obtemos uma string como `[object Type]`:
 
 ```js
 let a
-// We can also judge `undefined` like this
+// Podemos declarar `undefined` da seguinte maneira
 a === undefined
-// But the nonreserved word `undefined` can be re-assigned in a lower version browser
+// mas a palavra não reservada `undefined` pode ser re assinada em versões antigas dos browsers
 let undefined = 1
-// it will go wrong to judge like this
-// So we can use the following method, with less code
-// it will always return `undefined`, whatever follows `void `
+// vai dar errado declarar assim
+// então nós podemos usar o seguinte método, com menos código
+// ele sempre vai retornar `undefined`, tanto faz vir seguido de `void`
 a === void 0
 ```
 
 # New
 
-1.   Create a new object
-2.   Chained to prototype
-3.   Bind this
-4.   Return a new object
+1.   Crie um novo objeto
+2.   Encadei o prototype
+3.   Ligue o this
+4.   Retorne um novo objeto
 
-The above four steps will happen in the process of calling `new`. We can also try to implement `new ` by ourselves:
+Os quatro passos acima vão acontecer no processo chamado `new`. Podemos também tentar implementar o `new ` nós mesmos:
 
 ```js
 function create() {
-  // Create an empty object
+  // Crie um objeto vázio
   let obj = new Object()
-  // Get the constructor
+  // Obtenha o construtor
   let Ctor = [].shift.call(arguments)
-  // Chained to prototype
+  // Encadeie para o prototype
   obj.__proto__ = Ctor.prototype
-  // Bind this, Execute the constructor
+  // Ligue o this, execute o construtor
   let result = Con.apply(obj, arguments)
-  // Make sure the new one is an object
+  // Tenha certeza que o novo é um objeto
   return typeof result === 'object'? result : obj
 }
 ```
 
-Instances of object are all created with `new`, whether it's `function Foo()` , or `let a = { b: 1 }` .
+Instância de um novo objeto são todas criadas com `new`, seja ele `function Foo()`, ou `let a = { b: 1 }` .
 
-It is recommended to create objects using the literal notation (whether it's for performance or readability), since a look-up is needed for `Object` through the scope chain when creating an object using `new Object()`, but you don't have this kind of problem when using literals.
+É recomendado criar os objetos usando notação literal (seja por questões de performance ou legibilidade), uma vez que é necessário um look-up para `Object` atravessar o escopo encadeado quando criando um objeto usando `new Object()`, mas você não precisa ter esse tipo de probelma quando usando literais.
 
 ```js
 function Foo() {}
-// Function is a syntactic sugar
-// Internally equivalent to new Function()
+// Função são sintáticamente amigáveis
+// Internamente é equivalente a new Function() 
 let a = { b: 1 }
-// Inside this literal, `new Object()` is also used
+// Dentro desse lireal, `new Object()` também é usado
 ```
 
-For `new`, we also need pay attention to the operator precedence:
+Para `new`, também precisamos prestar atenção ao operador precedente:
 
 ```js
 function Foo() {
@@ -232,20 +232,19 @@ new Foo().getName(); // -> 2
 
 ![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
 
-As you can see from the above image, `new Foo()` has a higher priority than `new Foo`, so we can divide the execution order of the above code like this:
-
+Como você pode ver na imagem acima, `new Foo()` possui uma alta prioridade sobre `new Foo`, então podemos dividir a ordem de execução do código acima assim:
 
 ```js
 new (Foo.getName());
 (new Foo()).getName();
 ```
 
-For the first function, `Foo.getName()` is executed first, so the result is 1;
-As for the latter, it first executes `new Foo()` to create an instance, then finds the `getName` function on `Foo` via the prototype chain, so the result is 2.
+Para a primeira função, `Foo.getName()` é executado primeiro, então o resultado é 1;
+Para mais tarte, ele primeiro executa `new Foo()` para criar uma instância, então encontrar a função `getName` no `Foo` via cadeia de prototype, então o resultado é 2.
 
 # This
 
-`This`, a concept that is confusing to many people, is actually not difficult to understand as long as you remember the following rules:
+`This`, um conceito que é confuso para maioria das pessoas, atualmente não é difícil de entender enquanto você lembrar as seguintes regras:
 
 ```js
 function foo() {
@@ -260,21 +259,21 @@ var obj = {
 };
 obj.foo();
 
-// In the above two situations, `this` only depends on the object before calling the function,
-// and the second case has higher priority than the first case .
+// Nas duas situações acima, `this` depende apenas do objeto ser chamado antes da função,
+// e o segundo caso tem uma alta prioriade sobre o primeiro caso.
 
-// the following scenario has the highest priority，`this` will only be bound to c，
-// and there's no way to change what `this` is bound to .
+// o seguinte cenário tem uma alta prioridade, `this` só ficará ligado para c,
+// e não existe uma maneira de mudar o que `this` está limitado
 
 var c = new foo();
 c.a = 3;
 console.log(c.a);
 
-// finally, using `call`, `apply`, `bind` to change what `this` is bound to,
-// is another scenario where its priority is only second to `new`
+// finalmente, usando `call`, `apply`, `bind` para mudar o que o `this` é obrigado,
+// em outro cenário onde essa prioridade é apenas o segundo `new`
 ```
 
-Understanding the above several situations, we won’t be confused by `this` under most circumstances. Next, let’s take a look at `this` in arrow functions:
+Entendendo sobre as várias situações acima, nós não vamos ser confundidos pelo `this` na maioria dos casos. Depois, vamos dar uma olhada no `this` nas arrow functions:
 
 ```js
 function a() {
@@ -286,21 +285,21 @@ function a() {
 }
 console.log(a()()());
 ```
-Actually, the arrow function does not have `this`, `this` in the above function only depends on the first outer function that is not an arrow function. For this case, `this` is default to `window` because calling `a` matches the first condition in the above codes. Also, what `this` is bound to will not be changed by any codes once `this` is bound to the context.
+Atualmente, as arrow function não tem o `this`, `this` na função acima apenas depende da primeira função externa que não é uma arrow function. Nesse caso, `this` é o padrão para `window` porque chamando `a` iguala a primeira condição nos códigos acima. Também, o que o `this` está ligado não ira ser mudado por qualquer código uma vez que o `this` estiver ligado em um contexto.
 
 
 # Instanceof
 
-The `instanceof` operator can correctly check the type of objects, because its internal mechanism is to find out if `prototype` of this type can be found in the prototype chain of the object.
+O operador `instanceof` consegue checar corretamente o tipo dos objetos, porque o seu mecanismo interno encontra se o tipo do `prototype` pode ser encontrado na cadeia de prototype do objeto.
 
-let’s try to implement it:
+vamos tentar implementar ele:
 ```js
 function instanceof(left, right) {
-    // get the `prototype` of the type
+    // obtenha o type do `prototype`
     let prototype = right.prototype
-    // get the `prototype` of the object
+    // obtenha o `prototype` do objeto
     left = left.__proto__
-    // check if the type of the object is equal to the prototype of the type
+    // verifique se o tipo do objeto é igual ao prototype do tipo
     while (true) {
     	if (left === null)
     		return false
@@ -313,14 +312,14 @@ function instanceof(left, right) {
 
 # Scope
 
-Executing JS code would generate execution context, as long as code is not written in a function, it belongs to the global execution context. Code in a function will generate function execution context. There’s also an `eval` execution context, which basically is not used anymore, so you can think of only two execution contexts.
+Executar código JS deveria gerar execução do contexto, enquanto o código não é escrito na função, ele faz parte da execução do contexto global. O código na função vai gerar executação do contexto da função. Existe também uma execução do contexto do `eval`, do qual basicamente não é mais usado, então você pode pensar apenas em duas execuções de contexto.
 
-The `[[Scope]]` attribute is generated in the first stage of generating execution context, which is a pointer, corresponds to the linked list of the scope, and JS will look up variables through this linked list up to the global context.
+O atributo `[[Scope]]` é gerado no primeiro estágio de geração de contexto, que é um ponteiro, corresponde a linked list do escopo, e o JS vai procurar variáveis através dessas linked list no contexto global.
 
-Let's look at a common example , `var`:
+Vamos olhar um exemplo common, `var`:
 
 ```js
-b() // call b
+b() // chama b
 console.log(a) // undefined
 
 var a = 'Hello world'
@@ -330,29 +329,30 @@ function b() {
 }
 ```
 
-It’s known that function and variable hoisting is the real reason for the above outputs. The usual explanation for hoisting says that the declarations are ‘moved’ to the top of the code, and there is nothing wrong with that and it’s easy for everyone to understand. But a more accurate explanation should be something like this:
+Ele sabe que funcões e variáveis são içadas acima em relação aos outputs. A explicação usual para o hoisting diz que as declarações são ‘movidas’ para o topo do código, e não existe nada de errado com isso e é fácil de todo mundo entender. Mas para um explicação mais precisa deveria ser algo como:
 
-There would be two stages when the execution context is generated. The first stage is the stage of creation(to be specific, the step of generating variable objects), in which the JS interpreter would find out variables and functions that need to be hoisted, and allocate memory for them in advance, then functions would be stored into memory entirely, but variables would only be declared and assigned to `undefined`, therefore, we can use them in advance in the second stage (the code execution stage).
+Haveria dois estágios quando a execução do contexto é gerada. O primeiro estágio é o estágio de criação(para ser mais epecífico, o passo de geração variáveis objeto), no qual o interpretador de JS deveria encontrar variáveis e funções que precisam ser içadas, e aloca memória para eles atecipadamente, então as funções deveriam ser guardadas na memória internamente, mas variáveis seriam apenas declaradas e assinadas para `undefined`, assim sendo, nós podemos usar elas adiante no segundo estágio (a execução do código no estágio)
 
-In the process of hoisting, the same function would overwrite the last function, and functions have higher priority than variables hoisting.
+No processo de içar, a mesma função deveria sobrescrever a última função, e funções tem alta prioridade sobre variáveis içadas.
 
 ```js
-b() // call b second
+b() // chama segundo b
 
 function b() {
-	console.log('call b fist')
+	console.log('chama b primeiro')
 }
 function b() {
-	console.log('call b second')
+	console.log('chama b segundo')
 }
 var b = 'Hello world'
 ```
 
-Using `var` is more likely error-prone, thus ES6 introduces a new keyword `let`.  `let` has an important feature that it can’t be used before declared, which conflicts the common saying that `let` doesn’t have the ability of hoisting. In fact, `let`  hoists declaration, but is not assigned, because the **temporal dead zone**.
+Usando `var` é mais provável error-prone, portanto ES6 introduziu uma nova palava-chave `let`. `let` tem uma característica importante que ela não pode ser usada antes de declarada, que conflita com o ditado comum que `let` não tem a habilidade de içar. De fato, `let` iça a declaracão, mas não é assinada, por causa da **temporal dead zone**.
+
 
 # Closure
 
-The definition of closure is simple: function A returns a function B, and function B can access variables of function A, thus function B is called a closure.
+A definição de closure é simples: a função A retorna a função B, e a função b consegue acessar as variáveis da função A, portanto a função B é chamada de closure.
 
 ```js
 function A() {
@@ -364,9 +364,9 @@ function A() {
 }
 ```
 
-Are you wondering why function B can also refer to variables in function A while function A has been popped up from the call stack? Because variables in function A are stored on the heap at this time. The current JS engine can identify which variables need to be stored on the heap and which need to be stored on the stack by escape analysis.
+Se você estiver se perguntando por que a função B também consegue se referenciar as variáveis da função A enquanto a função A aparece a partir da stack de chamadas? Porque as variáveis na função A são guardadas na pilha nesse momento. O motor atual do JS consegue indentificar quais variáveis precisam ser salvas na heap e quais precisam ser salvas na stack por análise de fuga.
 
-A classic interview question is using closures in loops to solve the problem of using `var` to define functions:
+Uma pergunta classica de entrevista é usando closure em loops para resolver o problema de usar `var` para definir funções:
 
 ```js
 for ( var i=1; i<=5; i++) {
@@ -376,9 +376,9 @@ for ( var i=1; i<=5; i++) {
 )
 ```
 
-First of all, all loops will be executed completely because `setTimeout` is an asynchronous function, and at that time `i` is 6, so it will print a bunch of 6.
+Em primeirio lugar, todos os loops vão ser executados completamente porque `setTimeout` é uma função assíncrona, e nesse momento `i` é 6, então isso vai exibir um bando de 6.
 
-There are three solutions，closure is the first one:
+Existe três soluções, closure é a primeira:
 
 ```js
 for (var i = 1; i <= 5; i++) {
@@ -390,7 +390,7 @@ for (var i = 1; i <= 5; i++) {
 }
 ```
 
-The second one is to make use of the third parameter of `setTimeout`:
+A segunda é fazer o uso do terceiro parâmetro do `setTimeout`:
 
 ```js
 for ( var i=1; i<=5; i++) {
@@ -400,7 +400,7 @@ for ( var i=1; i<=5; i++) {
 }
 ```
 
-The third is to define `i` using `let`:
+A terceira é definir o `i` usando `let`:
 
 ```js
 for ( let i=1; i<=5; i++) {
@@ -410,11 +410,11 @@ for ( let i=1; i<=5; i++) {
 }
 ```
 
-For `let`, it will create a block-level scope, which is equivalent to:
+Para `let`, ele vai criar um escopo de block-level, do qual é equivalente a:
 
 ```js
 {
-    // Form block-level scope
+    // Forma o escopo block-level
   let i = 0
   {
     let ii = i
@@ -438,16 +438,15 @@ For `let`, it will create a block-level scope, which is equivalent to:
 
 ![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
 
-Each function, besides `Function.prototype.bind()`, has an internal property, denoted as `prototype`, which is a reference to the prototype.
+Cada função, além de `Function.prototype.bind()`, tem uma propriedade interna, denotado como `prototype`, do qual é uma referência para o prototype.
 
-Each object has an internal property, denoted as `__proto__`, which is a reference to the prototype of the constructor that creates the object. This property actually refers to `[[prototype]]`, but `[[prototype]]` is an internal property that we can’t access, so we use `__proto__` to access it.
+Cada objeto tem uma propriedade interna, denotada como `__proto__`, que é uma referência para o prototype do construtor que criou o objeto. Essa propriedade é atualmente referenciada ao `[[prototype]]`, mas o `[[prototype]]` é uma propriedade interna que nós não podemos acessar, então usamos o `__proto__` para acessar ele.
 
-Objects can use `__proto__` to look up properties that do not belong to the object, and `__proto__` connects objects together to form a prototype chain.
+Objetos podem usar `__proto__` para procurar propriedade que não fazem parte do objeto, e `__proto__` conecta os objetos juntos para formar uma cadeida de prototype.
 
+# Herança
 
-# Inheritance
-
-In ES5, we can solve the problems of inheritance by using the following ways:
+No ES5, podemos resolve os problema de herança usando os seguintes passos:
 
 ```js
 function Super() {}
@@ -467,9 +466,9 @@ Sub.prototype = Object.create(Super.prototype, {
 })
 ```
 
-The above idea of inheritance implementation is to set the `prototype` of the child class as the `prototype` of the parent class.
+A idéia de herança implementada acima é para definir o `prototype` da classe filho como o `prototype` da classe pai.
 
-In ES6, we can easily solve this problem with the `class` syntax:
+No ES6, podemos facilmente resolver esse problema com a sintaxe `class`:
 
 ```js
 class MyDate extends Date {
@@ -481,15 +480,15 @@ let myDate = new MyDate()
 myDate.test()
 ```
 
-However, ES6 is not compatible with all browsers, so we need to use Babel to compile this code.
+Contudo, ES6 não é compátivel com todos os navegadores, então usamos o Babel para compilar esser código.
 
-If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error:
+Se chamar `myDate.test()` com o código compilado, você vai ficar surpreso de ver que existe um erro:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
 
-Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date`, it can’t call functions in `Date`, which also explains from another aspect that `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
+Porque existem restrições no baixo nível do JS, se a instância não for construida pelo `Date`, ele não pode chamar funções no `Date`, que também explica a partir de outro aspecto que herança de `Class` no ES6 é diferente das heranças gerais na sintaxe do ES5.
 
-Since the low-level of JS limits that the instance must be constructed by `Date` , we can try another way to implement inheritance:
+Uma vez o baixo nível dos limites do JS que a instância deve ser construido pelo `Date`, nós podemos tentar outra maneira de implementar herança:
 
 ```js
 function MyData() {
@@ -503,12 +502,12 @@ Object.setPrototypeOf(d, MyData.prototype)
 Object.setPrototypeOf(MyData.prototype, Date.prototype)
 ```
 
-The implementation idea of the above inheritance: first create the instance of parent class => change the original `__proto__` of the instance, connect it to the `prototype` of child class => change the `__proto__` of child class’s `prototype`  to the `prototype` of parent class.
+A implementação da idéia acima sobre herança: primeiro cria uma instância da classe do pai => muda o original `__proto__` de instância, conectado ao `prototype` da classe do filho => muda o `__proto__` da classe do filho `prototype` para o `prototype` da classe do pai.
 
-The inheritance implement with the above method can perfectly solve the restriction on low-level of JS.
+A herança de implementação com o método acima pode perfeitamente resolver a restrição no baixo nível do JS.
 
 
-# Deep and Shallow Copy
+# Cópia rasa e profunda
 
 ```js
 let a = {
@@ -519,13 +518,13 @@ a.age = 2
 console.log(b.age) // 2
 ```
 
-From the above example, we can see that if you assign an object to a variable,  then the values of both will be the same reference, one changes, the other changes accordingly.
+A partir do exemplo acima, nós podemos ver que se você assinar um objeto para uma variável, então os valores dos dois vão ter a mesma referência, um muda o outro muda adequadamente.
 
-Usually, we don't want such problem to appear during development, thus we can use shallow copy to solve this problem.
+Geralmente, nós não queremos que tal problema apareça durante o desensolvimento, portanto podemos usar a cópia rasa para resolver esse problema.
 
-## Shallow copy
+## Cópia rasa
 
-Firstly we can solve the problem by `Object.assign`:
+Primeiramente podemos resolver o problema através do `Object.assign`:
 ```js
 let a = {
     age: 1
@@ -535,7 +534,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Certainly, we can use the spread operator (...) to solve the problem:
+Certamente, podemos usar o spread operator (...) para resolver o problema:
 ```js
 let a = {
     age: 1
@@ -545,7 +544,7 @@ a.age = 2
 console.log(b.age) // 1
 ```
 
-Usually, shallow copy can solve most problems, but we need deep copy when encountering the following situation:
+Geralmente, a cópia rasa pode resolver a maioria dos problemas, mas precisamos da cópia profunda quando encontrado a seguinte situação:
 ```js
 let a = {
     age: 1,
@@ -557,11 +556,11 @@ let b = {...a}
 a.jobs.first = 'native'
 console.log(b.jobs.first) // native
 ```
-The shallow copy only solves the problem of the first layer. If the object contains objects, then it returns to the beginning topic that both values share the same reference. To solve this problem, we need to introduce deep copy.
+A cópia rasa resolve apenas o problema na primeira camada. Se o objeto contém objetos, então ele retorna para o topico inicial que os dois valores compartilham a mesma referência. Para resolver esse problema, precisamos introduzir a cópia profunda. 
 
-## Deep copy
+## Cópia profunda
 
-The problem can usually be solved by  `JSON.parse(JSON.stringify(object))`
+O problema pode geralmente ser resolvido por `JSON.parse(JSON.stringify(object))`
 
 ```js
 let a = {
@@ -575,11 +574,10 @@ a.jobs.first = 'native'
 console.log(b.jobs.first) // FE
 ```
 
-But this method also has its limits:
-* ignore `undefined`
-* ignore `symbol`
-* unable to serialize function
-* unable to resolve circular references in an object
+Mas esse método também tem seus limites:
+* ignora `undefined`
+* incapaz de serializar função
+* incapaz de resolver referência circular de um objeto
 ```js
 let obj = {
   a: 1,
@@ -597,11 +595,11 @@ let newObj = JSON.parse(JSON.stringify(obj))
 console.log(newObj)
 ```
 
-If an object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object:
+Se um objto é uma referência circular como o exemplo acima, você vai encontrar o método `JSON.parse(JSON.stringify(object))` ele não pode fazer a cópia profunda desse objeto:
 
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
 
-When dealing with function, `undefined` or `symbol`, the object can also not be serialized properly.
+Quando lidando com uma função ou `undefined`, o objeto pode não ser serializado adequedamente.
 ```js
 let a = {
     age: undefined,
@@ -613,11 +611,11 @@ let b = JSON.parse(JSON.stringify(a))
 console.log(b) // {name: "yck"}
 ```
 
-In above case, you can see that the method ignores function and `undefined`.
+No caso acima, você pode perceber que o método ignora a função e `undefined`.
 
-Most often complex data can be serialized, so this method can solve most problems, and as a built-in function, it has the fastest performance when dealing with deep copy. Certainly, you can use [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) when your data contains the above three cases.
+A maioria dos dados conseguem ser serializados, então esse método resolve a maioria dos problemas, e como uma função embutida, ele tem uma performance melhor quando lidando com a cópia profunda. Certamente, você pode usar [the deep copy function of `lodash` ](https://lodash.com/docs#cloneDeep) quando sues dados contém os três casos acima.
 
-If the object you want to copy contains a built-in type but doesn’t contain a function, you can use `MessageChannel`
+Se o objeto que você quer copiar contém um tipo embutido mas não contém uma função, você pode usar `MessageChannel`
 ```js
 function structuralClone(obj) {
   return new Promise(resolve => {
@@ -630,22 +628,23 @@ function structuralClone(obj) {
 var obj = {a: 1, b: {
     c: b
 }}
-// pay attention that this method is asynchronous
-// it can handle `undefined` and circular reference object
+
+// preste atenção que esse método é assíncrono
+// ele consegue manipular `undefined` e referência circular do objeto
 (async () => {
   const clone = await structuralClone(obj)
 })()
 ```
 
-# Modularization
+# Modularização
 
-With Babel, we can directly use ES6's modularization:
+Com o Babel, nós conseguimos usar a ES6 modularização:
 
 ```js
-// file a.js
+// arquivo a.js
 export function a() {}
 export function b() {}
-// file b.js
+// arquivo b.js
 export default function() {}
 
 import {a, b} from './a.js'
@@ -654,14 +653,14 @@ import XXX from './b.js'
 
 ## CommonJS
 
-`CommonJS` is Node's unique feature. `Browserify` is needed for `CommonJS` to be used in browsers.
+`CommonJS` é uma aspecto único do Node. É preciso `Browserify` para o `CommonJS` ser usado nos navegadores.
 
 ```js
 // a.js
 module.exports = {
     a: 1
 }
-// or
+// ou
 exports.a = 1
 
 // b.js
@@ -669,21 +668,21 @@ var module = require('./a.js')
 module.a // -> log 1
 ```
 
-In the code above, `module.exports` and `exports` can cause confusions. Let us take a peek at the internal implementations:
+No código acima, `module.exports` e `exports` podem causar confusão. Vamos dar uma olhada na implementação interna:
 
 ```js
 var module = require('./a.js')
 module.a
-// this is actually a wrapper of a function to be executed immediately so that we don't mess up the global variables.
-// what's important here is that module is a Node only variable.
+// esse é o empacotador atual de uma função a ser executada imediatamente, de modo que não precisamos bagunçar as variáveis globais.
+// O que é importante aqui é que o módulo é apenas uma variável do Node.
 module.exports = {
     a: 1
 }
-// basic implementation
+// implementação básica
 var module = {
-  exports: {} // exports is an empty object
+  exports: {} // exporta em um objeto vázio
 }
-// This is why exports and module.exports have similar usage.
+// Esse é o por que o exports e module.exports tem usos similares.
 var exports = module.exports
 var load = function (module) {
     // to be exported
@@ -693,18 +692,19 @@ var load = function (module) {
 };
 ```
 
-Let's then talk about `module.exports` and `exports`, which have similar usage, but one cannot assign a value to `exports` directly. The assignment would be a no-op.
+Vamos então falar sobre `module.exports` e `exports`, que tem uso similar, mas um não atribui um valor para `exports` diretamente. A tarefa seria um no-op.
 
-The differences between the modularizations in `CommonJS` and in ES6 are:
+A diferença entre as modularizações no `CommonJS` a no ES6 são:
 
-- The former supports dynamic imports, which is `require(${path}/xx.js)`; the latter doesn't support it yet, but there have been proposals.
-- The former uses synchronous imports. Since it is used on the server end and files are local, it doesn't matter much even if the synchronous imports block the main thread. The latter uses asynchronous imports, because it is used in browsers in which file downloads are needed. Rendering process would be affected much if asynchronous import was used.
-- The former copies the values when exporting. Even if the values exported change, the values imported will not change. Therefore, if values shall be updated, another import needs to happen. However, the latter uses realtime bindings, the values imported and exported point to the same memory addresses, so the imported values change along with the exported ones.
-- In execution the latter is compiled to `require/exports`.
+- O antigo suporta importes dinamico, que é `require(${path}/xx.js)`; o último não suporta isso ainda, mas 
+existem propostas.
+- O antigo usa importes síncronos. Desde de que usado no servidor os arquivos são locais, não importa muito mesmo se o import síncrono bloqueia a main thread. O último usa importe assíncrono, porque ele é usado no navegador em que os arquivos baixados são precisos. O processo de renderização seria afetado muito se assíncrono importe for usado.
+- O anterior copia os valores quando exportando. Mesmo se o valor exportado mudou, os valores importados não irão mudar. Portanto, se os valores devem ser atualizados, outro importe precisa acontecer. Contudo, o último usa ligações em tempo real, os valores importados são importados no mesmo endereço de memória, então o valor importado muda junto com os importados.
+- Em execução o último é compilado para `require/exports`.
 
 ## AMD
 
-AMD is brought forward by `RequireJS`.
+AMD é apresentado por `RequireJS`.
 
 ```js
 // AMD
@@ -720,13 +720,13 @@ define(function(require, exports, module) {
 })
 ```
 
-# The differences between call, apply, bind
+# A diferença entre call apply bind
 
-Firstly, let’s tell the difference between the former two.
+Primeiro, vamos falar a diferença entre os dois antigos.
 
-Both `call` and `apply` are used to change what `this` refers to. Their role is the same, but the way to pass parameters is different.
+Ambos `call` e `apply` são usados para mudar o que o `this` se refere. Seu papel é o mesmo, mas a maneira de passar os parâmetros é diferente.
 
-In addition to the first parameter,  `call` can accept an argument list, while `apply` accepts a single array of arguments.
+Além do primeiro parâmetro, `call` também aceita uma lista de argumentos, enquanto `apply` aceita um único array de argumentos.
 
 ```js
 let a = {
@@ -741,30 +741,31 @@ getValue.call(a, 'yck', '24')
 getValue.apply(a, ['yck', '24'])
 ```
 
-## simulation to implement  `call` and  `apply`
+## simulação para implementar `call` e `apply`
 
-We can consider how to implement them from the following rules:
+Consideramos implementar eles a partir das seguintes regras:
 
-* If the first parameter isn’t passed, then the first parameter will default to  `window`;
-* Change what `this` refers to, which makes new object capable of executing the function. Then let’s think like this: add a function to a new object and then delete it after the execution.
+* Se o primeiro parâmetro não foi passado, então o primeiro será o padrão `window`;
+
+* Mude a referência do `this`, que faz um novo objeto capaz de executar a função. Então vamos pensar assim: adicione a função para um novo objeto e então delete ele depois da execução.
 
 ```js
 Function.prototype.myCall = function (context) {
   var context = context || window
-  // Add an property to the `context`
+  // Adiciona uma propriedade ao `context`
   // getValue.call(a, 'yck', '24') => a.fn = getValue
   context.fn = this
-  // take out the rest parameters of `context`
+  // pega os parâmentros do `context`
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
   var result = context.fn(...args)
-  // delete fn
+  // deleta fn
   delete context.fn
   return result
 }
 ```
 
-The above is the main idea of simulating  `call`, and the implementation of  `apply` is similar.
+O exemplo acima é a idéia central da simulação do `call`, e a implementação do `apply` é similar.
 
 ```js
 Function.prototype.myApply = function (context) {
@@ -772,8 +773,8 @@ Function.prototype.myApply = function (context) {
   context.fn = this
 
   var result
-  // There's a need to determine whether to store the second parameter
-  // If the second parameter exists, spread it
+  // Existe a necessidade de determinar se guarda o segundo parâmentro
+  // Se o segundo parâmetro existir, espalhe ele
   if (arguments[1]) {
     result = context.fn(...arguments[1])
   } else {
@@ -785,9 +786,9 @@ Function.prototype.myApply = function (context) {
 }
 ```
 
-The role of `bind` is the same as the other two, except that it returns a function. And we can implement currying with `bind`
+A regra do `bind` é a mesma das outras duas, exceto que ela retorna uma função. E nós podemos implementar currying com o `bind`
 
-let’s simulate `bind`:
+vamos simular o `bind`:
 
 ```js
 Function.prototype.myBind = function (context) {
@@ -796,9 +797,9 @@ Function.prototype.myBind = function (context) {
   }
   var _this = this
   var args = [...arguments].slice(1)
-  // return a function
+  // retorna uma função
   return function F() {
-    // we can use `new F()` because it returns a function, so we need to determine
+    // Nós podemos usar `new F()` porque ele retorna uma função, então precisamos determinar
     if (this instanceof F) {
       return new _this(...args, ...arguments)
     }
@@ -807,36 +808,36 @@ Function.prototype.myBind = function (context) {
 }
 ```
 
-# Promise implementation
+# Implementação de Promise
 
-`Promise` is a new syntax introduced by ES6, which resolves the problem of callback hell.
+`Promise` é a nova sintaxe introduzida pelo ES6, que resolve os problemas de callback hell.
 
-Promise can be seen as a state machine and it's initial state is `pending`. We can change the state to `resolved` or `rejected` by using the `resolve` and `reject` functions. Once the state is changed, it cannot be changed again.
+Promise pode ser visto como um estado de máquina e o seu estado inicial é `pending`. Nós podemos mudar o estado para `resolved` ou `rejected` usando as funções `resolve` e `reject`. Uma vez que o state mudou, ele não pode mudar novamente.
 
-The function `then` returns a Promise instance, which is a new instance instead of the previous one. And that's because the Promise specification states that in addition to the `pending` state, other states cannot be changed, and multiple calls of function `then`  will be meaningless if the same instance is returned.
+A função `then` retorna uma instância da Promise, do qual é uma nova instância ao invés do anterior. E existe por que a especificação de estado da Promise que adiciona para o estado `pending`, outro estado não pode ser mudado, e multiplas chamadas a função `then` serão insignificantes se a mesma instância for retornada.
 
-For `then`, it can essentially be seen as `flatMap`:
+Para `then`, ele pode essencialmente ser visto como flatMap`:
 
 ```js
-// three states
+// árvore de estados
 const PENDING = 'pending';
 const RESOLVED = 'resolved';
 const REJECTED = 'rejected';
-// promise accepts a function argument that will execute immediately.
+// promise aceita um argumento na função que será executada imediatamente.
 function MyPromise(fn) {
   let _this = this;
   _this.currentState = PENDING;
   _this.value = undefined;
-  // To save the callback of `then`，only cached when the state of the promise is pending,
-  //  at most one will be cached in every instance
+  // Save o callback do `then`, apenas em cache quando o estado da promise for pending,
+  // no máximo será cacheado em cada instância
   _this.resolvedCallbacks = [];
   _this.rejectedCallbacks = [];
 
   _this.resolve = function(value) {
-    // execute asynchronously to guarantee the execution order
+    // execute assícronamente para garantir a ordem de execução
     setTimeout(() => {
       if (value instanceof MyPromise) {
-        // if value is a Promise, execute recursively
+        // se o valor é uma Promise, execute recursivamente
         return value.then(_this.resolve, _this.reject)
       }
       if (_this.currentState === PENDING) {
@@ -848,7 +849,7 @@ function MyPromise(fn) {
   }
 
   _this.reject = function(reason) {
-    // execute asynchronously to guarantee the execution order
+    // execute assícronamente para garantir a ordem de execução
     setTimeout(() => {
       if (_this.currentState === PENDING) {
         _this.currentState = REJECTED;
@@ -858,7 +859,7 @@ function MyPromise(fn) {
     })
   }
 
-  // to solve the following problem
+  // para resolver o seguinte problema
   // `new Promise(() => throw Error('error))`
   try {
     fn(_this.resolve, _this.reject);
@@ -869,19 +870,19 @@ function MyPromise(fn) {
 
 MyPromise.prototype.then = function(onResolved, onRejected) {
   const self = this;
-  // specification 2.2.7， `then` must return a new promise
+  // especificação 2.2.7， `then` deve retornar uma nova promise
   let promise2;
-  // specification 2.2, both `onResolved` and `onRejected` are optional arguments
-  // it should be ignored if `onResolved` or `onRjected` is not a function,
-  // which implements the penetrate pass of it's value
+  // especificação 2.2, ambos `onResolved` e `onRejected` são argumentos opcionais
+  // isso deveria ser ignorado se `onResolved` ou `onRjected` não for uma função,
+  // do qual implementa a penetrar a passagem desse valor
   // `Promise.resolve(4).then().then((value) => console.log(value))`
   onResolved = typeof onResolved === 'function' ? onResolved : v => v;
   onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // specification 2.2.4, wrap them with `setTimeout`,
-      // in order to insure that `onFulfilled` and `onRjected` execute asynchronously
+      // especificação 2.2.4, encapsula eles com `setTimeout`,
+      // em ordem para garantir que `onFulfilled` e `onRjected` executam assícronamente
       setTimeout(() => {
         try {
           let x = onResolved(self.value);
@@ -895,7 +896,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
   if (self.currentState === REJECTED) {
     return (promise2 = new MyPromise((resolve, reject) => {
-      // execute `onRejected` asynchronously
+      // execute `onRejected` assícronamente
       setTimeout(() => {
         try {
           let x = onRejected(self.value);
@@ -910,7 +911,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   if (self.currentState === PENDING) {
     return (promise2 = new MyPromise((resolve, reject) => {
       self.resolvedCallbacks.push(() => {
-         // Considering that it may throw error, wrap them with `try/catch`
+         // Considerando que isso deve lançar um erro, encapsule eles com `try/catch`
         try {
           let x = onResolved(self.value);
           resolutionProcedure(promise2, x, resolve, reject);
@@ -931,22 +932,22 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
   }
 }
 
-// specification 2.3
+// especificação 2.3
 function resolutionProcedure(promise2, x, resolve, reject) {
-  // specification 2.3.1，`x` and  `promise2` can't refer to the same object,
-  // avoiding the circular references
+  // especificação 2.3.1，`x` e  `promise2` não podem ser referenciados para o mesmo objeto,
+  // evitando referência circular
   if (promise2 === x) {
     return reject(new TypeError('Error'));
   }
 
-  // specification 2.3.2, if `x` is a Promise and the state is `pending`,
-  // the promise must remain, If not, it should execute.
+  // especificação 2.3.2, se `x` é uma Promise e o estado é `pending`,
+  // a promisse deve permanecer, se não, ele deve ser executado.
   if (x instanceof MyPromise) {
     if (x.currentState === PENDING) {
-      // call the function `resolutionProcedure` again to
-      // confirm the type of the argument that x resolves
-      // If it's a primitive type, it will be resolved again to
-      // pass the value to next `then`.
+      // chame a função `resolutionProcedure` novamente para 
+      // confirmar o tipo de argumento que x resolve
+      // Se for um tipo primitivo, irá ser resolvido novamente
+      // passando o valor para o próximo `then`.
       x.then((value) => {
         resolutionProcedure(promise2, value, resolve, reject);
       }, reject)
@@ -956,23 +957,23 @@ function resolutionProcedure(promise2, x, resolve, reject) {
     return;
   }
 
-  // specification 2.3.3.3.3
-  // if both `reject` and `resolve` are executed, the first successful
-  // execution takes precedence, and any further executions are ignored
+  // especificação 2.3.3.3.3
+  // se ambos `reject` e `resolve` forem executado, a primeira execução 
+  // de sucesso tem precedência, e qualquer execução é ignorada
   let called = false;
-  // specification 2.3.3, determine whether `x` is an object or a function
+  // especificação 2.3.3, determina se `x` é um objeto ou uma função 
   if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
-    // specification 2.3.3.2, if can't get `then`, execute the `reject`
+    // especificação 2.3.3.2, se não conseguir obter o `then`, execute o `reject`
     try {
-      // specification 2.3.3.1
+      // especificação 2.3.3.1
       let then = x.then;
-      // if `then` is a function, call the `x.then`
+      // se `then` é uma função, chame o `x.then`
       if (typeof then === 'function') {
-        // specification 2.3.3.3
+        // especificação 2.3.3.3
         then.call(x, y => {
           if (called) return;
           called = true;
-          // specification 2.3.3.3.1
+          // especificação 2.3.3.3.1
           resolutionProcedure(promise2, y, resolve, reject);
         }, e => {
           if (called) return;
@@ -980,7 +981,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
           reject(e);
         });
       } else {
-        // specification 2.3.3.4
+        // especificação 2.3.3.4
         resolve(x);
       }
     } catch (e) {
@@ -989,24 +990,24 @@ function resolutionProcedure(promise2, x, resolve, reject) {
       reject(e);
     }
   } else {
-    // specification 2.3.4, `x` belongs to primitive data type
+    // especificação 2.3.4, `x` pertence ao tipo primitivo de dados
     resolve(x);
   }
 }
 ```
 
-The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
+O código acima, que é implementado baseado em Promise / A+ especificação, pode passar os testes completos de `promises-aplus-tests`
 
 ![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
 
-# Generator Implementation
+# Implementação do Generator
 
-Generator is an added syntactic feature in ES6. Similar to `Promise`, it can be used for asynchronous programming.
+Generator é uma funcionalidade sintática adicionada no ES6. Similar a `Promise`, pode ser usado para programação assíncrona.
 
 ```js
-// * means this is a Generator function
-// yield within the block can be used to pause the execution
-// next can resume execution
+// * significa que isso é uma função Generator
+// yield dentro de um bloco pode ser usado para pausar a execução
+// next consegue resumir a execução
 function* test() {
   let a = 1 + 2;
   yield 2;
@@ -1018,10 +1019,9 @@ console.log(b.next()); // >  { value: 3, done: false }
 console.log(b.next()); // >  { value: undefined, done: true }
 ```
 
-As we can tell from the above code, a function with a `*` would have the `next` function execution. In other words, the execution of the function returns an object. Every call to the `next` function can resume executing the paused code. A simple implementation of the Generator function is shown below:
-
+Como podemos dizer no código acima, a função com um `*` teria a execução da função `next`. Em outras palavras, a execução de função retorna um objeto. Toda chamada a função `next` pode continuar a execução do código pausado. Um simples implementação da função Generator é mostrada abaixo:
 ```js
-// cb is the compiled 'test' function
+// cb é a função 'test' compilada
 function generator(cb) {
   return (function() {
     var object = {
@@ -1041,15 +1041,15 @@ function generator(cb) {
     };
   })();
 }
-// After babel's compilation, 'test' function turns into this:
+// Depois da compilação do babel's, a função 'test' retorna dentro dessa:
 function test() {
   var a;
   return generator(function(_context) {
     while (1) {
       switch ((_context.prev = _context.next)) {
-        // yield splits the code into several blocks
-        // every 'next' call executes one block of clode
-        // and indicates the next block to execute
+        // yield separa o código em diversos blocos
+        // cada chamada 'next' executa um bloco de código
+        // e indica o próximo bloco a ser executado
         case 0:
           a = 1 + 2;
           _context.next = 4;
@@ -1057,7 +1057,7 @@ function test() {
         case 4:
           _context.next = 6;
           return 3;
-        // execution complete
+        // execução completa
         case 6:
         case "end":
           return _context.stop();
@@ -1069,30 +1069,30 @@ function test() {
 
 # Debouncing
 
-Have you ever encountered this problem in your development: how to do a complex computation in a scrolling event or to prevent the "second accidental click" on a button?
+Tendo você encontrado esse problema e seu dia-a-dia no desenvolvimento: como fazer uma computação complexa em um evento de scroll ou prevenir o "segundo clique acidental" no butão?
 
-These requirements can be achieved with function debouncing. Especially for the first one, if complex computations are carried out in frequent event callbacks, there's a large chance that the page becomes laggy. It's better to combine multiple computations into a single one, and only operate at particular time. Since there are many libraries that implement debouncing, we won't build our own here and will just take underscore's source code to explain debouncing:
+Esses requisitos podem ser alcançados com funcões debouncing. Especialmente para o primeiro, se uma computação complexa estiver sendo chamado em frequentes eventos de callbacks, existe uma grande chance que a página se torne lenta. É melhor combinar essas multiplas computações e uma, e apenas operar em determinado periodo de tempo. Desde que existe muitas bibliotecas que implementam debouncing, nós não construimos nosso próprio aqui e vamos pegar o código do underscore para explicar o debouncing:
 
 ```js
 /**
- * underscore's debouncing function. When the callback function is called in series, func will only execute when the idel time is larger or equal to `wait`.
+ * função underscore debouncing. Quando a função callback é chamada em série, a funcão vai executar apenas quando o tempo ideal é maior ou igual ao `wait`.
  *
- * @param  {function} func        callback function
- * @param  {number}   wait        length of waiting intervals
- * @param  {boolean}  immediate   when set to true, func is executed immediately
- * @return {function}             returns the function to be called by the client
+ * @param  {function} func        função callback
+ * @param  {number}   wait        tamanho do intervalo de espera
+ * @param  {boolean}  immediate   quando definido para true, func é executada imadiatamente
+ * @return {function}             retorna a função a ser chamada pelo cliente
  */
 _.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;
 
     var later = function() {
-      // compare now to the last timestamp
+      // compara now para o último timestamp
       var last = _.now() - timestamp;
-      // if the current time interval is smaller than the set interval and larger than 0, then reset the timer.
+      // se o tempo de intervalo atual é menor então o set interval é maior que 0, então reinicie o timer.
       if (last < wait && last >= 0) {
         timeout = setTimeout(later, wait - last);
       } else {
-        // otherwise it's time to execute the callback function
+        // senão é o momento de executar a função callback
         timeout = null;
         if (!immediate) {
           result = func.apply(context, args);
@@ -1104,14 +1104,14 @@ _.debounce = function(func, wait, immediate) {
     return function() {
       context = this;
       args = arguments;
-      // obtain the timestamp
+      // obtendo o timestamp
       timestamp = _.now();
-      // if the timer doesn't exist then execute the function immediately
+      // se o timer não existir então execute a função imediatamente
       var callNow = immediate && !timeout;
-      // if the timer doesn't exist then create one
+      // se o time não existe então crie um
       if (!timeout) timeout = setTimeout(later, wait);
       if (callNow) {
-        // if the immediate execution is needed, use apply to start the function
+        // se a função imediata é precisa, use aplly para começar a função
         result = func.apply(context, args);
         context = args = null;
       }
@@ -1121,57 +1121,57 @@ _.debounce = function(func, wait, immediate) {
   };
 ```
 
-The complete function implementation is not too difficult. Let's summarize here.
+A implementação completa da ƒunção não é tão difícil.
 
-- For the implementation of protecting against accidental clicks: as long as I start a timer and the timer is there, no matter how you click the button, the callback function won't be executed. Whenever the timer ends and is set to `null`, another click is allowed.
-- For the implementation of a delayed function execution: every call to the debouncing function will trigger an evaluation of time interval between the current call and the last one. If the interval is less than the required, another timer will be created, and the delay is set to the set interval minus the previous elapsed time. When the time's up, the corresponding callback function is executed.
+- Para a implementação de proteger contra clicks acidentais: enquanto eu começar o time e o time existir, não importa quantas vezes eu clicar o butão, a função de callback não será executada. Contudo quando o time termina, é setado para `null`, outro click é permitido.
+- Para a implementação da executação da função de atraso: toda chamada para a função debouncing vai disparar um tempo de intervalo equivalente entre a chamada tual e a última chamada. Se o intervalo é menor que o requerido, outro time será cirado, e o atraso é atribuido ao set interval menos o tempo anterior. Quando o tempo passa, a função de callback é executada.
 
 # Throttle
 
-`Debounce` and `Throttle` are different in nature. `Debounce` is to turn multiple executions into one last execution, and `Throttle` is to turn multiple executions into executions at regular intervals.
+`Debounce` e `Throttle` possuem naturezas diferentes. `Debounce` é para tornar multiplas execuções na última execução, e `Throttle` é para tornar multiplas execuções em uma execução de intervalos regulares.
 
 ```js
-// The first two parameters with debounce are the same function
-// options: You can pass two properties
-// trailing: Last time does not execute
-// leading: First time does not execute
-// The two properties cannot coexist, otherwise the function cannot be executed
+// Os dois primeiro parâmetros com debounce são a mesma função
+// options: você pode passar duas propriedades
+// trailing: o último tempo não é executado
+// leading: o primeiro tempo não é executado
+// As duas propriedades não coexistem, contudo a função não será executada
 _.throttle = function(func, wait, options) {
     var context, args, result;
     var timeout = null;
-    // Previous timestamp
+    // timestamp anterior
     var previous = 0;
-    // Set empty if options is not passed
+    // Defina vázio se as opções não forem passadas
     if (!options) options = {};
-    // Timer callback function
+    // Função Timer callback
     var later = function() {
-        // If you set `leading`, then set `previous` to zero
-        // The first `if` statement of the following function is used
+        // se você definiu `leading`, então defina `previous` para zero
+        // O primeiro if da seguinte função é usada
         previous = options.leading === false ? 0 : _.now();
-        // The first is prevented memory leaks and the second is judged the following timers when setting `timeout` to null
+        // O primeiro é prevenindo memory leaks e o segundo é julgado os seguintes timers quando configurado `timeout` para null
         timeout = null;
         result = func.apply(context, args);
         if (!timeout) context = args = null;
     };
     return function() {
-        // Get current timestamp
+        // Obtenha o timestamp atual
         var now = _.now();
-        // It must be true when it entering firstly
-        // If you do not need to execute the function firstly
-        // Set the last timestamp to current
-        // Then it will be greater than 0 when the remaining time is calculated next
+        // Deve ser verdado quando entrar pela primeira vez
+        // Se você não precisa executar essa função na primeira vez
+        // Defina o último timestamp para o atual
+        // Então ele será maior que 0 quando o termo remanecente for calculado da próxima vez
         if (!previous && options.leading === false)
             previous = now;
         var remaining = wait - (now - previous);
         context = this;
         args = arguments;
-        // This condition will only be entered if it set `trailing`
-        // This condition will be entered firstly if it not set `leading`
-        // Another point, you may think that this condition will not be entered if you turn on the timer
-        // In fact, it will still enter because the timer delay is not accurate
-        // It is very likely that you set 2 seconds, but it needs 2.2 seconds to trigger, then this time will enter this condition
+        // Essa condição só será preenchida se definido para `trailing`
+        // Essa condição só será preenchida no ínicio se não definido `leading`
+        // Outro ponto, você deve pensar que essa condição não será preenchida se você ligar o timer
+        // De fato, será assim até entrar porque o atraso do timer não é acurado
+        // Isso é muito como se você setar a 2 segundos, mas ele precisa 2.2 segundos para disparar, então o tempo será preenchido nessa condição
         if (remaining <= 0 || remaining > wait) {
-            // Clean up if there exist a timer otherwise it call twice callback
+            // Limpe se existe um timer e ele chama a callback duas vezes
             if (timeout) {
                 clearTimeout(timeout);
                 timeout = null;
@@ -1180,8 +1180,8 @@ _.throttle = function(func, wait, options) {
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         } else if (!timeout && options.trailing !== false) {
-            // Judgment whether timer and trailing are set
-            // And you can't set leading and trailing at the same time
+            // Julge se o timer e trailing forem definidos
+            // E você não pode defirnor leading e trailing no mesmo instante
             timeout = setTimeout(later, remaining);
         }
         return result;
@@ -1189,16 +1189,16 @@ _.throttle = function(func, wait, options) {
 };
 ```
 
-# Map、FlatMap and Reduce
+# Map、FlatMap e Reduce
 
-The effect of `Map` is to generate a new array, iterate over the original array, take each element out to do some transformation, and then `append` to the new array.
+O efeito do `Map` é para gerar um novo array, iterando sobre o array original, tomando cada elemento para fazer alguma transformação, e então `append` para um novo array.
 
 ```js
 [1, 2, 3].map((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-`Map` has three parameters, namely the current index element, the index, the original array.
+`Map` tem três parâmetros, nomeando o índice atual do elemento, o índice, o array original.
 
 ```js
 ['1','2','3'].map(parseInt)
@@ -1207,14 +1207,14 @@ The effect of `Map` is to generate a new array, iterate over the original array,
 //  parseInt('3', 2) -> NaN
 ```
 
-The effect of `FlatMap` is almost the same with a `Map`, but the original array will be flatten for multidimensional arrays. You can think of `FlatMap` as a `map` and a `flatten`, which is currently not supported in browsers.
+O efeito do `FlatMap` é quase o mesmo do `Map`, mas o array original será substituído para um array multidimensional. Você pode pensar no `FlatMap` com um `map` e um `flatten`, que atualmente não é suportado nos navegadores.
 
 ```js
 [1, [2], 3].flatMap((v) => v + 1)
 // -> [2, 3, 4]
 ```
 
-You can achieve this when you want to completely reduce the dimensions of a multidimensional array:
+Você pode alcançar isso quando você quer reduzir completamente dimensões de um array multidimensional:
 
 ```js
 const flattenDeep = (arr) => Array.isArray(arr)
@@ -1224,7 +1224,7 @@ const flattenDeep = (arr) => Array.isArray(arr)
 flattenDeep([1, [[2], [3, [4]], 5]])
 ```
 
-The effect of `Reduce` is to combine the values in the array and get a final value:
+O efeito do `Reduce` é para combinar os valores em um array e pegar o valor final:
 
 ```js
 function a() {
@@ -1240,9 +1240,9 @@ function b() {
 ```
 
 
-# Async and await
+# Async e await
 
-`async` function will return a `Promise`:
+A função `async` vai retornar uma `Promise`:
 
 ```js
 async function test() {
@@ -1251,9 +1251,9 @@ async function test() {
 console.log(test()); // -> Promise {<resolved>: "1"}
 ```
 
-You can think of `async` as wrapping a function using `Promise.resolve()`.
+Você pode pensar em `async` como uma função encapsuladora usando `Promise.resolve()`.
 
-`await` can only be used in `async` functions:
+`await` pode ser usado apenas em funcões `async`:
 
 ```js
 function sleep() {
@@ -1271,11 +1271,11 @@ async function test() {
 test()
 ```
 
-The above code will print `finish` before printing `object`. Because `await` waits for the `sleep` function `resolve`, even if the synchronization code is followed, it is not executed before the asynchronous code is executed.
+O código acime vai exibir `finish` antes de exibir `object`. Porque `await` espera pela funcão `sleep` `resolve`, mesmo se a sincronização de código estiver seguida, ele não executa antes do código assíncrono ser executado.
 
-The advantage of `async` and `await` compared to the direct use of `Promise` lies in handling the call chain of `then`, which can produce clear and accurate code. The downside is that misuse of `await` can cause performance problems because `await` blocks the code. Perhaps the asynchronous code does not depend on the former, but it still needs to wait for the former to complete, causing the code to lose concurrency.
+A vantagem do `async` e `await` comparado ao uso direto da `Promise` mente em manipular a cadeia de chamada do `then`, que pode produzir código claro e acurado. A desvantagem é que uso indevido do `await` pode causar problemas de performance porque `await` bloqueia o código. Possivelmente o código assíncrono não depende do anterior, mas ele ainda precisa esperar o anterir ser completo, ocasionando perda de concorrência.
 
-Let's look at a code that uses `await`:
+Vamos dar uma olhada em um código que usa `await`:
 
 ```js
 var a = 0
@@ -1290,24 +1290,24 @@ a++
 console.log('1', a) // -> '1' 1
 ```
 
-You may have doubts about the above code, here we explain the principle:
+Você pode ter dúvidas sobre o código acima, aqui nós explicamos o príncipio:
 
-- First the function `b` is executed. The variable `a` is still 0 before execution  `await 10`, Because the `Generators` are implemented inside `await` and  `Generators` will keep things in the stack, so at this time `a = 0` is saved
-- Because `await` is an asynchronous operation, `console.log('1', a)` will be executed first.
-- At this point, the synchronous code is completed and asynchronous code is started. The saved value is used. At this time, `a = 10`
-- Then comes the usual code execution
+- Primeiro a função `b` é executada. A variável `a` ainda é zero antes da execução do `await 10`, porque os `Generators` são implementados dentro do `await` e `Generators` matém as coisas na pilha, então nesse momento `a = 0` é salvo
+- Porque `await` é uma operação assíncrona, `console.log('1', a)` será executada primeiro.
+- Nesse ponto, o código síncrono é completado e o código assíncrono é iniciado. O valor salvo é usado. Nesse instante, `a = 10`
+- Então chega a execução usual do código
 
 # Proxy
 
-Proxy is a new feature since ES6. It can be used to define operations in objects:
+Proxy é uma nova funcionalidade desde o ES6. Ele costuma ser usado para definir operações em objetos:
 
 ```js
 let p = new Proxy(target, handler);
-// `target` represents the object of need to add the proxy
-// `handler` customizes operations in the object
+// `target` representa o objeto que precisamos adicionar o proxy
+// `handler` operações customizadas no objeto
 ```
 
-Proxy can be handy for implementation of data binding and listening:
+Proxy podem ser conveniente para implementação de data bindind e listening:
 
 ```js
 let onWatch = (obj, setBind, getLogger) => {
@@ -1331,74 +1331,74 @@ let p = onWatch(obj, (v) => {
 }, (target, property) => {
   console.log(`Get '${property}' = ${target[property]}`);
 })
-p.a = 2 // bind `value` to `2`
-p.a // -> Get 'a' = 2
+p.a = 2 // liga `value` para `2`
+p.a // -> obtém 'a' = 2
 ```
 
-# Why 0.1 + 0.2 != 0.3
+# Por que 0.1 + 0.2 != 0.3
 
-Because JS uses the IEEE 754 double-precision version (64-bit). Every language that uses this standard has this problem.
+Porque JS usa a precisão-dupla do IEEE 754 versão (64-bit). Toda linguagem que usa esse padrão tem esse problema.
 
-As we know, computers use binaries to represent decimals, so `0.1` in binary is represented as
+Como nós sabemos, computadores usam binários para representar decimais, então `0.1` em binário é representado como
 
 ```js
-// (0011) represents cycle
+// (0011) representa o ciclo
 0.1 = 2^-4 * 1.10011(0011)
 ```
 
-How do we come to this binary number? We can try computing it as below:
+Como nós chegamos a esse número binário? Podemos tentar computar ele como abaixo:
 
 ![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
 
-Binary computations in float numbers are different from those in integers. For multiplications, only the float bits are computed, while the integer bits are used for the binaries for each bit. Then the first bit is used as the most significant bit. Therefore we get `0.1 = 2^-4 * 1.10011(0011)`.
+Computações binária em números flutuantes são diferentes daqueles em inteiros. Por multiplicação, apenas bits flutuantes são computados, enquanto bits do tipo inteiro são usados pelos binários para cada bit. Então o primeiro bit é usado como o bit mais significante. Assim sendo nós obtemos 0.1 = 2^-4 * 1.10011(0011)`.
 
-`0.2` is similar. We just need to get rid of the first multiplcation and get `0.2 = 2^-3 * 1.10011(0011)`.
+`0.2` é similar. Nós apenas precisamos passear na primeira multiplicação e obter `0.2 = 2^-3 * 1.10011(0011)`
 
-Back to the double float for IEEE 754 standard. Among the 64 bits, one bit is used for signing, 11 used for integer bits, and the rest 52 bits are floats. Since `0.1` and `0.2` are infinitely cycling binaries, the last bit of the floats needs to indicate whether to round (same as rounding in decimals).
+Voltando a precisão dupla pelo padrão IEE 754. Entre o 64 bits, um bit é usado para assinatura, 11 é usado para bits inteiros, e o outros 52 bits são floats. Uma vez que `0.1` e `0.2` são ciclos infinitos de binários, o último bit do float precisa indicar se volta (mesmo como o arredendomaneto em decimal).
 
-After rounding, `2^-4 * 1.10011...001` becomes `2^-4 * 1.10011(0011 * 12 times)010`. After adding these two binaries we get `2^-2 * 1.0011(0011 * 11 times)0100`, which is `0.30000000000000004` in decimals.
+Depois do arredondamento, `2^-4 * 1.10011...001` se torna `2^-4 * 1.10011(0011 * 12 vezes)010`. Depois de adicionado esses dois binários obtemos `2^-2 * 1.0011(0011 * 11 vezes)0100`, que é `0.30000000000000004` em decimal.
 
-The native solution to this problem is shown below:
+A solução nativa pra esse problema é mostrado abaixo:
 
 ```js
 parseFloat((0.1 + 0.2).toFixed(10))
 ```
 
-# Regular Expressions
+# Expressões Regulares
 
-## Metacharacters
+## Metacaracteres
 
-| Metacharacter |                            Effect                            |
+| Metacaractere |                            Efeito                            |
 | :-----------: | :----------------------------------------------------------: |
-|       .       |     matches any character except line terminators: \n, \r, \u2028 or \u2029.    |
-|      []       | matches anything within the brackets. For example, [0-9] can match any number |
-|       ^       | ^9 means matching anything that starts with '9'; [`^`9] means not matching characters except '9' in between brackets |
-|    {1, 2}     |               matches 1 or 2 digit characters                |
-|     (yck)     |            only matches strings the same as 'yck'            |
-|      \|       |          matches any character before and after \|           |
-|       \       |                       escape character                       |
-|       *       |       matches the preceding expression 0 or more times       |
-|       +       |       matches the preceding expression 1 or more times       |
-|       ?       |             the character before '?' is optional             |
+|       .       |     corresponde a qualquer caractere exceto de terminadores de linhas: \n, \r, \u2028 or \u2029.    |
+|      []       | corresponde a qualquer coisa dentro dos colchetes. Por exemplo, [0-9] corresponde a qualquer número |
+|       ^       | ^9 significa corresponder qualquer coisa que começa com '9'; [`^`9] significa não corresponder aos caracteres exceto '9' nos colchetes |
+|    {1, 2}     |           corresponde 1 ou 2 caracteres digitais             |
+|     (yck)     |         corresponde apenas strings com o mesmo 'yck'         |
+|      \|       |     corresponde a qualquer caractere antes e depois \|       |
+|       \       |                      caracter de escape                      |
+|       *       |      corresponde a expressão precedente 0 ou mais vezes      |
+|       +       |      corresponde a expressão precedente 1 ou mais vezes      |
+|       ?       |             o caractere antes do '?' é opcional              |
 
-## Flags
+## Bandeiras
 
-| Flag | Effect           |
-| :------: | :--------------: |
-| i        | case-insensitive search |
-| g        | matches globally |
-| m        | multiline        |
+| Bandeira | Efeito                  |
+| :------: | :--------------:        |
+| i        | pesquisa insensível a maiúsculas e minúsculas |
+| g        | corresponde globalmente |
+| m        | multilinha              |
 
-## Character Shorthands
+## Caracteres Atalhos
 
-| shorthand |            Effect            |
+| Atalho |            Efeito            |
 | :--: | :------------------------: |
-|  \w  | alphanumeric characters, underline character |
-|  \W  |         the opposite of the above         |
-|  \s  |      any blank character      |
-|  \S  |         the opposite of the above         |
-|  \d  |          numbers          |
-|  \D  |         the opposite of the above         |
-|  \b  |    start or end of a word    |
-|  \B  |         the opposite of the above         |
+|  \w  | caracteres alfanuméricos, caracteres sublinhados |
+|  \W  |         o oposto do acima         |
+|  \s  |      qualquer caractere em branco      |
+|  \S  |         o oposto do acima         |
+|  \d  |          números          |
+|  \D  |         o oposto do acima         |
+|  \b  |    inicio ou fim da palavra    |
+|  \B  |         o oposto do acima         |
 
