@@ -539,11 +539,11 @@ delect(v) {
 }
 _delect(node, v) {
   if (!node) return null
-  // 寻找的节点比当前节点小，去左子树找
+  // 寻找的节点比当前节点大，去右子树找
   if (node.value < v) {
     node.right = this._delect(node.right, v)
   } else if (node.value > v) {
-    // 寻找的节点比当前节点大，去右子树找
+    // 寻找的节点比当前节点小，去左子树找
     node.left = this._delect(node.left, v)
   } else {
     // 进入这个条件说明已经找到节点
