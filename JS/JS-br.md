@@ -752,15 +752,16 @@ Consideramos implementar eles a partir das seguintes regras:
 ```js
 Function.prototype.myCall = function (context) {
   var context = context || window
+  var fn = Symbol('fn')
   // Adiciona uma propriedade ao `context`
   // getValue.call(a, 'yck', '24') => a.fn = getValue
-  context.fn = this
+  context[fn] = this
   // pega os parâmentros do `context`
   var args = [...arguments].slice(1)
   // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
-  var result = context.fn(...args)
+  var result = context[fn](...args)
   // deleta fn
-  delete context.fn
+  delete context[fn]
   return result
 }
 ```
@@ -770,18 +771,19 @@ O exemplo acima é a idéia central da simulação do `call`, e a implementaçã
 ```js
 Function.prototype.myApply = function (context) {
   var context = context || window
-  context.fn = this
+  var fn = Symbol('fn')
+  context[fn] = this
 
   var result
   // Existe a necessidade de determinar se guarda o segundo parâmentro
   // Se o segundo parâmetro existir, espalhe ele
   if (arguments[1]) {
-    result = context.fn(...arguments[1])
+    result = context[fn](...arguments[1])
   } else {
-    result = context.fn()
+    result = context[fn]()
   }
 
-  delete context.fn
+  delete context[fn]
   return result
 }
 ```
