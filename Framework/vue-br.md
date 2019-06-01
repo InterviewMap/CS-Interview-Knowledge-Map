@@ -80,7 +80,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
 
 A função do ciclo de vida é a função gancho que o componente vai disparar quando inicializar ou atualizar os dados.
 
-![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042532.png)
 
 O seguinte código irá ser chamado na inicialização, e o ciclo de vida vai ser chamado pelo `callHook`
 

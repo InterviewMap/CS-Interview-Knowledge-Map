@@ -170,7 +170,7 @@ let a = {
 
 ## `==` 操作符
 
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275f89ebf931e9)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042612.png)
 
 上图中的 `toPrimitive` 就是对象转基本类型。
 
@@ -197,7 +197,7 @@ ToPrimitive([]) == 0
 
 # 原型
 
-![prototype](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
+![prototype](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042625.png)
 
 每个函数都有 `prototype` 属性，除了 `Function.prototype.bind()`，该属性指向原型。
 
@@ -259,7 +259,7 @@ new Foo.getName();   // -> 1
 new Foo().getName(); // -> 2       
 ```
 
-![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042626.png)
 
 从上图可以看出，`new Foo() ` 的优先级大于 `new Foo` ，所以对于上述代码来说可以这样划分执行顺序
 
@@ -638,7 +638,7 @@ console.log(newObj)
 
 如果你有这么一个循环引用对象，你会发现你不能通过该方法深拷贝
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042627.png)
 
 在遇到函数、 `undefined` 或者 `symbol` 的时候，该对象也不能正常的序列化
 
@@ -965,7 +965,7 @@ myDate.test()
 
 如果你使用编译过得代码调用 `myDate.test()` 你会惊奇地发现出现了报错
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042628.png)
 
 因为在 JS 底层有限制，如果不是由 `Date` 构造出来的实例的话，是不能调用 `Date` 里的函数的。所以这也侧面的说明了：**ES6 中的 `class` 继承与 ES5 中的一般继承写法是不同的**。
 
@@ -1257,7 +1257,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 ```
 以上就是根据 Promise / A+ 规范来实现的代码，可以通过 `promises-aplus-tests` 的完整测试
 
-![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042629.png)
 
 # Generator 实现
 
@@ -1484,7 +1484,7 @@ p.a // -> Get 'a' = 2
 ```
 那么如何得到这个二进制的呢，我们可以来演算下
 
-![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042632.png)
 
 小数算二进制和整数不同。乘法计算时，只计算小数位，整数位用作每一位的二进制，并且得到的第一位为最高位。所以我们得出 `0.1 = 2^-4 * 1.10011(0011)`，那么 `0.2` 的演算也基本如上所示，只需要去掉第一步乘法，所以得出 `0.2 = 2^-3 * 1.10011(0011)`。
 

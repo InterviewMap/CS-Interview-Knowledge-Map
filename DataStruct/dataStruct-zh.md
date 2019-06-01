@@ -41,7 +41,7 @@
 
 栈的特点是只能在某一端添加或删除数据，遵循先进后出的原则
 
-![](https://user-gold-cdn.xitu.io/2018/5/20/1637b785d2d68735?w=640&h=460&f=png&s=6932)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043108.png)
 
 ## 实现
 
@@ -106,7 +106,7 @@ var isValid = function (s) {
 
 队列一个线性结构，特点是在某一端添加数据，在另一端删除数据，遵循先进先出的原则。
 
-![](https://user-gold-cdn.xitu.io/2018/5/20/1637cba2a6155793?w=640&h=419&f=png&s=15737)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043109.png)
 
 ## 实现
 
@@ -209,7 +209,7 @@ class SqQueue {
 
 链表是一个线性结构，同时也是一个天然的递归结构。链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。但是链表失去了数组随机读取的优点，同时链表由于增加了结点的指针域，空间开销比较大。
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/16388487759b1152?w=1060&h=178&f=png&s=20820)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043110.png)
 
 ## 实现
 
@@ -293,7 +293,7 @@ class LinkList {
 
 二叉树拥有一个根节点，每个节点至多拥有两个子节点，分别为：左节点和右节点。树的最底部节点称之为叶节点，当一颗树的叶数量数量为满时，该树可以称之为满二叉树。
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/163884f74c9f4e4d?w=320&h=267&f=png&s=11622)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043111.png)
 
 ## 二分搜索树
 
@@ -301,7 +301,7 @@ class LinkList {
 
 这种存储方式很适合于数据搜索。如下图所示，当需要查找 6 的时候，因为需要查找的值比根节点的值大，所以只需要在根节点的右子树上寻找，大大提高了搜索效率。
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/1638850ba7458208?w=596&h=485&f=png&s=36796)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-43112.png)
 
 ### 实现
 
@@ -581,7 +581,7 @@ AVL 树改进了二分搜索树，在 AVL 树中任意节点的左右子树的�
 
 对于 AVL 树来说，添加节点会有四种情况
 
-![](https://user-gold-cdn.xitu.io/2018/6/23/1642cc145a0cfb26?w=800&h=566&f=png&s=73573)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043112.png)
 
 对于左左情况来说，新增加的节点位于节点 2 的左侧，这时树已经不平衡，需要旋转。因为搜索树的特性，节点比左节点大，比右节点小，所以旋转以后也要实现这个特性。 
 
@@ -723,7 +723,7 @@ class AVL {
 - 节点不存储字符，只有路径才存储，这点和其他的树结构不同
 - 从根节点开始到任意一个节点，将沿途经过的字符连接起来就是该节点对应的字符串
 
-![](https://user-gold-cdn.xitu.io/2018/6/9/163e1d2f6cec3348?w=640&h=600&f=png&s=48344)、
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043113.png)、
 
 ## 实现
 
@@ -805,7 +805,7 @@ class Trie {
 - Find：确定元素属于哪一个子集。它可以被用来确定两个元素是否属于同一子集。
 - Union：将两个子集合并成同一个集合。
 
-![](https://user-gold-cdn.xitu.io/2018/6/9/163e45b56fd25172?w=421&h=209&f=png&s=26545)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043114.png)
 
 ## 实现
 
@@ -881,7 +881,7 @@ class DisjointSet {
 
 `shiftDown` 的核心思路是先将根节点和末尾交换位置，然后移除末尾元素。接下来循环判断父节点和两个子节点的大小，如果子节点大，就把最大的子节点和父节点交换。
 
-![](https://user-gold-cdn.xitu.io/2018/6/15/164009e58a5a21f8?w=537&h=394&f=png&s=77222)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043116.png)
 
 ```js
 class MaxHeap {

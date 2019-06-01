@@ -260,11 +260,11 @@ The front-end routing is actually very simple to implement. The essence is to li
 
 `www.test.com/#/` is the hash URL. When the hash value after `#` changes, no request will be sent to server. You can listen to the URL change through the `hashchange` event, and then jump to the corresponding page.
 
-![](https://user-gold-cdn.xitu.io/2018/7/13/1649266be7ec2fb7?w=981&h=546&f=png&s=36646)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042510.png)
 
 History mode is a new feature of HTML5, which is more beautiful than Hash URL.
 
-![](https://user-gold-cdn.xitu.io/2018/7/13/164926dc15df79d3?w=1244&h=546&f=png&s=49647)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042511.png)
 
 # Virtual Dom
 

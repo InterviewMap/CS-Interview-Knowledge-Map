@@ -61,7 +61,7 @@ More specifically:
 
 Since there is no guarantee of delivery and no promise that data is not lost and arrives in orderly in UDP, it is not as complicated as TCP.  It does not cost a lot in its header data with only 8 bytes, much less than TCP whose head data needs at least 20 bytes. So it can transport data efficiently.
 
-![](https://user-gold-cdn.xitu.io/2018/5/1/163195b245ceb89c?w=831&h=170&f=png&s=22793)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-42651.png)
 
 The UDP header consists of 4 fields: 
 
@@ -79,7 +79,7 @@ The transmission modes of UDP contains not only one-to-one, but also one-to-many
 
 The header of TCP is much more complicated than UDP's:
 
-![](https://user-gold-cdn.xitu.io/2018/5/1/1631be45b084e4bc?w=858&h=305&f=png&s=62112)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042652.png)
 
 When talking about the header of TCP, these fields are significant:
 
@@ -97,14 +97,14 @@ When talking about the header of TCP, these fields are significant:
 ## State machine
 
 HTTP is stateless, so TCP which is under the HTTP is also stateless. It seems like that TCP links two ends, client and server, but it is actually that both these two ends maintain the state together:
-![](https://user-gold-cdn.xitu.io/2018/5/1/1631bef9e3c60035?w=1280&h=965&f=png&s=101432)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042653.png)
 
 The state machine of TCP is very complicated, and it is closely related to the handshake of opening and closing a connection. Now we'll talk something about these two kinds of handshake.
 Before that, you'd better know something about RTT(Round-Trip-Time), an important index of performance. It is the time it takes for a signal to be sent plus the time it takes for an acknowledgement of that signal to be received. 
 
 ### Three-way handshake in opening a connection
 
-![](https://user-gold-cdn.xitu.io/2018/5/1/1631bf1e79b3cd42?w=666&h=426&f=png&s=32121)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042655.png)
 
 In TCP, the end which is active open is called the client and the passive open is called the server. No matter client or server can send and receive data after connection, so TCP is a bi-directional communication protocol.
 At first, both ends are closed. Before communication, both of the ends will create the TCB(TCP Control Block). After that, the server will be in the `LISTEN` state and begin to wait for the data from the client.
@@ -133,7 +133,7 @@ PS: Through connecting, if any end is offline, it needs to retransmit, generally
 
 ### Four-handshake of disconnect
 
-![](https://user-gold-cdn.xitu.io/2018/5/2/1631fb807f2c6c1b?w=640&h=512&f=png&s=31059)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042656.png)
 
 TCP is a bi-directional communication protocol, so both ends need to send FIN and ACK when closing a connection.
 
@@ -202,13 +202,13 @@ We have mentioned the sliding window above. In TCP both ends maintain the window
 
 The send window contains data that has been sent but not received, and data that can be sent but not sent yet:
 
-![](https://user-gold-cdn.xitu.io/2018/5/5/1632f25c587ffd54?w=660&h=270&f=png&s=37109)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042658.png)
 
 The size of the send window is determined by the size of the remaining receive window. The response will carry the size of current remaining receive window, and when sender receives the response, it will set the size of the send window by response value and network congestion. So the size of the send window is changeable.
 
 When sender receives the response, it will slide the window accordingly:
 
-![](https://user-gold-cdn.xitu.io/2018/5/5/1632f25cca99c8f4?w=660&h=210&f=png&s=24554)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042659.png)
 
 Sliding window implements flow control. The receiver notifies the sender of the data size which can be handled to ensure itself can handle all data successfully.
 
@@ -396,7 +396,7 @@ There are two related keys -- a key pair -- in the asymmetric encryption. A publ
 
 **TLS handshake**
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/1635260126b3a10c?w=1558&h=1006&f=webp&s=59424)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042701.jpg)
 
 1. Client: Sends a "hello" to the server along with a random value and supported cipher suites. 
 2. Server: Responds back by saying "hello" with it's own generated random value and its certificate. 
@@ -417,21 +417,21 @@ We usually use CSS Sprite, base64, multiple-domain-names and so on to improve th
 
 You can see how much faster of HTTP/2 than HTTP/1.x by [this link](https://http2.akamai.com/demo):
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/163542ca61eaff17?w=929&h=512&f=png&s=245670)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042705.png)
 
 You will find the request queue is something like this in HTTP 1.x because of head-of-line blocking:
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/163542c96df8563d?w=518&h=642&f=png&s=72417)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042707.png)
 
 But with the MultiPlexing in HTTP/2, you'll find this:
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/163542c9d3128c7a?w=900&h=616&f=png&s=71014)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042708.png)
 
 ## Binary Transport
 
 This is the point of all the improvement of performance in HTTP/2. We transfer data by plain text in the previous versions of HTTP. But in HTTP/2, all of the data transferred will be split and transported by binary with the new encoding.
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/163543c25e5e9f23?w=874&h=459&f=png&s=26320)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-42709.png)
 
 ## MultiPlexing
 
@@ -442,7 +442,7 @@ There are two important concepts in HTTP/2: frame and stream.
 
 There is one or more stream in a single connection, so we can send more than one request, and the opposite end can identifies which the request belongs to by the identifiers in the frame. By this, we can avoid the head-in-line blocking and greatly improve the performance.
 
-![](https://user-gold-cdn.xitu.io/2018/5/12/1635442531d3e5ee?w=494&h=138&f=png&s=9636)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042709.png)
 
 ## Header compression
 

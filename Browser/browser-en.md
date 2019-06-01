@@ -439,15 +439,15 @@ self.addEventListener("fetch", e => {
 
 Open the page, we can see that the Service Worker has started in the `Application` pane of devTools:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1e8eba68e1c?w=1770&h=722&f=png&s=192277)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042738.png)
 
 In the Cache pane, we can also find that the files we need have been cached:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042740.png)
 
 Refreshing the page, we can see that our cached data is read from the Service Worker:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20e4f8f3257?w=2818&h=298&f=png&s=74833)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042741.png)
 
 # Rendering mechanism
 
@@ -463,15 +463,15 @@ The mechanism of the browser engine usually has the following steps:
 
 5. Paint elements by GPU, composite layers and display on the screen.
 
-![](https://user-gold-cdn.xitu.io/2018/4/11/162b2ab2ec70ac5b?w=900&h=352&f=png&s=49983)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042742.png)
 
 When building the CSSOM tree, the rendering is blocked until the CSSOM tree is built. And building the CSSOM tree is a very cost-intensive process, so you should try to ensure that the level is flat and reduce excessive cascading. The more specific the CSS selector is, the slower the execution.
 
 When the HTML is parsing the script tag, the DOM is paused and will restart from the paused position. In other words, the faster you want to render the first screen, the less you should load the JS file on the first screen. And CSS will also affect the execution of JS. JS will only be executed when the stylesheet is parsed. Therefore, it can be considered that CSS will also suspend the DOM in this case.
 
-![](https://user-gold-cdn.xitu.io/2018/7/8/1647838a3b408372?w=1676&h=688&f=png&s=154480)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042743.png)
 
-![](https://user-gold-cdn.xitu.io/2018/7/8/16478388e773b16a?w=1504&h=760&f=png&s=123231)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042744.png)
 
 
 ## Difference between Load & DOMContentLoaded
@@ -586,4 +586,4 @@ for(let i = 0; i < 1000; i++) {
 
 - As we know that the layer will prevent the changed node from affecting others, so it is good practice to create a new layer for animations with high frequency.
 
-![](https://user-gold-cdn.xitu.io/2018/3/29/1626fb6f33a6f9d7?w=1588&h=768&f=png&s=263260)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-42745.png)

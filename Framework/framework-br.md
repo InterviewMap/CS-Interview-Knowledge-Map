@@ -258,11 +258,11 @@ As rotas no front-end é atualmente simples de implementar. A essência é escut
 
 `www.test.com/#/` é a hash URL. Quando o valor depois do hash `#` muda, nenhuma request será enviada ao servidor. Você pode escutar as mudanças na URL através do evento `hashchange`, e então pular para a página correspondente.
 
-![](https://user-gold-cdn.xitu.io/2018/7/13/1649266be7ec2fb7?w=981&h=546&f=png&s=36646)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042507.png)
 
 O modo history é uma nova funcionalidade do HTML5, do qual é muito mais lindo que o Hash URL. 
 
-![](https://user-gold-cdn.xitu.io/2018/7/13/164926dc15df79d3?w=1244&h=546&f=png&s=49647)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042508.png)
 
 # Virtual Dom
 

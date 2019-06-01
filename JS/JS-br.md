@@ -110,7 +110,7 @@ Observe a expressão `'a' + + 'b'` para adição:
 
 ## `==` operador
 
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-42533.png)
 
 `toPrimitive` na figura acima é convertido objetos para tipos primitivos.
 
@@ -230,7 +230,7 @@ new Foo.getName();   // -> 1
 new Foo().getName(); // -> 2
 ```
 
-![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042534.png)
 
 Como você pode ver na imagem acima, `new Foo()` possui uma alta prioridade sobre `new Foo`, então podemos dividir a ordem de execução do código acima assim:
 
@@ -436,7 +436,7 @@ Para `let`, ele vai criar um escopo de block-level, do qual é equivalente a:
 
 # Prototypes
 
-![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042547.png)
 
 Cada função, além de `Function.prototype.bind()`, tem uma propriedade interna, denotado como `prototype`, do qual é uma referência para o prototype.
 
@@ -484,7 +484,7 @@ Contudo, ES6 não é compátivel com todos os navegadores, então usamos o Babel
 
 Se chamar `myDate.test()` com o código compilado, você vai ficar surpreso de ver que existe um erro:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042549.png)
 
 Porque existem restrições no baixo nível do JS, se a instância não for construida pelo `Date`, ele não pode chamar funções no `Date`, que também explica a partir de outro aspecto que herança de `Class` no ES6 é diferente das heranças gerais na sintaxe do ES5.
 
@@ -597,7 +597,7 @@ console.log(newObj)
 
 Se um objto é uma referência circular como o exemplo acima, você vai encontrar o método `JSON.parse(JSON.stringify(object))` ele não pode fazer a cópia profunda desse objeto:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042550.png)
 
 Quando lidando com uma função ou `undefined`, o objeto pode não ser serializado adequedamente.
 ```js
@@ -998,7 +998,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 
 O código acima, que é implementado baseado em Promise / A+ especificação, pode passar os testes completos de `promises-aplus-tests`
 
-![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042553.png)
 
 # Implementação do Generator
 
@@ -1348,7 +1348,7 @@ Como nós sabemos, computadores usam binários para representar decimais, então
 
 Como nós chegamos a esse número binário? Podemos tentar computar ele como abaixo:
 
-![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042556.png)
 
 Computações binária em números flutuantes são diferentes daqueles em inteiros. Por multiplicação, apenas bits flutuantes são computados, enquanto bits do tipo inteiro são usados pelos binários para cada bit. Então o primeiro bit é usado como o bit mais significante. Assim sendo nós obtemos 0.1 = 2^-4 * 1.10011(0011)`.
 

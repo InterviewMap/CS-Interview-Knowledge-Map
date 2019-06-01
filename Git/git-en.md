@@ -15,11 +15,11 @@ This command shows no difference with the command `merge`.
 
 We usually use `merge` to merge the code from one branch to `master` , like this:
 
-![](https://user-gold-cdn.xitu.io/2018/4/23/162f109db27be054?w=505&h=461&f=png&s=22796)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043130.png)
 
 After using `rebase ` , the commits from `develop` will be moved to the third `commit` of the `master` in order, as follows:
 
-![](https://user-gold-cdn.xitu.io/2018/4/23/162f11cc2cb8b332?w=505&h=563&f=png&s=26514)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043133.png)
 
 Compare with `merge`, the result of `rebase` is very clear with a single flow. But if there is any conflict, you'll be in trouble to solving them. You have to solve them one by one , while you only need to solve them one-time if using `merge`.
 
@@ -51,7 +51,7 @@ then you'll back to the exactly state before.
 
 This command will show you the records of HEAD's trace. If you delete a branch by mistake, you can examine the hashs of HEAD by using `reflog`.
 
-![](https://user-gold-cdn.xitu.io/2018/4/23/162f14df98ce3d83?w=950&h=118&f=png&s=77151)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043135.png)
 
 According to the picture, the last movement of HEAD is just after `merge`, and then the `new` branch was deleted, so we can get the branch back by the following command:
 

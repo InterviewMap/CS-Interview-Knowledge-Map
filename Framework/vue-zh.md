@@ -87,7 +87,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
 
 生命周期函数就是组件在初始化或者数据更新时会触发的钩子函数。
 
-![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042515.png)
 
 在初始化时，会调用以下代码，生命周期就是通过 `callHook` 调用的
 
@@ -217,7 +217,7 @@ Vue.prototype.$destroy = function() {
 ## 重要函数思维导图
 
 以下思维导图罗列了源码中重要的一些函数
-![](https://user-gold-cdn.xitu.io/2018/7/27/164da511aeec01c9?w=3000&h=1345&f=png&s=1424682)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042517.png)
 
 ## 路由注册
 

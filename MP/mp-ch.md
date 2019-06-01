@@ -370,7 +370,7 @@
 
 # 小程序架构
 
-![architecture](https://user-images.githubusercontent.com/2350193/44563914-ff97c380-a792-11e8-8e77-6d0970891e24.png)
+![architecture](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042747.png)
 
 微信小程序的框架包含两部分 View 视图层、App Service逻辑层。View 层用来渲染页面结构，AppService 层用来逻辑处理、数据请求、接口调用。
 
@@ -384,7 +384,7 @@
 
 补充
 
-![one-context](https://user-images.githubusercontent.com/2350193/44186238-db146980-a14a-11e8-8096-bcb8fa6d28b2.png)
+![one-context](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042750.png)
 
 **视图层使用 WebView 渲染，iOS 中使用自带 WKWebView，在 Android 使用腾讯的 x5 内核（基于 Blink）运行。**
 
@@ -597,11 +597,11 @@ function loadCode(filePath, sourceURL, content) {
 
 ## 下载小程序完整包
 
-![download](https://user-images.githubusercontent.com/2350193/44563929-13432a00-a793-11e8-976e-e3040deded70.png)
+![download](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042751.png)
 
 ## App Service - Life Cylce
 
-![lifecycle](https://user-images.githubusercontent.com/2350193/44563935-1b02ce80-a793-11e8-88d1-a89b7c93d4da.png)
+![lifecycle](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042757.png)
 
 ## 面试题
 **1.动画需要绑定在 data 上，而绘图却不用。你觉得是为什么呢？**
@@ -666,7 +666,7 @@ WXML（WeiXin Markup Language）
 - 支持模板、引用
 - 支持添加事件（bindtap）
 
-![WXML](https://pic3.zhimg.com/80/v2-e0a34d00890cab73c79d137edd1377a3_hd.jpg)
+![WXML](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042759.jpg)
 
 Wxml编译器：Wcc  把 Wxml文件 转为 JS
 
@@ -680,7 +680,7 @@ Wxml编译器：Wcc  把 Wxml文件 转为 JS
 
 WXSS(WeiXin Style Sheets)
 
-![WXSS](https://pic2.zhimg.com/80/v2-3829f8c15260cd0cbcbadfab3446ad65_hd.jpg)
+![WXSS](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042800.jpg)
 
 wxss编译器：wcsc 把wxss文件转化为 js 
 
@@ -788,7 +788,7 @@ export const pxToRpx = function (px) {
 
 小程序提供了一系列组件用于开发业务功能，按照功能与HTML5的标签进行对比如下：
 
-![Component](https://pic3.zhimg.com/80/v2-480318a5bae828e51e8f05c1ea1921fa_hd.jpg)
+![Component](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042801.jpg)
 
 小程序的组件基于Web Component标准
 
@@ -808,7 +808,7 @@ export const pxToRpx = function (px) {
 
 - textarea
 
-  ![Native Component](https://pic1.zhimg.com/80/v2-f0e838350357658699aeeed7dad74048_hd.jpg)
+  ![Native Component](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042802.jpg)
 
 Native组件层在 WebView 层之上。这目前带来了一些问题：
 - Native 实现的组件会遮挡其他组件
@@ -885,16 +885,16 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 1. 网上支持HTTP2的服务器：`HTTPs://www.snel.com:443`
 2. 在Chrome上查看该服务器为 HTTP2
 
-    ![WechatIMG11](https://user-images.githubusercontent.com/17850400/44331323-d11c9e80-a49b-11e8-9a52-5be0e17a016b.jpeg)
+    ![WechatIMG11](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042808.jpg)
 
 3. 在模拟器上请求该接口，`请求头`的HTTP版本为HTTP1.1，模拟器不支持HTTP2
 
-    ![WechatIMG12](https://user-images.githubusercontent.com/17850400/44331316-cfeb7180-a49b-11e8-83fb-f18ad4ff0bab.jpeg)
+    ![WechatIMG12](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042830.jpg)
 
 
 4. 由于小程序线上环境需要在项目管理里配置请求域名，而这个域名不是我们需要的请求域名，没必要浪费一个域名位置，所以打开不验证域名，TSL 等选项请求该接口，通过抓包工具表现与模拟器相同
 
-    ![WechatIMG14](https://user-images.githubusercontent.com/17850400/44331317-d0840800-a49b-11e8-854d-20c704b5da56.png)
+    ![WechatIMG14](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042850.png)
 
 
 ### HTTP2服务器需要对小程序做兼容性适配
@@ -902,15 +902,15 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 
 1. 本地新启一个 node 服务器，返回 JSON 为请求的 HTTP 版本
 
-    ![WechatIMG16](https://user-images.githubusercontent.com/17850400/44331322-d0840800-a49b-11e8-9f4b-85a31458d32d.jpeg)
+    ![WechatIMG16](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042908.jpg)
 
 2. 如果服务器只支持 HTTP2，在模拟器请求时发生了一个 `ALPN` 协议的错误。并且提醒使用适配 HTTP1
 
-    ![WechatIMG8](https://user-images.githubusercontent.com/17850400/44331314-cfeb7180-a49b-11e8-98a7-2baff8de63b4.jpeg)
+    ![WechatIMG8](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042921.jpg)
 
 3. 当把服务器的 `allowHTTP1`，设置为 `true`，并在请求时处理相关相关请求参数后，模拟器能正常访问接口，并打印出对应的 HTTP 请求版本
 
-    ![WechatIMG15](https://user-images.githubusercontent.com/17850400/44331318-d0840800-a49b-11e8-9931-a95c1fe2b0c4.jpeg)
+    ![WechatIMG15](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042931.jpg)
 
 # 授权获取用户信息流程
 <img src="https://user-images.githubusercontent.com/35895755/44379940-fa403c00-a53a-11e8-9165-21b217496aad.png" width="70%" height="70%" />
@@ -940,11 +940,11 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 
 ## 加载优化
 
-![preload](https://user-images.githubusercontent.com/2350193/44184904-d8624600-a143-11e8-8ab9-c932573bd243.png)
+![preload](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042945.png)
 
 代码包的大小是最直接影响小程序加载启动速度的因素。代码包越大不仅下载速度时间长，业务代码注入时间也会变长。所以最好的优化方式就是减少代码包的大小。
 
-![load-time-series](https://user-images.githubusercontent.com/2350193/44184987-4c9ce980-a144-11e8-9f28-764209b37341.png)
+![load-time-series](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042953.png)
 
 小程序加载的三个阶段的表示。
 
@@ -964,7 +964,7 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 - 及时反馈：即时地对需要用户等待的交互操作给出反馈，避免用户以为小程序无响应。
 
 ### 使用分包加载优化
-![sub-package](https://user-images.githubusercontent.com/2350193/44185607-2298f680-a147-11e8-8440-24ca42033623.png)
+![sub-package](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043010.png)
 
 在构建小程序分包项目时，构建会输出一个或多个功能的分包，其中每个分包小程序必定含有一个主包，所谓的主包，即放置默认启动页面/TabBar 页面，以及一些所有分包都需用到公共资源/JS 脚本，而分包则是根据开发者的配置进行划分。
 
@@ -1043,14 +1043,14 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 **官方即将推出**
 分包预加载
 
-![preload-sub-package](https://user-images.githubusercontent.com/2350193/44185655-63910b00-a147-11e8-9987-40f235ae08e9.png)
+![preload-sub-package](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043026.png)
 
 独立分包
 
-![single-sub-package](https://user-images.githubusercontent.com/2350193/44185690-96d39a00-a147-11e8-9647-bd1cbc017f5a.png)
+![single-sub-package](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043041.png)
 
 ## 渲染性能优化
-![render](https://user-images.githubusercontent.com/2350193/44185879-af907f80-a148-11e8-8dcb-22aadd4e49a6.png)
+![render](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043047.png)
 - 每次 setData 的调用都是一次进程间通信过程，通信开销与 setData 的数据量正相关。
 
 - setData 会引发视图层页面内容的更新，这一耗时操作一定时间中会阻塞用户交互。
@@ -1064,7 +1064,7 @@ Native组件层在 WebView 层之上。这目前带来了一些问题：
 - 短时间内频繁调用 setData，**操作卡顿，交互延迟，阻塞通信，页面渲染延迟**。避免不必要的 setData，对连续的setData调用进行合并。
 - 在后台页面进行 setData，**抢占前台页面的渲染资源**。页面切入后台后的 setData 调用，延迟到页面重新展示时执行。
 
-![one-context](https://user-images.githubusercontent.com/2350193/44186238-db146980-a14a-11e8-8096-bcb8fa6d28b2.png)
+![one-context](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042750.png)
 
 
 
@@ -1193,7 +1193,7 @@ Vue 的学习曲线比较平缓。mpvue 是 Vue的子集。所以 mpvue 的学�
 mpvue 已经支持 web 和小程序。因为 mpvue 基于AST，所以未来可以支持支付宝小程序和快应用。他们也是有这样的规划。
 
 请在需求池下面自己找
-![mpvue-feature](https://user-images.githubusercontent.com/2350193/44379522-f9a6a600-a538-11e8-8939-273ace7871ae.jpg)
+![mpvue-feature](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043107.jpg)
 
 **坑**
 两者都有各自的坑。但是我觉得有一些wepy的坑是没法容忍的。比如[repeat组建里面用computed得到的列表全是同一套数据](https://github.com/Tencent/wepy/issues/1231)而且1.x是没法解决的。

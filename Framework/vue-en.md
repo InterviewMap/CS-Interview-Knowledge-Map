@@ -80,7 +80,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
 
 The lifecycle function is the hook function that the component will trigger when it initializes or updates the data.
 
-![](https://user-gold-cdn.xitu.io/2018/7/12/1648d9df78201f07?w=1200&h=3039&f=png&s=50021)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042527.png)
 
 The following code will be called at initialization, and lifecycle is called by `callHook`
 

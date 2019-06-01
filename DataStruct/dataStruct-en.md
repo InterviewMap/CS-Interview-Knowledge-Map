@@ -41,7 +41,7 @@ A stack is the basic data structure that can be logically thought of as a linear
 
 Insertion and deletion of items at the top of the stack and the operation should obey the rules LIFO(Last In First Out).
 
-![](https://user-gold-cdn.xitu.io/2018/5/20/1637b785d2d68735?w=640&h=460&f=png&s=6932)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043117.png)
 
 ## Implementation
 
@@ -106,7 +106,7 @@ var isValid = function (s) {
 
 A queue is a linear data structure. The insertion takes place at one end while the deletion occurs the other one. And the operation should obey the rules FIFO(First In First Out).
 
-![](https://user-gold-cdn.xitu.io/2018/5/20/1637cba2a6155793?w=640&h=419&f=png&s=15737)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043118.png)
 
 ## implementation
 
@@ -207,7 +207,7 @@ class SqQueue {
 
 The linked list is a linear data structure and born to be recursive structure. It can fully use the memory of the computer and manage the memory dynamically and flexibly. But Nodes in the linked list must be read in order from the beginning which can be random in the array, and it uses more memory than the array because of the storage used by their pointers.
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/16388487759b1152?w=1060&h=178&f=png&s=20820)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043120.png)
 
 ## Implementation
 
@@ -291,7 +291,7 @@ Binary Tree is a common one of the many structures of the tree. And it is born t
 
 Binary tree start at a root node and each node consists of two child-nodes at most: left node and right node.  The nodes in the bottom are usually called leaf nodes, and when the leaf nodes is full, we call the Full Binary Tree. 
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/163884f74c9f4e4d?w=320&h=267&f=png&s=11622)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-43121.png)
 
 ## Binary Search Tree
 
@@ -299,7 +299,7 @@ Binary Search Tree (BST) is one of the binary trees, so it has all the features 
 
 This storage method is very suitable for data search. As shown below, when you need to find 6, because the value you need to find is larger than the value of the root node, you only need to find it in the right subtree of the root node, which greatly improves the search efficiency.
 
-![](https://user-gold-cdn.xitu.io/2018/5/22/1638850ba7458208?w=596&h=485&f=png&s=36796)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043122.png)
 
 ### Implementation
 
@@ -576,7 +576,7 @@ Since improved from the BST, some codes in AVL are repeated, which we will not a
 
 Four cases are in the node insertion of AVL tree. 
 
-![](https://user-gold-cdn.xitu.io/2018/7/14/164990f7d3ac14cf?w=799&h=836&f=png&s=67489)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043123.png)
 
 As for l-l(left-left), the new node T1 is in the left side of the node X. The tree cannot keep balance by now, so there need to rotate. After rotating, the tree should still obey the rules the mid is bigger than the left and less than the right according to the features of the BST.
 
@@ -720,7 +720,7 @@ Simply, this data structure is used to search string easily, with the following 
 - all nodes do not store a character, and only the path store, this is different from other tree structures.
 - the character in the path from the root to the random node can combine to the strings corresponding to the node
 
-![](https://user-gold-cdn.xitu.io/2018/6/9/163e1d2f6cec3348?w=640&h=600&f=png&s=48344)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043124.png)
 
 ## Implementation
 
@@ -802,7 +802,7 @@ Two important operations are in this structure,
 - Find: find the member of the set to which the element belongs,  and it can be used to determine whether the two elements belong to the same set
 - Union: combine two sets to a new set
 
-![](https://user-gold-cdn.xitu.io/2018/6/9/163e45b56fd25172?w=421&h=209&f=png&s=26545)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043126.png)
 
 ## Implementation
 
@@ -878,7 +878,7 @@ The key of `shiftUp` is to compare with the parent node bubbly and exchange the 
 
 As for `shiftDown`, first exchange root and the tail node, and then delete the tail. After that, Compare with the parent node and both child-nodes circularly, if the child-node is larger, assign the parent node with the larger node.
 
-![](https://user-gold-cdn.xitu.io/2018/6/15/164009e58a5a21f8?w=537&h=394&f=png&s=77222)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-43127.png)
 
 ```js
 class MaxHeap {

@@ -110,7 +110,7 @@ Note the expression `'a' + + 'b'` for addition:
 
 ## `==` operator
 
-![](https://user-gold-cdn.xitu.io/2018/3/30/16275cb21f5b19d7?w=1630&h=1208&f=png&s=496784)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042559.png)
 
 `toPrimitive` in above figure is converting objects to primitive types.
 
@@ -230,7 +230,7 @@ new Foo.getName();   // -> 1
 new Foo().getName(); // -> 2
 ```
 
-![](https://user-gold-cdn.xitu.io/2018/4/9/162a9c56c838aa88?w=2100&h=540&f=png&s=127506)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042600.png)
 
 As you can see from the above image, `new Foo()` has a higher priority than `new Foo`, so we can divide the execution order of the above code like this:
 
@@ -436,7 +436,7 @@ For `let`, it will create a block-level scope, which is equivalent to:
 
 # Prototypes
 
-![](https://camo.githubusercontent.com/71cab2efcf6fb8401a2f0ef49443dd94bffc1373/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f313632316538613962636230383732643f773d34383826683d35393026663d706e6726733d313531373232)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042606.png)
 
 Each function, besides `Function.prototype.bind()`, has an internal property, denoted as `prototype`, which is a reference to the prototype.
 
@@ -485,7 +485,7 @@ However, ES6 is not compatible with all browsers, so we need to use Babel to com
 
 If call `myDate.test()` with compiled code, you’ll be surprised to see that there’s an error:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ecb39ab20d?w=678&h=120&f=png&s=32812)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042607.png)
 
 Because there are restrictions on the low-level of JS, if the instance isn’t constructed by `Date`, it can’t call functions in `Date`, which also explains from another aspect that `Class` inheritance in ES6 is different from the general inheritance in ES5 syntax.
 
@@ -599,7 +599,7 @@ console.log(newObj)
 
 If an object is circularly referenced like the above example, you’ll find the method `JSON.parse(JSON.stringify(object))`  can’t make a deep copy of this object:
 
-![](https://user-gold-cdn.xitu.io/2018/3/28/1626b1ec2d3f9e41?w=840&h=100&f=png&s=30123)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042608.png)
 
 When dealing with function, `undefined` or `symbol`, the object can also not be serialized properly.
 ```js
@@ -997,7 +997,7 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 
 The above codes, which is implemented based on the Promise / A+ specification,  can pass the full test of  `promises-aplus-tests`
 
-![](https://user-gold-cdn.xitu.io/2018/3/29/162715e8e37e689d?w=1164&h=636&f=png&s=300285)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042609.png)
 
 # Generator Implementation
 
@@ -1350,7 +1350,7 @@ As we know, computers use binaries to represent decimals, so `0.1` in binary is 
 
 How do we come to this binary number? We can try computing it as below:
 
-![](https://user-gold-cdn.xitu.io/2018/4/26/162ffcb7fc1ca5a9?w=800&h=1300&f=png&s=83139)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042611.png)
 
 Binary computations in float numbers are different from those in integers. For multiplications, only the float bits are computed, while the integer bits are used for the binaries for each bit. Then the first bit is used as the most significant bit. Therefore we get `0.1 = 2^-4 * 1.10011(0011)`.
 

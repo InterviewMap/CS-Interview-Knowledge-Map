@@ -15,14 +15,14 @@ O Fiber foi introduzido no lançamento da V16. O mecanismo afeta alguma das cham
 
 Nas versões anteriores, se eu tiver um componente composto complexo e então mudar o `state` na camada mais alta do componente, a pilha de chamada poderia ser grande.
 
-![](https://user-gold-cdn.xitu.io/2018/6/25/164358b0310f476c?w=685&h=739&f=png&s=61462)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042529.png)
 
 Se a pilha de chamada for muito longa, e complicadas operações estiverem no meio, isso pode causar um bloqueio a thread principal por um longe tempo, resultando em uma experiência ruim para o usuário. Fiber nasceu para resolver esse problema. 
 
 Fiber é na essência uma pilha virtual de quadros, e o novo agendador espontaneamente agenda esses quadros de acordo
 com sua prioridade, desse modo, mudando a renderização síncrona anterior para renderização assíncrona, e segmentando a atualização sem afetar a experiência.
 
-![](https://user-gold-cdn.xitu.io/2018/6/25/164358f89595d56f?w=1119&h=600&f=png&s=330885)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042530.png)
 
 React tem seu proprio conjunto de lógica sobre como priorizar. Para coisas que requerem alta performance em tempo-real, tal como animação, que significa isso deve ser renderizado uma vez dentro de 16 ms para garantir que não está emperrando, React pausa o update a cada 16 ms (dentro de 16 ms) e retorna para continuar renderizando a animação.
 

@@ -29,7 +29,7 @@ The contents of the repository will update continuously, and more content will b
 
 
 # Outline
-![mind](./InterviewMapMind-en.png)
+![mind](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-043136.png)
 
 
 ## Contributing

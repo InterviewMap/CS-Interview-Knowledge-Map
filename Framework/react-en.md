@@ -15,13 +15,13 @@ The Fiber mechanism was introduced in the V16 release. The mechanism affects som
 
 In previous versions, if you had a very complex composite component and then changed the `state` of the topmost component, the call stack might be long.
 
-![](https://user-gold-cdn.xitu.io/2018/6/25/164358b0310f476c?w=685&h=739&f=png&s=61462)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042525.png)
 
 If the call stack is too long, and complicated operations are performed in the middle, it may cause the main thread to be blocked for a long time, resulting in a bad user experience. Fiber is born to solve this problem.
 
 Fiber is essentially a virtual stack frame, and the new scheduler freely schedules these frames according to their priority, thereby changing the previous synchronous rendering to asynchronous rendering, and segmenting the update without affecting the experience.
 
-![](https://user-gold-cdn.xitu.io/2018/6/25/164358f89595d56f?w=1119&h=600&f=png&s=330885)
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042526.png)
 
 React has its own set of logic on how to prioritize. For things that require high real-time performance, such as animation, which means it must be rendered once within 16 ms to ensure that it is not stuck, React pauses the update every 16 ms (within 16ms) and returns to continue rendering the animation.
 
