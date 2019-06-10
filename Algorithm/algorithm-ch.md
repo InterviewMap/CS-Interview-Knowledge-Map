@@ -379,6 +379,7 @@ function part(array, left, right) {
   let more = right;
   while (left < more) {
     if (array[left] < array[right]) {
+    	less + 1 !== left && swap(array, less + 1, left);
 	   ++less;
        ++left;
     } else if (array[left] > array[right]) {
