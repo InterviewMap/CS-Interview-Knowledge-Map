@@ -292,9 +292,9 @@ function sort(array) {
 
 function quickSort(array, left, right) {
   if (left < right) {
-    swap(array, , right)
+    swap(array, parseInt(Math.random() * (right - left + 1)) + left, right)
     // 随机取值，然后和末尾交换，这样做比固定取一个位置的复杂度略低
-    let indexs = part(array, parseInt(Math.random() * (right - left + 1)) + left, right);
+    let indexs = part(array, left, right);
     quickSort(array, left, indexs[0]);
     quickSort(array, indexs[1] + 1, right);
   }
@@ -305,6 +305,7 @@ function part(array, left, right) {
   while (left < more) {
     if (array[left] < array[right]) {
       // 当前值比基准值小，`less` 和 `left` 都加一
+	less + 1 !== left && swap(array, less + 1, left);
 	   ++less;
        ++left;
     } else if (array[left] > array[right]) {
