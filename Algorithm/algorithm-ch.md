@@ -646,7 +646,7 @@ function predecessor(node) {
   } else {
     let parent = node.parent
     // 结论 2 3 的判断
-    while(parent && parent.right === node) {
+    while(parent && parent.right !== node) {
       node = parent
       parent = node.parent
     }
@@ -654,9 +654,8 @@ function predecessor(node) {
   }
 }
 function getRight(node) {
-  if (!node) return 
-  node = node.right
-  while(node) node = node.right
+  if (!node) return
+  while(node.right) node = node.right
   return node
 }
 ```
@@ -680,7 +679,7 @@ function successor(node) {
     // 结论 2
     let parent = node.parent
     // 判断 parent 为空
-    while(parent && parent.left === node) {
+    while(parent && parent.left !== node) {
       node = parent
       parent = node.parent
     }
@@ -689,8 +688,7 @@ function successor(node) {
 }
 function getLeft(node) {
   if (!node) return 
-  node = node.left
-  while(node) node = node.left
+  while(node.left) node = node.left
   return node
 }
 ```
