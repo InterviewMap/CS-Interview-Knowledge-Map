@@ -163,8 +163,7 @@ CORS需要浏览器和后端同时支持。IE 8 和 9 需要通过 `XDomainReque
 // 发送消息端
 window.parent.postMessage('message', 'http://test.com');
 // 接收消息端
-var mc = new MessageChannel();
-mc.addEventListener('message', (event) => {
+window.addEventListener('message', (event) => {
     var origin = event.origin || event.originalEvent.origin; 
     if (origin === 'http://test.com') {
         console.log('验证通过')
