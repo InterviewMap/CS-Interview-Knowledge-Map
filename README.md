@@ -8,6 +8,10 @@
 
 [English Version](./README-EN.md)
 
+## 阅读
+
+[线上版本阅读更清晰](https://yuchengkai.cn/docs/zh/)
+
 ## 公众号
 
 觉得内容有帮助可以关注下我的公众号 「前端真好玩」咯，会有很多好东西等着你。
@@ -45,10 +49,6 @@
 如果你发现知识点内容有出错或者代码有 Bug，欢迎你提交英文 [issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/new)，如果你英文不好的话，请在 [该 issue](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/issues/18) 中讨论
 
 如果你认为有一个不错的知识点或者也想参与翻译校对，欢迎提交 [PR](https://github.com/InterviewMap/CS-Interview-Knowledge-Map/pulls)，或者也可以联系我 <zx597813039@gmail.com>
-
-## 阅读
-
-[线上版本阅读更清晰](https://yuchengkai.cn/docs/zh/)
 
 ## 协议
 
