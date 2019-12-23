@@ -292,9 +292,9 @@ function sort(array) {
 
 function quickSort(array, left, right) {
   if (left < right) {
-    swap(array, , right)
+    swap(array, parseInt(Math.random() * (right - left + 1)) + left, right)
     // 随机取值，然后和末尾交换，这样做比固定取一个位置的复杂度略低
-    let indexs = part(array, parseInt(Math.random() * (right - left + 1)) + left, right);
+    let indexs = part(array, left, right);
     quickSort(array, left, indexs[0]);
     quickSort(array, indexs[1] + 1, right);
   }
@@ -305,6 +305,7 @@ function part(array, left, right) {
   while (left < more) {
     if (array[left] < array[right]) {
       // 当前值比基准值小，`less` 和 `left` 都加一
+	less + 1 !== left && swap(array, less + 1, left);
 	   ++less;
        ++left;
     } else if (array[left] > array[right]) {
@@ -378,6 +379,7 @@ function part(array, left, right) {
   let more = right;
   while (left < more) {
     if (array[left] < array[right]) {
+    	less + 1 !== left && swap(array, less + 1, left);
 	   ++less;
        ++left;
     } else if (array[left] > array[right]) {
@@ -644,7 +646,7 @@ function predecessor(node) {
   } else {
     let parent = node.parent
     // 结论 2 3 的判断
-    while(parent && parent.right === node) {
+    while(parent && parent.right !== node) {
       node = parent
       parent = node.parent
     }
@@ -652,9 +654,8 @@ function predecessor(node) {
   }
 }
 function getRight(node) {
-  if (!node) return 
-  node = node.right
-  while(node) node = node.right
+  if (!node) return
+  while(node.right) node = node.right
   return node
 }
 ```
@@ -678,7 +679,7 @@ function successor(node) {
     // 结论 2
     let parent = node.parent
     // 判断 parent 为空
-    while(parent && parent.left === node) {
+    while(parent && parent.left !== node) {
       node = parent
       parent = node.parent
     }
@@ -687,8 +688,7 @@ function successor(node) {
 }
 function getLeft(node) {
   if (!node) return 
-  node = node.left
-  while(node) node = node.left
+  while(node.left) node = node.left
   return node
 }
 ```
