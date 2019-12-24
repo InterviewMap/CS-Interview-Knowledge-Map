@@ -991,7 +991,7 @@ Object.setPrototypeOf(MyData.prototype, Date.prototype)
 
 首先说下前两者的区别。
 
-`call` 和 `apply` 都是为了解决改变 `this` 的指向。作用都是相同的，只是传参的方式不同。
+`call` 和 `apply` 都是为了解决改变 `this` 的指向。作用都是相同的，只是传参的方式不同。通俗来讲就是，a有xx方法，b没有。b可以问a借！
 
 除了第一个参数外，`call` 可以接收一个参数列表，`apply` 只接受一个参数数组。
 
