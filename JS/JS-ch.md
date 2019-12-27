@@ -166,6 +166,15 @@ let a = {
 'a' + + 'b' // -> "aNaN"
 // 因为 + 'b' -> NaN
 // 你也许在一些代码中看到过 + '1' -> 1
+// 关于一元运算符 + 的小 tips:
+// + number -> number
+// + 'number' -> number
+// + '!number' -> NaN
+// + true -> 1
+// + false -> 0
+// + undefined -> NaN
+// + null -> 0
+// + Object -> NaN
 ```
 
 ## `==` 操作符
