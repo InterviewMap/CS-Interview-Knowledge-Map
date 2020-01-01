@@ -1123,7 +1123,7 @@ function MyPromise(fn) {
     })
   }
   // 用于解决以下问题
-  // new Promise(() => throw Error('error))
+  // new Promise(() => throw Error('error'))
   try {
     fn(_this.resolve, _this.reject);
   } catch (e) {

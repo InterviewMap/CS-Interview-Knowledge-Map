@@ -859,7 +859,7 @@ function MyPromise(fn) {
   }
 
   // to solve the following problem
-  // `new Promise(() => throw Error('error))`
+  // `new Promise(() => throw Error('error'))`
   try {
     fn(_this.resolve, _this.reject);
   } catch (e) {
