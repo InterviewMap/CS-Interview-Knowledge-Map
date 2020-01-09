@@ -92,7 +92,7 @@ The following two functions will be used in sorting commonly, so I don't write t
 
 ```js
 function checkArray(array) {
-    if (!array || array.length <= 2) return
+    return array && array.length > 2;
 }
 function swap(array, left, right) {
     let rightValue = array[right]
