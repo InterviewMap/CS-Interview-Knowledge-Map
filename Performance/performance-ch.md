@@ -47,7 +47,7 @@ DNS 解析也是需要时间的，可以通过预解析的方式来预先获得�
 
 ### 强缓存
 
-实现强缓存可以通过两种响应头实现：`Expires` 和 `Cache-Control` 。强缓存表示在缓存期间不需要请求，`state code` 为 200
+实现强缓存可以通过两种响应头实现：`Expires` 和 `Cache-Control` 。强缓存表示在缓存期间不需要请求，`Status Code` 为 200
 
 ```js
 Expires: Wed, 22 Oct 2018 08:41:00 GMT

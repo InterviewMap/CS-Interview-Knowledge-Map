@@ -48,7 +48,7 @@ Browser cache strategy is usually divided into two types: strong cache and negot
 
 ### Strong cache
 
-Implementing strong caching can be achieved with two response headers: `Expires` and `Cache-Control`. Strong cache means that no request is required during caching, the  `state code`  is 200.
+Implementing strong caching can be achieved with two response headers: `Expires` and `Cache-Control`. Strong cache means that no request is required during caching, the  `Status Code`  is 200.
 
 ```js
 Expires: Wed, 22 Oct 2018 08:41:00 GMT
