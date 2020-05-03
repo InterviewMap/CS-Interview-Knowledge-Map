@@ -154,7 +154,7 @@ PS: The second and the third handshake can be combined by delay-ACK. But the del
 **Forth handshake**
 
 A will send the ACK response and enter `TIME-WAIT` state after receiving the request.
-The state will last for 2MLS. MLS means the biggest lifetime that segment can survive and it will be abandoned if beyond that. A will enter `CLOSED` state if there is no retransmission from B among 2MLS. B will enter `CLOSED` state after receiving the ACK.
+The state will last for 2MSL. MSL (Maximum Segment Lifetime) refers to the maximum lifetime that segment can survive and it will be abandoned if beyond that. A will enter `CLOSED` state if there is no retransmission from B among 2MSL. B will enter `CLOSED` state after receiving the ACK.
 
 **why A should enter `TIME-WAIT` state for 2MSL before it enters `CLOSED` state**
 
